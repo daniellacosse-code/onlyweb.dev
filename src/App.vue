@@ -1,28 +1,43 @@
 <template>
-  <div id="app">
-    <img alt="Vue logo" src="./assets/logo.png">
-    <HelloWorld msg="Welcome to Your Vue.js App"/>
-  </div>
+  <main>
+    <b-tabs v-model="activeTab" :animated="false" destroy-on-hide>
+      <b-tab-item label="Hello, World!">
+        <HelloWorld msg="Welcome to Your Vue.js App"/>
+      </b-tab-item>
+      <b-tab-item label="Other tab.">
+        Nothing to see here.
+      </b-tab-item>
+    </b-tabs>
+  </main>
 </template>
 
 <script>
+import Vue from 'vue';
+import { Tabs } from 'buefy'
 import HelloWorld from './components/HelloWorld.vue'
 
-export default {
+Vue.use(Tabs);
+
+export default Vue.extend({
   name: 'App',
+  data: function() {
+    return {
+      activeTab: 0,
+    }
+  },
   components: {
     HelloWorld
   }
-}
+})
 </script>
 
-<style>
-#app {
-  font-family: Avenir, Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  text-align: center;
-  color: #2c3e50;
-  margin-top: 60px;
+<style lang="scss">
+@import "~bulma";
+@import "~buefy/src/scss/components/_tabs";
+
+html, body, main {
+  width: 100vw;
+  height: 100vh;
+  font-family: HelveticaNeue, Helvetica, sans-serif;
 }
 </style>
