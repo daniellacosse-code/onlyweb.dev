@@ -4,7 +4,7 @@
       <template slot="start">
         <b-navbar-item
           v-for="route in routes"
-          to="route.path"
+          :to="route.path"
           tag="router-link"
           :key="route.name"
         >
