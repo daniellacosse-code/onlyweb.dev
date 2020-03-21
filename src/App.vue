@@ -1,12 +1,14 @@
 <template>
   <div id="app">
-    <b-navbar fixed-top>
+    <b-navbar>
       <template slot="start">
-        <b-navbar-item to="/" tag="router-link">
-          Home
-        </b-navbar-item>
-        <b-navbar-item to="/about" tag="router-link">
-          About
+        <b-navbar-item
+          v-for="route in routes"
+          to="route.path"
+          tag="router-link"
+          :key="route.name"
+        >
+          {{ route.name }}
         </b-navbar-item>
       </template>
     </b-navbar>
@@ -16,6 +18,7 @@
 
 <script>
 import Vue from "vue";
+import { routes } from "@/router";
 import { Navbar } from "buefy";
 
 Vue.use(Navbar);
@@ -23,6 +26,9 @@ Vue.use(Navbar);
 export default {
   components: {
     Navbar
+  },
+  data: function() {
+    return { routes };
   }
 };
 </script>
