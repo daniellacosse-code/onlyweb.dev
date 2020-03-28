@@ -5962,6 +5962,11 @@ pkg-dir@^4.1.0:
   dependencies:
     find-up "^4.0.0"
 
+playcanvas@^1.26.0:
+  version "1.26.0"
+  resolved "https://registry.npmjs.org/playcanvas/-/playcanvas-1.26.0.tgz#c2f7ec9515f63a8362d03b4300767586d03e14e9"
+  integrity sha512-p5UpPejznZswJFOmpwzVLCC+Z+SupzDH9M0WTId0hBGshhXeJG19CYIbbe86nVGHVLbQGLdvdB9BWLYV/zzf+w==
+
 pngjs@^3.3.3:
   version "3.4.0"
   resolved "https://registry.npmjs.org/pngjs/-/pngjs-3.4.0.tgz#99ca7d725965fb655814eaf65f38f12bbdbf555f"
