@@ -46,7 +46,7 @@ export default {
       const cube = new Entity("cube");
 
       cube.addComponent("model", {
-        type: "cube"
+        type: "box"
       });
 
       app.root.addChild(cube);
