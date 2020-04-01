@@ -1,5 +1,5 @@
 <template>
-  <canvas ref="canvas" />
+  <canvas class="DemoCanvas" ref="canvas" />
 </template>
 
 <script>
@@ -29,7 +29,7 @@ export default {
         clearColor: new Color(0.1, 0.1, 0.1)
       });
 
-      camera.setPosition(0, 0, 3);
+      camera.setPosition(0, 0, 6);
 
       app.root.addChild(camera);
 
@@ -65,4 +65,10 @@ export default {
 };
 </script>
 
-<style></style>
+<style scoped>
+.DemoCanvas {
+  position: fixed;
+  top: 0;
+  left: 0;
+}
+</style>

@@ -1,6 +1,6 @@
 <template>
   <div id="app">
-    <b-navbar>
+    <b-navbar fixed-top>
       <template slot="start">
         <b-navbar-item
           v-for="route in routes"
