@@ -8,8 +8,9 @@
         type="is-primary"
         class="Game__pause"
         @click="playToggle"
-        :icon-right="isPlaying ? playIcon : pauseIcon"
-      ></b-button>
+        :icon-left="isPlaying ? playIcon : pauseIcon"
+        >{{ isPlaying ? "pause" : "play" }}</b-button
+      >
     </div>
   </div>
 </template>
@@ -33,7 +34,7 @@ export default {
     gridHexColor: { type: String, default: "#CCCCCC" },
     cellHexColor: { type: String, default: "#000000" },
   },
-  data: function () {
+  data: function() {
     return {
       playIcon: "play",
       pauseIcon: "pause",
