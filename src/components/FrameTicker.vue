@@ -21,7 +21,7 @@ export default {
       default: 100,
     },
   },
-  data: function () {
+  data: function() {
     return {
       frames: [],
       minFPS: new MinHeap(),
@@ -41,10 +41,15 @@ export default {
       this.minFPS = new MinHeap();
       this.maxFPS = new MaxHeap();
       this.sum = 0;
-      this.lastTimestamp = performance.now();
+      this.lastTimestamp = null;
     },
     tick() {
       const now = performance.now();
+
+      if (this.lastTimestamp === null) {
+        this.lastTimestamp = now;
+        return;
+      }
 
       const delta = now - this.lastTimestamp;
       this.lastTimestamp = now;
