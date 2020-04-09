@@ -8,25 +8,31 @@ export const routes = [
   {
     path: "/",
     name: "Home",
-    component: Home
+    component: Home,
   },
   {
     path: "/scanner",
     name: "Scanner",
     component: () =>
-      import(/* webpackChunkName: "scanner" */ "@/pages/Scanner.vue")
+      import(/* webpackChunkName: "scanner" */ "@/pages/Scanner.vue"),
   },
   {
     path: "/3d",
     name: "3D",
-    component: () => import(/* webpackChunkName: "3d" */ "@/pages/3D.vue")
-  }
+    component: () => import(/* webpackChunkName: "3d" */ "@/pages/3D.vue"),
+  },
+  {
+    path: "/wasm",
+    name: "WebAssembly",
+    component: () =>
+      import(/* webpackChunkName: "wasm" */ "@/pages/WebAssembly.vue"),
+  },
 ];
 
 const router = new VueRouter({
   mode: "history",
   base: process.env.BASE_URL,
-  routes
+  routes,
 });
 
 export default router;

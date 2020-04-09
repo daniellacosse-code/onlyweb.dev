@@ -1,0 +1,87 @@
+<template>
+  <pre v-if="frames.length" class="Stats">
+    <trend class="Stats__chart" :data="frames"></trend>
+    min fps: {{ minFPS.peek() }}
+    max fps: {{ maxFPS.peek() }}
+    avg fps: {{ average }}
+  </pre>
+</template>
+
+<script>
+import Trend from "vuetrend";
+import { MinHeap, MaxHeap } from "./Heap";
+
+export default {
+  components: {
+    Trend,
+  },
+  props: {
+    windowSize: {
+      type: Number,
+      default: 100,
+    },
+  },
+  data: function () {
+    return {
+      frames: [],
+      minFPS: new MinHeap(),
+      maxFPS: new MaxHeap(),
+      sum: 0,
+      lastTimestamp: performance.now(),
+    };
+  },
+  computed: {
+    average() {
+      return Math.floor(this.sum / this.frames.length);
+    },
+  },
+  methods: {
+    clear() {
+      this.frames = [];
+      this.minFPS = new MinHeap();
+      this.maxFPS = new MaxHeap();
+      this.sum = 0;
+      this.lastTimestamp = performance.now();
+    },
+    tick() {
+      const now = performance.now();
+
+      const delta = now - this.lastTimestamp;
+      this.lastTimestamp = now;
+
+      const fps = Math.floor(1000 / delta);
+
+      this.sum += fps;
+
+      this.frames.push(fps);
+      this.minFPS.push(fps);
+      this.maxFPS.push(fps);
+
+      if (this.frames.length > this.windowSize) {
+        const lastFPS = this.frames.shift();
+        this.sum -= lastFPS;
+        this.minFPS.remove(lastFPS);
+        this.maxFPS.remove(lastFPS);
+      }
+    },
+  },
+};
+</script>
+
+<style scoped>
+.Stats {
+  opacity: 0.5;
+  font-family: "Menlo", monospace;
+  text-align: left;
+  cursor: pointer;
+}
+
+.Stats__chart {
+  width: 200px;
+  height: 50px;
+}
+
+.Stats:hover {
+  opacity: 1;
+}
+</style>
