@@ -109,12 +109,15 @@ export default {
       this.redrawGame();
       this.animationID = requestAnimationFrame(this.startRenderLoop);
     },
+    stopAnimationLoop() {
+      cancelAnimationFrame(this.animationID);
+      this.animationID = null;
+    },
     playToggle() {
       this.$refs.ticker.clear();
 
       if (this.isPlaying) {
-        cancelAnimationFrame(this.animationID);
-        this.animationID = null;
+        this.stopAnimationLoop();
       } else {
         this.startRenderLoop();
       }
@@ -215,6 +218,9 @@ export default {
   },
   mounted() {
     this.init();
+  },
+  beforeDestroy() {
+    this.stopAnimationLoop();
   }
 };
 </script>

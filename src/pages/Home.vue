@@ -1,16 +1,124 @@
 <template>
-  <div class="home">
-    <HelloWorld msg="Welcome to Your Vue.js App" />
+  <div class="hello">
+    <h1>A modern web demo, written in Vue.js</h1>
+    <h3>
+      <a
+        href="https://www.howtogeek.com/196087/how-to-add-websites-to-the-home-screen-on-any-smartphone-or-tablet/"
+        target="_blank"
+        rel="noopener"
+        >[ Go here ]</a
+      >
+      for a guide on how to install this app on your device.
+    </h3>
+    <h3>Essential Docs</h3>
+    <ul>
+      <li>
+        <a href="https://vuejs.org" target="_blank" rel="noopener">Vue Docs</a>
+      </li>
+      <li>
+        <a href="https://www.rust-lang.org/learn" target="_blank" rel="noopener"
+          >Rust Docs</a
+        >
+      </li>
+      <li>
+        <a href="https://docs.mapbox.com/" target="_blank" rel="noopener"
+          >Mapbox Docs</a
+        >
+      </li>
+      <li>
+        <a
+          href="https://developer.playcanvas.com/en/api/"
+          target="_blank"
+          rel="noopener"
+          >PlayCanvas Docs</a
+        >
+      </li>
+    </ul>
+    <h3>Installed Vue CLI Plugins</h3>
+    <ul>
+      <li>
+        <a
+          href="https://github.com/vuejs/vue-cli/tree/dev/packages/%40vue/cli-plugin-babel"
+          target="_blank"
+          rel="noopener"
+          >babel</a
+        >
+      </li>
+      <li>
+        <a
+          href="https://github.com/vuejs/vue-cli/tree/dev/packages/%40vue/cli-plugin-pwa"
+          target="_blank"
+          rel="noopener"
+          >pwa</a
+        >
+      </li>
+    </ul>
+
+    <h3>Vue Ecosystem</h3>
+    <ul>
+      <li>
+        <a href="https://router.vuejs.org" target="_blank" rel="noopener"
+          >vue-router</a
+        >
+      </li>
+      <li>
+        <a href="https://vuex.vuejs.org" target="_blank" rel="noopener">vuex</a>
+      </li>
+      <li>
+        <a
+          href="https://github.com/vuejs/vue-devtools#vue-devtools"
+          target="_blank"
+          rel="noopener"
+          >vue-devtools</a
+        >
+      </li>
+      <li>
+        <a href="https://vue-loader.vuejs.org" target="_blank" rel="noopener"
+          >vue-loader</a
+        >
+      </li>
+      <li>
+        <a
+          href="https://github.com/vuejs/awesome-vue"
+          target="_blank"
+          rel="noopener"
+          >awesome-vue</a
+        >
+      </li>
+    </ul>
   </div>
 </template>
 
 <script>
-import HelloWorld from "@/components/HelloWorld.vue";
-
 export default {
-  name: "Home",
-  components: {
-    HelloWorld
+  name: "HelloWorld",
+  props: {
+    msg: String
   }
 };
 </script>
+
+<style scoped>
+.hello {
+  box-sizing: border-box;
+  padding: 15px;
+}
+h1 {
+  font-size: 40px;
+  margin-bottom: 20px;
+}
+h3 {
+  margin: 40px 0 0;
+}
+ul {
+  list-style-type: none;
+  padding: 0;
+}
+li {
+  display: inline-block;
+  margin: 0 10px;
+}
+a {
+  color: #42b983;
+}
+</style>

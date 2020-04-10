@@ -6,6 +6,7 @@
           v-for="route in routes"
           :to="route.path"
           tag="router-link"
+          :active="isActive(route.path)"
           :key="route.name"
         >
           {{ route.name }}
@@ -25,11 +26,16 @@ Vue.use(Navbar);
 
 export default {
   components: {
-    Navbar,
+    Navbar
   },
-  data: function () {
+  methods: {
+    isActive(path) {
+      return path === window.location.pathname;
+    }
+  },
+  data: function() {
     return { routes };
-  },
+  }
 };
 </script>
 
