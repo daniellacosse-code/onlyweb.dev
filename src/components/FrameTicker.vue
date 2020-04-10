@@ -1,9 +1,11 @@
 <template>
-  <pre v-if="frames.length" class="Stats">
-    <trend class="Stats__chart" :data="frames"></trend>
-    min fps: {{ minFPS.peek() }}
-    max fps: {{ maxFPS.peek() }}
-    avg fps: {{ average }}
+  <pre class="Stats">
+    <div v-if="frames.length >= windowSize">
+      <trend class="Stats__chart" :data="frames" :max="maxRate" :min="minRate"></trend>
+      min fps: {{ minFPS.peek() }}
+      max fps: {{ maxFPS.peek() }}
+      avg fps: {{ average }}
+    </div><div v-else>Waiting...</div>
   </pre>
 </template>
 
@@ -24,6 +26,8 @@ export default {
   data: function() {
     return {
       frames: [],
+      maxRate: 60,
+      minRate: 0,
       minFPS: new MinHeap(),
       maxFPS: new MaxHeap(),
       sum: 0,

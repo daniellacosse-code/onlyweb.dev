@@ -1,5 +1,9 @@
 <template>
   <div class="Game__container" ref="gameContainer">
+    <link
+      rel="stylesheet"
+      href="https://cdn.materialdesignicons.com/2.5.94/css/materialdesignicons.min.css"
+    />
     <frame-ticker ref="ticker" class="Game__stats"></frame-ticker>
 
     <canvas class="Game" ref="gameGrid" @click="cellToggle"></canvas>
@@ -8,7 +12,7 @@
         type="is-primary"
         class="Game__pause"
         @click="playToggle"
-        :icon-left="isPlaying ? playIcon : pauseIcon"
+        :icon-left="isPlaying ? pauseIcon : playIcon"
         >{{ isPlaying ? "pause" : "play" }}</b-button
       >
     </div>
@@ -218,7 +222,6 @@ export default {
 
 <style scoped lang="scss">
 @import "~bulma";
-/* @import "~buefy/src/scss/components/_icon"; */
 
 .Game__container,
 .Game__pauseContainer {

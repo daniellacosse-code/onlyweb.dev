@@ -8,7 +8,6 @@
     "start": "vue-cli-service serve"
   },
   "dependencies": {
-    "@mdi/font": "^5.0.45",
     "buefy": "^0.8.12",
     "core-js": "^3.6.4",
     "playcanvas": "^1.26.0",
