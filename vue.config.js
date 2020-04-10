@@ -1,4 +1,14 @@
+const webpack = require("webpack");
+
 module.exports = {
+  configureWebpack: {
+    plugins: [
+      new webpack.ProvidePlugin({
+        mapboxgl: "mapbox-gl"
+      }),
+      new webpack.EnvironmentPlugin(["MAPBOX_TOKEN"])
+    ]
+  },
   pwa: {
     assetsVersion: true,
     themeColor: "#42B983",
@@ -7,16 +17,15 @@ module.exports = {
     appleMobileWebAppStatusBarStyle: "black",
     manifestOptions: {
       name: "Native Vue Web Wrapper Demo",
-      short_name: "Vue Demo",
+      short_name: "Vue Demo"
     },
     workboxPluginMode: "InjectManifest",
     workboxOptions: {
-      swSrc: "src/workers.js",
-    },
+      swSrc: "src/workers.js"
+    }
   },
-  // TODO: local CA to minimize dev friction - see https://github.com/jsha/minica
   devServer: {
     https: true,
-    public: "https://localhost:8080/",
-  },
+    public: "https://localhost:8080/"
+  }
 };

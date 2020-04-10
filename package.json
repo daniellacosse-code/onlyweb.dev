@@ -8,8 +8,11 @@
     "start": "vue-cli-service serve"
   },
   "dependencies": {
+    "@mapbox/mapbox-gl-geocoder": "^4.5.1",
+    "@studiometa/vue-mapbox-gl": "^1.2.1",
     "buefy": "^0.8.12",
     "core-js": "^3.6.4",
+    "mapbox-gl": "^1.9.1",
     "playcanvas": "^1.26.0",
     "quagga": "^0.12.1",
     "register-service-worker": "^1.6.2",

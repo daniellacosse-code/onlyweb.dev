@@ -1,10 +1,9 @@
 # web-wrapper-demo
 
-<!-- TODO: install wasm-pack -->
-
 ## Project setup
 
 ```
+curl https://rustwasm.github.io/wasm-pack/installer/init.sh -sSf | sh
 yarn install
 ```
 

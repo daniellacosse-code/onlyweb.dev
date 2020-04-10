@@ -27,6 +27,12 @@ export const routes = [
     component: () =>
       import(/* webpackChunkName: "wasm" */ "@/pages/WebAssembly.vue"),
   },
+  {
+    path: "/geo",
+    name: "Geolocation",
+    component: () =>
+      import(/* webpackChunkName: "geo" */ "@/pages/Geolocation.vue"),
+  },
 ];
 
 const router = new VueRouter({

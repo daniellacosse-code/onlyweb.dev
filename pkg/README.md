@@ -1,7 +1,5 @@
 # web-wrapper-demo
 
-<!-- TODO: install wasm-pack -->
-
 ## Project setup
 
 ```
