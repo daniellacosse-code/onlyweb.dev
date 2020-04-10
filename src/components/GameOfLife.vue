@@ -256,7 +256,7 @@ export default {
   position: absolute;
   bottom: 0;
   box-sizing: border-box;
-  padding: 10px;
+  padding: 30px;
 }
 
 /* .Game__pause {} */

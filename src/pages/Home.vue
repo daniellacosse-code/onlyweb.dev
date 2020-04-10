@@ -10,19 +10,19 @@
       >
       for a guide on how to install this app on your device.
     </h3>
-    <h3>Essential Docs</h3>
+    <h3>Essential</h3>
     <ul>
       <li>
-        <a href="https://vuejs.org" target="_blank" rel="noopener">Vue Docs</a>
+        <a href="https://vuejs.org" target="_blank" rel="noopener">Vue</a>
       </li>
       <li>
         <a href="https://www.rust-lang.org/learn" target="_blank" rel="noopener"
-          >Rust Docs</a
+          >Rust</a
         >
       </li>
       <li>
         <a href="https://docs.mapbox.com/" target="_blank" rel="noopener"
-          >Mapbox Docs</a
+          >Mapbox</a
         >
       </li>
       <li>
@@ -30,7 +30,7 @@
           href="https://developer.playcanvas.com/en/api/"
           target="_blank"
           rel="noopener"
-          >PlayCanvas Docs</a
+          >PlayCanvas</a
         >
       </li>
     </ul>
