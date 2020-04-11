@@ -193,6 +193,8 @@ export default {
         (width * height) / 8
       );
 
+      // debugger;
+
       context.beginPath();
       let __row = height;
       while (__row--) {
@@ -200,8 +202,8 @@ export default {
         while (__column--) {
           if (isAlive(__row, __column, cells)) {
             context.fillRect(
-              __row * cellBorderWidth + 1,
               __column * cellBorderWidth + 1,
+              __row * cellBorderWidth + 1,
               cellPixelSize,
               cellPixelSize
             );
