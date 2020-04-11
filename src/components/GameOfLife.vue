@@ -1,10 +1,5 @@
 <template>
   <div class="Game__container" ref="gameContainer">
-    <!-- lol -->
-    <link
-      rel="stylesheet"
-      href="https://cdn.materialdesignicons.com/2.5.94/css/materialdesignicons.min.css"
-    />
     <frame-ticker ref="ticker" class="Game__stats"></frame-ticker>
 
     <canvas class="Game" ref="gameGrid" @click="cellToggle"></canvas>

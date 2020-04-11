@@ -1,4 +1,4 @@
-# web-wrapper-demo
+# native vue web wrapper demo
 
 ## setup (osx only)
 
@@ -10,16 +10,18 @@ curl https://rustwasm.github.io/wasm-pack/installer/init.sh -sSf | sh
 # install brew
 curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install.sh | sh
 
-# install yarn
-brew install yarn
-
 # install dependencies
+brew --force bundle
 yarn install
 
 # update hostsfile
 echo "127.0.0.1 local.daniellacos.se" >> /etc/hosts
 
-# generate metadata (optional)
+# generate local cert
+mkcert -install
+mkcert -cert-file .ssl/local.crt -key-file .ssl/local.key local.daniellacos.se localhost 127.0.0.1 ::1
+
+# generate app metadata (optional)
 vue add meta
 ```
 

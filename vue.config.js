@@ -1,4 +1,6 @@
 const webpack = require("webpack");
+const fs = require("fs");
+const path = require("path");
 
 module.exports = {
   publicPath: "/demo",
@@ -12,7 +14,7 @@ module.exports = {
   },
   pluginOptions: {
     meta: {
-      projectName: "modern vue wrapper demo",
+      projectName: "only web",
       url: "https://daniellacos.se/demo",
       description:
         "for your consideration - the case for 'only web', written in vue.js",
@@ -26,8 +28,8 @@ module.exports = {
     appleMobileWebAppCapable: "yes",
     appleMobileWebAppStatusBarStyle: "black-translucent",
     manifestOptions: {
-      name: "Native Vue Web Wrapper Demo",
-      short_name: "Vue Demo",
+      name: "native vue web wrapper demo",
+      short_name: "Only Web",
       start_url: "https://daniellacos.se/demo"
     },
     workboxPluginMode: "InjectManifest",
@@ -36,7 +38,10 @@ module.exports = {
     }
   },
   devServer: {
-    https: true,
+    https: {
+      key: fs.readFileSync(path.resolve(__dirname, ".ssl/local.key")),
+      cert: fs.readFileSync(path.resolve(__dirname, ".ssl/local.crt"))
+    },
     compress: true,
     host: "local.daniellacos.se",
     port: 8080,
