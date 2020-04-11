@@ -1,8 +1,0 @@
-{
-  "version": 2,
-  "functions": {
-    "api/Cargo.toml": {
-      "runtime": "now-rust@1.0.0"
-    }
-  }
-}
