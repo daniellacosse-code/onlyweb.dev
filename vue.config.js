@@ -15,7 +15,7 @@ module.exports = {
   pluginOptions: {
     meta: {
       projectName: "only web",
-      url: "https://daniellacos.se/demo",
+      url: "https://daniellacos.se/demo/",
       description:
         "for your consideration - the case for 'only web', written in vue.js",
       socialImage: "img/architecture.png"
@@ -28,9 +28,9 @@ module.exports = {
     appleMobileWebAppCapable: "yes",
     appleMobileWebAppStatusBarStyle: "black-translucent",
     manifestOptions: {
-      name: "native vue web wrapper demo",
+      name: "modern vue native wrapper demo - only web",
       short_name: "Only Web",
-      start_url: "https://daniellacos.se/demo"
+      start_url: "https://daniellacos.se/demo/"
     },
     workboxPluginMode: "InjectManifest",
     workboxOptions: {

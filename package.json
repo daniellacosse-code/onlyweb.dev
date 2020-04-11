@@ -4,8 +4,8 @@
   "private": true,
   "scripts": {
     "build": "vue-cli-service build",
-    "build:rust": "wasm-pack build && rm pkg/.gitignore",
     "deploy": "now",
+    "build:rust": "wasm-pack build && rm pkg/.gitignore",
     "deploy:test": "now dev",
     "start": "vue-cli-service serve"
   },

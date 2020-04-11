@@ -1,4 +1,4 @@
-# native vue web wrapper demo
+# modern vue native wrapper demo - only web
 
 ## setup (osx only)
 
