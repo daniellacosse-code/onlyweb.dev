@@ -1,5 +1,5 @@
 <template>
-  <div id="app" @scroll="event => event.preventDefault()">
+  <div id="app">
     <b-navbar class="Navbar" type="is-primary">
       <template slot="start">
         <b-navbar-item
