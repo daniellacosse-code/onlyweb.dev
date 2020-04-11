@@ -18,7 +18,8 @@ module.exports = {
     appleMobileWebAppStatusBarStyle: "black-translucent",
     manifestOptions: {
       name: "Native Vue Web Wrapper Demo",
-      short_name: "Vue Demo"
+      short_name: "Vue Demo",
+      start_url: "https://daniellacos.se/demo"
     },
     workboxPluginMode: "InjectManifest",
     workboxOptions: {

@@ -1,24 +1,37 @@
 # web-wrapper-demo
 
-## Project setup
+## setup (osx only)
 
-```
+```sh
+# install rust
+curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh
 curl https://rustwasm.github.io/wasm-pack/installer/init.sh -sSf | sh
+
+# install brew
+curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install.sh | sh
+
+# install yarn
+brew install yarn
+
+# install dependencies
 yarn install
 ```
 
-### Compiles and hot-reloads for development
+### development
 
-```
-yarn serve
+```sh
+yarn start
 ```
 
-### Compiles and minifies for production
+### production build
 
-```
+```sh
 yarn build
 ```
 
-### Customize configuration
+### deployments
 
-See [Configuration Reference](https://cli.vuejs.org/config/).
+```sh
+yarn deploy:test
+yarn deploy
+```
