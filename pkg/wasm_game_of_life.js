@@ -64,6 +64,11 @@ export class Universe {
     toggle_cell(row, column) {
         wasm.universe_toggle_cell(this.ptr, row, column);
     }
+    /**
+    */
+    destroy() {
+        wasm.universe_destroy(this.ptr);
+    }
 }
 
 export const __wbg_random_d45f566bef640e60 = typeof Math.random == 'function' ? Math.random : notDefined('Math.random');

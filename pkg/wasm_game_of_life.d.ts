@@ -20,4 +20,7 @@ export class Universe {
 * @param {number} column 
 */
   toggle_cell(row: number, column: number): void;
+/**
+*/
+  destroy(): void;
 }

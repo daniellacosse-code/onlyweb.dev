@@ -193,8 +193,6 @@ export default {
         (width * height) / 8
       );
 
-      // debugger;
-
       context.beginPath();
       let __row = height;
       while (__row--) {
@@ -219,6 +217,7 @@ export default {
   },
   beforeDestroy() {
     this.stopAnimationLoop();
+    this.universe.destroy();
   }
 };
 </script>

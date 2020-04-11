@@ -1,4 +1,8 @@
-# native vue web wrapper demo
+# only web
+
+a modern, native web wrapper demo in vue
+
+![quality](https://img.shields.io/badge/code%20quality-low-red)
 
 ## setup (osx only)
 

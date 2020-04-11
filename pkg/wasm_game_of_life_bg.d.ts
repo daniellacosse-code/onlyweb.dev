@@ -6,3 +6,4 @@ export function universe_new(a: number, b: number): number;
 export function universe_tick(a: number): void;
 export function universe_cells(a: number): number;
 export function universe_toggle_cell(a: number, b: number, c: number): void;
+export function universe_destroy(a: number): void;

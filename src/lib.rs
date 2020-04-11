@@ -66,6 +66,10 @@ impl Universe {
     self.cells.set(idx, !cell);
   }
 
+  pub fn destroy(&mut self) {
+    std::mem::drop(self);
+  }
+
   fn get_index(&self, row: u32, column: u32) -> usize {
     (row * self.width + column) as usize
   }
