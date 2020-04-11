@@ -1,12 +1,17 @@
 <template>
-  <pre class="Stats">
+  <aside class="Stats">
     <div v-if="frames.length >= windowSize">
-      <trend class="Stats__chart" :data="frames" :max="maxRate" :min="minRate"></trend>
-      min fps: {{ minFPS.peek() }}
-      max fps: {{ maxFPS.peek() }}
-      avg fps: {{ average }}
-    </div><div v-else>Waiting...</div>
-  </pre>
+      <trend
+        class="Stats__chart"
+        :data="frames"
+        :max="maxRate"
+        :min="minRate"
+      ></trend>
+      min fps: {{ minFPS.peek() }} | max fps: {{ maxFPS.peek() }} | avg fps:
+      {{ average }}
+    </div>
+    <div v-else>Waiting...</div>
+  </aside>
 </template>
 
 <script>
@@ -15,13 +20,13 @@ import { MinHeap, MaxHeap } from "./Heap";
 
 export default {
   components: {
-    Trend,
+    Trend
   },
   props: {
     windowSize: {
       type: Number,
-      default: 100,
-    },
+      default: 100
+    }
   },
   data: function() {
     return {
@@ -31,13 +36,13 @@ export default {
       minFPS: new MinHeap(),
       maxFPS: new MaxHeap(),
       sum: 0,
-      lastTimestamp: performance.now(),
+      lastTimestamp: performance.now()
     };
   },
   computed: {
     average() {
       return Math.floor(this.sum / this.frames.length);
-    },
+    }
   },
   methods: {
     clear() {
@@ -72,8 +77,8 @@ export default {
         this.minFPS.remove(lastFPS);
         this.maxFPS.remove(lastFPS);
       }
-    },
-  },
+    }
+  }
 };
 </script>
 
@@ -83,11 +88,20 @@ export default {
   font-family: "Menlo", monospace;
   text-align: left;
   cursor: pointer;
+  background: white;
+  padding: 10px 15px;
+}
+
+.Stats > div {
+  display: inline-flex;
+  justify-content: center;
+  align-items: center;
 }
 
 .Stats__chart {
   width: 200px;
   height: 50px;
+  margin-right: 15px;
 }
 
 .Stats:hover {
