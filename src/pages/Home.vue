@@ -13,6 +13,12 @@
     </h3>
 
     <img src="/demo/img/architecture.png" alt="architecture" />
+    <figcaption>
+      Source:
+      <a href="https://github.com/daniellacosse/only-web"
+        ><pre>daniellacosse/only-web</pre></a
+      >
+    </figcaption>
 
     <h3>Essential Docs</h3>
     <ul>
@@ -111,10 +117,7 @@
 
 <script>
 export default {
-  name: "HelloWorld",
-  props: {
-    msg: String
-  }
+  name: "HelloWorld"
 };
 </script>
 
@@ -122,6 +125,7 @@ export default {
 .hello {
   box-sizing: border-box;
   padding: 15px;
+  margin-bottom: 100px;
 }
 img {
   max-width: 650px;
@@ -131,8 +135,9 @@ h1 {
   font-size: 40px;
   margin: 40px 0;
 }
-h3 {
-  margin: 20px 0 30px;
+h3,
+figcaption {
+  margin: 30px 0 15px 0;
 }
 ul {
   list-style-type: none;
