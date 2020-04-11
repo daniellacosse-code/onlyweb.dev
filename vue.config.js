@@ -10,6 +10,15 @@ module.exports = {
       new webpack.EnvironmentPlugin(["MAPBOX_TOKEN"])
     ]
   },
+  pluginOptions: {
+    meta: {
+      projectName: "modern web wrapper demo",
+      url: "https://daniellacos.se/demo",
+      description:
+        "for your consideration - the case for 'only web', written in vue.js",
+      socialImage: "apple-touch-icon-180x180.png"
+    }
+  },
   pwa: {
     assetsVersion: true,
     themeColor: "#42B983",
