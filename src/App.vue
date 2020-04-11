@@ -104,6 +104,8 @@ $link-focus-border: $primary;
 
 html {
   background-color: $primary;
+  overflow: hidden;
+  overflow-y: scroll;
 }
 
 #app {
