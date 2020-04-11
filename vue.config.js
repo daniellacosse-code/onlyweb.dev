@@ -38,7 +38,7 @@ module.exports = {
     }
   },
   devServer: {
-    https: {
+    https: process.env.NODE_ENV === "development" && {
       key: fs.readFileSync(path.resolve(__dirname, ".ssl/local.key")),
       cert: fs.readFileSync(path.resolve(__dirname, ".ssl/local.crt"))
     },
