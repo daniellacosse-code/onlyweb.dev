@@ -12,7 +12,7 @@
       for a guide on how to install this app on your device.
     </h3>
 
-    <img src="/img/architecture.png" alt="architecture" />
+    <img src="/demo/img/architecture.png" alt="architecture" />
 
     <h3>Essential Docs</h3>
     <ul>
