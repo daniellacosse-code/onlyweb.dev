@@ -1,6 +1,6 @@
 <template>
-  <div id="app">
-    <b-navbar class="Navbar" fixed-top type="is-primary">
+  <div id="app" @scroll="event => event.preventDefault()">
+    <b-navbar class="Navbar" type="is-primary">
       <template slot="start">
         <b-navbar-item
           v-for="route in routes"
