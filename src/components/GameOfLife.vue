@@ -82,6 +82,7 @@ export default {
 
       this.redrawGame();
       this.startRenderLoop();
+      this.$root.loading = false;
     },
     redrawGame() {
       if (this.$refs.gameGrid) {

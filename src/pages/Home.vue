@@ -117,7 +117,10 @@
 
 <script>
 export default {
-  name: "HelloWorld"
+  name: "HelloWorld",
+  mounted() {
+    this.$root.loading = false;
+  }
 };
 </script>
 

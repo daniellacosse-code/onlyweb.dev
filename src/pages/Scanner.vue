@@ -1,6 +1,5 @@
 <template>
   <div>
-    {{ loading ? "Loading..." : null }}
     <div ref="scanner"></div>
     <pre>{{ code }}</pre>
   </div>
@@ -12,7 +11,6 @@ import Quagga from "quagga";
 export default {
   data: function() {
     return {
-      loading: true,
       code: "---"
     };
   },
@@ -34,7 +32,7 @@ export default {
             alert(error);
           }
 
-          this.loading = false;
+          this.$root.loading = false;
 
           Quagga.onDetected(data => {
             requestAnimationFrame(() => {

@@ -4,7 +4,14 @@ import router from "./router";
 
 Vue.config.productionTip = false;
 
-new Vue({
+const vm = new Vue({
   router,
+  data: { loading: true },
   render: h => h(App)
 }).$mount("#app");
+
+router.beforeEach((to, from, next) => {
+  vm.loading = true;
+
+  next();
+});

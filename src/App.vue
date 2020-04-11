@@ -13,6 +13,7 @@
         </b-navbar-item>
       </template>
     </b-navbar>
+    <b-loading :active.sync="$root.loading" />
     <router-view />
   </div>
 </template>
@@ -20,13 +21,15 @@
 <script>
 import Vue from "vue";
 import { routes } from "@/router";
-import { Navbar } from "buefy";
+import { Navbar, Loading } from "buefy";
 
 Vue.use(Navbar);
+Vue.use(Loading);
 
 export default {
   components: {
-    Navbar
+    Navbar,
+    Loading
   },
   methods: {
     isActive(path) {
@@ -43,6 +46,7 @@ export default {
 
 <style lang="scss">
 @import "~bulma";
+@import "~buefy/src/scss/components/_loading.scss";
 
 html {
   background-color: $primary;

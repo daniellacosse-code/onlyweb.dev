@@ -33,9 +33,11 @@ export default {
 
       navigator.geolocation.getCurrentPosition(
         ({ coords: { latitude, longitude } }) => {
+          this.$root.loading = false;
           this.center = [longitude, latitude];
           this.zoom = SPECIFIC_ZOOM;
-        }
+        },
+        () => (this.$root.loading = false)
       );
     }
   }
