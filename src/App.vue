@@ -29,9 +29,9 @@ export default {
     Navbar
   },
   methods: {
-    isActive([slash, ...path]) {
+    isActive(path) {
       return (
-        `${process.env.BASE_URL}${path.join("")}` === window.location.pathname
+        `${process.env.BASE_URL}${path.slice(1)}` === window.location.pathname
       );
     }
   },
@@ -44,12 +44,19 @@ export default {
 <style lang="scss">
 @import "~bulma";
 
+html {
+  background-color: $primary;
+}
+
 #app {
   font-family: Avenir, Helvetica, Arial, sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   text-align: center;
   color: #2c3e50;
+  background-color: $white;
+  width: 100vw;
+  height: 100vh;
   overflow: hidden;
 }
 
