@@ -129,10 +129,10 @@ img {
 }
 h1 {
   font-size: 40px;
-  margin-bottom: 20px;
+  margin: 40px 0;
 }
 h3 {
-  margin: 40px 0 30px;
+  margin: 20px 0 30px;
 }
 ul {
   list-style-type: none;
