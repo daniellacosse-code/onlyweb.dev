@@ -1,7 +1,6 @@
 .DS_Store
 node_modules
 dist
-pkg
 target
 
 # local env files

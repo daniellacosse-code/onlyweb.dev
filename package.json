@@ -4,6 +4,7 @@
   "private": true,
   "scripts": {
     "build": "vue-cli-service build",
+    "build:rust": "wasm-pack build && rm pkg/.gitignore",
     "deploy": "now",
     "deploy:test": "now dev",
     "start": "vue-cli-service serve"
@@ -20,7 +21,7 @@
     "vue": "^2.6.11",
     "vue-router": "^3.1.6",
     "vuetrend": "^0.3.4",
-    "wasm-game-of-life": "file:./api/pkg"
+    "wasm-game-of-life": "file:./pkg"
   },
   "devDependencies": {
     "@types/dotenv": "^8.2.0",
