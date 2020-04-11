@@ -1,6 +1,7 @@
 <template>
   <div class="hello">
-    <h1>A modern web demo, written in Vue.js</h1>
+    <h1>A modern native web demo, written in Vue.js</h1>
+
     <h3>
       <a
         href="https://www.howtogeek.com/196087/how-to-add-websites-to-the-home-screen-on-any-smartphone-or-tablet/"
@@ -10,7 +11,10 @@
       >
       for a guide on how to install this app on your device.
     </h3>
-    <h3>Essential</h3>
+
+    <img src="/img/architecture.png" alt="architecture" />
+
+    <h3>Essential Docs</h3>
     <ul>
       <li>
         <a href="https://vuejs.org" target="_blank" rel="noopener">Vue</a>
@@ -119,12 +123,16 @@ export default {
   box-sizing: border-box;
   padding: 15px;
 }
+img {
+  max-width: 650px;
+  width: 100%;
+}
 h1 {
   font-size: 40px;
   margin-bottom: 20px;
 }
 h3 {
-  margin: 40px 0 0;
+  margin: 40px 0 30px;
 }
 ul {
   list-style-type: none;

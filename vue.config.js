@@ -37,6 +37,9 @@ module.exports = {
   },
   devServer: {
     https: true,
-    public: "https://localhost:8080/demo/"
+    compress: true,
+    host: "local.daniellacos.se",
+    port: 8080,
+    public: "https://local.daniellacos.se:8080/demo/"
   }
 };

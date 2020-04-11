@@ -16,6 +16,9 @@ brew install yarn
 # install dependencies
 yarn install
 
+# update hostsfile
+echo "127.0.0.1 local.daniellacos.se" >> /etc/hosts
+
 # generate metadata (optional)
 vue add meta
 ```
