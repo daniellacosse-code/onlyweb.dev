@@ -12,11 +12,11 @@ module.exports = {
   },
   pluginOptions: {
     meta: {
-      projectName: "modern web wrapper demo",
+      projectName: "modern vue wrapper demo",
       url: "https://daniellacos.se/demo",
       description:
         "for your consideration - the case for 'only web', written in vue.js",
-      socialImage: "apple-touch-icon-180x180.png"
+      socialImage: "img/apple-touch-icon-180x180.png"
     }
   },
   pwa: {

@@ -15,6 +15,9 @@ brew install yarn
 
 # install dependencies
 yarn install
+
+# generate metadata
+yarn vue add meta
 ```
 
 ### development

@@ -54,6 +54,14 @@
       </li>
       <li>
         <a
+          href="https://github.com/raphaelcockx/vue-cli-plugin-meta"
+          target="_blank"
+          rel="noopener"
+          >meta</a
+        >
+      </li>
+      <li>
+        <a
           href="https://github.com/vuejs/vue-cli/tree/dev/packages/%40vue/cli-plugin-pwa"
           target="_blank"
           rel="noopener"
