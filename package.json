@@ -3,7 +3,7 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
-    "wasm-pack": "wasm-pack build",
+    "setup": "bash ./scripts/setup.sh",
     "build": "vue-cli-service build",
     "start": "vue-cli-service serve"
   },
