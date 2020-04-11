@@ -1,7 +1,8 @@
 {
   "version": 2,
-  "builds": [
-    { "src": "Cargo.toml", "use": "now-rust" },
-    { "src": "package.json", "use": "@now/static-build" }
-  ]
+  "functions": {
+    "Cargo.toml": {
+      "runtime": "now-rust"
+    }
+  }
 }
