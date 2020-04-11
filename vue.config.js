@@ -15,7 +15,7 @@ module.exports = {
     themeColor: "#42B983",
     msTileColor: "#ffffff",
     appleMobileWebAppCapable: "yes",
-    appleMobileWebAppStatusBarStyle: "black",
+    appleMobileWebAppStatusBarStyle: "black-translucent",
     manifestOptions: {
       name: "Native Vue Web Wrapper Demo",
       short_name: "Vue Demo"
@@ -27,6 +27,6 @@ module.exports = {
   },
   devServer: {
     https: true,
-    public: "https://localhost:8080/"
+    public: "https://localhost:8080/demo/"
   }
 };

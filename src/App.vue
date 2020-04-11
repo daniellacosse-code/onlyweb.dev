@@ -29,8 +29,10 @@ export default {
     Navbar
   },
   methods: {
-    isActive(path) {
-      return path === window.location.pathname;
+    isActive([slash, ...path]) {
+      return (
+        `${process.env.BASE_URL}${path.join("")}` === window.location.pathname
+      );
     }
   },
   data: function() {
