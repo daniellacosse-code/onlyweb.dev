@@ -1,6 +1,6 @@
 <template>
   <div id="app">
-    <b-navbar fixed-top>
+    <b-navbar class="Navbar" fixed-top type="is-primary">
       <template slot="start">
         <b-navbar-item
           v-for="route in routes"
@@ -50,5 +50,10 @@ export default {
   -moz-osx-font-smoothing: grayscale;
   text-align: center;
   color: #2c3e50;
+  overflow: hidden;
+}
+
+.Navbar {
+  width: 100vw;
 }
 </style>
