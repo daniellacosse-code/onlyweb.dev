@@ -4,7 +4,7 @@
   "private": true,
   "scripts": {
     "setup": "bash ./scripts/setup.sh",
-    "build": "vue-cli-service build",
+    "build": "wasm-pack build && vue-cli-service build",
     "start": "vue-cli-service serve"
   },
   "dependencies": {
