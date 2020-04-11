@@ -16,7 +16,7 @@ module.exports = {
       url: "https://daniellacos.se/demo",
       description:
         "for your consideration - the case for 'only web', written in vue.js",
-      socialImage: "img/apple-touch-icon-180x180.png"
+      socialImage: "img/architecture.png"
     }
   },
   pwa: {
