@@ -48,17 +48,6 @@ export default {
 @import "~bulma";
 @import "~buefy/src/scss/components/_loading.scss";
 
-/* LOL ok */
-@keyframes spinAround {
-  0% {
-    transform: rotate(0deg);
-  }
-
-  100% {
-    transform: rotate(360deg);
-  }
-}
-
 html {
   background-color: $primary;
 }
