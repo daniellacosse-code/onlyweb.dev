@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div class="DemoCanvas__container">
     <canvas class="DemoCanvas" ref="canvas" />
     <frame-ticker ref="ticker" class="DemoCanvas__stats"></frame-ticker>
   </div>
@@ -77,14 +77,18 @@ export default {
 </script>
 
 <style scoped>
+.DemoCanvas__container {
+  position: relative;
+}
+
 .DemoCanvas {
-  position: fixed;
+  position: absolute;
   top: 0;
   left: 0;
 }
 
 .DemoCanvas__stats {
-  position: fixed;
+  position: absolute;
   top: 50px;
   right: 0;
 }

@@ -236,13 +236,12 @@ export default {
   width: 100vw;
   height: 100vh;
 
-  position: fixed;
-  top: 0;
+  position: relative;
   flex-direction: column;
 }
 
 .Game__stats {
-  position: fixed;
+  position: absolute;
   top: 50px;
   right: 0;
 }
@@ -250,7 +249,7 @@ export default {
 
 .Game__pauseContainer {
   width: 100%;
-  position: absolute;
+  position: fixed;
   bottom: 0;
   box-sizing: border-box;
   padding: 30px;
