@@ -11,7 +11,7 @@ export const routes = [
     component: Home
   },
   {
-    path: "/wasm",
+    path: "/rust",
     name: "Rust",
     component: () =>
       import(/* webpackChunkName: "wasm" */ "@/pages/WebAssembly.vue")

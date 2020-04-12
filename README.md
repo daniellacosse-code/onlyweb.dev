@@ -2,7 +2,7 @@
 
 a modern, native web wrapper demo in vue
 
-![quality](https://img.shields.io/badge/code%20quality-low-red)
+![quality](https://img.shields.io/badge/code%20quality-bad-red)
 
 ## setup (osx only)
 
