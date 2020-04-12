@@ -31,8 +31,6 @@ export default {
     init(mapboxInstance) {
       this.map = mapboxInstance;
 
-      console.log(navigator.geolocation.getCurrentPosition);
-
       navigator.geolocation.getCurrentPosition(
         ({ coords: { latitude, longitude } }) => {
           alert([longitude, latitude]);
