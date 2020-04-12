@@ -31,13 +31,24 @@ export default {
     init(mapboxInstance) {
       this.map = mapboxInstance;
 
+      console.log(navigator.geolocation.getCurrentPosition);
+
       navigator.geolocation.getCurrentPosition(
         ({ coords: { latitude, longitude } }) => {
+          alert([longitude, latitude]);
+
           this.$root.loading = false;
           this.center = [longitude, latitude];
           this.zoom = SPECIFIC_ZOOM;
         },
-        () => (this.$root.loading = false)
+        error => {
+          alert(error.message);
+
+          this.$root.loading = false;
+        },
+        {
+          timeout: 3000
+        }
       );
     }
   }
