@@ -1,6 +1,11 @@
 <template>
   <div id="app">
     <b-navbar class="Navbar" type="is-primary">
+      <template slot="brand">
+        <b-navbar-item tag="router-link" :to="{ path: '/' }">
+          <img src="/demo/img/icons/reverse-icon.png" alt="logo" />
+        </b-navbar-item>
+      </template>
       <template slot="start">
         <b-navbar-item
           v-for="route in routes"

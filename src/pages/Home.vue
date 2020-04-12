@@ -1,6 +1,9 @@
 <template>
   <div class="hello">
-    <h1>A modern native web demo, written in Vue.js</h1>
+    <img class="Logo" src="/demo/img/icons/icon.png" alt="logo" />
+
+    <h1>Only Web</h1>
+    <h2>A modern native web demo, written in Vue.js</h2>
 
     <h3>
       <a
@@ -12,7 +15,7 @@
       for a guide on how to install this app on your device.
     </h3>
 
-    <img src="/demo/img/architecture.png" alt="architecture" />
+    <img class="Diagram" src="/demo/img/architecture.png" alt="architecture" />
     <figcaption>
       Source:
       <a href="https://github.com/daniellacosse/only-web"
@@ -130,13 +133,24 @@ export default {
   padding: 15px;
   margin-bottom: 100px;
 }
-img {
+.Logo {
+  width: 128px;
+  margin-top: 50px;
+}
+.Diagram {
   max-width: 650px;
   width: 100%;
+  margin-top: 50px;
 }
 h1 {
   font-size: 40px;
-  margin: 40px 0;
+  margin: 10px 0;
+  color: #42b983;
+}
+h2 {
+  font-size: 25px;
+  color: #2c3e50;
+  margin-bottom: 70px;
 }
 h3,
 figcaption {
