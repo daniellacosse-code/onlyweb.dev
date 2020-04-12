@@ -125,8 +125,6 @@ $link-focus-border: $primary;
 }
 
 .Navbar {
-  width: calc(100vw + 60px);
-  margin: -30px -30px 0;
-  padding: 30px 30px 0;
+  width: 100vw;
 }
 </style>
