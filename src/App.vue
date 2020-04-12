@@ -1,6 +1,6 @@
 <template>
   <div id="app">
-    <b-navbar class="Navbar" type="is-primary">
+    <b-navbar class="Navbar" shadow>
       <template slot="start">
         <b-navbar-item
           v-for="route in routes"
@@ -101,12 +101,6 @@ $link-focus-border: $primary;
 
 @import "~bulma";
 @import "~buefy/src/scss/buefy";
-
-html {
-  background-color: $primary;
-  overflow: hidden;
-  overflow-y: scroll;
-}
 
 #app {
   font-family: "HelveticaNeue", Helvetica, Arial, sans-serif;
