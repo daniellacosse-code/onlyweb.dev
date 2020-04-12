@@ -13,8 +13,18 @@
           tag="router-link"
           :active="isActive(route.path)"
           :key="route.name"
+          :disabled="route.disabled"
         >
           {{ route.name }}
+        </b-navbar-item>
+        <b-navbar-item class="Disabled">
+          P2P (TODO)
+        </b-navbar-item>
+        <b-navbar-item class="Disabled">
+          Push (TODO)
+        </b-navbar-item>
+        <b-navbar-item class="Disabled">
+          Music (TODO)
         </b-navbar-item>
       </template>
     </b-navbar>
@@ -126,5 +136,11 @@ $link-focus-border: $primary;
 
 .Navbar {
   width: 100vw;
+}
+
+#app .Disabled {
+  /* pointer-events: none; */
+  color: $danger;
+  cursor: not-allowed;
 }
 </style>
