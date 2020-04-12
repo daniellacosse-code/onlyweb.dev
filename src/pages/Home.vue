@@ -2,7 +2,7 @@
   <div class="hello">
     <img class="Logo" src="/demo/img/icons/icon.png" alt="logo" />
 
-    <h1>Only Web</h1>
+    <h1>only web</h1>
     <h2>A modern native web demo, written in Vue.js</h2>
 
     <h3>
