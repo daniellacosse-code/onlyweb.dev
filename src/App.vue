@@ -1,6 +1,6 @@
 <template>
   <div id="app">
-    <b-navbar class="Navbar" type="is-dark">
+    <b-navbar class="Navbar" type="is-primary">
       <template slot="start">
         <b-navbar-item
           v-for="route in routes"
@@ -101,6 +101,10 @@ $link-focus-border: $primary;
 
 @import "~bulma";
 @import "~buefy/src/scss/buefy";
+
+:root {
+  background-color: $primary;
+}
 
 #app {
   font-family: "HelveticaNeue", Helvetica, Arial, sans-serif;

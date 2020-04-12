@@ -26,7 +26,7 @@ module.exports = {
     themeColor: "#42B983",
     msTileColor: "#ffffff",
     appleMobileWebAppCapable: "yes",
-    appleMobileWebAppStatusBarStyle: "black",
+    appleMobileWebAppStatusBarStyle: "black-translucent",
     manifestOptions: {
       name: "modern vue native wrapper demo - only web",
       short_name: "Only Web",
