@@ -1,6 +1,6 @@
 <template>
   <div id="app">
-    <b-navbar class="Navbar" shadow>
+    <b-navbar class="Navbar" type="is-dark">
       <template slot="start">
         <b-navbar-item
           v-for="route in routes"
