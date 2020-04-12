@@ -33,8 +33,6 @@ export default {
 
       navigator.geolocation.getCurrentPosition(
         ({ coords: { latitude, longitude } }) => {
-          alert([longitude, latitude]);
-
           this.$root.loading = false;
           this.center = [longitude, latitude];
           this.zoom = SPECIFIC_ZOOM;
