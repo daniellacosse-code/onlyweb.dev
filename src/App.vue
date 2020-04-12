@@ -17,6 +17,8 @@
         >
           {{ route.name }}
         </b-navbar-item>
+
+        <!-- just some todos -->
         <b-navbar-item class="Disabled">
           P2P (TODO)
         </b-navbar-item>

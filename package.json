@@ -3,10 +3,11 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
-    "build": "vue-cli-service build",
-    "deploy": "now",
+    "build:meta": "vue add meta",
     "build:rust": "wasm-pack build && rm pkg/.gitignore",
+    "build": "vue-cli-service build",
     "deploy:test": "now dev",
+    "deploy": "now",
     "start": "vue-cli-service serve"
   },
   "dependencies": {

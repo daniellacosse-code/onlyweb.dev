@@ -24,9 +24,6 @@ echo "127.0.0.1 local.daniellacos.se" >> /etc/hosts
 # generate local cert
 mkcert -install
 mkcert -cert-file .ssl/local.crt -key-file .ssl/local.key local.daniellacos.se localhost 127.0.0.1 ::1
-
-# generate app metadata (optional)
-vue add meta
 ```
 
 ### development
@@ -38,6 +35,8 @@ yarn start
 ### production build
 
 ```sh
+yarn build:rust # (if changed)
+yarn build:meta # (if changed)
 yarn build
 ```
 
