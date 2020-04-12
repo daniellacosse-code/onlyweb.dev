@@ -223,8 +223,6 @@ export default {
 </script>
 
 <style scoped lang="scss">
-@import "~bulma";
-
 .Game__container,
 .Game__pauseContainer {
   display: flex;
