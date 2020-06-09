@@ -3,7 +3,7 @@
     <b-navbar class="Navbar" type="is-primary">
       <template slot="brand">
         <b-navbar-item tag="router-link" :to="{ path: '/' }">
-          <img src="/demo/img/icons/reverse-icon.png" alt="logo" />
+          <img src="/only/img/icons/reverse-icon.png" alt="logo" />
         </b-navbar-item>
       </template>
       <template slot="start">
@@ -21,9 +21,6 @@
         <!-- just some todos -->
         <b-navbar-item class="Disabled">
           P2P (TODO)
-        </b-navbar-item>
-        <b-navbar-item class="Disabled">
-          Push (TODO)
         </b-navbar-item>
         <b-navbar-item class="Disabled">
           Music (TODO)
@@ -46,18 +43,18 @@ Vue.use(Loading);
 export default {
   components: {
     Navbar,
-    Loading
+    Loading,
   },
   methods: {
     isActive(path) {
       return (
         `${process.env.BASE_URL}${path.slice(1)}` === window.location.pathname
       );
-    }
+    },
   },
   data: function() {
     return { routes };
-  }
+  },
 };
 </script>
 
@@ -72,44 +69,44 @@ $twitter-invert: findColorInvert($twitter);
 $colors: (
   "white": (
     $white,
-    $black
+    $black,
   ),
   "black": (
     $black,
-    $white
+    $white,
   ),
   "light": (
     $light,
-    $light-invert
+    $light-invert,
   ),
   "dark": (
     $dark,
-    $dark-invert
+    $dark-invert,
   ),
   "primary": (
     $primary,
-    $primary-invert
+    $primary-invert,
   ),
   "info": (
     $info,
-    $info-invert
+    $info-invert,
   ),
   "success": (
     $success,
-    $success-invert
+    $success-invert,
   ),
   "warning": (
     $warning,
-    $warning-invert
+    $warning-invert,
   ),
   "danger": (
     $danger,
-    $danger-invert
+    $danger-invert,
   ),
   "twitter": (
     $twitter,
-    $twitter-invert
-  )
+    $twitter-invert,
+  ),
 );
 
 $link: $primary;

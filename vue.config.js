@@ -3,7 +3,7 @@ const fs = require("fs");
 const path = require("path");
 
 module.exports = {
-  publicPath: "/demo",
+  publicPath: "/only",
   configureWebpack: {
     plugins: [
       new webpack.ProvidePlugin({
@@ -15,7 +15,7 @@ module.exports = {
   pluginOptions: {
     meta: {
       projectName: "only web",
-      url: "https://daniellacos.se/demo/",
+      url: "https://daniellacos.se/only/",
       description:
         "for your consideration - the case for 'only web', written in vue.js",
       socialImage: "img/architecture.png"
@@ -30,7 +30,7 @@ module.exports = {
     manifestOptions: {
       name: "modern vue native wrapper demo - only web",
       short_name: "only web",
-      start_url: "https://daniellacos.se/demo/"
+      start_url: "https://daniellacos.se/only/"
     },
     workboxPluginMode: "InjectManifest",
     workboxOptions: {
@@ -45,6 +45,6 @@ module.exports = {
     compress: true,
     host: "local.daniellacos.se",
     port: 8080,
-    public: "https://local.daniellacos.se:8080/demo/"
+    public: "https://local.daniellacos.se:8080/only/"
   }
 };
