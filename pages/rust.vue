@@ -6,7 +6,9 @@
 export default {
   components: {
     GameOfLife: () =>
-      import(/* webpackChunkName: "gameOfLife" */ "@/components/GameOfLife.vue")
-  }
+      import(
+        /* webpackChunkName: "gameOfLife" */ "@/components/GameOfLife.vue"
+      ),
+  },
 };
 </script>

@@ -2,8 +2,8 @@
   <div id="app">
     <b-navbar class="Navbar" type="is-primary">
       <template slot="brand">
-        <b-navbar-item tag="router-link" :to="{ path: '/' }">
-          <img src="/only/img/icons/reverse-icon.png" alt="logo" />
+        <b-navbar-item tag="nuxt-link" :to="{ path: '/' }">
+          <img src="~assets/img/icons/reverse-icon.png" alt="logo" />
         </b-navbar-item>
       </template>
       <template slot="start">
@@ -27,23 +27,19 @@
         </b-navbar-item>
       </template>
     </b-navbar>
-    <b-loading :active.sync="$root.loading" />
-    <router-view />
+    <nuxt />
   </div>
 </template>
 
 <script>
 import Vue from "vue";
-import { routes } from "@/router";
-import { Navbar, Loading } from "buefy";
+import { Navbar } from "buefy";
 
 Vue.use(Navbar);
-Vue.use(Loading);
 
 export default {
   components: {
     Navbar,
-    Loading,
   },
   methods: {
     isActive(path) {
@@ -51,9 +47,6 @@ export default {
         `${process.env.BASE_URL}${path.slice(1)}` === window.location.pathname
       );
     },
-  },
-  data: function() {
-    return { routes };
   },
 };
 </script>

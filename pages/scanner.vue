@@ -11,7 +11,7 @@ import Quagga from "quagga";
 export default {
   data: function() {
     return {
-      code: "---"
+      code: "---",
     };
   },
   methods: {
@@ -21,32 +21,20 @@ export default {
           inputStream: {
             name: "Live",
             type: "LiveStream",
-            target: this.$refs.scanner
+            target: this.$refs.scanner,
           },
           decoder: {
-            readers: [
-              "i2of5_reader",
-              "code_128_reader",
-              "ean_reader",
-              "ean_8_reader",
-              "code_39_reader",
-              "code_39_vin_reader",
-              "codabar_reader",
-              "upc_reader",
-              "upc_e_reader",
-              "2of5_reader",
-              "code_93_reader"
-            ]
-          }
+            readers: ["upc_reader", "upc_e_reader"],
+          },
         },
-        error => {
+        (error) => {
           if (error) {
             alert(error);
           }
 
           this.$root.loading = false;
 
-          Quagga.onDetected(data => {
+          Quagga.onDetected((data) => {
             requestAnimationFrame(() => {
               this.$set(this, "code", data.codeResult.code);
             });
@@ -57,14 +45,14 @@ export default {
     },
     stop() {
       Quagga.stop();
-    }
+    },
   },
   mounted() {
     this.init();
   },
   destroyed() {
     this.stop();
-  }
+  },
 };
 </script>
 

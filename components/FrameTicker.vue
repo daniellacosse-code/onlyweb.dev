@@ -16,17 +16,17 @@
 
 <script>
 import Trend from "vuetrend";
-import { MinHeap, MaxHeap } from "./Heap";
+import { MinHeap, MaxHeap } from "@/helpers/Heap/Heap";
 
 export default {
   components: {
-    Trend
+    Trend,
   },
   props: {
     windowSize: {
       type: Number,
-      default: 100
-    }
+      default: 100,
+    },
   },
   data: function() {
     return {
@@ -36,13 +36,13 @@ export default {
       minFPS: new MinHeap(),
       maxFPS: new MaxHeap(),
       sum: 0,
-      lastTimestamp: performance.now()
+      lastTimestamp: performance.now(),
     };
   },
   computed: {
     average() {
       return Math.floor(this.sum / this.frames.length);
-    }
+    },
   },
   methods: {
     clear() {
@@ -77,8 +77,8 @@ export default {
         this.minFPS.remove(lastFPS);
         this.maxFPS.remove(lastFPS);
       }
-    }
-  }
+    },
+  },
 };
 </script>
 
