@@ -10,7 +10,7 @@
     "vue": "^2.6.11",
     "vue-mapbox": "^0.4.1",
     "vuetrend": "^0.3.4",
-    "wasm-game-of-life": "file:./helpers/GameOfLife/pkg"
+    "wasm-game-of-life": "file:./plugins/GameOfLife/pkg"
   },
   "devDependencies": {
     "@nuxtjs/dotenv": "^1.4.1",
