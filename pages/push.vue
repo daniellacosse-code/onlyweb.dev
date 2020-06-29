@@ -23,9 +23,6 @@ export default {
       }
     },
   },
-  mounted() {
-    this.$root.loading = false;
-  },
 };
 </script>
 

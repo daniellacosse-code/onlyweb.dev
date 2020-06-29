@@ -1,30 +1,30 @@
 <template>
-  <mapbox-map
-    style="height: 100vh; width: 100vw"
-    :access-token="accessToken"
-    :map-style="style"
-    :center="center"
-    :zoom="zoom"
-    @mb-created="init"
-  />
+  <no-ssr>
+    <MglMap
+      style="height: 100vh; width: 100vw"
+      :access-token="accessToken"
+      :map-style="style"
+      :center="center"
+      :zoom="zoom"
+      @load="init"
+    />
+  </no-ssr>
 </template>
 
 <script>
-import { MapboxMap } from "@studiometa/vue-mapbox-gl";
 import "mapbox-gl/dist/mapbox-gl.css";
 
 const DEFAULT_ZOOM = 3;
 const SPECIFIC_ZOOM = 12;
 
 export default {
-  components: { MapboxMap },
   data: function() {
     return {
       accessToken: process.env.MAPBOX_TOKEN,
       map: null,
       style: "mapbox://styles/mapbox/light-v9",
       center: [0, 0],
-      zoom: DEFAULT_ZOOM
+      zoom: DEFAULT_ZOOM,
     };
   },
   methods: {
@@ -33,20 +33,17 @@ export default {
 
       navigator.geolocation.getCurrentPosition(
         ({ coords: { latitude, longitude } }) => {
-          this.$root.loading = false;
           this.center = [longitude, latitude];
           this.zoom = SPECIFIC_ZOOM;
         },
-        error => {
+        (error) => {
           alert(error.message);
-
-          this.$root.loading = false;
         },
         {
-          timeout: 3000
+          timeout: 3000,
         }
       );
-    }
-  }
+    },
+  },
 };
 </script>

@@ -66,8 +66,6 @@ export default {
 
       // start app
       app.start();
-
-      this.$root.loading = false;
     },
   },
   mounted() {

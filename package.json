@@ -1,13 +1,14 @@
 {
   "dependencies": {
-    "@mapbox/mapbox-gl-geocoder": "^4.5.1",
-    "@studiometa/vue-mapbox-gl": "^1.2.1",
     "buefy": "^0.8.15",
+    "create-react-app": "^3.4.1",
+    "global": "^4.4.0",
     "mapbox-gl": "^1.9.1",
     "nuxt": "^2.13.2",
     "playcanvas": "^1.26.1",
     "quagga": "^0.12.1",
     "vue": "^2.6.11",
+    "vue-mapbox": "^0.4.1",
     "vuetrend": "^0.3.4",
     "wasm-game-of-life": "file:./helpers/GameOfLife/pkg"
   },

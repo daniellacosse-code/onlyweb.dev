@@ -4,6 +4,7 @@ import fs from "fs";
 export default {
   buildDir: ".artifacts/nuxt",
   buildModules: ["@nuxtjs/dotenv"],
+  plugins: [{ src: "@/plugins/mapbox", mode: "client" }],
   router: {
     base: "/only/",
   },

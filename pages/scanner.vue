@@ -32,8 +32,6 @@ export default {
             alert(error);
           }
 
-          this.$root.loading = false;
-
           Quagga.onDetected((data) => {
             requestAnimationFrame(() => {
               this.$set(this, "code", data.codeResult.code);

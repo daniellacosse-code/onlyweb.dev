@@ -120,10 +120,7 @@
 
 <script>
 export default {
-  name: "HelloWorld",
-  mounted() {
-    this.$root.loading = false;
-  },
+  name: "HelloWorld"
 };
 </script>
 
