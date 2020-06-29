@@ -36,7 +36,7 @@ export default {
       minFPS: new MinHeap(),
       maxFPS: new MaxHeap(),
       sum: 0,
-      lastTimestamp: performance.now(),
+      lastTimestamp: null,
     };
   },
   computed: {

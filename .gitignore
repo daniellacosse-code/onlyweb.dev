@@ -1,11 +1,11 @@
+# temp files
 .DS_Store
 node_modules
-dist
-target
+.artifacts
 
-# local env files
-.env.local
-.env.*.local
+# env files
+.env
+.env.*
 
 # Log files
 npm-debug.log*
@@ -19,7 +19,3 @@ yarn-error.log*
 *.njsproj
 *.sln
 *.sw?
-
-.now
-.ssl
-.nuxt

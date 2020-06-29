@@ -23,7 +23,7 @@ echo "127.0.0.1 local.daniellacos.se" >> /etc/hosts
 
 # generate local cert
 mkcert -install
-mkcert -cert-file .ssl/local.crt -key-file .ssl/local.key local.daniellacos.se localhost 127.0.0.1 ::1
+mkcert -cert-file .artifacts/ssl/local.crt -key-file .artifacts/ssl/local.key local.daniellacos.se localhost 127.0.0.1 ::1
 ```
 
 ### development

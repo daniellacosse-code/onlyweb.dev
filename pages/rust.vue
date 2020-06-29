@@ -3,12 +3,11 @@
 </template>
 
 <script>
+import "@/components/GameOfLife.vue";
+
 export default {
   components: {
-    GameOfLife: () =>
-      import(
-        /* webpackChunkName: "gameOfLife" */ "@/components/GameOfLife.vue"
-      ),
+    GameOfLife,
   },
 };
 </script>

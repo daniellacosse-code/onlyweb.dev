@@ -18,9 +18,10 @@
     "vue": "^2.6.11",
     "vue-router": "^3.1.6",
     "vuetrend": "^0.3.4",
-    "wasm-game-of-life": "file:./helpers/GameOfLife"
+    "wasm-game-of-life": "file:./GameOfLife"
   },
   "devDependencies": {
+    "@nuxtjs/dotenv": "^1.4.1",
     "@types/dotenv": "^8.2.0",
     "@types/vue": "^2.0.0",
     "node-sass": "^4.13.1",

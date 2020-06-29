@@ -20,18 +20,18 @@ import Vue from "vue";
 import { Universe } from "wasm-game-of-life";
 import { memory } from "wasm-game-of-life/wasm_game_of_life_bg";
 import { Button } from "buefy";
-import FrameTicker from "./FrameTicker";
+import FrameTicker from "@/components/FrameTicker";
 
 Vue.use(Button);
 
 export default {
   components: {
-    FrameTicker
+    FrameTicker,
   },
   props: {
     cellPixelSize: { type: Number, default: 10 },
     gridHexColor: { type: String, default: "#CCCCCC" },
-    cellHexColor: { type: String, default: "#000000" }
+    cellHexColor: { type: String, default: "#000000" },
   },
   data: function() {
     return {
@@ -43,7 +43,7 @@ export default {
       indexCache: [],
       context: null,
       animationID: null,
-      universe: null
+      universe: null,
     };
   },
   computed: {
@@ -52,7 +52,7 @@ export default {
     },
     cellBorderWidth() {
       return this.cellPixelSize + 1;
-    }
+    },
   },
   methods: {
     init() {
@@ -183,7 +183,7 @@ export default {
         height,
         isAlive,
         cellPixelSize,
-        cellBorderWidth
+        cellBorderWidth,
       } = this;
 
       const cellPointer = universe.cells();
@@ -210,7 +210,7 @@ export default {
       }
 
       context.stroke();
-    }
+    },
   },
   mounted() {
     this.init();
@@ -218,7 +218,7 @@ export default {
   beforeDestroy() {
     this.stopAnimationLoop();
     this.universe.destroy();
-  }
+  },
 };
 </script>
 

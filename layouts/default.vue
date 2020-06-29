@@ -3,7 +3,7 @@
     <b-navbar class="Navbar" type="is-primary">
       <template slot="brand">
         <b-navbar-item tag="nuxt-link" :to="{ path: '/' }">
-          <img src="~assets/img/icons/reverse-icon.png" alt="logo" />
+          <img src="/only/img/icons/reverse-icon.png" alt="logo" />
         </b-navbar-item>
       </template>
       <template slot="start">
@@ -41,11 +41,19 @@ export default {
   components: {
     Navbar,
   },
+  computed: {
+    routes() {
+      return this.$router.options.routes
+        .filter(({ name }) => name !== "index")
+        .map((route) => ({
+          ...route,
+          name: route.name[0].toUpperCase() + route.name.slice(1),
+        }));
+    },
+  },
   methods: {
     isActive(path) {
-      return (
-        `${process.env.BASE_URL}${path.slice(1)}` === window.location.pathname
-      );
+      return `${process.env.BASE_URL}${path.slice(1)}` === this.$route.path;
     },
   },
 };
@@ -131,7 +139,6 @@ $link-focus-border: $primary;
 }
 
 #app .Disabled {
-  /* pointer-events: none; */
   color: $danger;
   cursor: not-allowed;
 }
