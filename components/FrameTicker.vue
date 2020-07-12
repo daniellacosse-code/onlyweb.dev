@@ -16,7 +16,7 @@
 
 <script>
 import Trend from "vuetrend";
-import { MinHeap, MaxHeap } from "@/helpers/Heap/Heap";
+import { MinHeap, MaxHeap } from "@/plugins/heap";
 
 export default {
   components: {

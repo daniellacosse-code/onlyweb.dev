@@ -18,12 +18,9 @@ curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install.sh 
 brew --force bundle
 yarn install
 
-# update hostsfile
-echo "127.0.0.1 local.daniellacos.se" >> /etc/hosts
-
 # generate local cert
 mkcert -install
-mkcert -cert-file .artifacts/ssl/local.crt -key-file .artifacts/ssl/local.key local.daniellacos.se localhost 127.0.0.1 ::1
+mkcert -cert-file .artifacts/ssl/local.crt -key-file .artifacts/ssl/local.key localhost 127.0.0.1 ::1
 ```
 
 ### development

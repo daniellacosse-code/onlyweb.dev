@@ -9,21 +9,23 @@
     "quagga": "^0.12.1",
     "vue": "^2.6.11",
     "vue-mapbox": "^0.4.1",
-    "vuetrend": "^0.3.4",
-    "wasm-game-of-life": "file:./plugins/GameOfLife/pkg"
+    "vuetrend": "^0.3.4"
   },
   "devDependencies": {
     "@nuxtjs/dotenv": "^1.4.1",
+    "@nuxtjs/pwa": "^3.0.0-beta.20",
     "node-sass": "^4.13.1",
     "sass-loader": "^8.0.2",
     "vue-template-compiler": "^2.6.11",
+    "wasm-dce": "^1.0.2",
+    "wasm-loader": "^1.3.0",
     "websocket-extensions": "0.1.4"
   },
   "name": "native-vue-web-wrapper-demo",
   "private": true,
   "scripts": {
     "build": "nuxt generate",
-    "build:game-of-life": "cd helpers/GameOfLife && wasm-pack build",
+    "build:conway": "cd helpers/conway && wasm-pack build",
     "start": "nuxt"
   },
   "version": "0.1.0"
