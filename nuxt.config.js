@@ -6,18 +6,20 @@ export default {
   buildModules: ["@nuxtjs/dotenv", "@nuxtjs/pwa"],
   plugins: [
     { src: "@/plugins/mapbox", mode: "client" },
-    { src: "@/plugins/conway/pkg" },
+    { src: "@/plugins/conway/pkg" }
   ],
   router: {
-    base: "/only/",
+    base: "/only/"
   },
   server: {
     port: 8080,
     https: {
-      key: fs.readFileSync(path.resolve(__dirname, ".artifacts/ssl/local.key")),
-      cert: fs.readFileSync(
-        path.resolve(__dirname, ".artifacts/ssl/local.crt")
+      key: fs.readFileSync(
+        path.resolve(__dirname, ".artifacts/mkcert/local.key")
       ),
-    },
-  },
+      cert: fs.readFileSync(
+        path.resolve(__dirname, ".artifacts/mkcert/local.crt")
+      )
+    }
+  }
 };

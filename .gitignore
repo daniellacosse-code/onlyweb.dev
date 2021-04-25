@@ -2,25 +2,20 @@
 .DS_Store
 node_modules
 .artifacts
+Brewfile.lock.json
 
 # rust
 target
-pkg
 
 # env files
 .env
 .env.*
 
-# Log files
+# log files
 npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
 
-# Editor directories and files
-.idea
-*.suo
-*.ntvs*
-*.njsproj
-*.sln
+# service worker
 *.sw?
 sw.*
