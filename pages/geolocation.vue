@@ -18,13 +18,13 @@ const DEFAULT_ZOOM = 3;
 const SPECIFIC_ZOOM = 12;
 
 export default {
-  data: function() {
+  data: function () {
     return {
       accessToken: process.env.MAPBOX_TOKEN,
       map: null,
       style: "mapbox://styles/mapbox/light-v9",
       center: [0, 0],
-      zoom: DEFAULT_ZOOM,
+      zoom: DEFAULT_ZOOM
     };
   },
   methods: {
@@ -40,10 +40,10 @@ export default {
           alert(error.message);
         },
         {
-          timeout: 3000,
+          timeout: 3000
         }
       );
-    },
-  },
+    }
+  }
 };
 </script>

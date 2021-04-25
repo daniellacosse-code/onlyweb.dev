@@ -19,12 +19,8 @@
         </b-navbar-item>
 
         <!-- just some todos -->
-        <b-navbar-item class="Disabled">
-          P2P (TODO)
-        </b-navbar-item>
-        <b-navbar-item class="Disabled">
-          Music (TODO)
-        </b-navbar-item>
+        <b-navbar-item class="Disabled"> P2P (TODO) </b-navbar-item>
+        <b-navbar-item class="Disabled"> Music (TODO) </b-navbar-item>
       </template>
     </b-navbar>
     <nuxt />
@@ -39,7 +35,7 @@ Vue.use(Navbar);
 
 export default {
   components: {
-    Navbar,
+    Navbar
   },
   computed: {
     routes() {
@@ -47,15 +43,15 @@ export default {
         .filter(({ name }) => name !== "index")
         .map((route) => ({
           ...route,
-          name: route.name[0].toUpperCase() + route.name.slice(1),
+          name: route.name[0].toUpperCase() + route.name.slice(1)
         }));
-    },
+    }
   },
   methods: {
     isActive(path) {
       return `${process.env.BASE_URL}${path.slice(1)}` === this.$route.path;
-    },
-  },
+    }
+  }
 };
 </script>
 
@@ -70,44 +66,44 @@ $twitter-invert: findColorInvert($twitter);
 $colors: (
   "white": (
     $white,
-    $black,
+    $black
   ),
   "black": (
     $black,
-    $white,
+    $white
   ),
   "light": (
     $light,
-    $light-invert,
+    $light-invert
   ),
   "dark": (
     $dark,
-    $dark-invert,
+    $dark-invert
   ),
   "primary": (
     $primary,
-    $primary-invert,
+    $primary-invert
   ),
   "info": (
     $info,
-    $info-invert,
+    $info-invert
   ),
   "success": (
     $success,
-    $success-invert,
+    $success-invert
   ),
   "warning": (
     $warning,
-    $warning-invert,
+    $warning-invert
   ),
   "danger": (
     $danger,
-    $danger-invert,
+    $danger-invert
   ),
   "twitter": (
     $twitter,
-    $twitter-invert,
-  ),
+    $twitter-invert
+  )
 );
 
 $link: $primary;

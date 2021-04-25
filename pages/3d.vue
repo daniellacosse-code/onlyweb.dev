@@ -6,18 +6,18 @@
 </template>
 
 <script>
-import FrameTicker from "@/components/FrameTicker";
+import FrameTicker from "@/components/FrameTicker.vue";
 import {
   Application,
   Color,
   Entity,
   RESOLUTION_AUTO,
-  FILLMODE_FILL_WINDOW,
+  FILLMODE_FILL_WINDOW
 } from "playcanvas";
 
 export default {
   components: {
-    FrameTicker,
+    FrameTicker
   },
   methods: {
     init() {
@@ -33,7 +33,7 @@ export default {
       const camera = new Entity("camera");
 
       camera.addComponent("camera", {
-        clearColor: new Color(0.1, 0.1, 0.1),
+        clearColor: new Color(0.1, 0.1, 0.1)
       });
 
       camera.setPosition(0, 0, 6);
@@ -53,7 +53,7 @@ export default {
       const cube = new Entity("cube");
 
       cube.addComponent("model", {
-        type: "box",
+        type: "box"
       });
 
       app.root.addChild(cube);
@@ -66,11 +66,11 @@ export default {
 
       // start app
       app.start();
-    },
+    }
   },
   mounted() {
     this.init();
-  },
+  }
 };
 </script>
 

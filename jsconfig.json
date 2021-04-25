@@ -1,0 +1,9 @@
+{
+  "include": [
+    "./components/**/*",
+    "./layouts/**/*",
+    "./plugins/heap.js",
+    "./plugins/mapbox.js",
+    "./pages/**/*"
+  ]
+}

@@ -20,15 +20,15 @@ import { MinHeap, MaxHeap } from "@/plugins/heap";
 
 export default {
   components: {
-    Trend,
+    Trend
   },
   props: {
     windowSize: {
       type: Number,
-      default: 100,
-    },
+      default: 100
+    }
   },
-  data: function() {
+  data: function () {
     return {
       frames: [],
       maxRate: 60,
@@ -36,13 +36,13 @@ export default {
       minFPS: new MinHeap(),
       maxFPS: new MaxHeap(),
       sum: 0,
-      lastTimestamp: null,
+      lastTimestamp: null
     };
   },
   computed: {
     average() {
       return Math.floor(this.sum / this.frames.length);
-    },
+    }
   },
   methods: {
     clear() {
@@ -77,8 +77,8 @@ export default {
         this.minFPS.remove(lastFPS);
         this.maxFPS.remove(lastFPS);
       }
-    },
-  },
+    }
+  }
 };
 </script>
 

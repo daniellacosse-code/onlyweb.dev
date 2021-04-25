@@ -7,7 +7,7 @@ import "@/components/GameOfLife.vue";
 
 export default {
   components: {
-    GameOfLife,
-  },
+    GameOfLife
+  }
 };
 </script>

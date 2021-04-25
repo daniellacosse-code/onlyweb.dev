@@ -1,0 +1,7 @@
+{
+  "functions": {
+    "plugins/conway/lib.rs": {
+      "runtime": "vercel-rust@3.0.0"
+    }
+  }
+}

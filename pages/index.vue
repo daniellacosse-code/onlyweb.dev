@@ -18,9 +18,9 @@
     <img class="Diagram" src="/only/img/architecture.png" alt="architecture" />
     <figcaption>
       Source:
-      <a href="https://github.com/daniellacosse/only-web"
-        ><pre>daniellacosse/only-web</pre></a
-      >
+      <a href="https://github.com/daniellacosse/only-web">
+        <pre>daniellacosse/only-web</pre>
+      </a>
     </figcaption>
 
     <h3>Essential Docs</h3>

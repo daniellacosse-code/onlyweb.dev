@@ -17,7 +17,7 @@
 
 <script>
 import { Button } from "buefy";
-import FrameTicker from "@/components/FrameTicker";
+import FrameTicker from "@/components/FrameTicker.vue";
 import { Universe as Game } from "@/plugins/conway/pkg";
 import { memory as Game__memory } from "@/plugins/conway/pkg/wasm_game_of_life_bg";
 import Vue from "vue";
@@ -26,14 +26,14 @@ Vue.use(Button);
 
 export default {
   components: {
-    FrameTicker,
+    FrameTicker
   },
   props: {
     cellPixelSize: { type: Number, default: 10 },
     gridHexColor: { type: String, default: "#CCCCCC" },
-    cellHexColor: { type: String, default: "#000000" },
+    cellHexColor: { type: String, default: "#000000" }
   },
-  data: function() {
+  data: function () {
     return {
       animationID: null,
       context: null,
@@ -43,7 +43,7 @@ export default {
       indexCache: [],
       pauseIcon: "pause",
       playIcon: "play",
-      width: 0,
+      width: 0
     };
   },
   computed: {
@@ -52,7 +52,7 @@ export default {
     },
     cellBorderWidth() {
       return this.cellPixelSize + 1;
-    },
+    }
   },
   methods: {
     init() {
@@ -182,7 +182,7 @@ export default {
         height,
         isAlive,
         cellPixelSize,
-        cellBorderWidth,
+        cellBorderWidth
       } = this;
 
       const cellPointer = game.cells();
@@ -209,7 +209,7 @@ export default {
       }
 
       context.stroke();
-    },
+    }
   },
   mounted() {
     this.init();
@@ -217,7 +217,7 @@ export default {
   beforeDestroy() {
     this.stopAnimationLoop();
     this.game.destroy();
-  },
+  }
 };
 </script>
 

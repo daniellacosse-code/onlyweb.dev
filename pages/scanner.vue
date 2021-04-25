@@ -9,9 +9,9 @@
 import Quagga from "quagga";
 
 export default {
-  data: function() {
+  data: function () {
     return {
-      code: "---",
+      code: "---"
     };
   },
   methods: {
@@ -21,11 +21,11 @@ export default {
           inputStream: {
             name: "Live",
             type: "LiveStream",
-            target: this.$refs.scanner,
+            target: this.$refs.scanner
           },
           decoder: {
-            readers: ["upc_reader", "upc_e_reader"],
-          },
+            readers: ["upc_reader", "upc_e_reader"]
+          }
         },
         (error) => {
           if (error) {
@@ -43,14 +43,14 @@ export default {
     },
     stop() {
       Quagga.stop();
-    },
+    }
   },
   mounted() {
     this.init();
   },
   destroyed() {
     this.stop();
-  },
+  }
 };
 </script>
 
