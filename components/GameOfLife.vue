@@ -33,7 +33,7 @@ export default {
     gridHexColor: { type: String, default: "#CCCCCC" },
     cellHexColor: { type: String, default: "#000000" }
   },
-  data: function () {
+  data: function() {
     return {
       animationID: null,
       context: null,
@@ -221,7 +221,7 @@ export default {
 };
 </script>
 
-<style scoped lang="scss">
+<style scoped>
 .Game__container,
 .Game__pauseContainer {
   display: flex;

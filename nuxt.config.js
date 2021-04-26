@@ -1,13 +1,17 @@
 import path from "path";
 import fs from "fs";
 
-export default {
+const productionConfig = {
   buildDir: ".artifacts/nuxt",
   buildModules: ["@nuxtjs/dotenv", "@nuxtjs/pwa"],
   plugins: [
-    { src: "@/plugins/mapbox", mode: "client" },
-    { src: "@/plugins/conway/pkg" }
-  ],
+    { src: "@/plugins/mapbox", mode: "client" }
+    // { src: "@/plugins/conway/pkg" }
+  ]
+};
+
+const developmentConfig = {
+  ...productionConfig,
   router: {
     base: "/only/"
   },
@@ -23,3 +27,7 @@ export default {
     }
   }
 };
+
+export default process.env.NODE_ENV === "production"
+  ? productionConfig
+  : developmentConfig;

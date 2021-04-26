@@ -3,11 +3,9 @@
 </template>
 
 <script>
-import "@/components/GameOfLife.vue";
-
 export default {
   components: {
-    GameOfLife
+    GameOfLife: () => import("@/components/GameOfLife.vue")
   }
 };
 </script>
