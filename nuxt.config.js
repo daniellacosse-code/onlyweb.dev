@@ -25,4 +25,6 @@ const developmentConfig = {
   }
 };
 
+console.log(process.env);
+
 export default process.env.VERCEL ? productionConfig : developmentConfig;
