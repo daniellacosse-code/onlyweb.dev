@@ -22,7 +22,7 @@
   "name": "native-vue-web-wrapper-demo",
   "private": true,
   "scripts": {
-    "build": "concurrently 'yarn:build:*'",
+    "build": "concurrently 'yarn:build:nuxt'",
     "build:nuxt": "nuxt generate",
     "build:conway": "cd plugins/conway && wasm-pack build",
     "start": "nuxt"
