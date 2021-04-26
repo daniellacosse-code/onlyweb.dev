@@ -4,14 +4,14 @@ import fs from "fs";
 const productionConfig = {
   buildDir: ".artifacts/nuxt",
   buildModules: ["@nuxtjs/dotenv", "@nuxtjs/pwa"],
-  plugins: [{ src: "@/plugins/mapbox", mode: "client" }]
+  plugins: [{ src: "@/plugins/mapbox", mode: "client" }],
+  router: {
+    base: "/only/"
+  }
 };
 
 const developmentConfig = () => ({
   ...productionConfig,
-  router: {
-    base: "/only/"
-  },
   server: {
     port: 8080,
     https: {
