@@ -4,10 +4,7 @@ import fs from "fs";
 const productionConfig = {
   buildDir: ".artifacts/nuxt",
   buildModules: ["@nuxtjs/dotenv", "@nuxtjs/pwa"],
-  plugins: [
-    { src: "@/plugins/mapbox", mode: "client" }
-    // { src: "@/plugins/conway/pkg" }
-  ]
+  plugins: [{ src: "@/plugins/mapbox", mode: "client" }]
 };
 
 const developmentConfig = {
@@ -28,6 +25,4 @@ const developmentConfig = {
   }
 };
 
-export default process.env.NODE_ENV === "production"
-  ? productionConfig
-  : developmentConfig;
+export default process.env.VERCEL ? productionConfig : developmentConfig;
