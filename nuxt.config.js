@@ -7,7 +7,7 @@ const productionConfig = {
   plugins: [{ src: "@/plugins/mapbox", mode: "client" }]
 };
 
-const developmentConfig = {
+const developmentConfig = () => ({
   ...productionConfig,
   router: {
     base: "/only/"
@@ -23,8 +23,6 @@ const developmentConfig = {
       )
     }
   }
-};
+});
 
-console.log(process.env);
-
-export default process.env.VERCEL ? productionConfig : developmentConfig;
+export default process.env.VERCEL ? productionConfig : developmentConfig();
