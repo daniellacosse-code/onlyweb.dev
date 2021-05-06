@@ -16,6 +16,9 @@ const productionConfig = {
     meta: {
       theme_color: "#42b983"
     }
+  },
+  env: {
+    ...process.env
   }
 };
 
