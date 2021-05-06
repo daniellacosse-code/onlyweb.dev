@@ -4,13 +4,9 @@
 
     <canvas class="Game" ref="gameGrid" @click="cellToggle"></canvas>
     <div class="Game__pauseContainer">
-      <b-button
-        type="is-primary"
-        class="Game__pause"
-        @click="playToggle"
-        :icon-left="isPlaying ? pauseIcon : playIcon"
-        >{{ isPlaying ? "pause" : "play" }}</b-button
-      >
+      <b-button type="is-primary" class="Game__pause" @click="playToggle">{{
+        isPlaying ? "pause ⏸" : "play ▶️"
+      }}</b-button>
     </div>
   </div>
 </template>
