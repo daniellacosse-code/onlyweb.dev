@@ -3,15 +3,8 @@ import fs from "fs";
 
 const productionConfig = {
   buildDir: ".artifacts/nuxt",
-  buildModules: [
-    "@nuxtjs/dotenv",
-    "@aceforth/nuxt-optimized-images",
-    "@nuxtjs/pwa"
-  ],
+  buildModules: ["@nuxtjs/dotenv", "@nuxtjs/pwa"],
   plugins: [{ src: "@/plugins/mapbox", mode: "client" }],
-  optimizedImages: {
-    optimizedImages: true
-  },
   pwa: {
     meta: {
       theme_color: "#42b983"
