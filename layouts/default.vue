@@ -3,7 +3,7 @@
     <b-navbar class="Navbar" type="is-primary">
       <template slot="brand">
         <b-navbar-item tag="nuxt-link" :to="{ path: '/' }">
-          <img src="/only/img/icons/reverse-icon.png" alt="logo" />
+          <img src="/img/icons/reverse-icon.png" alt="logo" />
         </b-navbar-item>
       </template>
       <template slot="start">
@@ -41,7 +41,7 @@ export default {
     routes() {
       return this.$router.options.routes
         .filter(({ name }) => name !== "index")
-        .map((route) => ({
+        .map(route => ({
           ...route,
           name: route.name[0].toUpperCase() + route.name.slice(1)
         }));
