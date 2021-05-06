@@ -3,8 +3,15 @@ import fs from "fs";
 
 const productionConfig = {
   buildDir: ".artifacts/nuxt",
-  buildModules: ["@nuxtjs/dotenv", "@nuxtjs/pwa"],
-  plugins: [{ src: "@/plugins/mapbox", mode: "client" }]
+  buildModules: [
+    "@nuxtjs/dotenv",
+    "@aceforth/nuxt-optimized-images",
+    "@nuxtjs/pwa"
+  ],
+  plugins: [{ src: "@/plugins/mapbox", mode: "client" }],
+  optimizedImages: {
+    optimizedImages: true
+  }
 };
 
 const developmentConfig = () => ({
