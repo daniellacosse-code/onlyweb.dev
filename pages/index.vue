@@ -143,6 +143,7 @@ h1 {
   font-size: 40px;
   margin: 10px 0;
   color: #42b983;
+  font-weight: bold;
 }
 h2 {
   font-size: 25px;
@@ -163,5 +164,6 @@ li {
 }
 a {
   color: #42b983;
+  font-weight: bold;
 }
 </style>

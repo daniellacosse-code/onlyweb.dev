@@ -11,6 +11,11 @@ const productionConfig = {
   plugins: [{ src: "@/plugins/mapbox", mode: "client" }],
   optimizedImages: {
     optimizedImages: true
+  },
+  pwa: {
+    meta: {
+      theme_color: "#42b983"
+    }
   }
 };
 
