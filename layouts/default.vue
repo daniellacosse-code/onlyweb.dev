@@ -49,7 +49,9 @@ export default {
   },
   methods: {
     isActive(path) {
-      return `${process.env.BASE_URL}${path.slice(1)}` === this.$route.path;
+      return (
+        `${process.env.NUXT_ENV_BASE_URL}${path.slice(1)}` === this.$route.path
+      );
     }
   }
 };
