@@ -6,7 +6,7 @@ Vue.use(Button);
 
 export default {
   components: {
-    Button,
+    Button
   },
   name: "Push",
   methods: {
@@ -21,11 +21,8 @@ export default {
         default:
           alert(message);
       }
-    },
-  },
-  mounted() {
-    this.$root.loading = false;
-  },
+    }
+  }
 };
 </script>
 

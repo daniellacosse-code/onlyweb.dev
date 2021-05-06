@@ -2,8 +2,8 @@
   <div id="app">
     <b-navbar class="Navbar" type="is-primary">
       <template slot="brand">
-        <b-navbar-item tag="router-link" :to="{ path: '/' }">
-          <img src="/only/img/icons/reverse-icon.png" alt="logo" />
+        <b-navbar-item tag="nuxt-link" :to="{ path: '/' }">
+          <img src="/img/icons/reverse-icon.png" alt="logo" />
         </b-navbar-item>
       </template>
       <template slot="start">
@@ -19,42 +19,41 @@
         </b-navbar-item>
 
         <!-- just some todos -->
-        <b-navbar-item class="Disabled">
-          P2P (TODO)
-        </b-navbar-item>
-        <b-navbar-item class="Disabled">
-          Music (TODO)
-        </b-navbar-item>
+        <b-navbar-item class="Disabled"> P2P (TODO) </b-navbar-item>
+        <b-navbar-item class="Disabled"> Music (TODO) </b-navbar-item>
       </template>
     </b-navbar>
-    <b-loading :active.sync="$root.loading" />
-    <router-view />
+    <nuxt />
   </div>
 </template>
 
 <script>
 import Vue from "vue";
-import { routes } from "@/router";
-import { Navbar, Loading } from "buefy";
+import { Navbar } from "buefy";
 
 Vue.use(Navbar);
-Vue.use(Loading);
 
 export default {
   components: {
-    Navbar,
-    Loading,
+    Navbar
+  },
+  computed: {
+    routes() {
+      return this.$router.options.routes
+        .filter(({ name }) => name !== "index")
+        .map(route => ({
+          ...route,
+          name: route.name[0].toUpperCase() + route.name.slice(1)
+        }));
+    }
   },
   methods: {
     isActive(path) {
       return (
-        `${process.env.BASE_URL}${path.slice(1)}` === window.location.pathname
+        `${process.env.NUXT_ENV_BASE_URL}${path.slice(1)}` === this.$route.path
       );
-    },
-  },
-  data: function() {
-    return { routes };
-  },
+    }
+  }
 };
 </script>
 
@@ -69,44 +68,44 @@ $twitter-invert: findColorInvert($twitter);
 $colors: (
   "white": (
     $white,
-    $black,
+    $black
   ),
   "black": (
     $black,
-    $white,
+    $white
   ),
   "light": (
     $light,
-    $light-invert,
+    $light-invert
   ),
   "dark": (
     $dark,
-    $dark-invert,
+    $dark-invert
   ),
   "primary": (
     $primary,
-    $primary-invert,
+    $primary-invert
   ),
   "info": (
     $info,
-    $info-invert,
+    $info-invert
   ),
   "success": (
     $success,
-    $success-invert,
+    $success-invert
   ),
   "warning": (
     $warning,
-    $warning-invert,
+    $warning-invert
   ),
   "danger": (
     $danger,
-    $danger-invert,
+    $danger-invert
   ),
   "twitter": (
     $twitter,
-    $twitter-invert,
-  ),
+    $twitter-invert
+  )
 );
 
 $link: $primary;
@@ -138,7 +137,6 @@ $link-focus-border: $primary;
 }
 
 #app .Disabled {
-  /* pointer-events: none; */
   color: $danger;
   cursor: not-allowed;
 }

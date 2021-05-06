@@ -1,24 +1,21 @@
+# temp files
 .DS_Store
 node_modules
-dist
+.artifacts
+Brewfile.lock.json
+
+# rust
 target
 
-# local env files
-.env.local
-.env.*.local
+# env files
+.env
+.env.*
 
-# Log files
+# log files
 npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
 
-# Editor directories and files
-.idea
-*.suo
-*.ntvs*
-*.njsproj
-*.sln
+# service worker
 *.sw?
-
-.now
-.ssl
+sw.*

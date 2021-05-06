@@ -16,7 +16,7 @@
 
 <script>
 import Trend from "vuetrend";
-import { MinHeap, MaxHeap } from "./Heap";
+import { MinHeap, MaxHeap } from "@/plugins/heap";
 
 export default {
   components: {
@@ -28,7 +28,7 @@ export default {
       default: 100
     }
   },
-  data: function() {
+  data: function () {
     return {
       frames: [],
       maxRate: 60,
@@ -36,7 +36,7 @@ export default {
       minFPS: new MinHeap(),
       maxFPS: new MaxHeap(),
       sum: 0,
-      lastTimestamp: performance.now()
+      lastTimestamp: null
     };
   },
   computed: {

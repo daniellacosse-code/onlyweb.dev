@@ -5,8 +5,7 @@
 <script>
 export default {
   components: {
-    GameOfLife: () =>
-      import(/* webpackChunkName: "gameOfLife" */ "@/components/GameOfLife.vue")
+    GameOfLife: () => import("@/components/GameOfLife.vue")
   }
 };
 </script>

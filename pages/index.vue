@@ -1,6 +1,6 @@
 <template>
   <div class="hello">
-    <img class="Logo" src="/only/img/icons/icon.png" alt="logo" />
+    <img class="Logo" src="/img/icons/icon.png" alt="logo" />
 
     <h1>only web</h1>
     <h2>A modern native web demo, written in Vue.js</h2>
@@ -15,12 +15,12 @@
       for a guide on how to install this app on your device.
     </h3>
 
-    <img class="Diagram" src="/only/img/architecture.png" alt="architecture" />
+    <img class="Diagram" src="/img/architecture.png" alt="architecture" />
     <figcaption>
       Source:
-      <a href="https://github.com/daniellacosse/only-web"
-        ><pre>daniellacosse/only-web</pre></a
-      >
+      <a href="https://github.com/daniellacosse/only-web">
+        <pre>daniellacosse/only-web</pre>
+      </a>
     </figcaption>
 
     <h3>Essential Docs</h3>
@@ -120,10 +120,7 @@
 
 <script>
 export default {
-  name: "HelloWorld",
-  mounted() {
-    this.$root.loading = false;
-  }
+  name: "HelloWorld"
 };
 </script>
 
@@ -146,6 +143,7 @@ h1 {
   font-size: 40px;
   margin: 10px 0;
   color: #42b983;
+  font-weight: bold;
 }
 h2 {
   font-size: 25px;
@@ -166,5 +164,6 @@ li {
 }
 a {
   color: #42b983;
+  font-weight: bold;
 }
 </style>

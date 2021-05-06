@@ -4,23 +4,19 @@
 
     <canvas class="Game" ref="gameGrid" @click="cellToggle"></canvas>
     <div class="Game__pauseContainer">
-      <b-button
-        type="is-primary"
-        class="Game__pause"
-        @click="playToggle"
-        :icon-left="isPlaying ? pauseIcon : playIcon"
-        >{{ isPlaying ? "pause" : "play" }}</b-button
-      >
+      <b-button type="is-primary" class="Game__pause" @click="playToggle">{{
+        isPlaying ? "pause ⏸" : "play ▶️"
+      }}</b-button>
     </div>
   </div>
 </template>
 
 <script>
-import Vue from "vue";
-import { Universe } from "wasm-game-of-life";
-import { memory } from "wasm-game-of-life/wasm_game_of_life_bg";
 import { Button } from "buefy";
-import FrameTicker from "./FrameTicker";
+import FrameTicker from "@/components/FrameTicker.vue";
+import { Universe as Game } from "@/plugins/conway/pkg";
+import { memory as Game__memory } from "@/plugins/conway/pkg/wasm_game_of_life_bg";
+import Vue from "vue";
 
 Vue.use(Button);
 
@@ -35,15 +31,15 @@ export default {
   },
   data: function() {
     return {
-      playIcon: "play",
-      pauseIcon: "pause",
-      width: 0,
-      height: 0,
-      frame: 0,
-      indexCache: [],
-      context: null,
       animationID: null,
-      universe: null
+      context: null,
+      frame: 0,
+      game: null,
+      height: 0,
+      indexCache: [],
+      pauseIcon: "pause",
+      playIcon: "play",
+      width: 0
     };
   },
   computed: {
@@ -64,7 +60,7 @@ export default {
         gameContainer.offsetHeight / this.cellBorderWidth
       );
 
-      this.universe = Universe.new(width, height);
+      this.game = Game.new(width, height);
 
       gameGrid.height = this.cellBorderWidth * height + 1;
       gameGrid.width = this.cellBorderWidth * width + 1;
@@ -82,7 +78,6 @@ export default {
 
       this.redrawGame();
       this.startRenderLoop();
-      this.$root.loading = false;
     },
     redrawGame() {
       if (this.$refs.gameGrid) {
@@ -98,7 +93,7 @@ export default {
       this.redrawCells();
     },
     startRenderLoop() {
-      this.universe.tick();
+      this.game.tick();
 
       if (this.$refs.ticker) this.$refs.ticker.tick();
 
@@ -134,7 +129,7 @@ export default {
       const row = min(floor(canvasTop / cellBorderWidth), height - 1);
       const column = min(floor(canvasLeft / cellBorderWidth), width - 1);
 
-      this.universe.toggle_cell(row, column);
+      this.game.toggle_cell(row, column);
       this.redrawGame();
     },
     getIndex(row, column) {
@@ -178,7 +173,7 @@ export default {
     redrawCells() {
       const {
         context,
-        universe,
+        game,
         width,
         height,
         isAlive,
@@ -186,9 +181,9 @@ export default {
         cellBorderWidth
       } = this;
 
-      const cellPointer = universe.cells();
+      const cellPointer = game.cells();
       const cells = new Uint8Array(
-        memory.buffer,
+        Game__memory.buffer,
         cellPointer,
         (width * height) / 8
       );
@@ -217,12 +212,12 @@ export default {
   },
   beforeDestroy() {
     this.stopAnimationLoop();
-    this.universe.destroy();
+    this.game.destroy();
   }
 };
 </script>
 
-<style scoped lang="scss">
+<style scoped>
 .Game__container,
 .Game__pauseContainer {
   display: flex;

@@ -6,7 +6,7 @@
 </template>
 
 <script>
-import FrameTicker from "../components/FrameTicker";
+import FrameTicker from "@/components/FrameTicker.vue";
 import {
   Application,
   Color,
@@ -58,7 +58,7 @@ export default {
 
       app.root.addChild(cube);
 
-      app.on("update", deltaTime => {
+      app.on("update", (deltaTime) => {
         cube.rotate(10 * deltaTime, 20 * deltaTime, 30 * deltaTime);
 
         if (this.$refs.ticker) this.$refs.ticker.tick();
@@ -66,8 +66,6 @@ export default {
 
       // start app
       app.start();
-
-      this.$root.loading = false;
     }
   },
   mounted() {
