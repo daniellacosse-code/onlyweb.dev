@@ -63,6 +63,7 @@ const productionConfig = {
     ],
     link: [
       { rel: "manifest", href: "/only/manifest.json" },
+      { rel: "apple-touch-icon", href: "/only/pwa/apple-icon-180.png" },
       {
         rel: "apple-touch-startup-image",
         href: "/only/pwa/apple-splash-2048-2732.png",

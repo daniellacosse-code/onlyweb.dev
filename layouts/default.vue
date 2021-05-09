@@ -1,6 +1,6 @@
 <template>
   <div id="app">
-    <b-navbar class="Navbar" type="is-primary">
+    <b-navbar class="Navbar" type="is-primary" fixed-top>
       <template slot="brand">
         <b-navbar-item tag="nuxt-link" :to="{ path: '/' }">
           <img src="/only/reverse-icon.png" alt="logo" />
