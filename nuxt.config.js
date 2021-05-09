@@ -12,7 +12,8 @@ const productionConfig = {
   ],
   pwa: {
     meta: {
-      theme_color: "#42b983"
+      theme_color: "#42b983",
+      nativeUI: true
     }
   },
   router: {
