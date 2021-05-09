@@ -11,9 +11,18 @@ const productionConfig = {
     }
   ],
   pwa: {
+    icon: {
+      fileName: "apple-touch-icon.png"
+    },
     meta: {
+      name: "only web",
       theme_color: "#42b983",
+      appleStatusBarStyle: "black-translucent",
       nativeUI: true
+    },
+    manifest: {
+      name: "only web",
+      short_name: "only"
     }
   },
   router: {
