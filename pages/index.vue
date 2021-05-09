@@ -1,6 +1,6 @@
 <template>
   <div class="hello">
-    <img class="Logo" src="/img/icons/icon.png" alt="logo" />
+    <img class="Logo" src="/only/img/icons/icon.png" alt="logo" />
 
     <h1>only web</h1>
     <h2>A modern native web demo, written in Vue.js</h2>
@@ -15,7 +15,7 @@
       for a guide on how to install this app on your device.
     </h3>
 
-    <img class="Diagram" src="/img/architecture.png" alt="architecture" />
+    <img class="Diagram" src="/only/img/architecture.png" alt="architecture" />
     <figcaption>
       Source:
       <a href="https://github.com/daniellacosse/only-web">
@@ -47,51 +47,11 @@
         >
       </li>
     </ul>
-    <h3>Installed Vue CLI Plugins</h3>
-    <ul>
-      <li>
-        <a
-          href="https://github.com/vuejs/vue-cli/tree/dev/packages/%40vue/cli-plugin-babel"
-          target="_blank"
-          rel="noopener"
-          >babel</a
-        >
-      </li>
-      <li>
-        <a
-          href="https://github.com/vuejs/vue-cli/tree/dev/packages/%40vue/cli-plugin-router"
-          target="_blank"
-          rel="noopener"
-          >router</a
-        >
-      </li>
-      <li>
-        <a
-          href="https://github.com/raphaelcockx/vue-cli-plugin-meta"
-          target="_blank"
-          rel="noopener"
-          >meta</a
-        >
-      </li>
-      <li>
-        <a
-          href="https://github.com/vuejs/vue-cli/tree/dev/packages/%40vue/cli-plugin-pwa"
-          target="_blank"
-          rel="noopener"
-          >pwa</a
-        >
-      </li>
-    </ul>
 
     <h3>Vue Ecosystem</h3>
     <ul>
       <li>
-        <a href="https://router.vuejs.org" target="_blank" rel="noopener"
-          >vue-router</a
-        >
-      </li>
-      <li>
-        <a href="https://vuex.vuejs.org" target="_blank" rel="noopener">vuex</a>
+        <a href="https://nuxtjs.org/" target="_blank" rel="noopener">nuxt</a>
       </li>
       <li>
         <a
@@ -99,11 +59,6 @@
           target="_blank"
           rel="noopener"
           >vue-devtools</a
-        >
-      </li>
-      <li>
-        <a href="https://vue-loader.vuejs.org" target="_blank" rel="noopener"
-          >vue-loader</a
         >
       </li>
       <li>

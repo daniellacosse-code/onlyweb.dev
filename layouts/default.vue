@@ -3,7 +3,7 @@
     <b-navbar class="Navbar" type="is-primary">
       <template slot="brand">
         <b-navbar-item tag="nuxt-link" :to="{ path: '/' }">
-          <img src="/img/icons/reverse-icon.png" alt="logo" />
+          <img src="/only/img/icons/reverse-icon.png" alt="logo" />
         </b-navbar-item>
       </template>
       <template slot="start">
