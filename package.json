@@ -23,7 +23,7 @@
   "name": "only-web",
   "private": true,
   "scripts": {
-    "build": "build:nuxt",
+    "build": "yarn build:nuxt",
     "build-all": "concurrently 'yarn:build:*'",
     "build:nuxt": "nuxt generate",
     "build:conway": "cd plugins/conway && wasm-pack build",
