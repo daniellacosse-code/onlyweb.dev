@@ -1,9 +1,13 @@
 {
+  "compilerOptions": {
+    "noEmit": true
+  },
   "include": [
-    "./components/**/*",
-    "./layouts/**/*",
-    "./plugins/heap.js",
-    "./plugins/mapbox.js",
-    "./pages/**/*"
-  ]
+    "components",
+    "layouts",
+    "plugins/heap.js",
+    "plugins/mapbox.js",
+    "pages"
+  ],
+  "exclude": ["node_modules"]
 }
