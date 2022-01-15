@@ -5,11 +5,12 @@
   ],
   "version": "0.1.0",
   "files": [
-    "wasm_game_of_life_bg.wasm",
-    "wasm_game_of_life.js",
-    "wasm_game_of_life.d.ts"
+    "lib_bg.wasm",
+    "lib.js",
+    "lib_bg.js",
+    "lib.d.ts"
   ],
-  "module": "wasm_game_of_life.js",
-  "types": "wasm_game_of_life.d.ts",
+  "module": "lib.js",
+  "types": "lib.d.ts",
   "sideEffects": false
 }
