@@ -15,7 +15,7 @@
 import { Button } from "buefy";
 import FrameTicker from "@/components/FrameTicker.vue";
 import { Universe as Game } from "@/plugins/conway/pkg";
-import { memory as Game__memory } from "@/plugins/conway/pkg/wasm_game_of_life_bg";
+import { memory as Game__memory } from "@/plugins/conway/pkg/lib_bg";
 import Vue from "vue";
 
 Vue.use(Button);
