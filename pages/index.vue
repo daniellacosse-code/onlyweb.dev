@@ -92,12 +92,16 @@ export default {
 }
 .Logo {
   width: 128px;
+  height: 128px;
   margin-top: 50px;
+  display: inline-block;
 }
 .Diagram {
   max-width: 650px;
   width: 100%;
   margin-top: 50px;
+  aspect-ratio: 1.46;
+  display: inline-block;
 }
 h1 {
   font-size: 40px;
