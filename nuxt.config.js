@@ -5,7 +5,7 @@ import pwa from "./pwa";
 
 const productionConfig = {
   buildDir: ".artifacts/nuxt",
-  buildModules: ["@nuxtjs/dotenv"],
+  buildModules: ["@nuxtjs/dotenv", "@aceforth/nuxt-optimized-images"],
   plugins: [
     {
       mode: "client",
