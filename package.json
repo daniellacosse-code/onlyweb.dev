@@ -11,8 +11,10 @@
     "vuetrend": "^0.3.4"
   },
   "devDependencies": {
+    "@aceforth/nuxt-optimized-images": "^1.4.0",
     "@nuxtjs/dotenv": "^1.4.1",
     "concurrently": "^7.0.0",
+    "imagemin-pngquant": "^9.0.2",
     "node-sass": "^6.0.0",
     "sass-loader": "^10.1.1",
     "vue-template-compiler": "^2.6.12",
