@@ -20,7 +20,7 @@ curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install.sh 
 brew bundle && yarn
 
 # create .artifacts folder
-mkdir -p .artifacts/ssl
+mkdir -p .artifacts/mkcert
 
 # generate local cert
 mkcert -install

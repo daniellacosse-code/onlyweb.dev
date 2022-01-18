@@ -20,6 +20,7 @@
     "vue-template-compiler": "^2.6.12",
     "wasm-dce": "^1.0.2",
     "wasm-loader": "^1.3.0",
+    "webp-loader": "^0.6.0",
     "webpack": "^4.46.0"
   },
   "name": "only-web",

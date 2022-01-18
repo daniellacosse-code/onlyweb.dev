@@ -220,6 +220,5 @@ export default {
   htmlAttrs: {
     lang: "en"
   },
-  base: { href: "/only" },
   link
 };

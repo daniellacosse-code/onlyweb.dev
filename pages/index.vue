@@ -1,6 +1,6 @@
 <template>
   <div class="hello">
-    <img class="Logo" src="~/static/icon.png" alt="logo" />
+    <img class="Logo" src="~/static/icon.png?webp" alt="logo" height="128" />
 
     <h1>only web</h1>
     <h2>A modern native web demo, written in Vue.js</h2>
@@ -15,7 +15,12 @@
       for a guide on how to install this app on your device.
     </h3>
 
-    <img class="Diagram" src="~/static/architecture.png" alt="architecture" />
+    <img
+      class="Diagram"
+      src="~/static/architecture.png?webp"
+      alt="architecture"
+      height="444"
+    />
     <figcaption>
       Source:
       <a href="https://github.com/daniellacosse/only-web">
