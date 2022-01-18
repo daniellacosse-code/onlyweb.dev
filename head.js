@@ -54,7 +54,7 @@ const APPLE_TOUCH_STARTUP_IMAGE = "apple-touch-startup-image";
 
 const link = [
   { rel: "manifest", href: "/only/manifest.json" },
-  { rel: "favicon", href: "/only/favicon.ico" },
+  { rel: "shortcut icon", href: "/only/favicon.ico" },
   { rel: "apple-touch-icon", href: "/only/pwa/apple-icon-180.png" },
   {
     rel: APPLE_TOUCH_STARTUP_IMAGE,
