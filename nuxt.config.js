@@ -1,7 +1,7 @@
 import path from "path";
 import fs from "fs";
 
-import pwa from "./pwa";
+import head from "./head";
 
 const productionConfig = {
   buildDir: ".artifacts/nuxt",
@@ -15,7 +15,7 @@ const productionConfig = {
   router: {
     base: "/only/"
   },
-  head: { ...pwa }
+  head
 };
 
 const developmentConfig = () => ({

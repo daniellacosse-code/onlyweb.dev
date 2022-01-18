@@ -3,10 +3,10 @@ const DESCRIPTION = "the case for only web";
 const COLOR = "#42b983";
 
 const meta = [
+  { charset: "utf-8" },
   {
     name: "viewport",
-    content:
-      "width=device-width,initial-scale=1,maximum-scale=1,user-scalable=0,minimal-ui"
+    content: "width=device-width,initial-scale=1,minimal-ui"
   },
   {
     name: "mobile-web-app-capable",
@@ -54,6 +54,7 @@ const APPLE_TOUCH_STARTUP_IMAGE = "apple-touch-startup-image";
 
 const link = [
   { rel: "manifest", href: "/only/manifest.json" },
+  { rel: "favicon", href: "/only/favicon.ico" },
   { rel: "apple-touch-icon", href: "/only/pwa/apple-icon-180.png" },
   {
     rel: APPLE_TOUCH_STARTUP_IMAGE,
@@ -215,5 +216,10 @@ const link = [
 
 export default {
   meta,
+  title: "Only Web",
+  htmlAttrs: {
+    lang: "en"
+  },
+  base: { href: "/only" },
   link
 };
