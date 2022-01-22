@@ -38,7 +38,7 @@
     "build:conway": "cd plugins/conway && wasm-pack build",
     "build:nuxt": "nuxt generate",
     "checks": "concurrently 'yarn:checks:*'",
-    "checks:eslint": "eslint",
+    "checks:eslint": "eslint .",
     "checks:jest": "jest --passWithNoTests --bail",
     "reset": "rm -rf node_modules .artifacts/nuxt",
     "start": "nuxt"
