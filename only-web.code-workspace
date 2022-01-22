@@ -1,0 +1,75 @@
+{
+  "extensions": {
+    "recommendations": [
+      "dbaeumer.vscode-eslint",
+      "eamodio.gitlens",
+      "esbenp.prettier-vscode",
+      "knisterpeter.vscode-github",
+      "orta.vscode-jest",
+      "pflannery.vscode-versionlens",
+      "richie5um2.vscode-sort-json",
+      "zengxingxin.sort-js-object-keys"
+    ]
+  },
+  "folders": [
+    {
+      "name": "Pages",
+      "path": "pages"
+    },
+    {
+      "name": "Layouts",
+      "path": "layouts"
+    },
+    {
+      "name": "Components",
+      "path": "components"
+    },
+    {
+      "name": "Plugins",
+      "path": "plugins"
+    }
+  ],
+  "settings": {
+    "css.validate": false,
+    "editor.codeActionsOnSave": {
+      "source.fixAll.eslint": true,
+      "source.fixAll.stylelint": true
+    },
+    "editor.defaultFormatter": "esbenp.prettier-vscode",
+    "editor.tabSize": 2,
+    "editor.wordWrapColumn": 95,
+    "eslint.nodePath": "../../node_modules",
+    "eslint.packageManager": "yarn",
+    "eslint.run": "onSave",
+    "eslint.validate": ["javascript"],
+    "eslint.workingDirectories": ["."],
+    "files.exclude": {
+      "**/.artifacts": true,
+      "**/node_modules": true,
+      "**/yarn-error.log": true,
+      "**/yarn.lock": true
+    },
+    "files.insertFinalNewline": true,
+    "jest.autoRun": {
+      "watch": true
+    },
+    "jest.disabledWorkspaceFolders": ["Storybook"],
+    "jest.enableCodeLens": true,
+    "npm.packageManager": "yarn",
+    "prettier.prettierPath": "../../node_modules/prettier",
+    "search.exclude": {
+      "**/.artifacts": true,
+      "**/node_modules": true,
+      "**/yarn-error.log": true,
+      "**/yarn.lock": true
+    },
+    "versionlens.npm.dependencyProperties": [
+      "dependencies",
+      "peerDependencies"
+    ],
+    "workbench.colorCustomizations": {
+      "statusBar.background": "#42b983",
+      "statusBar.foreground": "#FFFFFF"
+    }
+  }
+}

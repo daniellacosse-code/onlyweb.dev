@@ -14,7 +14,10 @@
     "@aceforth/nuxt-optimized-images": "^1.4.0",
     "@nuxtjs/dotenv": "^1.4.1",
     "concurrently": "^7.0.0",
+    "eslint": "^8.7.0",
     "imagemin-pngquant": "^9.0.2",
+    "jest": "^27.4.7",
+    "node-notifier": "^10.0.0",
     "node-sass": "^6.0.0",
     "sass-loader": "^10.1.1",
     "vue-template-compiler": "^2.6.12",
@@ -26,12 +29,14 @@
   "name": "only-web",
   "private": true,
   "scripts": {
-    "build": "yarn build:nuxt",
-    "build-all": "concurrently 'yarn:build:*'",
-    "build:nuxt": "nuxt generate",
+    "build": "concurrently 'yarn:build:*'",
     "build:conway": "cd plugins/conway && wasm-pack build",
-    "start": "nuxt",
-    "reset": "rm -rf node_modules .artifacts/nuxt"
+    "build:nuxt": "nuxt generate",
+    "checks": "concurrently 'yarn:checks:*'",
+    "checks:eslint": "eslint",
+    "checks:jest": "jest --passWithNoTests --bail",
+    "reset": "rm -rf node_modules .artifacts/nuxt",
+    "start": "nuxt"
   },
   "version": "0.1.0"
 }
