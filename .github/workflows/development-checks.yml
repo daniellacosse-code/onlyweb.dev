@@ -25,7 +25,7 @@ jobs:
           cache: yarn
 
       - name: Run Checks
-        run: yarn checks
+        run: yarn && yarn checks
   pull-request-size-label:
     name: Size Label
     runs-on: ubuntu-latest
