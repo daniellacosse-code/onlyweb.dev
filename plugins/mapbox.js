@@ -1,5 +1,5 @@
 import Vue from "vue";
-import { MglMap, MglGeolocateControl } from "vue-mapbox";
+import { MglGeolocateControl, MglMap } from "vue-mapbox";
 import Mapbox from "mapbox-gl";
 
 Vue.component("MglMap", MglMap);

@@ -73,7 +73,7 @@ module.exports = {
     "plugin:prettier/recommended",
     "plugin:compat/recommended"
   ],
-  plugins: ["prettier", "jest"],
+  plugins: ["compat", "prettier", "jest"],
   env: { browser: true, es6: true, jest: true, node: true },
   parserOptions: {
     ecmaVersion: 6,

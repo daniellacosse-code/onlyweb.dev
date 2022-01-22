@@ -1,4 +1,4 @@
-name: "Development Checks"
+name: "Development"
 
 concurrency:
   group: ${{ github.head_ref || github.ref }}
