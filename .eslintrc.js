@@ -62,7 +62,7 @@ const prettierRules = {
 };
 
 const jestRules = {
-  "jest/lowercase-name": "warn",
+  "jest/prefer-lowercase-title": "warn",
   "jest/no-export": "error"
 };
 
@@ -71,6 +71,7 @@ module.exports = {
     "eslint:recommended",
     "prettier",
     "plugin:prettier/recommended",
+    "plugin:jest/recommended",
     "plugin:compat/recommended"
   ],
   plugins: ["compat", "prettier", "jest"],
