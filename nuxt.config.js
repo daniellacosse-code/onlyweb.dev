@@ -1,7 +1,7 @@
 import path from "path";
 import fs from "fs";
 
-import head from "./head";
+import head from "./plugins/head";
 
 const productionConfig = {
   buildDir: ".artifacts/nuxt",
