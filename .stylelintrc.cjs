@@ -63,21 +63,10 @@ const pluginRules = {
   ]
 };
 
-const overrides = [
-  {
-    files: ["**/*.vue"],
-    customSyntax: "postcss-scss"
-  },
-  {
-    files: ["**/*.vue"],
-    customSyntax: "postcss-html"
-  }
-];
-
 module.exports = {
   extends: "stylelint-config-recommended",
   plugins,
-  overrides,
+  customSyntax: "postcss-html",
   rules: {
     ...rules,
     ...pluginRules

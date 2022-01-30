@@ -57,7 +57,11 @@
       "**/yarn.lock": true
     },
     "stylelint.configFile": ".stylelintrc.cjs",
+    "stylelint.customSyntax": "postcss-html",
+    "stylelint.enable": true,
+    "stylelint.packageManager": "yarn",
     "stylelint.stylelintPath": "node_modules/stylelint",
+    "stylelint.validate": ["vue"],
     "typescript.validate.enable": false,
     "versionlens.npm.dependencyProperties": [
       "dependencies",
