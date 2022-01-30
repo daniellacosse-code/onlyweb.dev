@@ -6,6 +6,7 @@
       "esbenp.prettier-vscode",
       "knisterpeter.vscode-github",
       "orta.vscode-jest",
+      "stylelint.vscode-stylelint",
       "pflannery.vscode-versionlens",
       "richie5um2.vscode-sort-json",
       "zengxingxin.sort-js-object-keys"
@@ -13,19 +14,7 @@
   },
   "folders": [
     {
-      "name": "Pages",
-      "path": "pages"
-    },
-    {
-      "name": "UI Components",
-      "path": "components"
-    },
-    {
-      "name": "Libraries",
-      "path": "plugins"
-    },
-    {
-      "name": "Root",
+      "name": "Only Web",
       "path": "."
     }
   ],
@@ -38,45 +27,46 @@
     "editor.defaultFormatter": "esbenp.prettier-vscode",
     "editor.tabSize": 2,
     "editor.wordWrapColumn": 95,
-    "eslint.nodePath": "../../node_modules",
     "eslint.packageManager": "yarn",
     "eslint.run": "onSave",
     "eslint.validate": ["javascript"],
     "eslint.workingDirectories": ["."],
     "files.exclude": {
       "**/.artifacts": true,
+      "**/coverage": true,
       "**/node_modules": true,
       "**/yarn-error.log": true,
       "**/yarn.lock": true
     },
     "files.insertFinalNewline": true,
     "jest.autoRun": {
+      "onStartup": ["all-tests"],
       "watch": true
     },
     "jest.enableCodeLens": true,
-    "jest.jestCommandLine": "yarn jest",
     "jest.nodeEnv": {
       "NODE_OPTIONS": "--experimental-vm-modules"
     },
     "jest.showCoverageOnLoad": true,
     "npm.packageManager": "yarn",
-    "prettier.prettierPath": "../node_modules/prettier",
+    "prettier.prettierPath": "node_modules/prettier",
     "search.exclude": {
       "**/.artifacts": true,
       "**/node_modules": true,
       "**/yarn-error.log": true,
       "**/yarn.lock": true
     },
-    "stylelint.configFile": "../../.stylelintrc.js",
-    "stylelint.stylelintPath": "../../node_modules/stylelint",
+    "stylelint.configFile": ".stylelintrc.cjs",
+    "stylelint.stylelintPath": "node_modules/stylelint",
+    "typescript.validate.enable": false,
     "versionlens.npm.dependencyProperties": [
       "dependencies",
       "peerDependencies"
     ],
+    "versionlens.suggestions.showOnStartup": true,
     "workbench.colorCustomizations": {
       "statusBar.background": "#42b983",
       "statusBar.foreground": "#FFFFFF"
-    },
-    "typescript.validate.enable": false
+    }
   }
 }
