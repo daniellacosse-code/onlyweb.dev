@@ -71,10 +71,11 @@ module.exports = {
     "eslint:recommended",
     "prettier",
     "plugin:prettier/recommended",
+    "plugin:vue/vue3-recommended",
     "plugin:jest/recommended",
     "plugin:compat/recommended"
   ],
-  plugins: ["compat", "prettier", "jest"],
+  plugins: ["vue", "compat", "prettier", "jest"],
   env: { browser: true, es6: true, jest: true, node: true },
   parserOptions: {
     ecmaVersion: 6,

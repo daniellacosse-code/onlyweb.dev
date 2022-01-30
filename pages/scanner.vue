@@ -1,6 +1,6 @@
 <template>
   <div>
-    <div ref="scanner"></div>
+    <div ref="scanner" />
     <pre>{{ code }}</pre>
   </div>
 </template>
@@ -13,6 +13,12 @@ export default {
     return {
       code: "---"
     };
+  },
+  mounted() {
+    this.init();
+  },
+  unmounted() {
+    this.stop();
   },
   methods: {
     init() {
@@ -44,12 +50,6 @@ export default {
     stop() {
       Quagga.stop();
     }
-  },
-  mounted() {
-    this.init();
-  },
-  destroyed() {
-    this.stop();
   }
 };
 </script>

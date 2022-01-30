@@ -6,7 +6,7 @@
         :data="frames"
         :max="maxRate"
         :min="minRate"
-      ></trend>
+      />
       min fps: {{ minFPS.peek() }} | max fps: {{ maxFPS.peek() }} | avg fps:
       {{ average }}
     </div>
@@ -16,7 +16,7 @@
 
 <script>
 import Trend from "vuetrend";
-import { MinHeap, MaxHeap } from "@/plugins/heap";
+import { MaxHeap, MinHeap } from "@/plugins/heap";
 
 export default {
   components: {

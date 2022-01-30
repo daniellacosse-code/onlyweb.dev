@@ -1,7 +1,7 @@
 <template>
   <div class="DemoCanvas__container">
-    <canvas class="DemoCanvas" ref="canvas" />
-    <frame-ticker ref="ticker" class="DemoCanvas__stats"></frame-ticker>
+    <canvas ref="canvas" class="DemoCanvas" />
+    <frame-ticker ref="ticker" class="DemoCanvas__stats" />
   </div>
 </template>
 
@@ -11,17 +11,20 @@ import {
   Application,
   Color,
   Entity,
-  RESOLUTION_AUTO,
-  FILLMODE_FILL_WINDOW
+  FILLMODE_FILL_WINDOW,
+  RESOLUTION_AUTO
 } from "playcanvas";
 
 export default {
   components: {
     FrameTicker
   },
+  mounted() {
+    this.init();
+  },
   methods: {
     init() {
-      const canvas = this.$refs.canvas;
+      const { canvas } = this.$refs;
       const app = new Application(canvas, {});
 
       app.setCanvasFillMode(FILLMODE_FILL_WINDOW);
@@ -67,9 +70,6 @@ export default {
       // start app
       app.start();
     }
-  },
-  mounted() {
-    this.init();
   }
 };
 </script>

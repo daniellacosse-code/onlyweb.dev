@@ -1,10 +1,12 @@
-// TODO: fix vscode errors
 {
-  "include": [
-    "components",
-    "layouts",
-    "plugins/heap.js",
-    "plugins/mapbox.js",
-    "pages"
-  ]
+  "compilerOptions": {
+    "baseUrl": ".",
+    "paths": {
+      "~/*": ["./*"],
+      "@/*": ["./*"],
+      "~~/*": ["./*"],
+      "@@/*": ["./*"]
+    }
+  },
+  "exclude": ["node_modules", ".artifacts", ".github", ".vscode"]
 }

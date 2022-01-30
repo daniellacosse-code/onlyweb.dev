@@ -60,13 +60,15 @@
     },
     "jest.showCoverageOnLoad": true,
     "npm.packageManager": "yarn",
-    "prettier.prettierPath": "node_modules/prettier",
+    "prettier.prettierPath": "../node_modules/prettier",
     "search.exclude": {
       "**/.artifacts": true,
       "**/node_modules": true,
       "**/yarn-error.log": true,
       "**/yarn.lock": true
     },
+    "stylelint.configFile": "../../.stylelintrc.js",
+    "stylelint.stylelintPath": "../../node_modules/stylelint",
     "versionlens.npm.dependencyProperties": [
       "dependencies",
       "peerDependencies"
