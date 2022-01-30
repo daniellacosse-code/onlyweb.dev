@@ -33,13 +33,14 @@
   },
   "name": "only-web",
   "private": true,
+  "type": "module",
   "scripts": {
     "build": "concurrently 'yarn:build:*'",
     "build:conway": "cd plugins/conway && wasm-pack build",
     "build:nuxt": "nuxt generate",
     "checks": "concurrently 'yarn:checks:*'",
     "checks:eslint": "eslint .",
-    "checks:jest": "jest --passWithNoTests --bail",
+    "checks:jest": "node --experimental-vm-modules node_modules/jest/bin/jest.js --passWithNoTests --bail --coverage",
     "reset": "rm -rf node_modules .artifacts/nuxt",
     "start": "nuxt"
   },

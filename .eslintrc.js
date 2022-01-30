@@ -86,11 +86,7 @@ module.exports = {
   settings: {
     polyfills: ["Promise"]
   },
-  rules: {
-    ...baseRules,
-    ...prettierRules,
-    ...jestRules
-  },
+  rules: { ...baseRules, ...prettierRules, ...jestRules },
   overrides: [
     {
       files: ["*.test.js"],

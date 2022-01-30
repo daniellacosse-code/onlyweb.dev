@@ -17,16 +17,16 @@
       "path": "pages"
     },
     {
-      "name": "Layouts",
-      "path": "layouts"
-    },
-    {
-      "name": "Components",
+      "name": "UI Components",
       "path": "components"
     },
     {
-      "name": "Plugins",
+      "name": "Libraries",
       "path": "plugins"
+    },
+    {
+      "name": "Root",
+      "path": "."
     }
   ],
   "settings": {
@@ -53,10 +53,14 @@
     "jest.autoRun": {
       "watch": true
     },
-    "jest.disabledWorkspaceFolders": ["Storybook"],
     "jest.enableCodeLens": true,
+    "jest.jestCommandLine": "yarn jest",
+    "jest.nodeEnv": {
+      "NODE_OPTIONS": "--experimental-vm-modules"
+    },
+    "jest.showCoverageOnLoad": true,
     "npm.packageManager": "yarn",
-    "prettier.prettierPath": "../../node_modules/prettier",
+    "prettier.prettierPath": "node_modules/prettier",
     "search.exclude": {
       "**/.artifacts": true,
       "**/node_modules": true,

@@ -1,8 +1,9 @@
 # temp files
-.DS_Store
-node_modules
 .artifacts
+.DS_Store
+coverage
 Brewfile.lock.json
+node_modules
 
 # rust
 target

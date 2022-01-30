@@ -1,4 +1,4 @@
-module.exports = {
+export default {
   notify: true,
   notifyMode: "failure-change",
   prettierPath: "<rootDir>/node_modules/prettier/",
