@@ -76,6 +76,7 @@
     "workbench.colorCustomizations": {
       "statusBar.background": "#42b983",
       "statusBar.foreground": "#FFFFFF"
-    }
+    },
+    "typescript.validate.enable": false
   }
 }
