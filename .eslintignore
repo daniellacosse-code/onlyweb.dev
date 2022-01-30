@@ -1,3 +1,3 @@
 plugins/conway
 *.config.js
-.eslintrc.js
+.eslintrc.cjs
