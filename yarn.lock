@@ -8182,7 +8182,7 @@ map-visit@^1.0.0:
   dependencies:
     object-visit "^1.0.0"
 
-mapbox-gl@^0.53.0:
+mapbox-gl@^0.53.1:
   version "0.53.1"
   resolved "https://registry.yarnpkg.com/mapbox-gl/-/mapbox-gl-0.53.1.tgz#08a956d8da54b04bc7f29ab1319bddb9c97ddedf"
   integrity sha512-dTtW/qlkUowKGlqOhE8fqII2Tj4lcokvlZwUDLnkjy4uQ9zMFnVBULGeSzzTVkj9HtQZ3Zbey10/jmoVPV9t5w==
@@ -9518,10 +9518,10 @@ pkg-dir@^4.1.0, pkg-dir@^4.2.0:
   dependencies:
     find-up "^4.0.0"
 
-playcanvas@^1.51.5:
-  version "1.51.5"
-  resolved "https://registry.yarnpkg.com/playcanvas/-/playcanvas-1.51.5.tgz#66715fc460d2c52e27517d56701f0624391d848c"
-  integrity sha512-TSPAJPSB5v9kMlqLKRNbLugKa+GuOPPHxfkFUeKkwcPR4Erk58q1Ox6MYSCabcsq0ICfYRxOGqcCwbA992SyDA==
+playcanvas@^1.51.6:
+  version "1.51.6"
+  resolved "https://registry.yarnpkg.com/playcanvas/-/playcanvas-1.51.6.tgz#882989a65ee15187b80fe473c0b6752a60594ba6"
+  integrity sha512-xa4TWsgSswdvUFtKnlazIYdUkMmCjrEeF9rDp+35i761fz5iB3hBX58Zvy/3eOVP2TrtomxFAmnydPNVTGeFgg==
 
 plur@^2.0.0:
   version "2.1.2"

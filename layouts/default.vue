@@ -34,10 +34,6 @@ import Vue from "vue";
 Vue.use(Navbar);
 
 export default {
-  components: {
-    "b-navbar": Navbar,
-    "b-navbar-item": Navbar
-  },
   computed: {
     routes() {
       return this.$router.options.routes
@@ -115,9 +111,7 @@ $link-focus-border: $primary;
 @import "~buefy/src/scss/buefy";
 
 :root {
-  background-color: $primary;
-
-  --primary-color: $primary;
+  --primary-color: hsl(153, 47%, 49%);
   --text-color: hsl(210, 29%, 24%);
 
   --default-font: "HelveticaNeue", Helvetica, Arial, sans-serif;
@@ -132,6 +126,8 @@ $link-focus-border: $primary;
   --app-icon-size: 128px;
   --mobile-device-width: 320px;
   --tablet-device-width: 680px;
+
+  background-color: var(--primary-color);
 }
 
 #app {
