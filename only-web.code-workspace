@@ -43,10 +43,10 @@
       "onStartup": ["all-tests"],
       "watch": true
     },
-    "jest.enableCodeLens": true,
-    "jest.nodeEnv": {
-      "NODE_OPTIONS": "--experimental-vm-modules"
-    },
+    // #58 get the jest debugger working once they release debug v2
+    "jest.enableCodeLens": false,
+    "jest.jestCommandLine": "source ~/.zshrc && yarn checks:jest",
+    "jest.shell": "/bin/zsh",
     "jest.showCoverageOnLoad": true,
     "npm.packageManager": "yarn",
     "prettier.prettierPath": "node_modules/prettier",
