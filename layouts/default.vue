@@ -35,7 +35,8 @@ Vue.use(Navbar);
 
 export default {
   components: {
-    Navbar
+    "b-navbar": Navbar,
+    "b-navbar-item": Navbar
   },
   computed: {
     routes() {

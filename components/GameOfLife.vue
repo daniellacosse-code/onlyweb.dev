@@ -18,6 +18,8 @@ import { Universe as Game } from "@/plugins/conway/pkg";
 import { memory as gameMemory } from "@/plugins/conway/pkg/lib_bg";
 import Vue from "vue";
 
+const BYTE_SIZE = 8;
+
 Vue.use(Button);
 
 export default {
@@ -104,9 +106,9 @@ export default {
     },
     isAlive(row, column, cells) {
       const index = this.getIndex(row, column);
-      const byteIndex = Math.floor(index / 8);
+      const byteIndex = Math.floor(index / BYTE_SIZE);
 
-      const mask = 1 << index % 8;
+      const mask = 1 << index % BYTE_SIZE;
 
       return (cells[byteIndex] & mask) === mask;
     },
@@ -134,7 +136,7 @@ export default {
       const cells = new Uint8Array(
         gameMemory.buffer,
         cellPointer,
-        (width * height) / 8
+        (width * height) / BYTE_SIZE
       );
 
       context.beginPath();
