@@ -43,7 +43,7 @@
       "onStartup": ["all-tests"],
       "watch": true
     },
-    // #58 get the jest debugger working once they release debug v2
+    // ISSUE: #58 get the jest debugger working once they release debug v2
     "jest.enableCodeLens": false,
     "jest.jestCommandLine": "source ~/.zshrc && yarn checks:jest",
     "jest.shell": "/bin/zsh",
