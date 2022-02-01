@@ -1,12 +1,12 @@
 <template>
   <div id="app">
     <b-navbar class="Navbar" type="is-primary" fixed-top>
-      <template slot="brand">
+      <template #brand>
         <b-navbar-item tag="nuxt-link" :to="{ path: '/' }">
           <img src="~/static/reverse-icon.png?webp" alt="logo" />
         </b-navbar-item>
       </template>
-      <template slot="start">
+      <template #start>
         <b-navbar-item
           v-for="route in routes"
           :to="route.path"
@@ -28,8 +28,8 @@
 </template>
 
 <script>
-import Vue from "vue";
 import { Navbar } from "buefy";
+import Vue from "vue";
 
 Vue.use(Navbar);
 
@@ -41,7 +41,7 @@ export default {
     routes() {
       return this.$router.options.routes
         .filter(({ name }) => name !== "index")
-        .map(route => ({
+        .map((route) => ({
           ...route,
           name: route.name[0].toUpperCase() + route.name.slice(1)
         }));

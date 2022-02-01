@@ -1,12 +1,12 @@
 <template>
   <div class="Game__container" ref="gameContainer">
-    <frame-ticker ref="ticker" class="Game__stats"></frame-ticker>
+    <frame-ticker ref="ticker" class="Game__stats" />
 
-    <canvas class="Game" ref="gameGrid" @click="cellToggle"></canvas>
+    <canvas class="Game" ref="gameGrid" @click="cellToggle" />
     <div class="Game__pauseContainer">
-      <b-button type="is-primary" class="Game__pause" @click="playToggle">{{
-        isPlaying ? "pause ⏸" : "play ▶️"
-      }}</b-button>
+      <b-button type="is-primary" class="Game__pause" @click="playToggle">
+        {{ isPlaying ? "pause ⏸" : "play ▶️" }}
+      </b-button>
     </div>
   </div>
 </template>
@@ -15,19 +15,26 @@
 import { Button } from "buefy";
 import FrameTicker from "@/components/FrameTicker.vue";
 import { Universe as Game } from "@/plugins/conway/pkg";
-import { memory as Game__memory } from "@/plugins/conway/pkg/lib_bg";
+import { memory as gameMemory } from "@/plugins/conway/pkg/lib_bg";
 import Vue from "vue";
 
 Vue.use(Button);
 
 export default {
+  beforeUnmount() {
+    this.stopAnimationLoop();
+    this.game.destroy();
+  },
   components: {
     FrameTicker
   },
-  props: {
-    cellPixelSize: { type: Number, default: 10 },
-    gridHexColor: { type: String, default: "#CCCCCC" },
-    cellHexColor: { type: String, default: "#000000" }
+  computed: {
+    cellBorderWidth() {
+      return this.cellPixelSize + 1;
+    },
+    isPlaying() {
+      return this.animationID !== null;
+    }
   },
   data: function () {
     return {
@@ -42,15 +49,31 @@ export default {
       width: 0
     };
   },
-  computed: {
-    isPlaying() {
-      return this.animationID !== null;
-    },
-    cellBorderWidth() {
-      return this.cellPixelSize + 1;
-    }
-  },
   methods: {
+    cellToggle(event) {
+      const { min, floor } = Math;
+      const { width, height, cellBorderWidth } = this;
+      const { gameGrid } = this.$refs;
+
+      const boundingRect = gameGrid.getBoundingClientRect();
+
+      const scaleX = gameGrid.width / boundingRect.width;
+      const scaleY = gameGrid.height / boundingRect.height;
+
+      const canvasLeft = (event.clientX - boundingRect.left) * scaleX;
+      const canvasTop = (event.clientY - boundingRect.top) * scaleY;
+
+      const row = min(floor(canvasTop / cellBorderWidth), height - 1);
+      const column = min(floor(canvasLeft / cellBorderWidth), width - 1);
+
+      this.game.toggle_cell(row, column);
+      this.redrawGame();
+    },
+    getIndex(row, column) {
+      if (this.indexCache[row][column]) return this.indexCache[row][column];
+
+      return (this.indexCache[row][column] = row * this.width + column);
+    },
     init() {
       const { gameContainer, gameGrid } = this.$refs;
       const width = Math.floor(
@@ -79,6 +102,59 @@ export default {
       this.redrawGame();
       this.startRenderLoop();
     },
+    isAlive(row, column, cells) {
+      const index = this.getIndex(row, column);
+      const byteIndex = Math.floor(index / 8);
+
+      const mask = 1 << index % 8;
+
+      return (cells[byteIndex] & mask) === mask;
+    },
+    playToggle() {
+      this.$refs.ticker.clear();
+
+      if (this.isPlaying) {
+        this.stopAnimationLoop();
+      } else {
+        this.startRenderLoop();
+      }
+    },
+    redrawCells() {
+      const {
+        context,
+        game,
+        width,
+        height,
+        isAlive,
+        cellPixelSize,
+        cellBorderWidth
+      } = this;
+
+      const cellPointer = game.cells();
+      const cells = new Uint8Array(
+        gameMemory.buffer,
+        cellPointer,
+        (width * height) / 8
+      );
+
+      context.beginPath();
+      let __row = height;
+      while (__row--) {
+        let __column = width;
+        while (__column--) {
+          if (isAlive(__row, __column, cells)) {
+            context.fillRect(
+              __column * cellBorderWidth + 1,
+              __row * cellBorderWidth + 1,
+              cellPixelSize,
+              cellPixelSize
+            );
+          }
+        }
+      }
+
+      context.stroke();
+    },
     redrawGame() {
       if (this.$refs.gameGrid) {
         this.context.clearRect(
@@ -91,59 +167,6 @@ export default {
 
       this.redrawGrid();
       this.redrawCells();
-    },
-    startRenderLoop() {
-      this.game.tick();
-
-      if (this.$refs.ticker) this.$refs.ticker.tick();
-
-      this.redrawGame();
-      this.animationID = requestAnimationFrame(this.startRenderLoop);
-    },
-    stopAnimationLoop() {
-      cancelAnimationFrame(this.animationID);
-      this.animationID = null;
-    },
-    playToggle() {
-      this.$refs.ticker.clear();
-
-      if (this.isPlaying) {
-        this.stopAnimationLoop();
-      } else {
-        this.startRenderLoop();
-      }
-    },
-    cellToggle(event) {
-      const { min, floor } = Math;
-      const { width, height, cellBorderWidth } = this;
-      const { gameGrid } = this.$refs;
-
-      const boundingRect = gameGrid.getBoundingClientRect();
-
-      const scaleX = gameGrid.width / boundingRect.width;
-      const scaleY = gameGrid.height / boundingRect.height;
-
-      const canvasLeft = (event.clientX - boundingRect.left) * scaleX;
-      const canvasTop = (event.clientY - boundingRect.top) * scaleY;
-
-      const row = min(floor(canvasTop / cellBorderWidth), height - 1);
-      const column = min(floor(canvasLeft / cellBorderWidth), width - 1);
-
-      this.game.toggle_cell(row, column);
-      this.redrawGame();
-    },
-    getIndex(row, column) {
-      if (this.indexCache[row][column]) return this.indexCache[row][column];
-
-      return (this.indexCache[row][column] = row * this.width + column);
-    },
-    isAlive(row, column, cells) {
-      const index = this.getIndex(row, column);
-      const byteIndex = Math.floor(index / 8);
-
-      const mask = 1 << index % 8;
-
-      return (cells[byteIndex] & mask) === mask;
     },
     redrawGrid() {
       const { context, cellBorderWidth, width, height } = this;
@@ -170,49 +193,35 @@ export default {
 
       context.stroke();
     },
-    redrawCells() {
-      const {
-        context,
-        game,
-        width,
-        height,
-        isAlive,
-        cellPixelSize,
-        cellBorderWidth
-      } = this;
+    startRenderLoop() {
+      this.game.tick();
 
-      const cellPointer = game.cells();
-      const cells = new Uint8Array(
-        Game__memory.buffer,
-        cellPointer,
-        (width * height) / 8
-      );
+      if (this.$refs.ticker) this.$refs.ticker.tick();
 
-      context.beginPath();
-      let __row = height;
-      while (__row--) {
-        let __column = width;
-        while (__column--) {
-          if (isAlive(__row, __column, cells)) {
-            context.fillRect(
-              __column * cellBorderWidth + 1,
-              __row * cellBorderWidth + 1,
-              cellPixelSize,
-              cellPixelSize
-            );
-          }
-        }
-      }
-
-      context.stroke();
+      this.redrawGame();
+      this.animationID = requestAnimationFrame(this.startRenderLoop);
+    },
+    stopAnimationLoop() {
+      cancelAnimationFrame(this.animationID);
+      this.animationID = null;
     }
   },
   mounted() {
     this.init();
   },
-  beforeDestroy() {
-    this.stopAnimationLoop();
-    this.game.destroy();
+  props: {
+    cellHexColor: {
+      default: "#000000",
+      type: String
+    },
+    cellPixelSize: {
+      default: 10,
+      type: Number
+    },
+    gridHexColor: {
+      default: "#CCCCCC",
+      type: String
+    }
   }
 };
 </script>
@@ -220,32 +229,32 @@ export default {
 <style scoped>
 .Game__container,
 .Game__pauseContainer {
+  align-items: center;
   display: flex;
   justify-content: center;
-  align-items: center;
 }
 
 .Game__container {
-  width: 100vw;
+  flex-direction: column;
   height: 100vh;
 
   position: relative;
-  flex-direction: column;
+  width: 100vw;
 }
 
 .Game__stats {
   position: absolute;
-  top: 50px;
   right: 0;
+  top: 50px;
 }
 /* .Game {} */
 
 .Game__pauseContainer {
-  width: 100%;
-  position: fixed;
   bottom: 0;
   box-sizing: border-box;
   padding: 30px;
+  position: fixed;
+  width: 100%;
 }
 
 /* .Game__pause {} */

@@ -1,4 +1,8 @@
 {
+  "browserslist": [
+    "> 1% and last 2 versions",
+    "not op_mini all"
+  ],
   "dependencies": {
     "buefy": "^0.9.14",
     "consola": "^2.15.3",
@@ -13,6 +17,7 @@
   "devDependencies": {
     "@aceforth/nuxt-optimized-images": "^1.4.0",
     "@nuxtjs/dotenv": "^1.4.1",
+    "browserslist": "^4.19.1",
     "concurrently": "^7.0.0",
     "eslint": "^8.7.0",
     "eslint-config-prettier": "^8.3.0",
@@ -45,17 +50,17 @@
   },
   "name": "only-web",
   "private": true,
-  "type": "module",
   "scripts": {
     "build": "concurrently 'yarn:build:*'",
     "build:conway": "cd plugins/conway && wasm-pack build",
     "build:nuxt": "nuxt generate",
     "checks": "concurrently 'yarn:checks:*'",
     "checks:eslint": "eslint .",
-    "checks:stylelint": "stylelint ./{pages,components}/**/*.vue",
     "checks:jest": "node --experimental-vm-modules node_modules/jest/bin/jest.js --passWithNoTests --bail --coverage",
+    "checks:stylelint": "stylelint ./{pages,components}/**/*.vue",
     "reset": "rm -rf node_modules .artifacts/nuxt",
     "start": "nuxt"
   },
+  "type": "module",
   "version": "0.1.0"
 }

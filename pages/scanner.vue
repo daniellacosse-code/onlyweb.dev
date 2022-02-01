@@ -14,23 +14,17 @@ export default {
       code: "---"
     };
   },
-  mounted() {
-    this.init();
-  },
-  unmounted() {
-    this.stop();
-  },
   methods: {
     init() {
       Quagga.init(
         {
-          inputStream: {
-            name: "Live",
-            type: "LiveStream",
-            target: this.$refs.scanner
-          },
           decoder: {
             readers: ["upc_reader", "upc_e_reader"]
+          },
+          inputStream: {
+            name: "Live",
+            target: this.$refs.scanner,
+            type: "LiveStream"
           }
         },
         (error) => {
@@ -50,6 +44,12 @@ export default {
     stop() {
       Quagga.stop();
     }
+  },
+  mounted() {
+    this.init();
+  },
+  unmounted() {
+    this.stop();
   }
 };
 </script>

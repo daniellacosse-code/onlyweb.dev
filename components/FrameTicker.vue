@@ -18,31 +18,27 @@
 import Trend from "vuetrend";
 import { MaxHeap, MinHeap } from "@/plugins/heap";
 
+const MILLISECONDS = 1000;
+
 export default {
   components: {
     Trend
-  },
-  props: {
-    windowSize: {
-      type: Number,
-      default: 100
-    }
-  },
-  data: function () {
-    return {
-      frames: [],
-      maxRate: 60,
-      minRate: 0,
-      minFPS: new MinHeap(),
-      maxFPS: new MaxHeap(),
-      sum: 0,
-      lastTimestamp: null
-    };
   },
   computed: {
     average() {
       return Math.floor(this.sum / this.frames.length);
     }
+  },
+  data: function () {
+    return {
+      frames: [],
+      lastTimestamp: null,
+      maxFPS: new MaxHeap(),
+      maxRate: 60,
+      minFPS: new MinHeap(),
+      minRate: 0,
+      sum: 0
+    };
   },
   methods: {
     clear() {
@@ -63,7 +59,7 @@ export default {
       const delta = now - this.lastTimestamp;
       this.lastTimestamp = now;
 
-      const fps = Math.floor(1000 / delta);
+      const fps = Math.floor(MILLISECONDS / delta);
 
       this.sum += fps;
 
@@ -78,30 +74,36 @@ export default {
         this.maxFPS.remove(lastFPS);
       }
     }
+  },
+  props: {
+    windowSize: {
+      default: 100,
+      type: Number
+    }
   }
 };
 </script>
 
 <style scoped>
 .Stats {
-  opacity: 0.5;
-  font-family: "Menlo", monospace;
-  text-align: left;
-  cursor: pointer;
   background: white;
+  cursor: pointer;
+  font-family: "Menlo", monospace;
+  opacity: 0.5;
   padding: 10px 15px;
+  text-align: left;
 }
 
 .Stats > div {
+  align-items: center;
   display: inline-flex;
   justify-content: center;
-  align-items: center;
 }
 
 .Stats__chart {
-  width: 200px;
   height: 50px;
   margin-right: 15px;
+  width: 200px;
 }
 
 .Stats:hover {

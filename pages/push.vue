@@ -36,10 +36,10 @@ export default {
 
 <style scoped>
 .Push {
-  width: 100vw;
-  height: 100vh;
-  display: flex;
   align-items: center;
+  display: flex;
+  height: 100vh;
   justify-content: center;
+  width: 100vw;
 }
 </style>

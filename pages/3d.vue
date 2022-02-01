@@ -15,12 +15,14 @@ import {
   RESOLUTION_AUTO
 } from "playcanvas";
 
+const BACKGNOUND_SHADE = 0.1;
+const INITIAL_CAMERA_Z_POSITION = 6;
+const INITIAL_LIGHT_X_ROTATION = 45;
+const INITIAL_CUBE_ROTATION_SPEED = { x: 10, y: 20, z: 30 };
+
 export default {
   components: {
     FrameTicker
-  },
-  mounted() {
-    this.init();
   },
   methods: {
     init() {
@@ -36,10 +38,14 @@ export default {
       const camera = new Entity("camera");
 
       camera.addComponent("camera", {
-        clearColor: new Color(0.1, 0.1, 0.1)
+        clearColor: new Color(
+          BACKGNOUND_SHADE,
+          BACKGNOUND_SHADE,
+          BACKGNOUND_SHADE
+        )
       });
 
-      camera.setPosition(0, 0, 6);
+      camera.setPosition(0, 0, INITIAL_CAMERA_Z_POSITION);
 
       app.root.addChild(camera);
 
@@ -48,7 +54,7 @@ export default {
 
       light.addComponent("light");
 
-      light.setEulerAngles(45, 0, 0);
+      light.setEulerAngles(INITIAL_LIGHT_X_ROTATION, 0, 0);
 
       app.root.addChild(light);
 
@@ -62,7 +68,11 @@ export default {
       app.root.addChild(cube);
 
       app.on("update", (deltaTime) => {
-        cube.rotate(10 * deltaTime, 20 * deltaTime, 30 * deltaTime);
+        cube.rotate(
+          INITIAL_CUBE_ROTATION_SPEED.x * deltaTime,
+          INITIAL_CUBE_ROTATION_SPEED.y * deltaTime,
+          INITIAL_CUBE_ROTATION_SPEED.z * deltaTime
+        );
 
         if (this.$refs.ticker) this.$refs.ticker.tick();
       });
@@ -70,6 +80,9 @@ export default {
       // start app
       app.start();
     }
+  },
+  mounted() {
+    this.init();
   }
 };
 </script>
@@ -80,14 +93,14 @@ export default {
 }
 
 .DemoCanvas {
+  left: 0;
   position: absolute;
   top: 0;
-  left: 0;
 }
 
 .DemoCanvas__stats {
   position: absolute;
-  top: 50px;
   right: 0;
+  top: 50px;
 }
 </style>

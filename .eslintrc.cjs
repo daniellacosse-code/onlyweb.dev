@@ -66,28 +66,25 @@ const jestRules = {
   "jest/no-export": "error"
 };
 
+const vueRules = {
+  "vue/html-self-closing": "off",
+  "vue/max-attributes-per-line": "off",
+  "vue/multi-word-component-names": "off",
+  "vue/singleline-html-element-content-newline": "off"
+};
+
 module.exports = {
   extends: [
     "eslint:recommended",
     "prettier",
     "plugin:prettier/recommended",
-    "plugin:vue/vue3-recommended",
+    "plugin:vue/vue3-strongly-recommended",
     "plugin:jest/recommended",
     "plugin:compat/recommended"
   ],
   plugins: ["vue", "compat", "prettier", "jest"],
-  env: { browser: true, es6: true, jest: true, node: true },
-  parserOptions: {
-    ecmaVersion: 6,
-    sourceType: "module",
-    ecmaFeatures: {
-      impliedStrict: true
-    }
-  },
-  settings: {
-    polyfills: ["Promise"]
-  },
-  rules: { ...baseRules, ...prettierRules, ...jestRules },
+  env: { browser: true, es6: true, jest: true },
+  rules: { ...baseRules, ...prettierRules, ...jestRules, ...vueRules },
   overrides: [
     {
       files: ["*.test.js"],
