@@ -88,9 +88,9 @@ export default {
 .Stats {
   background: white;
   cursor: pointer;
-  font-family: "Menlo", monospace;
+  font-family: var(--monospace-font);
   opacity: 0.5;
-  padding: 10px 15px;
+  padding: var(--gutter-small) var(--gutter-medium);
   text-align: left;
 }
 
@@ -102,8 +102,9 @@ export default {
 
 .Stats__chart {
   height: 50px;
-  margin-right: 15px;
-  width: 200px;
+  margin-right: var(--gutter-medium);
+  max-width: var(--mobile-device-width);
+  width: 100%;
 }
 
 .Stats:hover {

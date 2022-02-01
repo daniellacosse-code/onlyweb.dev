@@ -59,9 +59,9 @@ export default {
 <style lang="scss">
 @import "~bulma/sass/utilities/_all";
 
-$primary: #42b983;
+$primary: hsl(153, 47%, 49%);
 $primary-invert: findColorInvert($primary);
-$twitter: #4099ff;
+$twitter: hsl(212, 100%, 63%);
 $twitter-invert: findColorInvert($twitter);
 
 $colors: (
@@ -116,14 +116,30 @@ $link-focus-border: $primary;
 
 :root {
   background-color: $primary;
+
+  --primary-color: $primary;
+  --text-color: hsl(210, 29%, 24%);
+
+  --default-font: "HelveticaNeue", Helvetica, Arial, sans-serif;
+  --monospace-font: "Menlo", monospace;
+
+  --gutter-small: 0.6rem;
+  --gutter-medium: 1rem;
+  --gutter-large: 2rem;
+  --gutter-extra-large: 3rem;
+  --gutter-huge: 6rem;
+
+  --app-icon-size: 128px;
+  --mobile-device-width: 320px;
+  --tablet-device-width: 680px;
 }
 
 #app {
-  font-family: "HelveticaNeue", Helvetica, Arial, sans-serif;
+  font-family: var(--default-font);
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   text-align: center;
-  color: #2c3e50;
+  color: var(--text-color);
   background-color: $white;
   width: 100vw;
   height: 100vh;

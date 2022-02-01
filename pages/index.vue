@@ -95,36 +95,36 @@ export default {
 <style scoped>
 .hello {
   box-sizing: border-box;
-  margin-bottom: 100px;
-  padding: 15px;
+  margin-bottom: var(--gutter-huge);
+  padding: var(--gutter-medium);
 }
 .Logo {
   display: inline-block;
-  height: 128px;
-  margin-top: 50px;
-  width: 128px;
+  height: var(--app-icon-size);
+  margin-top: var(--gutter-extra-large);
+  width: var(--app-icon-size);
 }
 .Diagram {
   aspect-ratio: 1.46;
   display: inline-block;
-  margin-top: 50px;
-  max-width: 650px;
+  margin-top: var(--gutter-extra-large);
+  max-width: var(--tablet-device-width);
   width: 100%;
 }
 h1 {
-  color: #42b983;
+  color: var(--primary-color);
   font-size: 40px;
   font-weight: bold;
-  margin: 10px 0;
+  margin: var(--gutter-small) 0;
 }
 h2 {
-  color: #2c3e50;
+  color: var(--text-color);
   font-size: 25px;
-  margin-bottom: 70px;
+  margin-bottom: var(--gutter-extra-large);
 }
 h3,
 figcaption {
-  margin: 30px 0 15px 0;
+  margin: var(--gutter-large) 0 var(--gutter-medium) 0;
 }
 ul {
   list-style-type: none;
@@ -132,10 +132,10 @@ ul {
 }
 li {
   display: inline-block;
-  margin: 0 10px;
+  margin: 0 var(--gutter-small);
 }
 a {
-  color: #42b983;
+  color: var(--primary-color);
   font-weight: bold;
 }
 </style>

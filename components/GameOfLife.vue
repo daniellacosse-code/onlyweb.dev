@@ -247,14 +247,14 @@ export default {
 .Game__stats {
   position: absolute;
   right: 0;
-  top: 50px;
+  top: var(--gutter-extra-large);
 }
 /* .Game {} */
 
 .Game__pauseContainer {
   bottom: 0;
   box-sizing: border-box;
-  padding: 30px;
+  padding: var(--gutter-large);
   position: fixed;
   width: 100%;
 }
