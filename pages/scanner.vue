@@ -1,6 +1,6 @@
 <template>
   <div>
-    <div ref="scanner"></div>
+    <div ref="scanner" />
     <pre>{{ code }}</pre>
   </div>
 </template>
@@ -18,13 +18,13 @@ export default {
     init() {
       Quagga.init(
         {
-          inputStream: {
-            name: "Live",
-            type: "LiveStream",
-            target: this.$refs.scanner
-          },
           decoder: {
             readers: ["upc_reader", "upc_e_reader"]
+          },
+          inputStream: {
+            name: "Live",
+            target: this.$refs.scanner,
+            type: "LiveStream"
           }
         },
         (error) => {
@@ -48,7 +48,7 @@ export default {
   mounted() {
     this.init();
   },
-  destroyed() {
+  unmounted() {
     this.stop();
   }
 };

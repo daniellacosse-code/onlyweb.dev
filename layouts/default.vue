@@ -1,12 +1,12 @@
 <template>
   <div id="app">
     <b-navbar class="Navbar" type="is-primary" fixed-top>
-      <template slot="brand">
+      <template #brand>
         <b-navbar-item tag="nuxt-link" :to="{ path: '/' }">
           <img src="~/static/reverse-icon.png?webp" alt="logo" />
         </b-navbar-item>
       </template>
-      <template slot="start">
+      <template #start>
         <b-navbar-item
           v-for="route in routes"
           :to="route.path"
@@ -28,20 +28,17 @@
 </template>
 
 <script>
-import Vue from "vue";
 import { Navbar } from "buefy";
+import Vue from "vue";
 
 Vue.use(Navbar);
 
 export default {
-  components: {
-    Navbar
-  },
   computed: {
     routes() {
       return this.$router.options.routes
         .filter(({ name }) => name !== "index")
-        .map(route => ({
+        .map((route) => ({
           ...route,
           name: route.name[0].toUpperCase() + route.name.slice(1)
         }));
@@ -58,9 +55,9 @@ export default {
 <style lang="scss">
 @import "~bulma/sass/utilities/_all";
 
-$primary: #42b983;
+$primary: hsl(153, 47%, 49%);
 $primary-invert: findColorInvert($primary);
-$twitter: #4099ff;
+$twitter: hsl(212, 100%, 63%);
 $twitter-invert: findColorInvert($twitter);
 
 $colors: (
@@ -114,15 +111,31 @@ $link-focus-border: $primary;
 @import "~buefy/src/scss/buefy";
 
 :root {
-  background-color: $primary;
+  --primary-color: hsl(153, 47%, 49%);
+  --text-color: hsl(210, 29%, 24%);
+
+  --default-font: "HelveticaNeue", Helvetica, Arial, sans-serif;
+  --monospace-font: "Menlo", monospace;
+
+  --gutter-small: 0.6rem;
+  --gutter-medium: 1rem;
+  --gutter-large: 2rem;
+  --gutter-extra-large: 3rem;
+  --gutter-huge: 6rem;
+
+  --app-icon-size: 128px;
+  --mobile-device-width: 320px;
+  --tablet-device-width: 680px;
+
+  background-color: var(--primary-color);
 }
 
 #app {
-  font-family: "HelveticaNeue", Helvetica, Arial, sans-serif;
+  font-family: var(--default-font);
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   text-align: center;
-  color: #2c3e50;
+  color: var(--text-color);
   background-color: $white;
   width: 100vw;
   height: 100vh;

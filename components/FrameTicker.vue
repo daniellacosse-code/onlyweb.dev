@@ -6,7 +6,7 @@
         :data="frames"
         :max="maxRate"
         :min="minRate"
-      ></trend>
+      />
       min fps: {{ minFPS.peek() }} | max fps: {{ maxFPS.peek() }} | avg fps:
       {{ average }}
     </div>
@@ -16,33 +16,29 @@
 
 <script>
 import Trend from "vuetrend";
-import { MinHeap, MaxHeap } from "@/plugins/heap";
+import { MaxHeap, MinHeap } from "@/plugins/heap";
+
+const MILLISECONDS = 1000;
 
 export default {
   components: {
     Trend
   },
-  props: {
-    windowSize: {
-      type: Number,
-      default: 100
+  computed: {
+    average() {
+      return Math.floor(this.sum / this.frames.length);
     }
   },
   data: function () {
     return {
       frames: [],
-      maxRate: 60,
-      minRate: 0,
-      minFPS: new MinHeap(),
+      lastTimestamp: null,
       maxFPS: new MaxHeap(),
-      sum: 0,
-      lastTimestamp: null
+      maxRate: 60,
+      minFPS: new MinHeap(),
+      minRate: 0,
+      sum: 0
     };
-  },
-  computed: {
-    average() {
-      return Math.floor(this.sum / this.frames.length);
-    }
   },
   methods: {
     clear() {
@@ -63,7 +59,7 @@ export default {
       const delta = now - this.lastTimestamp;
       this.lastTimestamp = now;
 
-      const fps = Math.floor(1000 / delta);
+      const fps = Math.floor(MILLISECONDS / delta);
 
       this.sum += fps;
 
@@ -78,30 +74,37 @@ export default {
         this.maxFPS.remove(lastFPS);
       }
     }
+  },
+  props: {
+    windowSize: {
+      default: 100,
+      type: Number
+    }
   }
 };
 </script>
 
 <style scoped>
 .Stats {
-  opacity: 0.5;
-  font-family: "Menlo", monospace;
-  text-align: left;
-  cursor: pointer;
   background: white;
-  padding: 10px 15px;
+  cursor: pointer;
+  font-family: var(--monospace-font);
+  opacity: 0.5;
+  padding: var(--gutter-small) var(--gutter-medium);
+  text-align: left;
 }
 
 .Stats > div {
+  align-items: center;
   display: inline-flex;
   justify-content: center;
-  align-items: center;
 }
 
 .Stats__chart {
-  width: 200px;
   height: 50px;
-  margin-right: 15px;
+  margin-right: var(--gutter-medium);
+  max-width: var(--mobile-device-width);
+  width: 100%;
 }
 
 .Stats:hover {

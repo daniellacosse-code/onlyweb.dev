@@ -1,13 +1,12 @@
 {
   "compilerOptions": {
-    "noEmit": true
+    "baseUrl": ".",
+    "paths": {
+      "~/*": ["./*"],
+      "@/*": ["./*"],
+      "~~/*": ["./*"],
+      "@@/*": ["./*"]
+    }
   },
-  "include": [
-    "components",
-    "layouts",
-    "plugins/heap.js",
-    "plugins/mapbox.js",
-    "pages"
-  ],
-  "exclude": ["node_modules"]
+  "exclude": ["node_modules", ".artifacts", ".github", ".vscode"]
 }

@@ -1,0 +1,76 @@
+{
+  "extensions": {
+    "recommendations": [
+      "dbaeumer.vscode-eslint",
+      "eamodio.gitlens",
+      "esbenp.prettier-vscode",
+      "knisterpeter.vscode-github",
+      "orta.vscode-jest",
+      "stylelint.vscode-stylelint",
+      "pflannery.vscode-versionlens",
+      "richie5um2.vscode-sort-json",
+      "zengxingxin.sort-js-object-keys"
+    ]
+  },
+  "folders": [
+    {
+      "name": "Only Web",
+      "path": "."
+    }
+  ],
+  "settings": {
+    "css.validate": false,
+    "editor.codeActionsOnSave": {
+      "source.fixAll.eslint": true,
+      "source.fixAll.stylelint": true
+    },
+    "editor.defaultFormatter": "esbenp.prettier-vscode",
+    "editor.tabSize": 2,
+    "editor.wordWrapColumn": 95,
+    "eslint.packageManager": "yarn",
+    "eslint.run": "onSave",
+    "eslint.validate": ["javascript"],
+    "eslint.workingDirectories": ["."],
+    "files.exclude": {
+      "**/.artifacts": true,
+      "**/coverage": true,
+      "**/node_modules": true,
+      "**/yarn-error.log": true,
+      "**/yarn.lock": true
+    },
+    "files.insertFinalNewline": true,
+    "jest.autoRun": {
+      "onStartup": ["all-tests"],
+      "watch": true
+    },
+    // ISSUE: #58 get the jest debugger working once they release debug v2
+    "jest.enableCodeLens": false,
+    "jest.jestCommandLine": "source ~/.zshrc && yarn checks:jest",
+    "jest.shell": "/bin/zsh",
+    "jest.showCoverageOnLoad": true,
+    "npm.packageManager": "yarn",
+    "prettier.prettierPath": "node_modules/prettier",
+    "search.exclude": {
+      "**/.artifacts": true,
+      "**/node_modules": true,
+      "**/yarn-error.log": true,
+      "**/yarn.lock": true
+    },
+    "stylelint.configFile": ".stylelintrc.cjs",
+    "stylelint.customSyntax": "postcss-html",
+    "stylelint.enable": true,
+    "stylelint.packageManager": "yarn",
+    "stylelint.stylelintPath": "node_modules/stylelint",
+    "stylelint.validate": ["vue"],
+    "typescript.validate.enable": false,
+    "versionlens.npm.dependencyProperties": [
+      "dependencies",
+      "peerDependencies"
+    ],
+    "versionlens.suggestions.showOnStartup": true,
+    "workbench.colorCustomizations": {
+      "statusBar.background": "#42b983",
+      "statusBar.foreground": "#FFFFFF"
+    }
+  }
+}

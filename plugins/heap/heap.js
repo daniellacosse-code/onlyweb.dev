@@ -10,7 +10,7 @@ export default class Heap {
   push(value) {
     this.items.push(value);
 
-    if (this.items.length < 2) {
+    if (this.items.length <= 1) {
       return;
     }
 
@@ -49,16 +49,18 @@ export default class Heap {
   }
 
   __parentIndex(index) {
-    return index - ((index >> 1) << 1) ? (index - 1) >> 1 : (index - 2) >> 1;
+    return index - ((index >> 1) << 1)
+      ? (index - 1) >> 1
+      : (index - 1 - 1) >> 1;
   }
 
   __bestChildIndex(index) {
     return this.comparator(
-      this.items[(index << 1) + 2],
+      this.items[(index << 1) + 1 + 1],
       this.items[(index << 1) + 1]
     )
       ? (index << 1) + 1
-      : (index << 1) + 2;
+      : (index << 1) + 1 + 1;
   }
 
   __swap(index1, index2, arr = this.items) {

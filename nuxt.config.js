@@ -1,7 +1,7 @@
 import path from "path";
 import fs from "fs";
 
-import head from "./head";
+import head from "./plugins/head";
 
 const productionConfig = {
   buildDir: ".artifacts/nuxt",
@@ -33,4 +33,5 @@ const developmentConfig = () => ({
   }
 });
 
+// ISSUE: #50 dependencies: nuxt3, vue3, vite, and the old insecure packages
 export default process.env.VERCEL ? productionConfig : developmentConfig();

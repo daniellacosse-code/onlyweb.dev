@@ -18,12 +18,12 @@ const DEFAULT_ZOOM = 3;
 const SPECIFIC_ZOOM = 12;
 
 export default {
-  data: function() {
+  data: function () {
     return {
       accessToken: process.env.NUXT_ENV_MAPBOX_TOKEN,
+      center: [0, 0],
       map: null,
       style: "mapbox://styles/mapbox/light-v9",
-      center: [0, 0],
       zoom: DEFAULT_ZOOM
     };
   },
@@ -36,7 +36,7 @@ export default {
           this.center = [longitude, latitude];
           this.zoom = SPECIFIC_ZOOM;
         },
-        error => {
+        (error) => {
           alert(error.message);
         },
         {

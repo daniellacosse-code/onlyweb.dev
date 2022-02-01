@@ -10,8 +10,9 @@
         href="https://www.howtogeek.com/196087/how-to-add-websites-to-the-home-screen-on-any-smartphone-or-tablet/"
         target="_blank"
         rel="noopener"
-        >[ Go here ]</a
       >
+        [ Go here ]
+      </a>
       for a guide on how to install this app on your device.
     </h3>
 
@@ -34,22 +35,27 @@
         <a href="https://vuejs.org" target="_blank" rel="noopener">Vue</a>
       </li>
       <li>
-        <a href="https://www.rust-lang.org/learn" target="_blank" rel="noopener"
-          >Rust</a
+        <a
+          href="https://www.rust-lang.org/learn"
+          target="_blank"
+          rel="noopener"
         >
+          Rust
+        </a>
       </li>
       <li>
-        <a href="https://docs.mapbox.com/" target="_blank" rel="noopener"
-          >Mapbox</a
-        >
+        <a href="https://docs.mapbox.com/" target="_blank" rel="noopener">
+          Mapbox
+        </a>
       </li>
       <li>
         <a
           href="https://developer.playcanvas.com/en/api/"
           target="_blank"
           rel="noopener"
-          >PlayCanvas</a
         >
+          PlayCanvas
+        </a>
       </li>
     </ul>
 
@@ -63,16 +69,18 @@
           href="https://github.com/vuejs/vue-devtools#vue-devtools"
           target="_blank"
           rel="noopener"
-          >vue-devtools</a
         >
+          vue-devtools
+        </a>
       </li>
       <li>
         <a
           href="https://github.com/vuejs/awesome-vue"
           target="_blank"
           rel="noopener"
-          >awesome-vue</a
         >
+          awesome-vue
+        </a>
       </li>
     </ul>
   </div>
@@ -87,36 +95,36 @@ export default {
 <style scoped>
 .hello {
   box-sizing: border-box;
-  padding: 15px;
-  margin-bottom: 100px;
+  margin-bottom: var(--gutter-huge);
+  padding: var(--gutter-medium);
 }
 .Logo {
-  width: 128px;
-  height: 128px;
-  margin-top: 50px;
   display: inline-block;
+  height: var(--app-icon-size);
+  margin-top: var(--gutter-extra-large);
+  width: var(--app-icon-size);
 }
 .Diagram {
-  max-width: 650px;
-  width: 100%;
-  margin-top: 50px;
   aspect-ratio: 1.46;
   display: inline-block;
+  margin-top: var(--gutter-extra-large);
+  max-width: var(--tablet-device-width);
+  width: 100%;
 }
 h1 {
+  color: var(--primary-color);
   font-size: 40px;
-  margin: 10px 0;
-  color: #42b983;
   font-weight: bold;
+  margin: var(--gutter-small) 0;
 }
 h2 {
+  color: var(--text-color);
   font-size: 25px;
-  color: #2c3e50;
-  margin-bottom: 70px;
+  margin-bottom: var(--gutter-extra-large);
 }
 h3,
 figcaption {
-  margin: 30px 0 15px 0;
+  margin: var(--gutter-large) 0 var(--gutter-medium) 0;
 }
 ul {
   list-style-type: none;
@@ -124,10 +132,10 @@ ul {
 }
 li {
   display: inline-block;
-  margin: 0 10px;
+  margin: 0 var(--gutter-small);
 }
 a {
-  color: #42b983;
+  color: var(--primary-color);
   font-weight: bold;
 }
 </style>
