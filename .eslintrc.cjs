@@ -83,7 +83,7 @@ module.exports = {
     "plugin:compat/recommended"
   ],
   plugins: ["vue", "compat", "prettier", "jest"],
-  env: { browser: true, es6: true, jest: true },
+  env: { browser: true, es6: true, jest: true, node: true },
   rules: { ...baseRules, ...prettierRules, ...jestRules, ...vueRules },
   overrides: [
     {
