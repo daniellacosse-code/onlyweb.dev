@@ -46,7 +46,8 @@
     "wasm-dce": "^1.0.2",
     "wasm-loader": "^1.3.0",
     "webp-loader": "^0.6.0",
-    "webpack": "^4.46.0"
+    "webpack": "^4.46.0",
+    "workbox": "^0.0.0"
   },
   "name": "only-web",
   "private": true,
@@ -54,6 +55,7 @@
     "build": "concurrently 'yarn:build:*'",
     "build:conway": "cd plugins/conway && wasm-pack build",
     "build:nuxt": "nuxt generate",
+    "build:sw": "workbox generateSW workbox-config.cjs",
     "checks": "concurrently 'yarn:checks:*'",
     "checks:eslint": "eslint './**/*.{vue,js}'",
     "checks:jest": "node --experimental-vm-modules node_modules/jest/bin/jest.js --passWithNoTests --bail --coverage",
