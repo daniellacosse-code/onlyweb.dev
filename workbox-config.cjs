@@ -1,8 +1,6 @@
 module.exports = {
   globDirectory: ".",
-  globPatterns: [
-    "**/*.{vue,xml,json,css,js,png,html,info,code-workspace,lock,toml,rs,wasm,ts,md,ico,txt,cjs}"
-  ],
+  globPatterns: ["**/*.{json,css,js,png,html,wasm,md,ico,txt}"],
   ignoreURLParametersMatching: [/^utm_/, /^fbclid$/],
-  swDest: ".artifacts/workbox/sw.js"
+  swDest: "static/pwa/sw/sw.js"
 };

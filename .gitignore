@@ -18,5 +18,6 @@ yarn-debug.log*
 yarn-error.log*
 
 # service worker
+static/pwa/sw
 *.sw?
 sw.*
