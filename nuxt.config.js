@@ -3,7 +3,7 @@ import fs from "fs";
 
 import head from "./plugins/head";
 
-const productionConfig = {
+const baseConfig = {
   buildDir: ".artifacts/nuxt",
   buildModules: ["@nuxtjs/dotenv", "@aceforth/nuxt-optimized-images"],
   plugins: [
@@ -19,7 +19,7 @@ const productionConfig = {
 };
 
 const developmentConfig = () => ({
-  ...productionConfig,
+  ...baseConfig,
   server: {
     port: 8080,
     https: {
@@ -34,4 +34,4 @@ const developmentConfig = () => ({
 });
 
 // ISSUE: #50 dependencies: nuxt3, vue3, vite, and the old insecure packages
-export default process.env.VERCEL ? productionConfig : developmentConfig();
+export default process.env.VERCEL ? baseConfig : developmentConfig();
