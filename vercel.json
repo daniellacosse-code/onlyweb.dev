@@ -1,5 +1,8 @@
 {
   "redirects": [
-    { "source": "/:path((?!only/).*)", "destination": "/only/:path*" }
+    {
+      "source": "/assets/:path((?!only/).*)",
+      "destination": "/only/assets/:path*"
+    }
   ]
 }
