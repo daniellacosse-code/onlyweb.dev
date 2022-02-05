@@ -12,7 +12,7 @@ on:
 
 jobs:
   checks:
-    name: Development Checks
+    name: Run Tests
     runs-on: ubuntu-latest
     timeout-minutes: 5
     steps:
@@ -24,8 +24,9 @@ jobs:
         with:
           cache: yarn
 
-      - name: Run Checks
-        run: yarn && yarn checks
+      - name: Run Tests
+        run: yarn test
+
   pull-request-size-label:
     name: Size Label
     runs-on: ubuntu-latest
