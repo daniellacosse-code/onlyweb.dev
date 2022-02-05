@@ -12,7 +12,8 @@
     "quagga": "^0.12.1",
     "vue": "^2.6.12",
     "vue-mapbox": "^0.4.1",
-    "vuetrend": "^0.3.4"
+    "vuetrend": "^0.3.4",
+    "workbox": "^0.0.0"
   },
   "devDependencies": {
     "@aceforth/nuxt-optimized-images": "^1.4.0",
@@ -47,7 +48,6 @@
     "wasm-loader": "^1.3.0",
     "webp-loader": "^0.6.0",
     "webpack": "^4.46.0",
-    "workbox": "^0.0.0",
     "workbox-cli": "^6.4.2"
   },
   "name": "only-web",
