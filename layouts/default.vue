@@ -54,7 +54,8 @@ export default {
     if ("serviceWorker" in navigator) {
       try {
         const registration = await navigator.serviceWorker.register(
-          "./pwa/sw/sw.js"
+          "./pwa/sw/sw.js",
+          { scope: "/" }
         );
 
         consola.success(
