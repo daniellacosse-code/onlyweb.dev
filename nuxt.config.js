@@ -3,7 +3,7 @@ import fs from "fs";
 
 import head from "./plugins/head";
 
-const localConfig = {
+const getLocalConfig = () => ({
   server: {
     port: 8080,
     https: {
@@ -15,7 +15,7 @@ const localConfig = {
       )
     }
   }
-};
+});
 
 const routerConfig = {
   router: {
@@ -55,7 +55,7 @@ switch (process.env.VERCEL_ENV) {
     nuxtConfig = {
       ...nuxtConfig,
       ...routerConfig,
-      ...localConfig
+      ...getLocalConfig()
     };
 }
 
