@@ -13,7 +13,7 @@ const baseConfig = {
     }
   ],
   router: {
-    base: "/only/"
+    base: process.env.VERCEL_ENV !== "preview" && "/only/"
   },
   head
 };
