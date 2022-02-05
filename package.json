@@ -55,7 +55,7 @@
     "build": "concurrently 'yarn:build:*'",
     "build:conway": "cd plugins/conway && wasm-pack build",
     "build:nuxt": "nuxt generate",
-    "build:workbox": "workbox generateSW workbox-config.cjs",
+    "build:workbox": "yarn workbox generateSW workbox-config.cjs",
     "checks": "concurrently 'yarn:checks:*'",
     "checks:eslint": "eslint './**/*.{vue,js}'",
     "checks:jest": "node --experimental-vm-modules node_modules/jest/bin/jest.js --passWithNoTests --bail --coverage",
