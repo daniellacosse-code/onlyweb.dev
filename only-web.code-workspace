@@ -2,6 +2,7 @@
   "extensions": {
     "recommendations": [
       "dbaeumer.vscode-eslint",
+      "dt.ghlink",
       "eamodio.gitlens",
       "esbenp.prettier-vscode",
       "knisterpeter.vscode-github",
