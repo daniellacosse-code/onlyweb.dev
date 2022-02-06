@@ -216,7 +216,7 @@ let link = [
 
 if (process.env.VERCEL_ENV === "production") {
   link = link.map(({ href, ...linkObj }) => ({
-    href: `/only/${href}`,
+    href: `/only${href}`,
     ...linkObj
   }));
 }
