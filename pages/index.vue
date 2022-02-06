@@ -16,12 +16,6 @@
       for a guide on how to install this app on your device.
     </h3>
 
-    <img
-      class="Diagram"
-      src="~/static/architecture.png?webp"
-      alt="architecture"
-      height="444"
-    />
     <figcaption>
       Source:
       <a href="https://github.com/daniellacosse/only-web">
@@ -103,13 +97,6 @@ export default {
   height: var(--app-icon-size);
   margin-top: var(--gutter-extra-large);
   width: var(--app-icon-size);
-}
-.Diagram {
-  aspect-ratio: 1.46;
-  display: inline-block;
-  margin-top: var(--gutter-extra-large);
-  max-width: var(--tablet-device-width);
-  width: 100%;
 }
 h1 {
   color: var(--primary-color);
