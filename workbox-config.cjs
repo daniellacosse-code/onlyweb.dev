@@ -2,5 +2,8 @@ module.exports = {
   globDirectory: ".",
   globPatterns: ["**/*.{json,css,js,png,html,wasm,md,ico,txt}"],
   ignoreURLParametersMatching: [/^utm_/, /^fbclid$/],
-  swDest: "static/pwa/sw/sw.js"
+  inlineWorkboxRuntime: true,
+  maximumFileSizeToCacheInBytes: 100000,
+  mode: process.env.VERCEL_ENV,
+  swDest: "static/sw.js"
 };

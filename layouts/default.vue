@@ -53,10 +53,7 @@ export default {
   async mounted() {
     if ("serviceWorker" in navigator) {
       try {
-        const registration = await navigator.serviceWorker.register(
-          "./pwa/sw/sw.js",
-          { scope: "/" }
-        );
+        const registration = await navigator.serviceWorker.register("./sw.js");
 
         consola.success(
           "Registration successful, scope is:",
