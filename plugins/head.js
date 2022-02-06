@@ -52,7 +52,7 @@ const meta = [
 
 const APPLE_TOUCH_STARTUP_IMAGE = "apple-touch-startup-image";
 
-const link = [
+let link = [
   { href: "/manifest.json", rel: "manifest" },
   { href: "/favicon.ico", rel: "shortcut icon" },
   { href: "/pwa/apple-icon-180.png", rel: "apple-touch-icon" },
@@ -213,6 +213,13 @@ const link = [
     rel: APPLE_TOUCH_STARTUP_IMAGE
   }
 ];
+
+if (process.env.VERCEL_ENV === "production") {
+  link = link.map(({ href, ...linkObj }) => ({
+    href: `/only/${href}`,
+    ...linkObj
+  }));
+}
 
 export default {
   htmlAttrs: {
