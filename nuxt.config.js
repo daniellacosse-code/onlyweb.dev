@@ -3,23 +3,7 @@ import fs from "fs";
 
 import head from "./plugins/head";
 
-const productionConfig = {
-  buildDir: ".artifacts/nuxt",
-  buildModules: ["@nuxtjs/dotenv", "@aceforth/nuxt-optimized-images"],
-  plugins: [
-    {
-      mode: "client",
-      src: "@/plugins/mapbox"
-    }
-  ],
-  router: {
-    base: "/only/"
-  },
-  head
-};
-
-const developmentConfig = () => ({
-  ...productionConfig,
+const getLocalConfig = () => ({
   server: {
     port: 8080,
     https: {
@@ -33,5 +17,47 @@ const developmentConfig = () => ({
   }
 });
 
-// ISSUE: #50 dependencies: nuxt3, vue3, vite, and the old insecure packages
-export default process.env.VERCEL ? productionConfig : developmentConfig();
+const routerConfig = {
+  router: {
+    base: "/only/"
+  }
+};
+
+let nuxtConfig = {
+  buildDir: ".artifacts/nuxt",
+  buildModules: ["@nuxtjs/dotenv", "@aceforth/nuxt-optimized-images"],
+  head,
+  plugins: [
+    {
+      mode: "client",
+      src: "@/plugins/mapbox"
+    }
+  ]
+};
+
+switch (process.env.VERCEL_ENV) {
+  // including the router config breaks asset serving non-locally
+  case "development":
+  case "preview":
+    break;
+
+  // in production we only want to go to only via /only anyway, so we
+  // care less about only.daniellacos.se being broken
+  case "production":
+    nuxtConfig = {
+      ...nuxtConfig,
+      ...routerConfig
+    };
+    break;
+
+  // if no VERCEL_ENV, we're working locally
+  default:
+    nuxtConfig = {
+      ...nuxtConfig,
+      ...routerConfig,
+      ...getLocalConfig()
+    };
+}
+
+// ISSUE #50 - dependencies: nuxt3, vue3, vite, and the old insecure packages
+export default nuxtConfig;

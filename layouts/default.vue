@@ -28,6 +28,7 @@
 </template>
 
 <script>
+import consola from "consola";
 import { Navbar } from "buefy";
 import Vue from "vue";
 
@@ -47,6 +48,20 @@ export default {
   methods: {
     isActive(path) {
       return path === this.$route.path;
+    }
+  },
+  async mounted() {
+    if ("serviceWorker" in navigator) {
+      try {
+        const registration = await navigator.serviceWorker.register("./sw.js");
+
+        consola.success(
+          "Registration successful, scope is:",
+          registration.scope
+        );
+      } catch (error) {
+        consola.error("Service worker registration failed, error:", error);
+      }
     }
   }
 };

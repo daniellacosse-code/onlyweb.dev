@@ -12,7 +12,8 @@
     "quagga": "^0.12.1",
     "vue": "^2.6.12",
     "vue-mapbox": "^0.4.1",
-    "vuetrend": "^0.3.4"
+    "vuetrend": "^0.3.4",
+    "workbox": "^0.0.0"
   },
   "devDependencies": {
     "@aceforth/nuxt-optimized-images": "^1.4.0",
@@ -46,7 +47,8 @@
     "wasm-dce": "^1.0.2",
     "wasm-loader": "^1.3.0",
     "webp-loader": "^0.6.0",
-    "webpack": "^4.46.0"
+    "webpack": "^4.46.0",
+    "workbox-cli": "^6.4.2"
   },
   "name": "only-web",
   "private": true,
@@ -54,10 +56,11 @@
     "build": "concurrently 'yarn:build:*'",
     "build:conway": "cd plugins/conway && wasm-pack build",
     "build:nuxt": "nuxt generate",
-    "checks": "concurrently 'yarn:checks:*'",
-    "checks:eslint": "eslint './**/*.{vue,js}'",
-    "checks:jest": "node --experimental-vm-modules node_modules/jest/bin/jest.js --passWithNoTests --bail --coverage",
-    "checks:stylelint": "stylelint ./{pages,components}/**/*.vue",
+    "build:workbox": "workbox generateSW workbox-config.cjs",
+    "test": "concurrently 'yarn:test:*'",
+    "test:eslint": "eslint './**/*.{vue,js}'",
+    "test:jest": "node --experimental-vm-modules node_modules/jest/bin/jest.js --passWithNoTests --bail --coverage",
+    "test:stylelint": "stylelint ./{pages,components}/**/*.vue",
     "reset": "rm -rf node_modules .artifacts/nuxt",
     "start": "nuxt"
   },
