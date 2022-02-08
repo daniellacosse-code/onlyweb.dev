@@ -6,11 +6,11 @@
   "dependencies": {
     "buefy": "^0.9.14",
     "consola": "^2.15.3",
-    "mapbox-gl": "^0.53.1",
+    "mapbox-gl": "0.53.0",
     "nuxt": "^2.15.8",
     "playcanvas": "^1.51.6",
     "quagga": "^0.12.1",
-    "vue": "^2.6.12",
+    "vue": "2.6.12",
     "vue-mapbox": "^0.4.1",
     "vuetrend": "^0.3.4",
     "workbox": "^0.0.0"

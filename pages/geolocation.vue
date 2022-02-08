@@ -47,15 +47,3 @@ export default {
   }
 };
 </script>
-
-<style>
-.mgl-map-wrapper .mapboxgl-map {
-  --double-wide-hack: 200%;
-
-  height: 100%;
-  left: -100%;
-  position: absolute;
-  top: 0;
-  width: var(--double-wide-hack);
-}
-</style>
