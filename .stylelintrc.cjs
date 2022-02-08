@@ -10,7 +10,6 @@ const rules = {
 const plugins = [
   "stylelint-declaration-use-variable",
   "stylelint-high-performance-animation",
-  "stylelint-no-indistinguishable-colors",
   "stylelint-no-unsupported-browser-features",
   "stylelint-order",
   "stylelint-prettier",
@@ -26,7 +25,6 @@ const pluginRules = {
       ignore: "paint-properties"
     }
   ],
-  "plugin/stylelint-no-indistinguishable-colors": true,
   "plugin/no-unsupported-browser-features": [
     true,
     {
