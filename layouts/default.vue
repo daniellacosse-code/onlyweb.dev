@@ -1,5 +1,5 @@
 <template>
-  <div id="app">
+  <main>
     <b-navbar class="Navbar" type="is-primary" fixed-top>
       <template #brand>
         <b-navbar-item tag="nuxt-link" :to="{ path: '/' }">
@@ -23,10 +23,8 @@
         <b-navbar-item class="Disabled"> Music (TODO) </b-navbar-item>
       </template>
     </b-navbar>
-    <main>
-      <nuxt />
-    </main>
-  </div>
+    <nuxt />
+  </main>
 </template>
 
 <script>
@@ -147,7 +145,8 @@ $link-focus-border: $primary;
   background-color: var(--primary-color);
 }
 
-#app {
+html,
+main {
   font-family: var(--default-font);
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
@@ -156,8 +155,12 @@ $link-focus-border: $primary;
   background-color: $white;
   width: 100vw;
   height: 100vh;
-  overflow: hidden;
-  overflow-y: scroll;
+  overflow-x: hidden;
+  overflow-y: auto;
+}
+
+main {
+  height: calc(100vh - 52px);
 }
 
 .Navbar {

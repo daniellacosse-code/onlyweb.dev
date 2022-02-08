@@ -26,13 +26,7 @@ const routerConfig = {
 let nuxtConfig = {
   buildDir: ".artifacts/nuxt",
   buildModules: ["@nuxtjs/dotenv", "@aceforth/nuxt-optimized-images"],
-  head,
-  plugins: [
-    {
-      mode: "client",
-      src: "@/plugins/mapbox"
-    }
-  ]
+  head
 };
 
 switch (process.env.VERCEL_ENV) {

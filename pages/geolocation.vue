@@ -1,49 +1,35 @@
 <template>
   <client-only>
-    <MglMap
-      style="height: 100vh; width: 100vw"
-      :access-token="accessToken"
-      :map-style="style"
-      :center="center"
-      :zoom="zoom"
-      @load="init"
-    />
+    <Map :center="center" :zoom="zoom" />
   </client-only>
 </template>
 
 <script>
-import "mapbox-gl/dist/mapbox-gl.css";
+import Map from "@/components/Map.vue";
 
-const DEFAULT_ZOOM = 3;
 const SPECIFIC_ZOOM = 12;
 
 export default {
+  components: {
+    Map
+  },
   data: function () {
     return {
-      accessToken: process.env.NUXT_ENV_MAPBOX_TOKEN,
       center: [0, 0],
-      map: null,
-      style: "mapbox://styles/mapbox/light-v9",
-      zoom: DEFAULT_ZOOM
+      zoom: 3
     };
   },
-  methods: {
-    init(mapboxInstance) {
-      this.map = mapboxInstance;
-
-      navigator.geolocation.getCurrentPosition(
-        ({ coords: { latitude, longitude } }) => {
-          this.center = [longitude, latitude];
-          this.zoom = SPECIFIC_ZOOM;
-        },
-        (error) => {
-          alert(error.message);
-        },
-        {
-          timeout: 3000
-        }
-      );
-    }
+  mounted() {
+    navigator.geolocation.getCurrentPosition(
+      ({ coords: { latitude, longitude } }) => {
+        this.center = [longitude, latitude];
+        this.zoom = SPECIFIC_ZOOM;
+      },
+      (error) => alert(error.message),
+      {
+        timeout: 3000
+      }
+    );
   }
 };
 </script>

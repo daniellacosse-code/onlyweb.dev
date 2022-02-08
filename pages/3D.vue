@@ -89,7 +89,10 @@ export default {
 
 <style scoped>
 .DemoCanvas__container {
+  height: 100%;
+  overflow: hidden;
   position: relative;
+  width: 100%;
 }
 
 .DemoCanvas {

@@ -238,10 +238,10 @@ export default {
 
 .Game__container {
   flex-direction: column;
-  height: 100vh;
-
+  height: 100%;
+  overflow: hidden;
   position: relative;
-  width: 100vw;
+  width: 100%;
 }
 
 .Game__stats {
