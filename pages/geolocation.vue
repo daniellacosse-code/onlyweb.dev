@@ -48,7 +48,7 @@ export default {
 };
 </script>
 
-<style scoped>
+<style>
 .mgl-map-wrapper .mapboxgl-map {
   --double-wide-hack: 200%;
 
