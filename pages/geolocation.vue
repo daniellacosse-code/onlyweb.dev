@@ -1,5 +1,5 @@
 <template>
-  <no-ssr>
+  <client-only>
     <MglMap
       style="height: 100vh; width: 100vw"
       :access-token="accessToken"
@@ -8,7 +8,7 @@
       :zoom="zoom"
       @load="init"
     />
-  </no-ssr>
+  </client-only>
 </template>
 
 <script>
@@ -47,3 +47,15 @@ export default {
   }
 };
 </script>
+
+<style scoped>
+.mgl-map-wrapper .mapboxgl-map {
+  --double-wide-hack: 200%;
+
+  height: 100%;
+  left: -100%;
+  position: absolute;
+  top: 0;
+  width: var(--double-wide-hack);
+}
+</style>

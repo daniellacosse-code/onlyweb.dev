@@ -23,7 +23,9 @@
         <b-navbar-item class="Disabled"> Music (TODO) </b-navbar-item>
       </template>
     </b-navbar>
-    <nuxt />
+    <main>
+      <nuxt />
+    </main>
   </div>
 </template>
 
