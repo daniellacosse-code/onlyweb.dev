@@ -68,7 +68,7 @@ export default class Chat {
       onReady = (chat) => consola.success(`Chat ${chat.id} ready!`),
       onConnect = (_room) => consola.success(`Connected to ${_room.id}.`),
       onDisconnect = (_room) => consola.warn(`Disconnected from ${_room.id}`),
-      onMessage = (room, message) => consola(`[${room.id}]: ${message}`),
+      onMessage = (room, message) => consola.info(`[${room.id}]: ${message}`),
       rooms = new Map()
     }
   ) {
@@ -80,15 +80,13 @@ export default class Chat {
     this.onConnect = onConnect;
     this.onDisconnect = onDisconnect;
     this.onMessage = onMessage;
-
-    this.loadChat();
   }
 
   async sendMessage(roomID, message) {
     return (await this.loadRoom(roomID)).sendMessage(message);
   }
 
-  async loadChat() {
+  async load() {
     return new Promise((resolve, reject) => {
       if (this.chat) {
         return resolve(this.chat);

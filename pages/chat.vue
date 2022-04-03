@@ -1,7 +1,8 @@
 <template>
-  <div v-if="ready">
-    <h1 class="title">Your Room ID: {{ getMyRoomID() }}</h1>
-    <b-sidebar position="static" mobile="mobile">
+  <div class="DemoChat__container">
+    <b-loading :is-full-page="false" v-model="isLoading"></b-loading>
+    <b-sidebar position="static" mobile="mobile" open>
+      <b-message type="is-info"> Your Room ID: {{ getMyRoomID() }} </b-message>
       <b-menu>
         <b-menu-list label="chats" v-if="chat.rooms.length">
           <b-menu-item
@@ -22,12 +23,18 @@
         </b-menu-list>
       </b-menu>
     </b-sidebar>
-    <!-- TODO: render chat -->
   </div>
 </template>
 
 <script>
 import Chat from "@/plugins/chat";
+import Vue from "vue";
+import { Loading, Menu, Message, Sidebar } from "buefy";
+
+Vue.use(Loading);
+Vue.use(Sidebar);
+Vue.use(Menu);
+Vue.use(Message);
 
 export default {
   data: function () {
@@ -35,10 +42,10 @@ export default {
       activeRoom: null,
       chat: new Chat(this.getMyRoomID(), {
         onReady() {
-          this.ready = true;
+          this.isLoading = false;
         }
       }),
-      ready: false
+      isLoading: true
     };
   },
   methods: {
@@ -57,6 +64,19 @@ export default {
 
       return localStorage.getItem("My Room ID");
     }
+  },
+  async mounted() {
+    await this.chat.load();
   }
 };
 </script>
+
+<style scoped>
+.DemoChat__container {
+  height: 100%;
+  overflow: hidden;
+  padding: var(--gutter-small);
+  position: relative;
+  width: 100%;
+}
+</style>
