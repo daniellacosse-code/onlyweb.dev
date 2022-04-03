@@ -3,8 +3,7 @@ const rules = {
   "max-nesting-depth": 2, // excessive nesting makes css selectors difficult to follow
   "property-case": "lower",
   "string-quotes": "double",
-  "unit-case": "lower",
-  "custom-property-no-missing-var-function": true
+  "unit-case": "lower"
 };
 
 const plugins = [

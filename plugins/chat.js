@@ -2,23 +2,23 @@ import consola from "consola";
 import Peer from "peerjs";
 
 const PUBLIC_P2P_SERVERS = [
-  { url: "stun:stun.l.google.com:19302" }
-  // { url: "stun:openrelay.metered.ca:80" },
-  // {
-  //   credential: "openrelayproject",
-  //   url: "turn:openrelay.metered.ca:80",
-  //   username: "openrelayproject"
-  // },
-  // {
-  //   credential: "openrelayproject",
-  //   url: "turn:openrelay.metered.ca:443",
-  //   username: "openrelayproject"
-  // },
-  // {
-  //   credential: "openrelayproject",
-  //   url: "turn:openrelay.metered.ca:443?transport=tcp",
-  //   username: "openrelayproject"
-  // }
+  { url: "stun:stun.l.google.com:19302" },
+  { url: "stun:openrelay.metered.ca:80" },
+  {
+    credential: "openrelayproject",
+    url: "turn:openrelay.metered.ca:80",
+    username: "openrelayproject"
+  },
+  {
+    credential: "openrelayproject",
+    url: "turn:openrelay.metered.ca:443",
+    username: "openrelayproject"
+  },
+  {
+    credential: "openrelayproject",
+    url: "turn:openrelay.metered.ca:443?transport=tcp",
+    username: "openrelayproject"
+  }
 ];
 const CONNECTION_TIMEOUT_MS = 10000;
 
