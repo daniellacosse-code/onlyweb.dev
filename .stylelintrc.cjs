@@ -1,10 +1,10 @@
 const rules = {
   "declaration-no-important": true,
-  indentation: 2,
   "max-nesting-depth": 2, // excessive nesting makes css selectors difficult to follow
   "property-case": "lower",
   "string-quotes": "double",
-  "unit-case": "lower"
+  "unit-case": "lower",
+  "custom-property-no-missing-var-function": true
 };
 
 const plugins = [

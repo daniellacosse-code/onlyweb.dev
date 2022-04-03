@@ -3,6 +3,7 @@
 
 **/*.js
 **/*.ejs
+**/*.cjs
 **/*.mjs
 **/*.js.snap
 **/*.ts.snap
