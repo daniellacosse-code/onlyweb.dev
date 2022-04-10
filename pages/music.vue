@@ -66,7 +66,7 @@ export default {
       isPlaying: false,
       isPreparingToPlay: false,
       notes: ["--"],
-      remainingChords: null,
+      remainingChords: [],
       sequencePlayerID: null
     };
   },
@@ -79,14 +79,14 @@ export default {
     highlightChord(chordString) {
       const currentChordIndex = this.chordsString.indexOf(
         chordString,
-        this.highlighterPointer
+        this.highlightPointer
       );
 
-      this.highlighterPointer = currentChordIndex + chordString.length;
+      this.highlightPointer = currentChordIndex + chordString.length;
 
       this.chordInputElement.setSelectionRange(
         currentChordIndex,
-        this.highlighterPointer
+        this.highlightPointer
       );
 
       this.chordInputElement.focus();
@@ -115,7 +115,7 @@ export default {
       this.isPlaying = false;
       this.highlightPointer = 0;
       this.notes = ["--"];
-      this.remainingChords = null;
+      this.remainingChords = [];
 
       this.chordInputElement.blur();
     }
