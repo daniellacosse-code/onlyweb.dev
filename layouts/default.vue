@@ -20,7 +20,6 @@
 
         <!-- just some todos -->
         <b-navbar-item class="Disabled"> P2P (TODO) </b-navbar-item>
-        <b-navbar-item class="Disabled"> Music (TODO) </b-navbar-item>
       </template>
     </b-navbar>
     <nuxt />
