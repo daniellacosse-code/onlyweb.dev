@@ -30,8 +30,12 @@
     "editor.wordWrapColumn": 95,
     "eslint.packageManager": "yarn",
     "eslint.run": "onSave",
-    "eslint.validate": ["javascript"],
-    "eslint.workingDirectories": ["."],
+    "eslint.validate": [
+      "javascript"
+    ],
+    "eslint.workingDirectories": [
+      "."
+    ],
     "files.exclude": {
       "**/.artifacts": true,
       "**/coverage": true,
@@ -41,7 +45,9 @@
     },
     "files.insertFinalNewline": true,
     "jest.autoRun": {
-      "onStartup": ["all-tests"],
+      "onStartup": [
+        "all-tests"
+      ],
       "watch": true
     },
     // ISSUE: #58 get the jest debugger working once they release debug v2
@@ -62,7 +68,9 @@
     "stylelint.enable": true,
     "stylelint.packageManager": "yarn",
     "stylelint.stylelintPath": "node_modules/stylelint",
-    "stylelint.validate": ["vue"],
+    "stylelint.validate": [
+      "vue"
+    ],
     "typescript.validate.enable": false,
     "versionlens.npm.dependencyProperties": [
       "dependencies",
