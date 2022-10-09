@@ -8,11 +8,8 @@
 
     <fieldset class="MusicInputs">
       <b-field label="Chords">
-        <b-input
-          type="textarea"
-          v-model="chordsString"
-          ref="chordInput"
-        ></b-input>
+        <b-input type="textarea" v-model="chordsString" ref="chordInput">
+        </b-input>
       </b-field>
 
       <b-field label="Beats per minute (BPM)">
@@ -150,7 +147,7 @@ export default {
 
 .MusicNote {
   color: var(--primary-color);
-  font-size: 3rem;
+  font-size: var(--gutter-extra-large);
   margin-top: var(--gutter-large);
 }
 </style>
