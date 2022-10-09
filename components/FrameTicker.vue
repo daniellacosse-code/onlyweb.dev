@@ -101,7 +101,7 @@ export default {
 }
 
 .Stats__chart {
-  height: 50px;
+  height: var(--gutter-extra-large);
   margin-right: var(--gutter-medium);
   max-width: var(--mobile-device-width);
   width: 100%;
