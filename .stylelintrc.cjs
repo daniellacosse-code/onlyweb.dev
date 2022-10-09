@@ -1,13 +1,14 @@
 const rules = {
+  "custom-property-no-missing-var-function": true,
   "declaration-no-important": true,
   "max-nesting-depth": 2, // excessive nesting makes css selectors difficult to follow
   "property-case": "lower",
   "string-quotes": "double",
-  "unit-case": "lower"
+  "unit-case": "lower",
 };
 
 const plugins = [
-  "stylelint-declaration-use-variable",
+  "stylelint-declaration-strict-value",
   "stylelint-high-performance-animation",
   "stylelint-no-unsupported-browser-features",
   "stylelint-order",
@@ -39,25 +40,33 @@ const pluginRules = {
   },
   "prettier/prettier": true,
   // disables raw values for these css properties -  we may come to regret this
-  "sh-waqar/declaration-use-variable": [
+  "scale-unlimited/declaration-strict-value": [
     [
-      "/(background-color|border-radius|color|font-family|margin|max-height|max-width|min-height|min-width|padding|width|z-index)/",
-      {
-        ignoreValues: [
-          "auto",
-          "transparent",
-          "sans-serif",
-          "1",
-          "0",
-          "-1",
-          "none",
-          "100%",
-          "100vw",
-          "100vh"
-        ]
-      }
-    ]
-  ]
+      "/^margin/",
+      "/^padding/",
+      "/color$/",
+      "/height/",
+      "/width/",
+      "border-radius",
+      "font-family",
+      "font-size",
+      "z-index"
+    ],
+    {
+      "ignoreValues": [
+        "-1",
+        "0",
+        "1",
+        "100%",
+        "100vh",
+        "100vw",
+        "auto",
+        "none",
+        "sans-serif",
+        "transparent"
+      ]
+    }
+  ],
 };
 
 module.exports = {
