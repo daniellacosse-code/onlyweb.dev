@@ -91,34 +91,41 @@ export default {
   margin-bottom: var(--gutter-huge);
   padding: var(--gutter-medium);
 }
+
 .Logo {
   display: inline-block;
   height: var(--app-icon-size);
   margin-top: var(--gutter-large);
   width: var(--app-icon-size);
 }
+
 h1 {
   color: var(--primary-color);
-  font-size: 40px;
+  font-size: var(--gutter-extra-large);
   font-weight: bold;
   line-height: 1;
   margin: var(--gutter-small) 0;
 }
+
 h1,
 p {
   margin-bottom: var(--gutter-large);
 }
+
 h2 {
   margin: var(--gutter-large) 0 var(--gutter-medium) 0;
 }
+
 ul {
   list-style-type: none;
   padding: 0;
 }
+
 li {
   display: inline-block;
   margin: 0 var(--gutter-small);
 }
+
 a {
   color: var(--primary-color);
   font-weight: bold;
