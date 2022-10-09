@@ -1,17 +1,17 @@
 <template>
   <client-only>
-    <Map :center="center" :zoom="zoom" />
+    <Mapbox :center="center" :zoom="zoom" />
   </client-only>
 </template>
 
 <script>
-import Map from "@/components/Map.vue";
+import Mapbox from "@/components/Map.vue";
 
 const SPECIFIC_ZOOM = 12;
 
 export default {
   components: {
-    Map
+    Mapbox
   },
   data: function () {
     return {
