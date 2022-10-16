@@ -1,0 +1,17 @@
+{
+  "name": "@only-web/conway",
+  "version": "0.2.0",
+  "files": [
+    "pkg/conway_bg.wasm",
+    "pkg/conway.js",
+    "pkg/conway_bg.js",
+    "pkg/conway.d.ts"
+  ],
+  "module": "index.js",
+  "types": "pkg/conway.d.ts",
+  "sideEffects": false,
+  "scripts": {
+    "build": "TODO",
+    "watch": "TODO"
+  }
+}

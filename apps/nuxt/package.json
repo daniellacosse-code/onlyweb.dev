@@ -1,0 +1,26 @@
+{
+  "name": "@only-web/nuxt",
+  "devDependencies": {
+    "@nuxt/kit": "^3.0.0-rc.11",
+    "@nuxt/schema": "^3.0.0-rc.11",
+    "nuxi": "^3.0.0-rc.11",
+    "nuxt": "3.0.0-rc.11",
+    "postcss-autoreset": "^3.0.4",
+    "postcss-initial": "^3.0.4",
+    "untyped": "^0.5.0"
+  },
+  "scripts": {
+    "build": "nuxt build",
+    "watch": "nuxt dev",
+    "generate": "nuxt generate",
+    "preview": "nuxt preview",
+    "postinstall": "nuxt prepare"
+  },
+  "dependencies": {
+    "@ericblade/quagga2": "^1.7.5",
+    "@oruga-ui/oruga-next": "^0.5.6",
+    "mapbox-gl": "^2.10.0",
+    "playcanvas": "^1.57.1",
+    "tone": "^14.7.77"
+  }
+}
