@@ -6,6 +6,8 @@
     "@nuxt/schema": "^3.0.0-rc.11",
     "nuxi": "^3.0.0-rc.11",
     "nuxt": "3.0.0-rc.11",
+    "postcss-autoreset": "^3.0.4",
+    "postcss-initial": "^3.0.4",
     "untyped": "^0.5.0"
   },
   "private": true,
@@ -15,5 +17,9 @@
     "generate": "nuxt generate",
     "preview": "nuxt preview",
     "postinstall": "nuxt prepare"
+  },
+  "dependencies": {
+    "@oruga-ui/oruga-next": "^0.5.6",
+    "playcanvas": "^1.57.1"
   }
 }

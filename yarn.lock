@@ -663,6 +663,15 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@oruga-ui/oruga-next@npm:^0.5.6":
+  version: 0.5.6
+  resolution: "@oruga-ui/oruga-next@npm:0.5.6"
+  peerDependencies:
+    vue: ^3.0.0
+  checksum: 3dc0c5a5b6cabd1a6a5634ae5cf0148495bf8db97648ac08bb6feb82eb68062d3cf83457113afec78ec82e4afa470a006d1249d40a739d8506415b6bb1fd69f3
+  languageName: node
+  linkType: hard
+
 "@rollup/plugin-alias@npm:^3.1.9":
   version: 3.1.9
   resolution: "@rollup/plugin-alias@npm:3.1.9"
@@ -1449,6 +1458,13 @@ __metadata:
     tar: ^6.1.11
     unique-filename: ^2.0.0
   checksum: d91409e6e57d7d9a3a25e5dcc589c84e75b178ae8ea7de05cbf6b783f77a5fae938f6e8fda6f5257ed70000be27a681e1e44829251bfffe4c10216002f8f14e6
+  languageName: node
+  linkType: hard
+
+"camelcase-css@npm:^2.0.1":
+  version: 2.0.1
+  resolution: "camelcase-css@npm:2.0.1"
+  checksum: 1cec2b3b3dcb5026688a470b00299a8db7d904c4802845c353dbd12d9d248d3346949a814d83bfd988d4d2e5b9904c07efe76fecd195a1d4f05b543e7c0b56b1
   languageName: node
   linkType: hard
 
@@ -4288,8 +4304,12 @@ __metadata:
   dependencies:
     "@nuxt/kit": ^3.0.0-rc.11
     "@nuxt/schema": ^3.0.0-rc.11
+    "@oruga-ui/oruga-next": ^0.5.6
     nuxi: ^3.0.0-rc.11
     nuxt: 3.0.0-rc.11
+    playcanvas: ^1.57.1
+    postcss-autoreset: ^3.0.4
+    postcss-initial: ^3.0.4
     untyped: ^0.5.0
   languageName: unknown
   linkType: soft
@@ -4422,6 +4442,13 @@ __metadata:
   languageName: node
   linkType: hard
 
+"picocolors@npm:^0.2.1":
+  version: 0.2.1
+  resolution: "picocolors@npm:0.2.1"
+  checksum: 3b0f441f0062def0c0f39e87b898ae7461c3a16ffc9f974f320b44c799418cabff17780ee647fda42b856a1dc45897e2c62047e1b546d94d6d5c6962f45427b2
+  languageName: node
+  linkType: hard
+
 "picocolors@npm:^1.0.0":
   version: 1.0.0
   resolution: "picocolors@npm:1.0.0"
@@ -4451,6 +4478,22 @@ __metadata:
     mlly: ^0.5.14
     pathe: ^0.3.7
   checksum: a0e7bb732333e138597302ced39b93d3d76147e275774fe0f5aad3db0c8191e03af126850d23af639e62791baba393593d0b22e2621c10b9cf432b604f5c9047
+  languageName: node
+  linkType: hard
+
+"playcanvas@npm:^1.57.1":
+  version: 1.57.1
+  resolution: "playcanvas@npm:1.57.1"
+  checksum: 991f0e59ed4d22bca2ce10e33df58fd0970250d2e298de932927985d3748f2c2cc0468e322132e2fdd963b81632cf9751a1aab158e57047af0c0f9e74fc6c162
+  languageName: node
+  linkType: hard
+
+"postcss-autoreset@npm:^3.0.4":
+  version: 3.0.4
+  resolution: "postcss-autoreset@npm:3.0.4"
+  dependencies:
+    postcss-js: ^3.0.1
+  checksum: 0b64dcab5d4854a5e46f39f6d123ad98c5d1152ed0448dde0c14378905bc7a4f8c4f6329c53efec1828edd0647e2af1966fd65e08b4e14c2936c92197ecaa589
   languageName: node
   linkType: hard
 
@@ -4547,6 +4590,25 @@ __metadata:
   peerDependencies:
     postcss: ^8.0.0
   checksum: e5048072514f33520348c0c5aaedb5db92da72188e72a7367c26a8d851b9cf92e56aeda30d9c7b4ed1a34f84a58959da1b4b27b4aa23d41fc0ce36efe00bf1d1
+  languageName: node
+  linkType: hard
+
+"postcss-initial@npm:^3.0.4":
+  version: 3.0.4
+  resolution: "postcss-initial@npm:3.0.4"
+  dependencies:
+    postcss: ^7.0.2
+  checksum: 710ab6cabc5970912c04314099f5334e7d901235014bb1462657e29f8dc97b6e51caa35f0beba7e5dbe440589ef9c1df13a89bc53d6e6aa664573b945f1630bb
+  languageName: node
+  linkType: hard
+
+"postcss-js@npm:^3.0.1":
+  version: 3.0.3
+  resolution: "postcss-js@npm:3.0.3"
+  dependencies:
+    camelcase-css: ^2.0.1
+    postcss: ^8.1.6
+  checksum: cc17f59f2b9bb22ed1cf9daab1f9944635b0713dce923ff7d9fd10b89393fc9aa1fab43a97f9a71295827fa32c9676d52661d7d6a693ecc0c41541ee928c781e
   languageName: node
   linkType: hard
 
@@ -4812,7 +4874,17 @@ __metadata:
   languageName: node
   linkType: hard
 
-"postcss@npm:^8.1.10, postcss@npm:^8.4.16":
+"postcss@npm:^7.0.2":
+  version: 7.0.39
+  resolution: "postcss@npm:7.0.39"
+  dependencies:
+    picocolors: ^0.2.1
+    source-map: ^0.6.1
+  checksum: 4ac793f506c23259189064bdc921260d869a115a82b5e713973c5af8e94fbb5721a5cc3e1e26840500d7e1f1fa42a209747c5b1a151918a9bc11f0d7ed9048e3
+  languageName: node
+  linkType: hard
+
+"postcss@npm:^8.1.10, postcss@npm:^8.1.6, postcss@npm:^8.4.16":
   version: 8.4.18
   resolution: "postcss@npm:8.4.18"
   dependencies:
