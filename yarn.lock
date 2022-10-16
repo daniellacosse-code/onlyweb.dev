@@ -31,7 +31,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@babel/core@npm:^7.18.13, @babel/core@npm:^7.19.0":
+"@babel/core@npm:*, @babel/core@npm:^7.18.13, @babel/core@npm:^7.19.0":
   version: 7.19.3
   resolution: "@babel/core@npm:7.19.3"
   dependencies:
@@ -382,6 +382,17 @@ __metadata:
   dependencies:
     mime: ^3.0.0
   checksum: bc6a02a9c80be6de90e46454ef4de09301e68726eaa4835de0e30216e50fffcc5612274a17dfb455916cf3418f0cb25fefd2b561a9d2282f4cc10d40527f0acb
+  languageName: node
+  linkType: hard
+
+"@ericblade/quagga2-reader-qr@github:ericblade/quagga2-reader-qr":
+  version: 1.1.0
+  resolution: "@ericblade/quagga2-reader-qr@https://github.com/ericblade/quagga2-reader-qr.git#commit=04b600dbc8997e45acad9b8926f36e5e4ca40fc8"
+  dependencies:
+    jsqr: ^1.4.0
+  peerDependencies:
+    "@ericblade/quagga2": ">=1.4.2"
+  checksum: 9a4836ca846690d6a29d307fca272c79429a13deabd6a483abd2ec80aee031b48612b968502f764ec074b9de31859a4f246235195a693eb9de7e5749d7152dba
   languageName: node
   linkType: hard
 
@@ -771,6 +782,43 @@ __metadata:
   checksum: e279f473d8d6105f3a5ac888d81f6e73b6e5b65073c1ef48232828bdae29041360574e4697a712a33277f90fb490744a82150525787fd87caed986006c6c7e61
   languageName: node
   linkType: hard
+
+"@only-web/chords@workspace:^, @only-web/chords@workspace:packages/chords":
+  version: 0.0.0-use.local
+  resolution: "@only-web/chords@workspace:packages/chords"
+  dependencies:
+    tone: ^14.7.77
+  languageName: unknown
+  linkType: soft
+
+"@only-web/conway@workspace:^, @only-web/conway@workspace:packages/conway":
+  version: 0.0.0-use.local
+  resolution: "@only-web/conway@workspace:packages/conway"
+  dependencies:
+    nodemon: ^2.0.19
+  languageName: unknown
+  linkType: soft
+
+"@only-web/nuxt@workspace:apps/nuxt":
+  version: 0.0.0-use.local
+  resolution: "@only-web/nuxt@workspace:apps/nuxt"
+  dependencies:
+    "@ericblade/quagga2": ^1.7.5
+    "@ericblade/quagga2-reader-qr": "github:ericblade/quagga2-reader-qr"
+    "@nuxt/kit": ^3.0.0-rc.11
+    "@nuxt/schema": ^3.0.0-rc.11
+    "@only-web/chords": "workspace:^"
+    "@only-web/conway": "workspace:^"
+    "@oruga-ui/oruga-next": ^0.5.6
+    mapbox-gl: ^2.10.0
+    nuxi: ^3.0.0-rc.11
+    nuxt: 3.0.0-rc.11
+    playcanvas: ^1.57.1
+    postcss-autoreset: ^3.0.4
+    postcss-initial: ^3.0.4
+    untyped: ^0.5.0
+  languageName: unknown
+  linkType: soft
 
 "@oruga-ui/oruga-next@npm:^0.5.6":
   version: 0.5.6
@@ -1713,7 +1761,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"chokidar@npm:^3.5.1, chokidar@npm:^3.5.3":
+"chokidar@npm:^3.5.1, chokidar@npm:^3.5.2, chokidar@npm:^3.5.3":
   version: 3.5.3
   resolution: "chokidar@npm:3.5.3"
   dependencies:
@@ -2205,6 +2253,15 @@ __metadata:
     supports-color:
       optional: true
   checksum: 3dbad3f94ea64f34431a9cbf0bafb61853eda57bff2880036153438f50fb5a84f27683ba0d8e5426bf41a8c6ff03879488120cf5b3a761e77953169c0600a708
+  languageName: node
+  linkType: hard
+
+"debug@npm:^3.2.7":
+  version: 3.2.7
+  resolution: "debug@npm:3.2.7"
+  dependencies:
+    ms: ^2.1.1
+  checksum: b3d8c5940799914d30314b7c3304a43305fd0715581a919dacb8b3176d024a782062368405b47491516d2091d6462d4d11f2f4974a405048094f8bfebfa3071c
   languageName: node
   linkType: hard
 
@@ -3482,6 +3539,13 @@ __metadata:
   languageName: node
   linkType: hard
 
+"ignore-by-default@npm:^1.0.1":
+  version: 1.0.1
+  resolution: "ignore-by-default@npm:1.0.1"
+  checksum: 441509147b3615e0365e407a3c18e189f78c07af08564176c680be1fabc94b6c789cad1342ad887175d4ecd5225de86f73d376cec8e06b42fd9b429505ffcf8a
+  languageName: node
+  linkType: hard
+
 "ignore@npm:^5.2.0":
   version: 5.2.0
   resolution: "ignore@npm:5.2.0"
@@ -3893,6 +3957,13 @@ __metadata:
   languageName: node
   linkType: hard
 
+"jsqr@npm:^1.4.0":
+  version: 1.4.0
+  resolution: "jsqr@npm:1.4.0"
+  checksum: 7c572971f90c42772e30d152bde63b84edf1164bde80c53942e6b2068ea31caf00ad704aa46cacc9e71645f52dbeddebc6e84ba15e883c678ee93cde690de339
+  languageName: node
+  linkType: hard
+
 "kdbush@npm:^3.0.0":
   version: 3.0.0
   resolution: "kdbush@npm:3.0.0"
@@ -4269,7 +4340,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"minimatch@npm:^3.0.4, minimatch@npm:^3.1.1":
+"minimatch@npm:^3.0.4, minimatch@npm:^3.1.1, minimatch@npm:^3.1.2":
   version: 3.1.2
   resolution: "minimatch@npm:3.1.2"
   dependencies:
@@ -4445,7 +4516,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"ms@npm:2.1.3, ms@npm:^2.0.0":
+"ms@npm:2.1.3, ms@npm:^2.0.0, ms@npm:^2.1.1":
   version: 2.1.3
   resolution: "ms@npm:2.1.3"
   checksum: aa92de608021b242401676e35cfa5aa42dd70cbdc082b916da7fb925c542173e36bce97ea3e804923fe92c0ad991434e4a38327e15a1b5b5f945d66df615ae6d
@@ -4678,6 +4749,26 @@ __metadata:
   languageName: node
   linkType: hard
 
+"nodemon@npm:^2.0.19":
+  version: 2.0.20
+  resolution: "nodemon@npm:2.0.20"
+  dependencies:
+    chokidar: ^3.5.2
+    debug: ^3.2.7
+    ignore-by-default: ^1.0.1
+    minimatch: ^3.1.2
+    pstree.remy: ^1.1.8
+    semver: ^5.7.1
+    simple-update-notifier: ^1.0.7
+    supports-color: ^5.5.0
+    touch: ^3.1.0
+    undefsafe: ^2.0.5
+  bin:
+    nodemon: bin/nodemon.js
+  checksum: 9fe858682414fe703179f4fe36c86e71f40d2693b5345c09803d7b191816a6589c5df8f1f9873bffee92893880183b95a031c86340e46b364ef1b0b7f619edbf
+  languageName: node
+  linkType: hard
+
 "nopt@npm:^5.0.0":
   version: 5.0.0
   resolution: "nopt@npm:5.0.0"
@@ -4697,6 +4788,17 @@ __metadata:
   bin:
     nopt: bin/nopt.js
   checksum: 82149371f8be0c4b9ec2f863cc6509a7fd0fa729929c009f3a58e4eb0c9e4cae9920e8f1f8eb46e7d032fec8fb01bede7f0f41a67eb3553b7b8e14fa53de1dac
+  languageName: node
+  linkType: hard
+
+"nopt@npm:~1.0.10":
+  version: 1.0.10
+  resolution: "nopt@npm:1.0.10"
+  dependencies:
+    abbrev: 1
+  bin:
+    nopt: ./bin/nopt.js
+  checksum: f62575aceaa3be43f365bf37a596b89bbac2e796b001b6d2e2a85c2140a4e378ff919e2753ccba959c4fd344776fc88c29b393bc167fa939fb1513f126f4cd45
   languageName: node
   linkType: hard
 
@@ -4898,19 +5000,6 @@ __metadata:
 "only-web@workspace:.":
   version: 0.0.0-use.local
   resolution: "only-web@workspace:."
-  dependencies:
-    "@ericblade/quagga2": ^1.7.5
-    "@nuxt/kit": ^3.0.0-rc.11
-    "@nuxt/schema": ^3.0.0-rc.11
-    "@oruga-ui/oruga-next": ^0.5.6
-    mapbox-gl: ^2.10.0
-    nuxi: ^3.0.0-rc.11
-    nuxt: 3.0.0-rc.11
-    playcanvas: ^1.57.1
-    postcss-autoreset: ^3.0.4
-    postcss-initial: ^3.0.4
-    tone: ^14.7.77
-    untyped: ^0.5.0
   languageName: unknown
   linkType: soft
 
@@ -5596,6 +5685,13 @@ __metadata:
   languageName: node
   linkType: hard
 
+"pstree.remy@npm:^1.1.8":
+  version: 1.1.8
+  resolution: "pstree.remy@npm:1.1.8"
+  checksum: 5cb53698d6bb34dfb278c8a26957964aecfff3e161af5fbf7cee00bbe9d8547c7aced4bd9cb193bce15fb56e9e4220fc02a5bf9c14345ffb13a36b858701ec2d
+  languageName: node
+  linkType: hard
+
 "punycode@npm:^2.1.0, punycode@npm:^2.1.1":
   version: 2.1.1
   resolution: "punycode@npm:2.1.1"
@@ -5991,6 +6087,15 @@ __metadata:
   languageName: node
   linkType: hard
 
+"semver@npm:^5.7.1":
+  version: 5.7.1
+  resolution: "semver@npm:5.7.1"
+  bin:
+    semver: ./bin/semver
+  checksum: 57fd0acfd0bac382ee87cd52cd0aaa5af086a7dc8d60379dfe65fea491fb2489b6016400813930ecd61fd0952dae75c115287a1b16c234b1550887117744dfaf
+  languageName: node
+  linkType: hard
+
 "semver@npm:^6.0.0, semver@npm:^6.3.0":
   version: 6.3.0
   resolution: "semver@npm:6.3.0"
@@ -6008,6 +6113,15 @@ __metadata:
   bin:
     semver: bin/semver.js
   checksum: ba9c7cbbf2b7884696523450a61fee1a09930d888b7a8d7579025ad93d459b2d1949ee5bbfeb188b2be5f4ac163544c5e98491ad6152df34154feebc2cc337c1
+  languageName: node
+  linkType: hard
+
+"semver@npm:~7.0.0":
+  version: 7.0.0
+  resolution: "semver@npm:7.0.0"
+  bin:
+    semver: bin/semver.js
+  checksum: 272c11bf8d083274ef79fe40a81c55c184dff84dd58e3c325299d0927ba48cece1f020793d138382b85f89bab5002a35a5ba59a3a68a7eebbb597eb733838778
   languageName: node
   linkType: hard
 
@@ -6096,6 +6210,15 @@ __metadata:
   version: 3.0.7
   resolution: "signal-exit@npm:3.0.7"
   checksum: a2f098f247adc367dffc27845853e9959b9e88b01cb301658cfe4194352d8d2bb32e18467c786a7fe15f1d44b233ea35633d076d5e737870b7139949d1ab6318
+  languageName: node
+  linkType: hard
+
+"simple-update-notifier@npm:^1.0.7":
+  version: 1.0.7
+  resolution: "simple-update-notifier@npm:1.0.7"
+  dependencies:
+    semver: ~7.0.0
+  checksum: aaadc1f158ad5101b363d1c7aed1f30fc1cac59a760aa31702633e0e6fe423348f07d0e78185aef0aad29130a7b7f0f188c21c7bc7353f897a0ea3682e051a70
   languageName: node
   linkType: hard
 
@@ -6350,7 +6473,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"supports-color@npm:^5.3.0":
+"supports-color@npm:^5.3.0, supports-color@npm:^5.5.0":
   version: 5.5.0
   resolution: "supports-color@npm:5.5.0"
   dependencies:
@@ -6532,6 +6655,17 @@ __metadata:
   languageName: node
   linkType: hard
 
+"touch@npm:^3.1.0":
+  version: 3.1.0
+  resolution: "touch@npm:3.1.0"
+  dependencies:
+    nopt: ~1.0.10
+  bin:
+    nodetouch: ./bin/nodetouch.js
+  checksum: e0be589cb5b0e6dbfce6e7e077d4a0d5f0aba558ef769c6d9c33f635e00d73d5be49da6f8631db302ee073919d82b5b7f56da2987feb28765c95a7673af68647
+  languageName: node
+  linkType: hard
+
 "tough-cookie@npm:~2.5.0":
   version: 2.5.0
   resolution: "tough-cookie@npm:2.5.0"
@@ -6609,6 +6743,13 @@ __metadata:
     magic-string: ^0.26.2
     unplugin: ^0.9.5
   checksum: 102742078bb54f09e6e2c13e3d477317ad0d32a96cbbd65d9f3e069c4da69a4cf6021c405e6ee00e4b328545913b5b7872e0ea7a748c773407a096e2c9f0388f
+  languageName: node
+  linkType: hard
+
+"undefsafe@npm:^2.0.5":
+  version: 2.0.5
+  resolution: "undefsafe@npm:2.0.5"
+  checksum: f42ab3b5770fedd4ada175fc1b2eb775b78f609156f7c389106aafd231bfc210813ee49f54483d7191d7b76e483bc7f537b5d92d19ded27156baf57592eb02cc
   languageName: node
   linkType: hard
 
@@ -6973,7 +7114,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"vue@npm:^3.2.39":
+"vue@npm:*, vue@npm:^3.2.39":
   version: 3.2.41
   resolution: "vue@npm:3.2.41"
   dependencies:
