@@ -1,0 +1,9 @@
+{
+  "recommendations": [
+    "arcanis.vscode-zipfs",
+    "dt.ghlink",
+    "esbenp.prettier-vscode",
+    "pflannery.vscode-versionlens",
+    "vue.volar",
+  ]
+}

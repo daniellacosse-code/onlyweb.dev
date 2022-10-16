@@ -1,6 +1,7 @@
 {
-  "name": "@only-web/conway",
-  "version": "0.2.0",
+  "devDependencies": {
+    "nodemon": "^2.0.19"
+  },
   "files": [
     "pkg/conway_bg.wasm",
     "pkg/conway.js",
@@ -8,10 +9,12 @@
     "pkg/conway.d.ts"
   ],
   "module": "index.js",
-  "types": "pkg/conway.d.ts",
-  "sideEffects": false,
+  "name": "@only-web/conway",
   "scripts": {
-    "build": "TODO",
-    "watch": "TODO"
-  }
+    "build": "wasm-pack build",
+    "watch": "nodemon --exec 'yarn build' -e 'rs,toml'"
+  },
+  "sideEffects": false,
+  "types": "pkg/conway.d.ts",
+  "version": "0.2.0"
 }

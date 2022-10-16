@@ -1,0 +1,18 @@
+{
+  "editor.defaultFormatter": "esbenp.prettier-vscode",
+  "editor.formatOnSave": true,
+  "files.autoSave": "onFocusChange",
+  "files.refactoring.autoSave": true,
+  "search.exclude": {
+    "**/.pnp.*": true,
+    "**/.yarn": true
+  },
+  "versionlens.npm.dependencyProperties": [
+    "dependencies"
+  ],
+  "versionlens.suggestions.showOnStartup": true,
+  "workbench.colorCustomizations": {
+    "statusBar.background": "#42b983",
+    "statusBar.foreground": "#FFFFFF"
+  }
+}

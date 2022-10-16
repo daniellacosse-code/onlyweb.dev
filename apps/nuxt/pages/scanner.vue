@@ -2,6 +2,7 @@
 
 <script setup>
 import Quagga from "@ericblade/quagga2";
+import QrCodeReader from "@ericblade/quagga2-reader-qr";
 
 const { public: { scanner } } = getRuntimeConfig();
 
@@ -9,6 +10,8 @@ let code = scanner.readoutTextDefault;
 const scannerElement = ref(null);
 
 onMounted(() => {
+  Quagga.registerReader("qrcode", QrCodeReader);
+
   Quagga.init(
     {
       decoder: {
