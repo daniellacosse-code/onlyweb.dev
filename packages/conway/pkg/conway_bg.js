@@ -1,96 +1,85 @@
-import * as wasm from "./conway_bg.wasm";
+import * as wasm from './conway_bg.wasm';
 
-const lTextDecoder =
-  typeof TextDecoder === "undefined"
-    ? (0, module.require)("util").TextDecoder
-    : TextDecoder;
+const lTextDecoder = typeof TextDecoder === 'undefined' ? (0, module.require)('util').TextDecoder : TextDecoder;
 
-let cachedTextDecoder = new lTextDecoder("utf-8", {
-  ignoreBOM: true,
-  fatal: true,
-});
+let cachedTextDecoder = new lTextDecoder('utf-8', { ignoreBOM: true, fatal: true });
 
 cachedTextDecoder.decode();
 
-let cachegetUint8Memory0 = null;
+let cachedUint8Memory0 = new Uint8Array();
+
 function getUint8Memory0() {
-  if (
-    cachegetUint8Memory0 === null ||
-    cachegetUint8Memory0.buffer !== wasm.memory.buffer
-  ) {
-    cachegetUint8Memory0 = new Uint8Array(wasm.memory.buffer);
-  }
-  return cachegetUint8Memory0;
+    if (cachedUint8Memory0.byteLength === 0) {
+        cachedUint8Memory0 = new Uint8Array(wasm.memory.buffer);
+    }
+    return cachedUint8Memory0;
 }
 
 function getStringFromWasm0(ptr, len) {
-  return cachedTextDecoder.decode(getUint8Memory0().subarray(ptr, ptr + len));
+    return cachedTextDecoder.decode(getUint8Memory0().subarray(ptr, ptr + len));
 }
 
-function notDefined(what) {
-  return () => {
-    throw new Error(`${what} is not defined`);
-  };
-}
+function notDefined(what) { return () => { throw new Error(`${what} is not defined`); }; }
 /**
- */
+*/
 export class Universe {
-  static __wrap(ptr) {
-    const obj = Object.create(Universe.prototype);
-    obj.ptr = ptr;
 
-    return obj;
-  }
+    static __wrap(ptr) {
+        const obj = Object.create(Universe.prototype);
+        obj.ptr = ptr;
 
-  __destroy_into_raw() {
-    const ptr = this.ptr;
-    this.ptr = 0;
+        return obj;
+    }
 
-    return ptr;
-  }
+    __destroy_into_raw() {
+        const ptr = this.ptr;
+        this.ptr = 0;
 
-  free() {
-    const ptr = this.__destroy_into_raw();
-    wasm.__wbg_universe_free(ptr);
-  }
-  /**
-   * @param {number} width
-   * @param {number} height
-   * @returns {Universe}
-   */
-  static new(width, height) {
-    var ret = wasm.universe_new(width, height);
-    return Universe.__wrap(ret);
-  }
-  /**
-   */
-  tick() {
-    wasm.universe_tick(this.ptr);
-  }
-  /**
-   * @returns {number}
-   */
-  cells() {
-    var ret = wasm.universe_cells(this.ptr);
-    return ret;
-  }
-  /**
-   * @param {number} row
-   * @param {number} column
-   */
-  toggle_cell(row, column) {
-    wasm.universe_toggle_cell(this.ptr, row, column);
-  }
-  /**
-   */
-  destroy() {
-    wasm.universe_destroy(this.ptr);
-  }
+        return ptr;
+    }
+
+    free() {
+        const ptr = this.__destroy_into_raw();
+        wasm.__wbg_universe_free(ptr);
+    }
+    /**
+    * @param {number} width
+    * @param {number} height
+    * @returns {Universe}
+    */
+    static new(width, height) {
+        const ret = wasm.universe_new(width, height);
+        return Universe.__wrap(ret);
+    }
+    /**
+    */
+    tick() {
+        wasm.universe_tick(this.ptr);
+    }
+    /**
+    * @returns {number}
+    */
+    cells() {
+        const ret = wasm.universe_cells(this.ptr);
+        return ret;
+    }
+    /**
+    * @param {number} row
+    * @param {number} column
+    */
+    toggle_cell(row, column) {
+        wasm.universe_toggle_cell(this.ptr, row, column);
+    }
+    /**
+    */
+    destroy() {
+        wasm.universe_destroy(this.ptr);
+    }
 }
 
-export const __wbg_random_a582babfa4489c72 =
-  typeof Math.random == "function" ? Math.random : notDefined("Math.random");
+export const __wbg_random_656f2ae924b2540e = typeof Math.random == 'function' ? Math.random : notDefined('Math.random');
 
 export function __wbindgen_throw(arg0, arg1) {
-  throw new Error(getStringFromWasm0(arg0, arg1));
-}
+    throw new Error(getStringFromWasm0(arg0, arg1));
+};
+

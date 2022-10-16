@@ -1,7 +1,7 @@
 [package]
-name = "@only-web/conway"
+name = "conway"
 version = "0.2.0"
-edition = "2022"
+edition = "2021"
 
 [lib]
 crate-type = ["cdylib", "rlib"]
@@ -10,7 +10,7 @@ path = "conway.rs"
 
 # TODO: update rust version and dependencies
 [dependencies]
-fixedbitset = "0.2"
+fixedbitset = "0.4"
 js-sys = "0.3"
 wasm-bindgen = "0.2"
 
