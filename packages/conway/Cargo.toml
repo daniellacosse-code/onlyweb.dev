@@ -8,7 +8,6 @@ crate-type = ["cdylib", "rlib"]
 name = "conway"
 path = "conway.rs"
 
-# TODO: update rust version and dependencies
 [dependencies]
 fixedbitset = "0.4"
 js-sys = "0.3"

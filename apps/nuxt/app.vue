@@ -1,7 +1,6 @@
 <style>
 :root {
-  /* TODO: --color-default: v-bind(meta.color); */
-  --color-default: hsl(153, 47%, 49%);
+  --color-default: v-bind(meta.color);
   --color-text: hsl(210, 29%, 24%);
   --color-background: hsl(156, 42%, 95%);
   --color-highlight: hsl(0, 0%, 100%);

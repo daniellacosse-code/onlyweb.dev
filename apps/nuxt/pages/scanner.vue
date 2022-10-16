@@ -1,5 +1,3 @@
-<template>TODO</template>
-
 <script setup>
 import Quagga from "@ericblade/quagga2";
 import QrCodeReader from "@ericblade/quagga2-reader-qr";
