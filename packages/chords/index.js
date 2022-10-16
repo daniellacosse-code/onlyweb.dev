@@ -1,6 +1,3 @@
-// TODO: move to separate package
-import * as Tone from "tone";
-
 const PITCH_NAME_LIST = [
   "C",
   "C#",
@@ -183,11 +180,4 @@ function getScaleInterval(symbol) {
     default:
       throw new RangeError();
   }
-}
-
-export default function useChords() {
-  return {
-    play: playChord,
-    parse: parseChord,
-  };
 }

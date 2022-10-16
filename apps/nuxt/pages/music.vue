@@ -1,10 +1,9 @@
 <script setup>
-import useChords from '~~/composables/useChords';
+import { playChord, parseChord } from "@only-web/chords";
 
 const { public: { music, MILLISECONDS_PER_SECOND,
   SECONDS_PER_MINUTE } } = useRuntimeConfig();
 
-const chords = useChords();
 const input = ref(null);
 
 let bpm = music.playerBeatsPerMinuteDefault;
@@ -50,7 +49,7 @@ async function playNextChord() {
 
   highlightChord(currentChordString);
 
-  await chords.play(chords.parse(currentChordString), (bpmMS / MS_PER_SECOND).toFixed(1));
+  await playChord(parseChord(currentChordString), (bpmMS / MS_PER_SECOND).toFixed(1));
 }
 
 function stopSequence() {

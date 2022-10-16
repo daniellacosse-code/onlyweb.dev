@@ -1,5 +1,12 @@
 {
-  "name": "@only-web/nuxt",
+  "dependencies": {
+    "@ericblade/quagga2": "^1.7.5",
+    "@only-web/chords": "workspace:^",
+    "@only-web/conway": "workspace:^",
+    "@oruga-ui/oruga-next": "^0.5.6",
+    "mapbox-gl": "^2.10.0",
+    "playcanvas": "^1.57.1"
+  },
   "devDependencies": {
     "@nuxt/kit": "^3.0.0-rc.11",
     "@nuxt/schema": "^3.0.0-rc.11",
@@ -9,18 +16,12 @@
     "postcss-initial": "^3.0.4",
     "untyped": "^0.5.0"
   },
+  "name": "@only-web/nuxt",
   "scripts": {
     "build": "nuxt build",
-    "watch": "nuxt dev",
     "generate": "nuxt generate",
+    "postinstall": "nuxt prepare",
     "preview": "nuxt preview",
-    "postinstall": "nuxt prepare"
-  },
-  "dependencies": {
-    "@ericblade/quagga2": "^1.7.5",
-    "@oruga-ui/oruga-next": "^0.5.6",
-    "mapbox-gl": "^2.10.0",
-    "playcanvas": "^1.57.1",
-    "tone": "^14.7.77"
+    "watch": "nuxt dev"
   }
 }
