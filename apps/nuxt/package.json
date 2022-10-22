@@ -2,6 +2,7 @@
   "dependencies": {
     "@ericblade/quagga2": "^1.7.5",
     "@ericblade/quagga2-reader-qr": "github:ericblade/quagga2-reader-qr",
+    "@nuxtjs/web-vitals": "^0.1.10",
     "@only-web/chords": "workspace:^",
     "@only-web/conway": "workspace:^",
     "@oruga-ui/oruga-next": "^0.5.6",
