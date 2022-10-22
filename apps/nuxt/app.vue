@@ -25,7 +25,7 @@ main {
   --size-huge: 6rem;
 
   --device-width-mobile: 320px;
-  --device-width-tablet: 680px;
+  --device-width-tablet: 1024px;
 
   --app-icon-size: 128px;
 
@@ -58,29 +58,59 @@ header,
 }
 
 .Sidebar__navItem {
-  display: block;
-  font-weight: bold;
-  font-family: var(--font-default);
-  text-align: right;
-  font-size: var(--size-medium);
-  line-height: var(--size-extra-large);
-  height: var(--size-extra-large);
-  color: var(--color-highlight);
-  padding: 0 var(--size-default);
+  align-items: center;
   cursor: pointer;
-  text-overflow: ellipsis;
+  display: flex;
+  height: var(--size-extra-large);
+  justify-content: end;
   overflow: hidden;
+  padding: 0 var(--size-default);
+  text-overflow: ellipsis;
 }
 
 .Sidebar__navItem:hover,
-.Sidebar__nav>.router-link-active {
+.Sidebar__navItem:hover>.Sidebar__navItemIcon,
+.Sidebar__navItem:hover>.Sidebar__navItemText,
+.Sidebar__nav>.router-link-active,
+.router-link-active>.Sidebar__navItemIcon,
+.router-link-active>.Sidebar__navItemText {
   background: var(--color-highlight);
   color: var(--color-default);
+}
+
+.Sidebar__navItemIcon {
+  cursor: pointer;
+  color: var(--color-background);
+  margin-right: var(--size-small);
+}
+
+.Sidebar__navItemText {
+  color: var(--color-highlight);
+  cursor: pointer;
+  font-family: var(--font-default);
+  font-size: var(--size-medium);
+  font-weight: bold;
+  line-height: var(--size-extra-large);
+  margin-top: -0.35rem;
+}
+
+@media (max-width: 1020px) {
+  .Sidebar__navItem {
+    justify-content: center;
+  }
+
+  .Sidebar__navItemIcon {
+    margin: 0;
+  }
+
+  .Sidebar__navItemText {
+    display: none;
+  }
 }
 </style>
 
 <script setup>
-const { public: { meta } } = useRuntimeConfig();
+const { public: { meta, sidebar } } = useRuntimeConfig();
 const router = useRouter();
 
 // ISSUE #81: redo service worker
@@ -208,8 +238,11 @@ const router = useRouter();
           <NuxtLink class="Sidebar__navItem"
             v-for="{ name, path } in router.options.routes.filter(({ name }) => name !== 'index')"
             :to="path">
-
-            {{ name }}
+            <o-icon class="Sidebar__navItemIcon"
+              :icon="sidebar.navIconMap[name] ?? sidebar.navIconMap.default"
+              size="medium">
+            </o-icon>
+            <span class="Sidebar__navItemText">{{ name }}</span>
           </NuxtLink>
         </nav>
       </OSidebar>

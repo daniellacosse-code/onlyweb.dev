@@ -31,6 +31,16 @@ export default defineNuxtConfig({
         description: "the case for only web",
         title: "only web"
       },
+      sidebar: {
+        navIconMap: {
+          default: "file-document-outline",
+          "3D": "cube",
+          geolocation: "map-marker",
+          music: "music",
+          rust: "gamepad-circle-right",
+          scanner: "qrcode-scan"
+        }
+      },
       music: {
         playerBeatsPerMinuteDefault: 100,
         playerChordInstructionsDefault: "I V vi V7/IV IV I ii V7 Isus4 Isus2 I",
