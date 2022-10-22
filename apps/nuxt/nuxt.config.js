@@ -47,7 +47,7 @@ export default defineNuxtConfig({
       },
       threeDimensional: {
         colorBackground: [0.1, 0.1, 0.1],
-        positionCamera: [0, 0, 6],
+        positionCamera: [-1, 0, 6],
         rotationLight: [45, 0, 0],
         rotationSpeedCube: [10, 20, 30]
       }

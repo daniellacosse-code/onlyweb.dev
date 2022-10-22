@@ -64,8 +64,9 @@ onMounted(() => {
 .ThreeDimensionalCanvas__container {
   height: 100%;
   overflow: hidden;
-  position: relative;
+  position: absolute;
   width: 100%;
+  z-index: -1;
 }
 
 .ThreeDimensionalCanvas {
