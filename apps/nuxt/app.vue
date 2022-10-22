@@ -25,7 +25,7 @@ main {
   --size-huge: 6rem;
 
   --device-width-mobile: 320px;
-  --device-width-tablet: 1024px;
+  --device-width-tablet: 1020px;
 
   --app-icon-size: 128px;
 

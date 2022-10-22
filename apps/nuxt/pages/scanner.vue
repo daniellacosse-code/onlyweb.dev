@@ -4,8 +4,8 @@ import QrCodeReader from "@ericblade/quagga2-reader-qr";
 
 const { public: { scanner: { readoutTextDefault, decoderReaders } } } = useRuntimeConfig();
 
-let code = readoutTextDefault;
 const scanner = ref(null);
+const data = ref(readoutTextDefault);
 
 onMounted(() => {
   Quagga.registerReader("qrcode", QrCodeReader);
@@ -25,7 +25,7 @@ onMounted(() => {
       if (error) return alert(error);
 
       Quagga.onDetected(({ codeResult }) => {
-        requestAnimationFrame(() => code = codeResult.code);
+        requestAnimationFrame(() => data.value = codeResult.code);
       });
 
       Quagga.start();
@@ -37,8 +37,36 @@ onUnmounted(Quagga.stop);
 </script>
 
 <template>
-  <div>
-    <div ref="scanner" />
-    <pre>{{ code }}</pre>
+  <div class="Quagga">
+    <div class="Quagga__scanner" ref="scanner" />
+    <pre>{{ data }}</pre>
   </div>
 </template>
+
+<!-- scoping doesn't work with the injected drawing buffer canvas -->
+<style>
+.Quagga {
+  display: flex;
+  flex-direction: column;
+  margin: auto;
+}
+
+.Quagga__scanner {
+  position: relative;
+}
+
+.Quagga__scanner>.drawingBuffer {
+  position: absolute;
+  left: 0;
+}
+
+.Quagga>pre {
+  font-family: var(--font-monospace);
+  padding: var(--size-default);
+  color: inherit;
+  cursor: inherit;
+  background: var(--color-background);
+  border-radius: var(--size-small);
+  text-align: center;
+}
+</style>
