@@ -2,17 +2,17 @@
 export default defineNuxtConfig({
   plugins: [
     {
-      src: "~/plugins/oruga.js",
-    },
+      src: "~/plugins/oruga.js"
+    }
   ],
   postcss: {
     plugins: {
       "postcss-autoreset": {},
-      "postcss-initial": {},
-    },
+      "postcss-initial": {}
+    }
   },
   router: {
-    base: process.env.VERCEL_ENV === "production" ? "/only/" : "/",
+    base: process.env.VERCEL_ENV === "production" ? "/only/" : "/"
   },
   runtimeConfig: {
     public: {
@@ -24,33 +24,33 @@ export default defineNuxtConfig({
         mapboxStyle: "mapbox://styles/mapbox/streets-v11",
         mapboxToken: process.env.NUXT_ENV_MAPBOX_TOKEN,
         zoomLevelDefault: 3,
-        zoomLevelSpecific: 12,
+        zoomLevelSpecific: 12
       },
       meta: {
         color: "hsl(153, 47%, 49%)",
         description: "the case for only web",
-        title: "only web",
+        title: "only web"
       },
       music: {
         playerBeatsPerMinuteDefault: 100,
         playerChordInstructionsDefault: "I V vi V7/IV IV I ii V7 Isus4 Isus2 I",
-        playerNoteReadoutDefault: ["--"],
+        playerNoteReadoutDefault: ["--"]
       },
       rust: {
         colorBackground: "#FFFFFF",
         colorDefault: "#000000",
-        sizeCell: 10,
+        sizeCell: 10
       },
       scanner: {
         decoderReaders: ["upc_reader", "upc_e_reader", "qrcode"],
-        readoutTextDefault: "--",
+        readoutTextDefault: "--"
       },
       threeDimensional: {
         colorBackground: [0.1, 0.1, 0.1],
         positionCamera: [0, 0, 6],
         rotationLight: [45, 0, 0],
-        rotationSpeedCube: [10, 20, 30],
-      },
-    },
-  },
+        rotationSpeedCube: [10, 20, 30]
+      }
+    }
+  }
 });

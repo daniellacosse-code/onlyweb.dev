@@ -8,10 +8,10 @@
     "pkg/conway_bg.js",
     "pkg/conway.d.ts"
   ],
-  "module": "index.js",
+  "module": "pkg/conway.js",
   "name": "@only-web/conway",
   "scripts": {
-    "build": "wasm-pack build",
+    "build": "wasm-pack build --target web --scope only-web",
     "watch": "nodemon --exec 'yarn build' -e 'rs,toml'"
   },
   "sideEffects": false,

@@ -11,7 +11,7 @@ const { public: { threeDimensional } } = useRuntimeConfig();
 const canvas = ref(null);
 
 onMounted(() => {
-  const app = new Application(canvas, {});
+  const app = new Application(canvas.value, {});
 
   app.setCanvasFillMode(FILLMODE_FILL_WINDOW);
   app.setCanvasResolution(RESOLUTION_AUTO);

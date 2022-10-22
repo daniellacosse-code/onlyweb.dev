@@ -31,12 +31,12 @@ function highlightChord(chordString) {
 
   highlightPointer = currentChordIndex + chordString.length;
 
-  input.setSelectionRange(
+  input.value.setSelectionRange(
     currentChordIndex,
     highlightPointer
   );
 
-  input.focus();
+  input.value.focus();
 }
 
 async function playNextChord() {
@@ -62,7 +62,7 @@ function stopSequence() {
     remainingChords
   ] = [false, 0, music.playerNoteReadoutDefault, []];
 
-  input.blur();
+  input.value.blur();
 }
 </script>
 
@@ -86,12 +86,13 @@ function stopSequence() {
     </fieldset>
 
     <o-button v-if="isPlaying" @click.stop.prevent="stopSequence()"
-      :disabled="isPreparingToPlay" variant="danger" icon-right="stop">
+      :disabled="isPreparingToPlay" variant="danger" icon-right="alert-octagon"
+      icon-pack="mdi">
       cancel
     </o-button>
 
     <o-button v-else @click.stop.prevent="startSequence()" variant="primary"
-      icon-right="play">play
+      icon-right="play" icon-pack="mdi">play
     </o-button>
   </div>
 

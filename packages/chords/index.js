@@ -1,3 +1,5 @@
+import * as Tone from "tone";
+
 const PITCH_NAME_LIST = [
   "C",
   "C#",
@@ -10,7 +12,7 @@ const PITCH_NAME_LIST = [
   "G#",
   "A",
   "A#",
-  "B",
+  "B"
 ];
 
 const TONES_IN_OCTAVE = PITCH_NAME_LIST.length;
@@ -35,7 +37,7 @@ const MAJOR_SEVENTH = 11;
 const MAJOR_NINTH = 14;
 const MAJOR_ELEVENTH = 17;
 
-async function playChord(notes, duration) {
+export async function playChord(notes, duration) {
   if (Tone.context.state !== "running") {
     await Tone.context.resume();
     await Tone.start();
@@ -53,12 +55,12 @@ async function playChord(notes, duration) {
       A4: "A4.mp3",
       C4: "C4.mp3",
       "D#4": "Ds4.mp3",
-      "F#4": "Fs4.mp3",
-    },
+      "F#4": "Fs4.mp3"
+    }
   }).toDestination();
 }
 
-function parseChord(chordString) {
+export function parseChord(chordString) {
   const [root, shape] = [getChordRoot(chordString), getChordShape(chordString)];
 
   return shape.map((offset) => {

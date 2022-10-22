@@ -1,6 +1,7 @@
 <script setup>
-import Conway from "@only-web/conway";
+import Conway__init, { Universe } from "@only-web/conway";
 
+const wasm = ref(null);
 const { public: { rust, BITS_PER_BYTE } } = useRuntimeConfig();
 
 const container = ref(null);
@@ -16,17 +17,19 @@ let indexCache = [];
 
 const cellBorderWidth = computed(() => rust.sizeCell + 1);
 
-onMounted(() => {
+onMounted(async () => {
+  wasm.value = await Conway__init();
+
   const width = Math.floor(
-    container.offsetWidth / cellBorderWidth
+    container.value.offsetWidth / cellBorderWidth
   );
   const height = Math.floor(
-    container.offsetHeight / cellBorderWidth
+    container.value.offsetHeight / cellBorderWidth
   );
 
-  game = Conway.Universe.new(width, height);
-  grid.width = width * cellBorderWidth + 1;
-  grid.height = height * cellBorderWidth + 1;
+  game = new Universe(width, height);
+  grid.value.width = width * cellBorderWidth + 1;
+  grid.value.height = height * cellBorderWidth + 1;
 
   indexCache = Array.from(new Array(height), () => new Array(width));
 
@@ -79,7 +82,7 @@ function redrawGrid() {
 function redrawCells() {
   const cellPointer = game.cells();
   const cells = new Uint8Array(
-    Conway.memory.buffer,
+    wasm.value.memory.buffer,
     cellPointer,
     (width * height) / BITS_PER_BYTE
   );
@@ -127,9 +130,9 @@ function pauseGame() {
 }
 
 function cellToggle({ clientX, clientY }) {
-  const { width, height, left, top } = grid.getBoundingClientRect();
+  const { width, height, left, top } = grid.value.getBoundingClientRect();
 
-  const [scaleX, scaleY] = [grid.width / width, grid.height / height];
+  const [scaleX, scaleY] = [grid.value.width / width, grid.value.height / height];
   const [canvasLeft, canvasTop] = [(clientX - left) * scaleX, (clientY - top) * scaleY];
   const [row, column] = [
     Math.min(Math.floor(canvasTop / cellBorderWidth), height - 1),
@@ -147,12 +150,12 @@ function cellToggle({ clientX, clientY }) {
 
     <div class="Game__controlsContainer">
       <o-button v-if="isPlaying" @click.stop.prevent="pauseGame()"
-        :right-icon="pause">
+        icon-right="pause" icon-pack="mdi">
         pause
       </o-button>
 
       <o-button v-else variant="primary" @click.stop.prevent="startGame()"
-        :right-icon="play">
+        icon-right="play" icon-pack="mdi">
         play
       </o-button>
     </div>

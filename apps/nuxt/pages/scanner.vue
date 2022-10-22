@@ -2,10 +2,10 @@
 import Quagga from "@ericblade/quagga2";
 import QrCodeReader from "@ericblade/quagga2-reader-qr";
 
-const { public: { scanner } } = getRuntimeConfig();
+const { public: { scanner: { readoutTextDefault, decoderReaders } } } = useRuntimeConfig();
 
-let code = scanner.readoutTextDefault;
-const scannerElement = ref(null);
+let code = readoutTextDefault;
+const scanner = ref(null);
 
 onMounted(() => {
   Quagga.registerReader("qrcode", QrCodeReader);
@@ -13,11 +13,11 @@ onMounted(() => {
   Quagga.init(
     {
       decoder: {
-        readers: scanner.decoderReaders
+        readers: decoderReaders
       },
       inputStream: {
         name: "Live",
-        target: scannerElement,
+        target: scanner.value,
         type: "LiveStream"
       }
     },
@@ -38,7 +38,7 @@ onUnmounted(Quagga.stop);
 
 <template>
   <div>
-    <div ref="scannerElement" />
+    <div ref="scanner" />
     <pre>{{ code }}</pre>
   </div>
 </template>
