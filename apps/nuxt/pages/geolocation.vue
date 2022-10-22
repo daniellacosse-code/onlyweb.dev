@@ -8,26 +8,31 @@ mapboxgl.accessToken = geolocation.mapboxToken;
 
 let center = [0, 0];
 let zoom = geolocation.zoomLevelDefault;
-const map = new mapboxgl.Map({
-  center,
-  container: "Mapbox",
-  style: geolocation.mapboxStyle,
-  zoom
+
+const map = ref(null);
+
+watch(() => center, () => map.value.setCenter(center));
+watch(() => zoom, () => map.value.setZoom(zoom));
+
+onMounted(() => {
+  map.value = new mapboxgl.Map({
+    center,
+    container: "Mapbox",
+    style: geolocation.mapboxStyle,
+    zoom
+  });
+
+  navigator.geolocation.getCurrentPosition(
+    ({ coords: { latitude, longitude } }) => {
+      center = [longitude, latitude];
+      zoom = geolocation.zoomLevelSpecific;
+    },
+    (error) => alert(error.message),
+    {
+      timeout: geolocation.locationSearchTimeout
+    }
+  );
 });
-
-watch(() => center, () => map.setCenter(center));
-watch(() => zoom, () => map.setZoom(zoom));
-
-navigator.geolocation.getCurrentPosition(
-  ({ coords: { latitude, longitude } }) => {
-    center = [longitude, latitude];
-    zoom = geolocation.zoomLevelSpecific;
-  },
-  (error) => alert(error.message),
-  {
-    timeout: geolocation.locationSearchTimeout
-  }
-);
 </script>
 
 <template>
