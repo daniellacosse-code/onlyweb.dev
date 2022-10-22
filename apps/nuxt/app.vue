@@ -107,6 +107,9 @@ const router = useRouter();
     <Meta :content="meta.title" name="og:site_name" />
     <Meta :content="meta.description" name="og:description" />
 
+    <Link rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/@mdi/font@5.8.55/css/materialdesignicons.min.css" />
+
     <Link href="/manifest.json" rel="manifest" />
     <Link href="/favicon.ico" rel="shortcut icon" />
     <Link href="/pwa/apple-icon-180.png" rel="apple-touch-icon" />

@@ -4,39 +4,39 @@ import { playChord, parseChord } from "@only-web/chords";
 const { public: { music, MILLISECONDS_PER_SECOND,
   SECONDS_PER_MINUTE } } = useRuntimeConfig();
 
-const input = ref(null);
-
-let bpm = music.playerBeatsPerMinuteDefault;
-let chordsString = music.playerChordInstructionsDefault;
 let highlightPointer = 0;
 let isPlaying = false;
 let isPreparingToPlay = false;
-let notes = music.playerNoteReadoutDefault;
 let remainingChords = [];
 let sequencePlayerID = null;
 
-const bpmMS = computed(() => MILLISECONDS_PER_SECOND * SECONDS_PER_MINUTE / bpm);
+const chordInstructions = ref(music.playerChordInstructionsDefault);
+const chordInstructionsInput = ref(null);
+const chordInstructionsInputElement = computed(() => chordInstructionsInput.value?.$refs.textarea);
+const displayedNotes = ref(music.playerNoteReadoutDefault);
+const bpm = ref(music.playerBeatsPerMinuteDefault);
+const bpmMS = computed(() => (MILLISECONDS_PER_SECOND * SECONDS_PER_MINUTE) / bpm.value);
 
 function startSequence() {
   isPreparingToPlay = true;
-  remainingChords = chordsString.split(/\s+/).reverse();
-  sequencePlayerID = setInterval(playNextChord, bpmMS);
+  remainingChords = chordInstructions.value.split(/\s+/).reverse();
+  sequencePlayerID = setInterval(playNextChord, bpmMS.value);
 }
 
 function highlightChord(chordString) {
-  const currentChordIndex = chordsString.indexOf(
+  const currentChordIndex = chordInstructions.value.indexOf(
     chordString,
     highlightPointer
   );
 
   highlightPointer = currentChordIndex + chordString.length;
 
-  input.value.setSelectionRange(
+  chordInstructionsInputElement.value.setSelectionRange(
     currentChordIndex,
     highlightPointer
   );
 
-  input.value.focus();
+  chordInstructionsInputElement.value.focus();
 }
 
 async function playNextChord() {
@@ -45,11 +45,13 @@ async function playNextChord() {
   const currentChordString = remainingChords.pop();
 
   if (!currentChordString) return;
-  if (!remainingChords.length) setTimeout(stopSequence, bpmMS);
+  if (!remainingChords.length) setTimeout(stopSequence, bpmMS.value);
 
   highlightChord(currentChordString);
 
-  await playChord(parseChord(currentChordString), (bpmMS / MS_PER_SECOND).toFixed(1));
+  displayedNotes.value = parseChord(currentChordString);
+
+  await playChord(displayedNotes.value, (bpmMS.value / MILLISECONDS_PER_SECOND).toFixed(1));
 }
 
 function stopSequence() {
@@ -58,25 +60,28 @@ function stopSequence() {
   [
     isPlaying,
     highlightPointer,
-    notes,
+    displayedNotes.value,
     remainingChords
   ] = [false, 0, music.playerNoteReadoutDefault, []];
 
-  input.value.blur();
+  chordInstructionsInputElement.value.blur();
 }
 </script>
 
 <template>
   <div class="Music">
     <ol class="MusicNotes">
-      <li class="MusicNote" v-for="(note, index) in notes" :key="note + index">
+      <li class="MusicNote" v-for="(note, index) in displayedNotes"
+        :key="note + index">
         {{ note }}
       </li>
     </ol>
 
     <fieldset class="MusicInputs">
       <o-field label="Chords">
-        <o-input type="textarea" v-model="chordsString" ref="input"></o-input>
+        <o-input type="textarea" v-model="chordInstructions"
+          ref="chordInstructionsInput">
+        </o-input>
       </o-field>
 
       <o-field label="Beats per minute (BPM)">
@@ -86,13 +91,12 @@ function stopSequence() {
     </fieldset>
 
     <o-button v-if="isPlaying" @click.stop.prevent="stopSequence()"
-      :disabled="isPreparingToPlay" variant="danger" icon-right="alert-octagon"
-      icon-pack="mdi">
+      :disabled="isPreparingToPlay" variant="danger" icon-left="alert-octagon">
       cancel
     </o-button>
 
     <o-button v-else @click.stop.prevent="startSequence()" variant="primary"
-      icon-right="play" icon-pack="mdi">play
+      icon-left="play">play
     </o-button>
   </div>
 

@@ -150,12 +150,12 @@ function cellToggle({ clientX, clientY }) {
 
     <div class="Game__controlsContainer">
       <o-button v-if="isPlaying" @click.stop.prevent="pauseGame()"
-        icon-right="pause" icon-pack="mdi">
+        icon-right="pause">
         pause
       </o-button>
 
       <o-button v-else variant="primary" @click.stop.prevent="startGame()"
-        icon-right="play" icon-pack="mdi">
+        icon-right="play">
         play
       </o-button>
     </div>
