@@ -7,7 +7,9 @@ const { public: { scanner: { readoutTextDefault, decoderReaders } } } = useRunti
 const scanner = ref(null);
 const data = ref(readoutTextDefault);
 
-onMounted(() => {
+onMounted(async () => {
+  await nextTick();
+
   Quagga.registerReader("qrcode", QrCodeReader);
 
   Quagga.init(

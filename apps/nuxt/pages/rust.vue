@@ -18,6 +18,8 @@ let indexCache = [];
 const cellBorderWidth = computed(() => rust.sizeCell + 1);
 
 onMounted(async () => {
+  await nextTick();
+
   wasm.value = await Conway__init();
 
   const width = Math.floor(

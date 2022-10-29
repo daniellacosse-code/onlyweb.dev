@@ -81,7 +81,7 @@ header,
 .Sidebar__navItemIcon {
   cursor: pointer;
   color: var(--color-background);
-  margin-right: var(--size-small);
+  margin-left: var(--size-small);
 }
 
 .Sidebar__navItemText {
@@ -238,11 +238,11 @@ const router = useRouter();
           <NuxtLink class="Sidebar__navItem"
             v-for="{ name, path } in router.options.routes.filter(({ name }) => name !== 'index')"
             :to="path">
+            <span class="Sidebar__navItemText">{{ name }}</span>
             <o-icon class="Sidebar__navItemIcon"
               :icon="sidebar.navIconMap[name] ?? sidebar.navIconMap.default"
               size="medium">
             </o-icon>
-            <span class="Sidebar__navItemText">{{ name }}</span>
           </NuxtLink>
         </nav>
       </OSidebar>

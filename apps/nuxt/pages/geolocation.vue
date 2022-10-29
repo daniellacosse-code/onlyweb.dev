@@ -14,7 +14,9 @@ const map = ref(null);
 watch(() => center, () => map.value.setCenter(center));
 watch(() => zoom, () => map.value.setZoom(zoom));
 
-onMounted(() => {
+onMounted(async () => {
+  await nextTick();
+
   map.value = new mapboxgl.Map({
     center,
     container: "Mapbox",
