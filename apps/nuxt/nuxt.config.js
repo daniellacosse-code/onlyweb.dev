@@ -33,12 +33,12 @@ export default defineNuxtConfig({
       },
       sidebar: {
         navIconMap: {
-          default: "file-document-outline",
-          "3D": "cube",
-          geolocation: "map-marker",
-          music: "music",
-          rust: "gamepad-circle-right",
-          scanner: "qrcode-scan"
+          default: "📄",
+          "3D": "📦",
+          geolocation: "🗺",
+          music: "🎵",
+          rust: "🦀",
+          scanner: "🤳🏻"
         }
       },
       music: {

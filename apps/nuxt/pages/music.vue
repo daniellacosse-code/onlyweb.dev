@@ -91,12 +91,12 @@ function stopSequence() {
     </fieldset>
 
     <o-button v-if="isPlaying" @click.stop.prevent="stopSequence()"
-      :disabled="isPreparingToPlay" variant="danger" icon-left="alert-octagon">
-      cancel
+      :disabled="isPreparingToPlay" variant="danger">
+      🛑 cancel
     </o-button>
 
-    <o-button v-else @click.stop.prevent="startSequence()" variant="primary"
-      icon-left="play">play
+    <o-button v-else @click.stop.prevent="startSequence()" variant="primary">
+      ▶️ play
     </o-button>
   </div>
 

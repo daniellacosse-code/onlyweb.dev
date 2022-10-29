@@ -82,6 +82,7 @@ header,
   cursor: pointer;
   color: var(--color-background);
   margin-left: var(--size-small);
+  font-size: var(--size-medium);
 }
 
 .Sidebar__navItemText {
@@ -136,9 +137,6 @@ const router = useRouter();
     <Meta :content="meta.title" name="og:title" />
     <Meta :content="meta.title" name="og:site_name" />
     <Meta :content="meta.description" name="og:description" />
-
-    <Link rel="stylesheet"
-      href="https://cdn.jsdelivr.net/npm/@mdi/font@5.8.55/css/materialdesignicons.min.css" />
 
     <Link href="/manifest.json" rel="manifest" />
     <Link href="/favicon.ico" rel="shortcut icon" />
@@ -239,10 +237,9 @@ const router = useRouter();
             v-for="{ name, path } in router.options.routes.filter(({ name }) => name !== 'index')"
             :to="path">
             <span class="Sidebar__navItemText">{{ name }}</span>
-            <o-icon class="Sidebar__navItemIcon"
-              :icon="sidebar.navIconMap[name] ?? sidebar.navIconMap.default"
-              size="medium">
-            </o-icon>
+            <span class="Sidebar__navItemIcon">
+              {{ sidebar.navIconMap[name] ?? sidebar.navIconMap.default }}
+            </span>
           </NuxtLink>
         </nav>
       </OSidebar>
