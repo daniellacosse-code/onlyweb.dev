@@ -1,8 +1,7 @@
 <script setup>
-import Quagga from "@ericblade/quagga2";
-import QrCodeReader from "@ericblade/quagga2-reader-qr";
 
 const { public: { scanner: { readoutTextDefault, decoderReaders } } } = useRuntimeConfig();
+const nuxtApp = useNuxtApp();
 
 const scanner = ref(null);
 const data = ref(readoutTextDefault);
@@ -10,10 +9,7 @@ const data = ref(readoutTextDefault);
 onMounted(async () => {
   await nextTick();
 
-  // TODO: register reader only once
-  Quagga.registerReader("qrcode", QrCodeReader);
-
-  Quagga.init(
+  nuxtApp.$quagga.init(
     {
       decoder: {
         readers: decoderReaders
@@ -27,16 +23,16 @@ onMounted(async () => {
     (error) => {
       if (error) return alert(error);
 
-      Quagga.onDetected(({ codeResult }) => {
+      nuxtApp.$quagga.onDetected(({ codeResult }) => {
         requestAnimationFrame(() => data.value = codeResult.code);
       });
 
-      Quagga.start();
+      nuxtApp.$quagga.start();
     }
   );
 });
 
-onUnmounted(Quagga.stop);
+onUnmounted(nuxtApp.$quagga.stop);
 </script>
 
 <template>
