@@ -139,6 +139,7 @@ const router = useRouter();
   <Head>
     <Title>{{ meta.title }}</Title>
 
+    <Base href="https://daniellacos.se/only/" />
     <Meta charset="utf-8" />
     <Meta content="width=device-width,initial-scale=1,minimal-ui"
       name="viewport" />
