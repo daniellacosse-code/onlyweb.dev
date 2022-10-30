@@ -7,26 +7,20 @@ const { public: { geolocation } } = useRuntimeConfig();
 const map = ref(null);
 mapboxgl.accessToken = geolocation.mapboxToken;
 
-let center = [0, 0];
-let zoom = geolocation.zoomLevelDefault;
-
-watch(() => center, () => map.value.setCenter(center));
-watch(() => zoom, () => map.value.setZoom(zoom));
-
 onMounted(async () => {
   await nextTick();
 
   map.value = new mapboxgl.Map({
-    center,
+    center: [0, 0],
     container: "Mapbox",
     style: geolocation.mapboxStyle,
-    zoom
+    zoom: geolocation.zoomLevelDefault
   });
 
-  navigator.geolocation.getCurrentPosition(
+  navigator.geolocation?.getCurrentPosition(
     ({ coords: { latitude, longitude } }) => {
-      center = [longitude, latitude];
-      zoom = geolocation.zoomLevelSpecific;
+      map.value.setCenter([longitude, latitude]);
+      map.value.setZoom(geolocation.zoomLevelSpecific);
     },
     (error) => alert(error.message),
     {
