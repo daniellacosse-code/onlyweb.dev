@@ -8,39 +8,38 @@ const container = ref(null);
 
 let game = null;
 let gameLoopID = null;
-const isPlaying = computed(() => gameLoopID !== null);
+const isPlaying = ref(false);
 
 const grid = ref(null);
 let canvas = null;
 let [width, height] = [0, 0];
 let indexCache = [];
 
-const cellBorderWidth = computed(() => rust.sizeCell + 1);
+const cellBorderWidth = rust.sizeCell + 1;
 
 onMounted(async () => {
   await nextTick();
 
   wasm.value = await Conway__init();
 
-  const width = Math.floor(
+  width = Math.floor(
     container.value.offsetWidth / cellBorderWidth
   );
-  const height = Math.floor(
+  height = Math.floor(
     container.value.offsetHeight / cellBorderWidth
   );
 
-  game = new Universe(width, height);
+  game = Universe.new(width, height);
+  indexCache = Array.from(new Array(height), () => new Array(width));
+
   grid.value.width = width * cellBorderWidth + 1;
   grid.value.height = height * cellBorderWidth + 1;
 
-  indexCache = Array.from(new Array(height), () => new Array(width));
-
-  canvas = grid.getContext("2d");
+  canvas = grid.value.getContext("2d");
   canvas.strokeStyle = rust.colorDefault;
-  canvas.fillStyle = rust.colorBackground;
+  canvas.fillStyle = rust.colorDefault;
 
   redrawGame();
-  startGame();
 });
 
 onUnmounted(() => {
@@ -49,7 +48,7 @@ onUnmounted(() => {
 });
 
 function redrawGame() {
-  canvas.clearRect(0, 0, grid.width, grid.height);
+  canvas.clearRect(0, 0, grid.value.width, grid.value.height);
 
   // TODO: can I move these into here and only stroke once?
   redrawGrid();
@@ -89,7 +88,7 @@ function redrawCells() {
     (width * height) / BITS_PER_BYTE
   );
 
-  const getIndex = (row, column) => indexCache[row][column] !== null
+  const getIndex = (row, column) => indexCache[row][column] !== undefined
     ? indexCache[row][column]
     : (indexCache[row][column] = row * width + column);
 
@@ -103,15 +102,16 @@ function redrawCells() {
 
   canvas.beginPath();
 
-  let [row, column] = [height, width];
+  let row = height;
   while (row--) {
+    let column = width;
     while (column--) {
       if (isCellAlive(row, column, cells)) {
         canvas.fillRect(
           column * cellBorderWidth + 1,
           row * cellBorderWidth + 1,
-          cellPixelSize,
-          cellPixelSize
+          cellBorderWidth,
+          cellBorderWidth
         );
       }
     }
@@ -123,11 +123,13 @@ function redrawCells() {
 function startGame() {
   game.tick();
   redrawGame();
+  isPlaying.value = true;
   gameLoopID = requestAnimationFrame(startGame);
 }
 
 function pauseGame() {
   cancelAnimationFrame(gameLoopID);
+  isPlaying.value = false;
   gameLoopID = null;
 }
 
@@ -163,25 +165,21 @@ function cellToggle({ clientX, clientY }) {
 </template>
 
 <style scoped>
-.Game__container,
-.Game__controlsContainer {
-  align-items: center;
-  display: flex;
-  justify-content: center;
-}
-
 .Game__container {
-  flex-direction: column;
+  display: block;
+  width: 100%;
   height: 100%;
   overflow: hidden;
-  position: relative;
-  width: 100%;
+  position: fixed;
 }
 
 .Game__controlsContainer {
+  align-items: center;
   bottom: 0;
   box-sizing: border-box;
-  padding: var(--gutter-large);
+  display: flex;
+  justify-content: center;
+  padding: var(--size-large);
   position: fixed;
   width: 100%;
 }

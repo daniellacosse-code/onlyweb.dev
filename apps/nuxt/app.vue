@@ -41,6 +41,10 @@ header,
   height: 100%;
 }
 
+header {
+  z-index: 1;
+}
+
 button {
   background: var(--color-default);
   padding: var(--size-small) var(--size-default);
