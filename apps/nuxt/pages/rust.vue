@@ -163,6 +163,11 @@ function cellToggle({ clientX, clientY }) {
 </template>
 
 <style scoped>
+.o-btn__label {
+  color: var(--color-background);
+  white-space: nowrap;
+}
+
 .Game__container,
 .Game__controlsContainer {
   align-items: center;

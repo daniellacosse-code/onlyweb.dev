@@ -11,8 +11,15 @@ let zoom = geolocation.zoomLevelDefault;
 
 const map = ref(null);
 
-watch(() => center, () => map.value.setCenter(center));
-watch(() => zoom, () => map.value.setZoom(zoom));
+watch(() => center, () => {
+  console.log("setting Center");
+  map.value.setCenter(center);
+});
+watch(() => zoom, () => {
+  console.log("zooming in");
+
+  map.value.setZoom(zoom);
+});
 
 onMounted(async () => {
   await nextTick();
@@ -26,6 +33,7 @@ onMounted(async () => {
 
   navigator.geolocation.getCurrentPosition(
     ({ coords: { latitude, longitude } }) => {
+      console.log({ latitude, longitude });
       center = [longitude, latitude];
       zoom = geolocation.zoomLevelSpecific;
     },

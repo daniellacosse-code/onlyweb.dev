@@ -10,6 +10,7 @@ const data = ref(readoutTextDefault);
 onMounted(async () => {
   await nextTick();
 
+  // TODO: register reader only once
   Quagga.registerReader("qrcode", QrCodeReader);
 
   Quagga.init(
