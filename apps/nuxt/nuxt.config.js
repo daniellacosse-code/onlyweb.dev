@@ -2,8 +2,7 @@
 export default defineNuxtConfig({
   app: {
     pageTransition: false,
-    layoutTransition: false,
-    buildAssetsDir: process.env.VERCEL_ENV === "production" ? "/only/" : "/"
+    layoutTransition: false
   },
   plugins: [
     {
