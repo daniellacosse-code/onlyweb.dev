@@ -2,7 +2,8 @@
 export default defineNuxtConfig({
   app: {
     pageTransition: false,
-    layoutTransition: false
+    layoutTransition: false,
+    baseURL: process.env.VERCEL_ENV === "production" ? "/only/" : "/"
   },
   plugins: [
     {
