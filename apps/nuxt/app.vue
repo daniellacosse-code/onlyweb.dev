@@ -41,6 +41,19 @@ header,
   height: 100%;
 }
 
+button {
+  background: var(--color-default);
+  padding: var(--size-small) var(--size-default);
+  border-radius: var(--size-extra-small);
+  color: var(--color-background);
+  cursor: pointer;
+}
+
+button:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
 /* part of me just wants to roll my own sidebar/etc */
 .Sidebar__header {
   padding: var(--size-default);

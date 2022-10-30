@@ -5,11 +5,11 @@ const { public: { music, MILLISECONDS_PER_SECOND,
   SECONDS_PER_MINUTE } } = useRuntimeConfig();
 
 let highlightPointer = 0;
-let isPlaying = false;
-let isPreparingToPlay = false;
 let remainingChords = [];
 let sequencePlayerID = null;
 
+const isPlaying = ref(false);
+const isPreparingToPlay = ref(false);
 const chordInstructions = ref(music.playerChordInstructionsDefault);
 const chordInstructionsInput = ref(null);
 const chordInstructionsInputElement = computed(() => chordInstructionsInput.value?.$refs.textarea);
@@ -18,7 +18,7 @@ const bpm = ref(music.playerBeatsPerMinuteDefault);
 const bpmMS = computed(() => (MILLISECONDS_PER_SECOND * SECONDS_PER_MINUTE) / bpm.value);
 
 function startSequence() {
-  isPreparingToPlay = true;
+  isPreparingToPlay.value = true;
   remainingChords = chordInstructions.value.split(/\s+/).reverse();
   sequencePlayerID = setInterval(playNextChord, bpmMS.value);
 }
@@ -40,7 +40,7 @@ function highlightChord(chordString) {
 }
 
 async function playNextChord() {
-  [isPlaying, isPreparingToPlay] = [true, false];
+  [isPlaying.value, isPreparingToPlay.value] = [true, false];
 
   const currentChordString = remainingChords.pop();
 
@@ -58,7 +58,7 @@ function stopSequence() {
   clearInterval(sequencePlayerID);
 
   [
-    isPlaying,
+    isPlaying.value,
     highlightPointer,
     displayedNotes.value,
     remainingChords
@@ -90,14 +90,14 @@ function stopSequence() {
       </o-field>
     </fieldset>
 
-    <o-button v-if="isPlaying" @click.stop.prevent="stopSequence()"
-      :disabled="isPreparingToPlay" variant="danger">
+    <button v-if="isPlaying" @click.stop.prevent="stopSequence()"
+      :disabled="isPreparingToPlay">
       🛑 cancel
-    </o-button>
+    </button>
 
-    <o-button v-else @click.stop.prevent="startSequence()" variant="primary">
+    <button v-else @click.stop.prevent="startSequence()">
       ▶️ play
-    </o-button>
+    </button>
   </div>
 
 </template>

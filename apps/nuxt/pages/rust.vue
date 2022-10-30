@@ -151,23 +151,18 @@ function cellToggle({ clientX, clientY }) {
     <canvas class="Game" ref="grid" @click="cellToggle" />
 
     <div class="Game__controlsContainer">
-      <o-button v-if="isPlaying" @click.stop.prevent="pauseGame()">
+      <button v-if="isPlaying" @click.stop.prevent="pauseGame()">
         ⏸ pause
-      </o-button>
+      </button>
 
-      <o-button v-else variant="primary" @click.stop.prevent="startGame()">
+      <button v-else variant="primary" @click.stop.prevent="startGame()">
         ▶️ play
-      </o-button>
+      </button>
     </div>
   </div>
 </template>
 
 <style scoped>
-.o-btn__label {
-  color: var(--color-background);
-  white-space: nowrap;
-}
-
 .Game__container,
 .Game__controlsContainer {
   align-items: center;
