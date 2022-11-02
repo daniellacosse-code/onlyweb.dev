@@ -3,7 +3,8 @@ export default defineNuxtConfig({
   app: {
     pageTransition: false,
     layoutTransition: false,
-    buildAssetsDir: process.env.VERCEL_ENV === "production" ? "_nuxt/" : "/"
+    buildAssetsDir:
+      process.env.VERCEL_ENV === "production" ? "only/_nuxt/" : "/"
   },
   plugins: [
     {
