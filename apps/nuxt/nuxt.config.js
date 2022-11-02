@@ -9,6 +9,9 @@ export default defineNuxtConfig({
   plugins: [
     {
       src: "~/plugins/oruga.js"
+    },
+    {
+      src: "~/plugins/quagga.js"
     }
   ],
   postcss: {
@@ -17,9 +20,9 @@ export default defineNuxtConfig({
       "postcss-initial": {}
     }
   },
-  router: {
-    base: process.env.VERCEL_ENV === "production" ? "/only/" : "/"
-  },
+  // router: {
+  //   base: "/only/"
+  // },
   runtimeConfig: {
     public: {
       BITS_PER_BYTE: 8,
