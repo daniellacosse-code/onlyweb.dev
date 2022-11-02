@@ -172,8 +172,8 @@ if (activeRoute.path !== "/") {
   <Head>
     <Title>{{ title }}</Title>
 
-    <Base v-if="environment === 'production'"
-      href="https://only.daniellacos.se/" />
+    <!-- <Base v-if="environment === 'production'" -->
+      <!-- href="https://only.daniellacos.se/" /> -->
 
     <Meta charset="utf-8" />
     <Meta content="width=device-width,initial-scale=1,minimal-ui"
