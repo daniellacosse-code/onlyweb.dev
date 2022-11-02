@@ -63,6 +63,12 @@ onUnmounted(nuxtApp.$quagga.stop);
   left: 0;
 }
 
+.Quagga__scanner>video {
+  width: 100%;
+  max-width: var(--device-width-tablet);
+  object-fit: contain;
+}
+
 .Quagga>pre {
   font-family: var(--font-monospace);
   padding: var(--size-default);
