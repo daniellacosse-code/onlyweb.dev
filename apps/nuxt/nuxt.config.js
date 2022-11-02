@@ -3,7 +3,10 @@ export default defineNuxtConfig({
   app: {
     pageTransition: false,
     layoutTransition: false,
-    baseURL: "/only/"
+    baseURL:
+      process.env.VERCEL_ENV === "production"
+        ? "https://daniellacos.se/only/"
+        : "/"
   },
   plugins: [
     {
@@ -18,10 +21,6 @@ export default defineNuxtConfig({
       "postcss-autoreset": {},
       "postcss-initial": {}
     }
-  },
-  router: {
-    linkActiveClass: "Sidebar__navItem--active",
-    prefetch: false
   },
   runtimeConfig: {
     public: {
