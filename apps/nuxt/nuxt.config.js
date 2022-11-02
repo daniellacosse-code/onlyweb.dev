@@ -2,11 +2,7 @@
 export default defineNuxtConfig({
   app: {
     pageTransition: false,
-    layoutTransition: false,
-    baseURL:
-      process.env.VERCEL_ENV === "production"
-        ? "https://daniellacos.se/only/"
-        : "/"
+    layoutTransition: false
   },
   plugins: [
     {
