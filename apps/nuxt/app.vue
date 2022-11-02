@@ -101,6 +101,7 @@ button:disabled {
   height: 48px;
   cursor: pointer;
   display: inline-block;
+  margin-right: var(--size-large);
 }
 
 .Navbar__nav {
@@ -108,7 +109,7 @@ button:disabled {
   display: flex;
   justify-content: space-around;
   align-items: center;
-  max-width: 75vw;
+  max-width: var(--device-width-tablet);
 }
 
 .Navbar__navItem {
@@ -152,7 +153,7 @@ button:disabled {
 </style>
 
 <script setup>
-const { public: { meta, navbar } } = useRuntimeConfig();
+const { public: { meta, navbar, environment } } = useRuntimeConfig();
 const router = useRouter();
 const activeRoute = useRoute();
 
@@ -170,6 +171,9 @@ if (activeRoute.path !== "/") {
 
   <Head>
     <Title>{{ title }}</Title>
+
+    <Base v-if="environment === 'production'"
+      href="https://only.daniellacos.se/" />
 
     <Meta charset="utf-8" />
     <Meta content="width=device-width,initial-scale=1,minimal-ui"

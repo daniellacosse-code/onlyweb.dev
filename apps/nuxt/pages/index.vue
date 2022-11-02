@@ -81,19 +81,15 @@ li {
   display: block;
 }
 
-h1 {
-  display: flex;
-  gap: var(--size-small);
-  align-items: center;
-  margin-top: var(--size-large);
-}
-
 img {
   height: var(--size-touch-target);
 }
 
 article {
   padding: var(--size-default);
+  max-width: var(--device-width-tablet);
+  display: block;
+  margin: auto;
 }
 
 section {
@@ -108,9 +104,12 @@ h2 {
 }
 
 h1 {
+  display: flex;
+  gap: var(--size-small);
+  align-items: center;
+  margin-top: var(--size-large);
   color: var(--color-default);
   font-size: var(--size-extra-large);
-  line-height: var(--size-extra-large);
   font-weight: bold;
   margin-bottom: var(--size-default);
 }

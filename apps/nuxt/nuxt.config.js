@@ -2,7 +2,8 @@
 export default defineNuxtConfig({
   app: {
     pageTransition: false,
-    layoutTransition: false
+    layoutTransition: false,
+    baseURL: "/only/"
   },
   plugins: ["~/plugins/quagga.js"],
   postcss: {
@@ -13,6 +14,7 @@ export default defineNuxtConfig({
   },
   runtimeConfig: {
     public: {
+      environment: process.env.VERCEL_ENV ?? process.env.NODE_ENV,
       BITS_PER_BYTE: 8,
       MILLISECONDS_PER_SECOND: 1000,
       SECONDS_PER_MINUTE: 60,
