@@ -3,8 +3,7 @@ export default defineNuxtConfig({
   app: {
     pageTransition: false,
     layoutTransition: false,
-    buildAssetsDir:
-      process.env.VERCEL_ENV === "production" ? "only/_nuxt/" : "/"
+    baseURL: "/only/"
   },
   plugins: [
     {
@@ -20,9 +19,10 @@ export default defineNuxtConfig({
       "postcss-initial": {}
     }
   },
-  // router: {
-  //   base: "/only/"
-  // },
+  router: {
+    linkActiveClass: "Sidebar__navItem--active",
+    prefetch: false
+  },
   runtimeConfig: {
     public: {
       BITS_PER_BYTE: 8,

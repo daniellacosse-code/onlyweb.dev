@@ -88,9 +88,9 @@ button:disabled {
 .Sidebar__navItem:hover,
 .Sidebar__navItem:hover>.Sidebar__navItemIcon,
 .Sidebar__navItem:hover>.Sidebar__navItemText,
-.Sidebar__nav>.router-link-active,
-.router-link-active>.Sidebar__navItemIcon,
-.router-link-active>.Sidebar__navItemText {
+.Sidebar__nav>.Sidebar__navItem--active,
+.Sidebar__navItem--active>.Sidebar__navItemIcon,
+.Sidebar__navItem--active>.Sidebar__navItemText {
   background: var(--color-highlight);
   color: var(--color-default);
 }
@@ -139,7 +139,6 @@ const router = useRouter();
   <Head>
     <Title>{{ meta.title }}</Title>
 
-    <Base href="https://daniellacos.se/only/" />
     <Meta charset="utf-8" />
     <Meta content="width=device-width,initial-scale=1,minimal-ui"
       name="viewport" />
