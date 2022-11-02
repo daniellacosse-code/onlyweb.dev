@@ -4,14 +4,7 @@ export default defineNuxtConfig({
     pageTransition: false,
     layoutTransition: false
   },
-  plugins: [
-    {
-      src: "~/plugins/oruga.js"
-    },
-    {
-      src: "~/plugins/quagga.js"
-    }
-  ],
+  plugins: ["~/plugins/quagga.js"],
   postcss: {
     plugins: {
       "postcss-autoreset": {},
@@ -35,7 +28,7 @@ export default defineNuxtConfig({
         description: "the case for only web",
         title: "only web"
       },
-      sidebar: {
+      navbar: {
         navIconMap: {
           default: "📄",
           "3D": "📦",
@@ -61,7 +54,7 @@ export default defineNuxtConfig({
       },
       threeDimensional: {
         colorBackground: [0.1, 0.1, 0.1],
-        positionCamera: [-1, 0, 6],
+        positionCamera: [0, 0, 6],
         rotationLight: [45, 0, 0],
         rotationSpeedCube: [10, 20, 30]
       }

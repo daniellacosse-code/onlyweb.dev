@@ -821,7 +821,6 @@ __metadata:
     "@nuxtjs/web-vitals": ^0.1.10
     "@only-web/chords": "workspace:^"
     "@only-web/conway": "workspace:^"
-    "@oruga-ui/oruga-next": ^0.5.6
     mapbox-gl: ^2.10.0
     nuxi: ^3.0.0-rc.11
     nuxt: 3.0.0-rc.11
@@ -831,15 +830,6 @@ __metadata:
     untyped: ^0.5.0
   languageName: unknown
   linkType: soft
-
-"@oruga-ui/oruga-next@npm:^0.5.6":
-  version: 0.5.6
-  resolution: "@oruga-ui/oruga-next@npm:0.5.6"
-  peerDependencies:
-    vue: ^3.0.0
-  checksum: 3dc0c5a5b6cabd1a6a5634ae5cf0148495bf8db97648ac08bb6feb82eb68062d3cf83457113afec78ec82e4afa470a006d1249d40a739d8506415b6bb1fd69f3
-  languageName: node
-  linkType: hard
 
 "@rollup/plugin-alias@npm:^3.1.9":
   version: 3.1.9

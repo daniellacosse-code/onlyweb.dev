@@ -51,7 +51,11 @@ onUnmounted(nuxtApp.$quagga.stop);
 }
 
 .Quagga__scanner {
+  display: flex;
+  justify-content: center;
   position: relative;
+  background-color: var(--color-text);
+  min-height: 480px;
 }
 
 .Quagga__scanner>.drawingBuffer {
@@ -65,7 +69,6 @@ onUnmounted(nuxtApp.$quagga.stop);
   color: inherit;
   cursor: inherit;
   background: var(--color-background);
-  border-radius: var(--size-small);
   text-align: center;
 }
 </style>

@@ -22,10 +22,10 @@ onMounted(async () => {
 
   wasm.value = await Conway__init();
 
-  width = Math.floor(
+  width = Math.ceil(
     container.value.offsetWidth / cellBorderWidth
   );
-  height = Math.floor(
+  height = Math.ceil(
     container.value.offsetHeight / cellBorderWidth
   );
 

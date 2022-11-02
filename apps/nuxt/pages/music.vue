@@ -12,7 +12,6 @@ const isPlaying = ref(false);
 const isPreparingToPlay = ref(false);
 const chordInstructions = ref(music.playerChordInstructionsDefault);
 const chordInstructionsInput = ref(null);
-const chordInstructionsInputElement = computed(() => chordInstructionsInput.value?.$refs.textarea);
 const displayedNotes = ref(music.playerNoteReadoutDefault);
 const bpm = ref(music.playerBeatsPerMinuteDefault);
 const bpmMS = computed(() => (MILLISECONDS_PER_SECOND * SECONDS_PER_MINUTE) / bpm.value);
@@ -31,12 +30,12 @@ function highlightChord(chordString) {
 
   highlightPointer = currentChordIndex + chordString.length;
 
-  chordInstructionsInputElement.value.setSelectionRange(
+  chordInstructionsInput.value.setSelectionRange(
     currentChordIndex,
     highlightPointer
   );
 
-  chordInstructionsInputElement.value.focus();
+  chordInstructionsInput.value.focus();
 }
 
 async function playNextChord() {
@@ -64,7 +63,7 @@ function stopSequence() {
     remainingChords
   ] = [false, 0, music.playerNoteReadoutDefault, []];
 
-  chordInstructionsInputElement.value.blur();
+  chordInstructionsInput.value.blur();
 }
 </script>
 
@@ -78,16 +77,17 @@ function stopSequence() {
     </ol>
 
     <fieldset class="MusicInputs">
-      <o-field label="Chords">
-        <o-input type="textarea" v-model="chordInstructions"
-          ref="chordInstructionsInput">
-        </o-input>
-      </o-field>
+      <label>
+        Chords
+        <textarea type="textarea" v-model="chordInstructions"
+          ref="chordInstructionsInput"></textarea>
+      </label>
 
-      <o-field label="Beats per minute (BPM)">
-        <o-input class="MusicInput" type="number" v-model="bpm" min="24"
-          max="300"></o-input>
-      </o-field>
+      <label>
+        Beats per minute (BPM)
+        <input class="MusicInput" type="number" v-model="bpm" min="24"
+          max="300" />
+      </label>
     </fieldset>
 
     <button v-if="isPlaying" @click.stop.prevent="stopSequence()"
@@ -109,14 +109,16 @@ function stopSequence() {
   flex-direction: column;
   justify-content: space-around;
   overflow: hidden;
-  width: 100vw;
+  width: 100%;
 }
 
 .MusicInputs {
   margin: var(--size-large) 0;
   max-width: var(--device-width-tablet);
-  padding: 0 var(--size-small);
+  padding: var(--size-small);
+  display: block;
   width: 100%;
+  box-sizing: border-box;
 }
 
 .MusicNotes {
@@ -125,11 +127,14 @@ function stopSequence() {
   list-style-type: none;
   margin-bottom: var(--size-large);
   min-width: var(--device-width-mobile);
+  width: 100%;
+  background-color: var(--color-background);
+  padding: var(--size-small);
+  box-sizing: border-box;
 }
 
 .MusicNote {
   color: var(--color-default);
   font-size: var(--size-extra-large);
-  margin-top: var(--size-large);
 }
 </style>

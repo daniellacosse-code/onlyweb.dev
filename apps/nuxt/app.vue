@@ -1,15 +1,15 @@
 <style>
-html,
-body {
+/* app frame + vars */
+body,
+main {
+  position: relative;
+  display: block;
   width: 100vw;
   height: 100vh;
-}
-
-main {
-  display: flex;
 
   --color-default: v-bind(meta.color);
-  --color-text: hsl(210, 29%, 24%);
+  --color-danger: rgb(199, 77, 77);
+  --color-text: hsl(280deg, 0%, 10%);
   --color-background: hsl(156, 42%, 95%);
   --color-highlight: hsl(0, 0%, 100%);
 
@@ -19,38 +19,62 @@ main {
   --size-extra-small: 0.25rem;
   --size-small: 0.5rem;
   --size-default: 1rem;
+
+  --size-font-default-offset: -0.35rem;
+
   --size-medium: 1.5rem;
   --size-large: 2rem;
   --size-extra-large: 3rem;
   --size-huge: 6rem;
 
+  --size-touch-target: var(--size-extra-large);
+
   --device-width-mobile: 320px;
   --device-width-tablet: 1020px;
-
-  --app-icon-size: 128px;
-
-  /* config orgua.io UI library */
-  --oruga-variant-primary: var(--color-default);
 }
 
-/* lmao this is wacky */
-main,
-#__nuxt,
-header,
-.o-side {
-  height: 100%;
+/* faux component library */
+label {
+  font-family: var(--font-default);
+  font-size: var(--size-default);
+  display: flex;
+  flex-direction: column;
+  font-weight: bold;
+  margin-bottom: var(--size-default);
 }
 
-header {
-  z-index: 1;
+label>input,
+label>textarea {
+  font-family: var(--font-default);
+  font-size: var(--size-default);
+  margin-top: var(--size-small);
+  border: var(--size-extra-small) solid var(--color-text);
+  display: block;
+  box-sizing: border-box;
+  border-radius: var(--size-extra-small);
+  padding: var(--size-small);
+}
+
+label>input:focus,
+label>textarea:focus {
+  border-color: var(--color-default);
+}
+
+label>textarea {
+  font-family: var(--font-monospace);
 }
 
 button {
+  font-family: var(--font-default);
+  font-size: var(--size-default);
+  font-weight: bold;
+  text-transform: uppercase;
   background: var(--color-default);
   padding: var(--size-small) var(--size-default);
   border-radius: var(--size-extra-small);
   color: var(--color-background);
   cursor: pointer;
+  margin-top: var(--size-font-default-offset);
 }
 
 button:disabled {
@@ -58,78 +82,86 @@ button:disabled {
   cursor: not-allowed;
 }
 
-/* part of me just wants to roll my own sidebar/etc */
-.Sidebar__header {
-  padding: var(--size-default);
-  text-align: right;
-}
-
-.Sidebar__logo {
-  max-width: var(--app-icon-size);
-  width: 100%;
-  cursor: pointer;
-}
-
-.Sidebar__nav {
-  margin: var(--size-large) 0;
-}
-
-.Sidebar__navItem {
-  align-items: center;
-  cursor: pointer;
+/* Navbar styles */
+.Navbar {
   display: flex;
-  height: var(--size-extra-large);
-  justify-content: end;
+  justify-content: space-between;
+  background: var(--color-default);
+  padding: var(--size-default);
+  position: sticky;
+  top: 0;
+}
+
+.Navbar__home {
+  display: flex;
+  align-items: center;
+}
+
+.Navbar__logo {
+  height: 48px;
+  cursor: pointer;
+  display: inline-block;
+}
+
+.Navbar__nav {
+  flex-grow: 1;
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  max-width: 75vw;
+}
+
+.Navbar__navItem {
+  cursor: pointer;
   overflow: hidden;
-  padding: 0 var(--size-default);
   text-overflow: ellipsis;
+  display: inline-flex;
+  align-items: center;
+  gap: var(--size-small);
+  min-width: var(--size-touch-target);
+  min-height: var(--size-touch-target);
 }
 
-.Sidebar__navItem:hover,
-.Sidebar__navItem:hover>.Sidebar__navItemIcon,
-.Sidebar__navItem:hover>.Sidebar__navItemText,
-.Sidebar__nav>.router-link-active,
-.router-link-active>.Sidebar__navItemIcon,
-.router-link-active>.Sidebar__navItemText {
-  background: var(--color-highlight);
-  color: var(--color-default);
-}
-
-.Sidebar__navItemIcon {
+.Navbar__navItemIcon {
   cursor: pointer;
   color: var(--color-background);
-  margin-left: var(--size-small);
   font-size: var(--size-medium);
+  user-select: none;
 }
 
-.Sidebar__navItemText {
+.Navbar__navItemText {
   color: var(--color-highlight);
   cursor: pointer;
   font-family: var(--font-default);
   font-size: var(--size-medium);
   font-weight: bold;
-  line-height: var(--size-extra-large);
-  margin-top: -0.35rem;
+  margin-top: var(--size-font-default-offset);
+  user-select: none;
+}
+
+.Navbar__navItemText:hover,
+.Navbar__navItemText--active {
+  text-decoration: underline;
 }
 
 @media (max-width: 1020px) {
-  .Sidebar__navItem {
-    justify-content: center;
-  }
-
-  .Sidebar__navItemIcon {
-    margin: 0;
-  }
-
-  .Sidebar__navItemText {
+  .Navbar__navItemText {
     display: none;
   }
 }
 </style>
 
 <script setup>
-const { public: { meta, sidebar } } = useRuntimeConfig();
+const { public: { meta, navbar } } = useRuntimeConfig();
 const router = useRouter();
+const activeRoute = useRoute();
+
+let { title, description } = meta;
+
+if (activeRoute.path !== "/") {
+  title = `${title} | ${activeRoute.name}`;
+  description = `${description} (${activeRoute.name} demo)`;
+}
 
 // ISSUE #81: redo service worker
 </script>
@@ -137,7 +169,7 @@ const router = useRouter();
 <template>
 
   <Head>
-    <Title>{{ meta.title }}</Title>
+    <Title>{{ title }}</Title>
 
     <Meta charset="utf-8" />
     <Meta content="width=device-width,initial-scale=1,minimal-ui"
@@ -147,13 +179,16 @@ const router = useRouter();
     <Meta content="yes" name="apple-mobile-web-app-capable" />
     <Meta content="black-translucent"
       name="apple-mobile-web-app-status-bar-style" />
-    <Meta :content="meta.title" name="apple-mobile-web-app-title" />
-    <Meta :content="meta.description" name="description" />
-    <Meta :content="meta.color" name="theme-color" />
+
+    <Meta :content="title" name="apple-mobile-web-app-title" />
+    <Meta :content="title" name="og:title" />
+    <Meta :content="title" name="og:site_name" />
     <Meta content="website" name="og:type" />
-    <Meta :content="meta.title" name="og:title" />
-    <Meta :content="meta.title" name="og:site_name" />
-    <Meta :content="meta.description" name="og:description" />
+
+    <Meta :content="description" name="description" />
+    <Meta :content="description" name="og:description" />
+
+    <Meta :content="meta.color" name="theme-color" />
 
     <Link href="/manifest.json" rel="manifest" />
     <Link href="/favicon.ico" rel="shortcut icon" />
@@ -242,24 +277,24 @@ const router = useRouter();
   <main>
     <NuxtLoadingIndicator />
 
-    <header>
-      <OSidebar open position="static" fullheight mobile="reduced"
-        variant="primary">
-        <NuxtLink class="Sidebar__header" to="/">
-          <img class="Sidebar__logo" src="/icon-reverse.png" alt="logo" />
-        </NuxtLink>
+    <header class="Navbar">
+      <NuxtLink class="Navbar__home" to="/">
+        <img class="Navbar__logo" src="/icon-reverse.png" alt="logo" />
+      </NuxtLink>
 
-        <nav class="Sidebar__nav">
-          <NuxtLink class="Sidebar__navItem"
-            v-for="{ name, path } in router.options.routes.filter(({ name }) => name !== 'index')"
-            :to="path">
-            <span class="Sidebar__navItemText">{{ name }}</span>
-            <span class="Sidebar__navItemIcon">
-              {{ sidebar.navIconMap[name] ?? sidebar.navIconMap.default }}
-            </span>
-          </NuxtLink>
-        </nav>
-      </OSidebar>
+      <nav class="Navbar__nav">
+        <NuxtLink class="Navbar__navItem"
+          v-for="{ name, path } in router.getRoutes().filter(({ name }) => name !== 'index')"
+          :to="path">
+          <span class="Navbar__navItemIcon">
+            {{ navbar.navIconMap[name] ?? navbar.navIconMap.default }}
+          </span>
+          <span
+            :class="{ 'Navbar__navItemText': true, 'Navbar__navItemText--active': path === activeRoute.path }">{{
+    name
+            }}</span>
+        </NuxtLink>
+      </nav>
     </header>
 
     <NuxtPage />

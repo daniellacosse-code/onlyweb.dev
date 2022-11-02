@@ -1,7 +1,8 @@
 <template>
   <article>
     <section>
-      <h1>only web</h1>
+
+      <h1><img src="/icon.png" alt="icon" /> only web</h1>
 
       <p>
         A demo showcasing the power of only developing on web.
@@ -78,6 +79,17 @@ h2,
 pre,
 li {
   display: block;
+}
+
+h1 {
+  display: flex;
+  gap: var(--size-small);
+  align-items: center;
+  margin-top: var(--size-large);
+}
+
+img {
+  height: var(--size-touch-target);
 }
 
 article {

@@ -36,6 +36,7 @@ onMounted(async () => {
 
 <style scoped>
 #Mapbox {
+  display: block;
   height: 100%;
   width: 100%;
 }
