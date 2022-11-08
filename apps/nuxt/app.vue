@@ -33,6 +33,14 @@ main {
   --device-width-tablet: 1020px;
 }
 
+body {
+  background-color: hsl(153, 47%, 49%);
+}
+
+main {
+  background-color: white;
+}
+
 /* faux component library */
 label {
   font-family: var(--font-default);
@@ -153,7 +161,7 @@ button:disabled {
 </style>
 
 <script setup>
-const { public: { meta, navbar, environment } } = useRuntimeConfig();
+const { public: { meta, navbar } } = useRuntimeConfig();
 const router = useRouter();
 const activeRoute = useRoute();
 
@@ -173,7 +181,7 @@ if (activeRoute.path !== "/") {
     <Title>{{ title }}</Title>
 
     <!-- <Base v-if="environment === 'production'" -->
-      <!-- href="https://only.daniellacos.se/" /> -->
+    <!-- href="https://only.daniellacos.se/" /> -->
 
     <Meta charset="utf-8" />
     <Meta content="width=device-width,initial-scale=1,minimal-ui"
