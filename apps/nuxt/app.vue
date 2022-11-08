@@ -34,11 +34,15 @@ main {
 }
 
 body {
+  /* this is so the "ears" on ios are green and not white. v-bind doesn't work, here :/ */
   background-color: hsl(153, 47%, 49%);
 }
 
 main {
   background-color: white;
+
+  /* this is so the main content doesn't scroll under the ios "ears" */
+  overflow-y: scroll;
 }
 
 /* faux component library */
