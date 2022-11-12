@@ -191,7 +191,7 @@ if (activeRoute.path !== "/") {
     <Meta :content="description" name="description" />
     <Meta :content="description" name="og:description" />
 
-    <Meta :content="meta.color" name="theme-color" />
+    <Meta content="#42b983" name="theme-color" />
 
     <Link href="/manifest.json" rel="manifest" />
     <Link href="/favicon.ico" rel="shortcut icon" />
