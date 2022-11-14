@@ -130,7 +130,7 @@ pre {
   padding: var(--size-default);
   color: inherit;
   cursor: inherit;
-  background: var(--color-background);
+  background: var(--color-highlight);
   border-radius: var(--size-small);
 }
 

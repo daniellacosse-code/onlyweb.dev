@@ -52,7 +52,7 @@ export default defineNuxtConfig({
       },
       scanner: {
         decoderReaders: ["upc_reader", "upc_e_reader", "qrcode"],
-        readoutTextDefault: "--"
+        readoutTextDefault: "[scan data will show here]"
       },
       threeDimensional: {
         colorBackground: [0.1, 0.1, 0.1],

@@ -113,7 +113,6 @@ function stopSequence() {
 }
 
 .MusicInputs {
-  margin: var(--size-large) 0;
   max-width: var(--device-width-tablet);
   padding: var(--size-small);
   display: block;
@@ -128,8 +127,9 @@ function stopSequence() {
   margin-bottom: var(--size-large);
   min-width: var(--device-width-mobile);
   width: 100%;
-  background-color: var(--color-background);
+  background-color: var(--color-highlight);
   padding: var(--size-small);
+  height: var(--size-huge);
   box-sizing: border-box;
 }
 

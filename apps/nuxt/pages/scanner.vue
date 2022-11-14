@@ -5,6 +5,7 @@ const nuxtApp = useNuxtApp();
 
 const scanner = ref(null);
 const data = ref(readoutTextDefault);
+const isLoading = ref(true);
 
 onMounted(async () => {
   await nextTick();
@@ -28,6 +29,7 @@ onMounted(async () => {
       });
 
       nuxtApp.$quagga.start();
+      isLoading.value = false;
     }
   );
 });
@@ -37,8 +39,10 @@ onUnmounted(nuxtApp.$quagga.stop);
 
 <template>
   <div class="Quagga">
-    <div class="Quagga__scanner" ref="scanner" />
-    <pre>{{ data }}</pre>
+    <div
+      :class="{ 'Quagga__scanner': true, 'Quagga__scanner--loading': isLoading }"
+      ref="scanner" />
+    <pre>{{ isLoading ? 'Loading...' : data }}</pre>
   </div>
 </template>
 
@@ -54,8 +58,14 @@ onUnmounted(nuxtApp.$quagga.stop);
   display: flex;
   justify-content: center;
   position: relative;
-  background-color: var(--color-text);
+  opacity: 1;
+  transition: opacity ease 350ms;
+}
+
+.Quagga__scanner--loading {
   min-height: 480px;
+  opacity: 0;
+  ;
 }
 
 .Quagga__scanner>.drawingBuffer {
@@ -72,9 +82,9 @@ onUnmounted(nuxtApp.$quagga.stop);
 .Quagga>pre {
   font-family: var(--font-monospace);
   padding: var(--size-default);
-  color: inherit;
+  color: var(--color-text);
   cursor: inherit;
-  background: var(--color-background);
+  background: var(--color-highlight);
   text-align: center;
 }
 </style>

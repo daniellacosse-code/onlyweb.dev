@@ -7,11 +7,13 @@ main {
   width: 100vw;
   height: 100vh;
 
+  background: var(--color-background);
+
   --color-default: v-bind(meta.color);
   --color-danger: rgb(199, 77, 77);
-  --color-text: hsl(280deg, 0%, 10%);
-  --color-background: hsl(156, 42%, 95%);
-  --color-highlight: hsl(0, 0%, 100%);
+  --color-background: hsl(280deg, 0%, 10%);
+  --color-text: hsl(156, 42%, 95%);
+  --color-highlight: hsl(0, 3%, 28%);
 
   --font-default: "HelveticaNeue", Helvetica, Arial, sans-serif;
   --font-monospace: "Menlo", monospace;
@@ -29,7 +31,7 @@ main {
 
   --size-touch-target: var(--size-extra-large);
 
-  --device-width-mobile: 320px;
+  --device-width-mobile: 480px;
   --device-width-tablet: 1020px;
 }
 
@@ -37,6 +39,7 @@ main {
 label {
   font-family: var(--font-default);
   font-size: var(--size-default);
+  color: var(--color-text);
   display: flex;
   flex-direction: column;
   font-weight: bold;
@@ -53,6 +56,8 @@ label>textarea {
   box-sizing: border-box;
   border-radius: var(--size-extra-small);
   padding: var(--size-small);
+  background: var(--color-highlight);
+  color: var(--color-text);
 }
 
 label>input:focus,
@@ -75,6 +80,7 @@ button {
   color: var(--color-background);
   cursor: pointer;
   margin-top: var(--size-font-default-offset);
+  color: var(--color-text);
 }
 
 button:disabled {
@@ -84,6 +90,8 @@ button:disabled {
 
 /* Navbar styles */
 .Navbar {
+  width: 100vw;
+  box-sizing: border-box;
   display: flex;
   justify-content: space-between;
   background: var(--color-default);
@@ -118,6 +126,7 @@ button:disabled {
   text-overflow: ellipsis;
   display: inline-flex;
   align-items: center;
+  justify-content: center;
   gap: var(--size-small);
   min-width: var(--size-touch-target);
   min-height: var(--size-touch-target);
@@ -131,7 +140,7 @@ button:disabled {
 }
 
 .Navbar__navItemText {
-  color: var(--color-highlight);
+  color: var(--color-text);
   cursor: pointer;
   font-family: var(--font-default);
   font-size: var(--size-medium);
@@ -148,6 +157,19 @@ button:disabled {
 @media (max-width: 1020px) {
   .Navbar__navItemText {
     display: none;
+  }
+
+  .Navbar__logo {
+    margin-right: var(--size-small);
+  }
+}
+
+@media (max-width: 480px) {
+  .Navbar {
+    top: initial;
+    bottom: 0;
+    position: absolute;
+    z-index: 1;
   }
 }
 </style>
@@ -172,16 +194,14 @@ if (activeRoute.path !== "/") {
   <Head>
     <Title>{{ title }}</Title>
 
-    <!-- <Base v-if="environment === 'production'" -->
-    <!-- href="https://only.daniellacos.se/" /> -->
-
     <Meta charset="utf-8" />
     <Meta content="width=device-width,initial-scale=1,minimal-ui"
       name="viewport" />
 
     <Meta content="yes" name="mobile-web-app-capable" />
     <Meta content="yes" name="apple-mobile-web-app-capable" />
-    <Meta content="default" name="apple-mobile-web-app-status-bar-style" />
+    <Meta content="black-transparent"
+      name="apple-mobile-web-app-status-bar-style" />
 
     <Meta :content="title" name="apple-mobile-web-app-title" />
     <Meta :content="title" name="og:title" />
@@ -191,7 +211,7 @@ if (activeRoute.path !== "/") {
     <Meta :content="description" name="description" />
     <Meta :content="description" name="og:description" />
 
-    <Meta content="#42b983" name="theme-color" />
+    <Meta :content="meta.color" name="theme-color" />
 
     <Link href="/manifest.json" rel="manifest" />
     <Link href="/favicon.ico" rel="shortcut icon" />

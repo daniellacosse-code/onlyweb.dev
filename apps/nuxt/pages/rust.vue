@@ -171,6 +171,7 @@ function cellToggle({ clientX, clientY }) {
   height: 100%;
   overflow: hidden;
   position: fixed;
+  background-color: white;
 }
 
 .Game__controlsContainer {
@@ -181,6 +182,7 @@ function cellToggle({ clientX, clientY }) {
   justify-content: center;
   padding: var(--size-large);
   position: fixed;
+  margin-bottom: var(--size-huge);
   width: 100%;
 }
 </style>
