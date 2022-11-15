@@ -4,7 +4,7 @@ const { public: { scanner: { readoutTextDefault, decoderReaders } } } = useRunti
 const nuxtApp = useNuxtApp();
 
 const scanner = ref(null);
-const data = ref(readoutTextDefault);
+const data = ref("");
 const isLoading = ref(true);
 
 onMounted(async () => {
@@ -42,7 +42,7 @@ onUnmounted(nuxtApp.$quagga.stop);
     <div
       :class="{ 'Quagga__scanner': true, 'Quagga__scanner--loading': isLoading }"
       ref="scanner" />
-    <pre>{{ isLoading ? 'Loading...' : data }}</pre>
+    <pre>{{ isLoading ? 'Loading...' : data || readoutTextDefault }}</pre>
   </div>
 </template>
 

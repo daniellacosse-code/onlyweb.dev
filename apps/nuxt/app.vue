@@ -98,6 +98,7 @@ button:disabled {
   padding: var(--size-default);
   position: sticky;
   top: 0;
+  z-index: 1;
 }
 
 .Navbar__home {
@@ -168,8 +169,7 @@ button:disabled {
   .Navbar {
     top: initial;
     bottom: 0;
-    position: absolute;
-    z-index: 1;
+    position: fixed;
   }
 }
 </style>

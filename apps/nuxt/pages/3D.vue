@@ -1,4 +1,5 @@
 <script setup>
+import { Consola } from "consola";
 import {
   Application,
   Color,
@@ -66,7 +67,6 @@ onMounted(() => {
   overflow: hidden;
   position: absolute;
   width: 100%;
-  z-index: -1;
 }
 
 .ThreeDimensionalCanvas {
