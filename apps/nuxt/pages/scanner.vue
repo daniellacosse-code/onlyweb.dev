@@ -65,7 +65,6 @@ onUnmounted(nuxtApp.$quagga.stop);
 .Quagga__scanner--loading {
   min-height: 480px;
   opacity: 0;
-  ;
 }
 
 .Quagga__scanner>.drawingBuffer {

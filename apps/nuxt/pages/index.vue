@@ -19,6 +19,10 @@
         rel="noopener">
         <pre>daniellacosse/only-web</pre>
       </a>
+      <br />
+      <a href="https://daniellacos.se">
+        about the author
+      </a>
     </section>
 
     <section>
