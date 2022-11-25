@@ -69,12 +69,14 @@ function stopSequence() {
 
 <template>
   <div class="Music">
-    <ol class="MusicNotes">
-      <li class="MusicNote" v-for="(note, index) in displayedNotes"
-        :key="note + index">
-        {{ note }}
-      </li>
-    </ol>
+    <div class="MusicNotes__container">
+      <ol class="MusicNotes">
+        <li class="MusicNote" v-for="(note, index) in displayedNotes"
+          :key="note + index">
+          {{ note }}
+        </li>
+      </ol>
+    </div>
 
     <fieldset class="MusicInputs">
       <label>
@@ -120,17 +122,25 @@ function stopSequence() {
   box-sizing: border-box;
 }
 
+.MusicNotes__container {
+  background-color: var(--color-highlight);
+  height: var(--size-huge);
+  margin-bottom: var(--size-large);
+  padding: var(--size-small);
+  text-align: center;
+  width: 100%;
+}
+
 .MusicNotes {
-  display: flex;
+  box-sizing: border-box;
+  display: inline-flex;
+  font-family: var(--font-default);
   justify-content: space-around;
   list-style-type: none;
-  margin-bottom: var(--size-large);
-  min-width: var(--device-width-mobile);
+  max-width: var(--device-width-tablet);
+  position: relative;
+  top: var(--size-default);
   width: 100%;
-  background-color: var(--color-highlight);
-  padding: var(--size-small);
-  height: var(--size-huge);
-  box-sizing: border-box;
 }
 
 .MusicNote {
