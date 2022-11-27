@@ -1,0 +1,7 @@
+{
+  "dependencies": {
+    "playcanvas": "^1.58.2"
+  },
+  "module": "index.js",
+  "name": "@only-web/game"
+}

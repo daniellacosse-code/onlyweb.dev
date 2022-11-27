@@ -1,58 +1,58 @@
 <script setup>
-import { Consola } from "consola";
-import {
-  Application,
-  Color,
-  Entity,
-  FILLMODE_FILL_WINDOW,
-  RESOLUTION_AUTO
-} from "playcanvas";
+import { Game, GameScene, GameSceneCamera, GameSceneLight, GameSceneActor, combineTransforms, bootstrapPlaycanvas } from "@only-web/game";
 
 const { public: { threeDimensional } } = useRuntimeConfig();
+
+bootstrapPlaycanvas();
+
 const canvas = ref(null);
+const game = ref(new Game({
+  stage: new GameStage({ renderElement: canvas.value }),
+  scenes: {
+    main: new GameScene({
+      cameras: {
+        main: new GameSceneCamera({
+          name: "Main Camera",
+          transform: {
+            position: threeDimensional.positionCamera
+          }
+        })
+      },
+      lights: {
+        main: new GameSceneLight({
+          name: "Main Light",
+          transform: {
+            rotation: threeDimensional.rotationLight
+          }
+        })
+      },
+      actors: {
+        cube: new GameSceneActor({
+          name: "Cube Actor",
+          model: "box",
+          updaters: {
+            idleRotation: ({ self, deltaTime }) => {
+              self.transform = combineTransforms(
+                self.transform,
+                {
+                  rotation: {
+                    x: threeDimensional.rotationSpeedCube.x * deltaTime,
+                    y: threeDimensional.rotationSpeedCube.y * deltaTime,
+                    z: threeDimensional.rotationSpeedCube.z * deltaTime
+                  }
+                }
+              );
+            }
+          }
+        })
+      },
+      background: threeDimensional.colorBackground
+    })
+  },
+}));
 
-onMounted(() => {
-  const app = new Application(canvas.value, {});
-
-  app.setCanvasFillMode(FILLMODE_FILL_WINDOW);
-  app.setCanvasResolution(RESOLUTION_AUTO);
-
-  window.addEventListener("resize", () => app.resizeCanvas());
-
-  // setup camera
-  const camera = new Entity("camera");
-  camera.addComponent("camera", {
-    clearColor: new Color(
-      ...threeDimensional.colorBackground,
-    )
-  });
-
-  camera.setPosition(...threeDimensional.positionCamera);
-  app.root.addChild(camera);
-
-  // setup light
-  const light = new Entity("light");
-  light.addComponent("light");
-  light.setEulerAngles(...threeDimensional.rotationLight);
-
-  app.root.addChild(light);
-
-  // setup cube
-  const cube = new Entity("cube");
-  cube.addComponent("model", {
-    type: "box"
-  });
-
-  app.root.addChild(cube);
-
-  // start app
-  app.on("update", (deltaTime) => {
-    cube.rotate(
-      ...threeDimensional.rotationSpeedCube.map((dimension) => dimension * deltaTime)
-    );
-  });
-  app.start();
-});
+onMounted(game.play);
+onUnmounted(game.pause);
 </script>
 
 <template>

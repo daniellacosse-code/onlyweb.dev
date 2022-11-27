@@ -5,8 +5,8 @@
     "@nuxtjs/web-vitals": "^0.1.10",
     "@only-web/chords": "workspace:^",
     "@only-web/conway": "workspace:^",
-    "mapbox-gl": "^2.10.0",
-    "playcanvas": "^1.57.1"
+    "@only-web/game": "workspace:^",
+    "mapbox-gl": "^2.10.0"
   },
   "devDependencies": {
     "@nuxt/kit": "^3.0.0-rc.11",
