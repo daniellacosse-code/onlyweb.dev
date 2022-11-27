@@ -3,7 +3,6 @@ export default defineNuxtConfig({
   app: {
     pageTransition: false,
     layoutTransition: false
-    // baseURL: "/only/"
   },
   plugins: ["~/plugins/quagga.js"],
   postcss: {
