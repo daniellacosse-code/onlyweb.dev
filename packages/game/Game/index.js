@@ -1,27 +1,13 @@
-import { Application, FILLMODE_FILL_WINDOW, RESOLUTION_AUTO } from "playcanvas";
-
 export * from "./GameScene";
 export * from "./GameStage";
 
-export * from "./bootstrapPlaycanvas";
 export * from "./combineTransforms";
 
 export class Game {
   constructor({ stage, currentScene = "main", scenes }) {
     this.stage = stage;
-    this.app = new Application(stage.renderElement);
-
-    this.app.autoRender = false;
-    this.app.setCanvasFillMode(FILLMODE_FILL_WINDOW);
-    this.app.setCanvasResolution(RESOLUTION_AUTO);
-
     this.scenes = scenes;
-    this._currentScene = currentScene;
-
-    this.app.render();
-    this.app.on("update", this.render);
-
-    this.app.start();
+    this.currentScene = currentScene;
   }
 
   get currentScene() {
@@ -32,40 +18,45 @@ export class Game {
     // unload previous scene
     const previousScene = this.scenes[this._currentScene];
 
-    for (const cameraName in previousScene.cameras)
-      this.app.root.removeChild(previousScene.cameras[cameraName].entity);
-
-    for (const lightName in previousScene.lights)
-      this.app.root.removeChild(previousScene.lights[lightName].entity);
-
-    for (const actorName in previousScene.actors)
-      this.app.root.removeChild(previousScene.actors[actorName].entity);
+    if (previousScene) {
+      this.stage.remove(previousScene.cameras);
+      this.stage.remove(previousScene.lights);
+      this.stage.remove(previousScene.actors);
+    }
 
     this._currentScene = sceneID;
 
     // load new scene
     const currentScene = this.scenes[this._currentScene];
 
-    for (const cameraName in currentScene.cameras)
-      this.app.root.addChild(currentScene.cameras[cameraName].entity);
-
-    for (const lightName in currentScene.lights)
-      this.app.root.addChild(currentScene.lights[lightName].entity);
-
-    for (const actorName in currentScene.actors)
-      this.app.root.addChild(currentScene.actors[actorName].entity);
+    this.stage.add(currentScene.cameras);
+    this.stage.add(currentScene.lights);
+    this.stage.add(currentScene.actors);
   }
 
   play() {
-    this.app.autoRender = true;
+    // don't start multiple game loops
+    if (this._loopID) return;
+
+    this._loopID = this._loop();
   }
 
   pause() {
-    this.app.autoRender = false;
+    cancelAnimationFrame(this._loopID);
+
+    this._loopID = null;
   }
 
-  render(deltaTime = 0) {
-    this.app.resizeCanvas(); // ?
+  update({ deltaTime = 0 }) {
     this.currentScene.update({ deltaTime, game: this });
+    this.stage.render();
+  }
+
+  _loop() {
+    const loopStart = performance.now();
+    this._loopID = requestAnimationFrame(() => {
+      this.update({ deltaTime: (performance.now() - loopStart) / 1000 });
+      this._loop();
+    });
   }
 }

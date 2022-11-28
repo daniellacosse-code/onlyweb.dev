@@ -6,7 +6,7 @@ export class GameScene {
   constructor({ cameras, lights, actors, background }) {
     this.background = new Color(...background);
 
-    for (const camera of cameras) {
+    for (const camera of Object.values(cameras)) {
       camera.entity.camera.clearColor = this.background;
     }
 
