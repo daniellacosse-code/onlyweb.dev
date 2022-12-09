@@ -32,6 +32,7 @@ export class GameStage {
       this._app.start();
     }
 
+    this._app.resizeCanvas();
     this._app.renderNextFrame = this.isRendering;
   }
 }
