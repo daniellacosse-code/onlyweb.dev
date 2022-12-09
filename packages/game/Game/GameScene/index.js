@@ -1,13 +1,13 @@
-import { Color } from "playcanvas";
+import { createColor } from "../createColor";
 
 export * from "./GameSceneObject";
 
 export class GameScene {
-  constructor({ cameras, lights, actors, background }) {
-    this.background = new Color(...background);
+  constructor({ cameras, lights, actors, backdrop }) {
+    this.backgroundColor = createColor(backdrop);
 
-    for (const camera of Object.values(cameras)) {
-      camera.entity.camera.clearColor = this.background;
+    for (const { entity } of Object.values(cameras)) {
+      entity.camera.clearColor = this.backgroundColor;
     }
 
     this.cameras = cameras;

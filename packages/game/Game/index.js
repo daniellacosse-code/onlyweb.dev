@@ -45,6 +45,9 @@ export class Game {
     cancelAnimationFrame(this._loopID);
 
     this._loopID = null;
+
+    // TODO: not great, stage should pause itself
+    this.stage.isRendering = false;
   }
 
   update({ deltaTime = 0 }) {

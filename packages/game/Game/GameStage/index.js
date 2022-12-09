@@ -5,6 +5,8 @@ export class GameStage {
     this.stageElement = stageElement;
     this.curtainElement = curtainElement;
 
+    this.isRendering = false;
+
     this._app = new Application(this.stageElement);
     this._app.setCanvasFillMode(FILLMODE_FILL_WINDOW);
     this._app.setCanvasResolution(RESOLUTION_AUTO);
@@ -24,6 +26,12 @@ export class GameStage {
   }
 
   render() {
-    this._app.render();
+    if (!this.isRendering) {
+      this.isRendering = true;
+
+      this._app.start();
+    }
+
+    this._app.renderNextFrame = this.isRendering;
   }
 }

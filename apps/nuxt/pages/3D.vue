@@ -15,56 +15,62 @@ const canvas = ref(null);
 const game = ref(null);
 
 onMounted(() => {
-  // currently the stage must be set before the game is created, due to playcanvas' internal architecture
-  // I will not make this a positional argument, however, to keep the API flexible
-  const stage = new GameStage({ stageElement: canvas.value });
+  // Currently the stage must be set before the game is created, due to playcanvas' internal architecture.
+  // I will not make the stage a positional argument, however, to keep our API more flexible.
 
-  game.value = new Game({
-    stage,
-    scenes: {
-      main: new GameScene({
-        cameras: {
-          main: new GameSceneCamera({
-            name: "Main Camera",
-            transform: {
-              position: threeDimensional.positionCamera
-            }
-          })
-        },
-        lights: {
-          main: new GameSceneLight({
-            name: "Main Light",
-            transform: {
-              rotation: threeDimensional.rotationLight
-            }
-          })
-        },
-        actors: {
-          cube: new GameSceneActor({
-            name: "Cube",
-            model: "box",
-            behaviors: {
-              idleRotation: ({ self, deltaTime }) => {
-                self.transform = combineTransforms(
-                  self.transform,
-                  {
-                    rotation: {
-                      x: threeDimensional.rotationSpeedCube.x * deltaTime,
-                      y: threeDimensional.rotationSpeedCube.y * deltaTime,
-                      z: threeDimensional.rotationSpeedCube.z * deltaTime
-                    }
-                  }
-                );
+  // We may want multiple stages to support split screen, for instance. 
+  // Or no stage, to run a separate non-blocking simulation in a service worker.
+  const mainStage = new GameStage({ stageElement: canvas.value });
+
+  const mainScene = new GameScene({
+    actors: {
+      cube: new GameSceneActor({
+        name: "Cube",
+        model: "box",
+        behaviors: {
+          idleRotation: ({
+            self,
+            deltaTime
+          }) => {
+            self.transform = combineTransforms(self.transform, {
+              rotation: {
+                x: threeDimensional.rotationSpeedCube.x * deltaTime,
+                y: threeDimensional.rotationSpeedCube.y * deltaTime,
+                z: threeDimensional.rotationSpeedCube.z * deltaTime
               }
-            }
-          })
-        },
-        background: threeDimensional.colorBackground
+            });
+          }
+        }
       })
     },
+    backdrop: threeDimensional.colorBackground,
+    cameras: {
+      main: new GameSceneCamera({
+        name: "Main Camera",
+        transform: {
+          position: threeDimensional.positionCamera
+        }
+      })
+    },
+    lights: {
+      main: new GameSceneLight({
+        name: "Main Light",
+        transform: {
+          rotation: threeDimensional.rotationLight
+        }
+      })
+    }
   });
 
-  // game.value.play();
+  game.value = new Game({
+    scenes: {
+      main: mainScene
+    },
+    // TODO: stages?
+    stage: mainStage
+  });
+
+  game.value.play();
 });
 
 onUnmounted(() => game.value.pause());
