@@ -1,58 +1,79 @@
 <script setup>
-import { Consola } from "consola";
 import {
-  Application,
-  Color,
-  Entity,
-  FILLMODE_FILL_WINDOW,
-  RESOLUTION_AUTO
-} from "playcanvas";
+  Game,
+  GameScene,
+  GameSceneCamera,
+  GameSceneLight,
+  GameSceneActor,
+  GameStage,
+  combineTransforms
+} from "@only-web/game";
 
 const { public: { threeDimensional } } = useRuntimeConfig();
+
 const canvas = ref(null);
+const game = ref(null);
 
 onMounted(() => {
-  const app = new Application(canvas.value, {});
+  // Currently the stage must be set before the game is created, due to playcanvas' internal architecture.
+  // I will not make the stage a positional argument, however, to keep our API more flexible.
 
-  app.setCanvasFillMode(FILLMODE_FILL_WINDOW);
-  app.setCanvasResolution(RESOLUTION_AUTO);
+  // We may want multiple stages to support split screen, for instance. 
+  // Or no stage, to run a separate non-blocking simulation in a service worker.
+  const mainStage = new GameStage({ stageElement: canvas.value });
 
-  window.addEventListener("resize", () => app.resizeCanvas());
-
-  // setup camera
-  const camera = new Entity("camera");
-  camera.addComponent("camera", {
-    clearColor: new Color(
-      ...threeDimensional.colorBackground,
-    )
+  const mainScene = new GameScene({
+    actors: {
+      cube: new GameSceneActor({
+        name: "Cube",
+        model: "box",
+        behaviors: {
+          idleRotation: ({
+            self,
+            deltaTime
+          }) => {
+            self.transform = combineTransforms(self.transform, {
+              rotation: {
+                x: threeDimensional.rotationSpeedCube.x * deltaTime,
+                y: threeDimensional.rotationSpeedCube.y * deltaTime,
+                z: threeDimensional.rotationSpeedCube.z * deltaTime
+              }
+            });
+          }
+        }
+      })
+    },
+    backdrop: threeDimensional.colorBackground,
+    cameras: {
+      main: new GameSceneCamera({
+        name: "Main Camera",
+        transform: {
+          position: threeDimensional.positionCamera
+        }
+      })
+    },
+    lights: {
+      main: new GameSceneLight({
+        name: "Main Light",
+        transform: {
+          rotation: threeDimensional.rotationLight
+        }
+      })
+    }
   });
 
-  camera.setPosition(...threeDimensional.positionCamera);
-  app.root.addChild(camera);
-
-  // setup light
-  const light = new Entity("light");
-  light.addComponent("light");
-  light.setEulerAngles(...threeDimensional.rotationLight);
-
-  app.root.addChild(light);
-
-  // setup cube
-  const cube = new Entity("cube");
-  cube.addComponent("model", {
-    type: "box"
+  game.value = new Game({
+    scenes: {
+      main: mainScene
+    },
+    // TODO: stages?
+    stage: mainStage
   });
 
-  app.root.addChild(cube);
-
-  // start app
-  app.on("update", (deltaTime) => {
-    cube.rotate(
-      ...threeDimensional.rotationSpeedCube.map((dimension) => dimension * deltaTime)
-    );
-  });
-  app.start();
+  game.value.play();
 });
+
+onUnmounted(() => game.value.pause());
 </script>
 
 <template>

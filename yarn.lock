@@ -810,6 +810,14 @@ __metadata:
   languageName: unknown
   linkType: soft
 
+"@only-web/game@workspace:^, @only-web/game@workspace:packages/game":
+  version: 0.0.0-use.local
+  resolution: "@only-web/game@workspace:packages/game"
+  dependencies:
+    playcanvas: ^1.58.2
+  languageName: unknown
+  linkType: soft
+
 "@only-web/nuxt@workspace:apps/nuxt":
   version: 0.0.0-use.local
   resolution: "@only-web/nuxt@workspace:apps/nuxt"
@@ -821,10 +829,10 @@ __metadata:
     "@nuxtjs/web-vitals": ^0.1.10
     "@only-web/chords": "workspace:^"
     "@only-web/conway": "workspace:^"
+    "@only-web/game": "workspace:^"
     mapbox-gl: ^2.10.0
     nuxi: ^3.0.0-rc.11
     nuxt: 3.0.0-rc.11
-    playcanvas: ^1.57.1
     postcss-autoreset: ^3.0.4
     postcss-initial: ^3.0.4
     untyped: ^0.5.0
@@ -5200,10 +5208,10 @@ __metadata:
   languageName: node
   linkType: hard
 
-"playcanvas@npm:^1.57.1":
-  version: 1.57.1
-  resolution: "playcanvas@npm:1.57.1"
-  checksum: 991f0e59ed4d22bca2ce10e33df58fd0970250d2e298de932927985d3748f2c2cc0468e322132e2fdd963b81632cf9751a1aab158e57047af0c0f9e74fc6c162
+"playcanvas@npm:^1.58.2":
+  version: 1.58.2
+  resolution: "playcanvas@npm:1.58.2"
+  checksum: 078f060e96e22eebd29357d0cf9a63da754697b69be88fe306e6562ef8d366b125c8e5722880372d55480c5fcac8b7425daeb1f6020469e9535f1f3ff85d1139
   languageName: node
   linkType: hard
 
