@@ -6,7 +6,9 @@ import {
   GameSceneLight,
   GameSceneActor,
   GameStage,
-  combineTransforms
+  combineTransforms,
+  deltaTransform,
+  keyboardBehaviorFactory
 } from "@only-web/game";
 
 const { public: { threeDimensional } } = useRuntimeConfig();
@@ -28,18 +30,30 @@ onMounted(() => {
         name: "Cube",
         model: "box",
         behaviors: {
-          idleRotation: ({
-            self,
-            deltaTime
-          }) => {
-            self.transform = combineTransforms(self.transform, {
-              rotation: {
-                x: threeDimensional.rotationSpeedCube.x * deltaTime,
-                y: threeDimensional.rotationSpeedCube.y * deltaTime,
-                z: threeDimensional.rotationSpeedCube.z * deltaTime
-              }
-            });
-          }
+          keyboardRotation: keyboardBehaviorFactory(({ self, deltaTime, input }) => {
+            const rotationTransforms = [];
+
+            if (input.ArrowUp) {
+              rotationTransforms.push({ rotation: { x: -1 * threeDimensional.rotationSpeedCube, y: 0, z: 0 } });
+            }
+
+            if (input.ArrowDown) {
+              rotationTransforms.push({ rotation: { x: threeDimensional.rotationSpeedCube, y: 0, z: 0 } });
+            }
+
+            if (input.ArrowLeft) {
+              rotationTransforms.push({ rotation: { x: 0, y: -1 * threeDimensional.rotationSpeedCube, z: 0 } });
+            }
+
+            if (input.ArrowRight) {
+              rotationTransforms.push({ rotation: { x: 0, y: threeDimensional.rotationSpeedCube, z: 0 } });
+            }
+
+            self.transform = combineTransforms(self.transform, deltaTransform({
+              transform: combineTransforms(...rotationTransforms),
+              deltaTime
+            }));
+          })
         }
       })
     },

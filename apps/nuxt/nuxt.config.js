@@ -57,7 +57,7 @@ export default defineNuxtConfig({
         colorBackground: { luminance: 0.2 },
         positionCamera: { x: 0, y: 0, z: 6 },
         rotationLight: { x: 45, y: 0, z: 0 },
-        rotationSpeedCube: { x: 10, y: 20, z: 30 }
+        rotationSpeedCube: 100
       }
     }
   }

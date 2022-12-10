@@ -4,6 +4,7 @@ body,
 main {
   position: relative;
   display: block;
+  overflow: hidden;
   width: 100vw;
   height: 100vh;
 

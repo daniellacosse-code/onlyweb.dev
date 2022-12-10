@@ -27,3 +27,30 @@ export function combineTransforms(...transforms) {
     return result;
   }, {});
 }
+
+export function deltaTransform({
+  deltaTime,
+  transform: {
+    position = { x: 0, y: 0, z: 0 },
+    rotation = { x: 0, y: 0, z: 0 }
+    // scale = { x: 1, y: 1, z: 1 } // TODO
+  }
+}) {
+  return {
+    position: {
+      x: position.x * deltaTime,
+      y: position.y * deltaTime,
+      z: position.z * deltaTime
+    },
+    rotation: {
+      x: rotation.x * deltaTime,
+      y: rotation.y * deltaTime,
+      z: rotation.z * deltaTime
+    }
+    // scale: {
+    //   x: scale.x * deltaTime,
+    //   y: scale.y * deltaTime,
+    //   z: scale.z * deltaTime
+    // }
+  };
+}
