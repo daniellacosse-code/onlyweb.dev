@@ -7,7 +7,6 @@ import {
   GameSceneActor,
   GameStage,
   combineTransforms,
-  deltaTransform,
   keyboardBehaviorFactory
 } from "@only-web/game";
 
@@ -30,31 +29,28 @@ onMounted(() => {
         name: "Cube",
         model: "box",
         behaviors: {
-          keyboardRotation: keyboardBehaviorFactory(({ self, deltaTime, keyboard: { ArrowUp, ArrowDown, ArrowLeft, ArrowRight } }) => {
-            const rotationTransforms = [];
-
-            if (ArrowUp) {
-              rotationTransforms.push({ rotation: { x: -1 * threeDimensional.rotationSpeedCube, y: 0, z: 0 } });
-            }
-
-            if (ArrowDown) {
-              rotationTransforms.push({ rotation: { x: threeDimensional.rotationSpeedCube, y: 0, z: 0 } });
-            }
-
-            if (ArrowLeft) {
-              rotationTransforms.push({ rotation: { x: 0, y: -1 * threeDimensional.rotationSpeedCube, z: 0 } });
-            }
-
-            if (ArrowRight) {
-              rotationTransforms.push({ rotation: { x: 0, y: threeDimensional.rotationSpeedCube, z: 0 } });
-            }
-
-            self.transform = combineTransforms(self.transform, deltaTransform({
-              transform: combineTransforms(...rotationTransforms),
-              deltaTime
-            }));
-          })
-        }
+          deviceRotation: orientationBehaviorFactory(({ self, orientation }) => {
+            self.transform = { rotation: orientation };
+          }),
+          gamepadRotation: gamepadBehaviorFactory(({ setFrameSpeedTransform, gamepad: { analog } }) => {
+            setFrameSpeedTransform({
+              rotation: {
+                x: analog.left.vertical * threeDimensional.rotationSpeedCube,
+                y: analog.left.horizontal * threeDimensional.rotationSpeedCube,
+              }
+            });
+          }),
+          keyboardRotation: keyboardBehaviorFactory(({ setFrameSpeedTransform, keyboard: { ArrowUp, ArrowDown, ArrowLeft, ArrowRight } }) => {
+            setFrameSpeedTransform(
+              combineTransforms(
+                ArrowUp && { rotation: { x: -1 * threeDimensional.rotationSpeedCube } },
+                ArrowDown && { rotation: { x: threeDimensional.rotationSpeedCube } },
+                ArrowLeft && { rotation: { y: -1 * threeDimensional.rotationSpeedCube } },
+                ArrowRight && { rotation: { y: threeDimensional.rotationSpeedCube } }
+              )
+            );
+          }),
+        },
       })
     },
     backdrop: threeDimensional.colorBackground,

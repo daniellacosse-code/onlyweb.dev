@@ -1,4 +1,11 @@
+// TODO: utility for incrementally updating an object transform
+
 import { Entity } from "playcanvas";
+import {
+  combineTransforms,
+  deltaTransform,
+  sanitizeTransform
+} from "../../combineTransforms";
 
 export class GameSceneObject {
   constructor({ name, transform, behaviors }) {
@@ -16,11 +23,9 @@ export class GameSceneObject {
     return this._transform;
   }
 
-  set transform({
-    position = { x: 0, y: 0, z: 0 },
-    rotation = { x: 0, y: 0, z: 0 },
-    scale = { x: 1, y: 1, z: 1 }
-  } = {}) {
+  set transform(transform) {
+    const { position, rotation, scale } = sanitizeTransform(transform);
+
     this.entity.setLocalPosition(position.x, position.y, position.z);
     this.entity.setLocalEulerAngles(rotation.x, rotation.y, rotation.z);
     this.entity.setLocalScale(scale.x, scale.y, scale.z);
@@ -30,7 +35,18 @@ export class GameSceneObject {
 
   update(parameters) {
     for (const behaviorID in this.behaviors) {
-      this.behaviors[behaviorID]({ ...parameters, self: this });
+      this.behaviors[behaviorID]({
+        ...parameters,
+        self: this,
+        setFrameSpeedTransform: (transform) =>
+          (this.transform = combineTransforms(
+            this.transform,
+            deltaTransform({
+              deltaTime,
+              transform
+            })
+          ))
+      });
     }
   }
 }
