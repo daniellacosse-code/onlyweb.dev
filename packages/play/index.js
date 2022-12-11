@@ -6,8 +6,8 @@ export * from "./combineTransforms";
 export * from "./createColor";
 
 export default class Play {
-  constructor({ stage, currentScene = "__main__", scenes }) {
-    this.stage = stage;
+  constructor({ stages, currentScene = "__main__", scenes }) {
+    this.stage = stages.__main__;
     this.scenes = scenes;
     this.currentScene = currentScene;
   }

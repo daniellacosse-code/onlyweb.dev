@@ -3,7 +3,8 @@ import Play, { Scene, Stage, Updater, combineTransforms } from "@only-web/play";
 
 const { public: { threeDimensional } } = useRuntimeConfig();
 
-const canvas = ref(null);
+const curtain = ref(null);
+const stage = ref(null);
 const play = ref(null);
 
 onMounted(/* async */() => {
@@ -12,7 +13,7 @@ onMounted(/* async */() => {
 
   // We may want multiple stages to support split screen, for instance. 
   // Or no stage, to run a separate non-blocking simulation in a service worker.
-  const mainStage = new Stage({ stageElement: canvas.value });
+  const mainStage = new Stage({ curtainElement: curtain.value, stageElement: stage.value });
 
   const mainScene = new Scene({
     actors: {
@@ -65,8 +66,9 @@ onMounted(/* async */() => {
     scenes: {
       __main__: mainScene
     },
-    // TODO: stages?
-    stage: mainStage
+    stages: {
+      __main__: mainStage
+    }
   });
 
   play.value.start();
@@ -76,20 +78,23 @@ onUnmounted(() => play.value.pause());
 </script>
 
 <template>
-  <div class="ThreeDimensionalCanvas__container">
-    <canvas ref="canvas" class="ThreeDimensionalCanvas" />
+  <div class="ThreeDimensional">
+    <div ref="curtain" class="ThreeDimensional__curtain" />
+    <canvas ref="stage" class="ThreeDimensional__stage" />
   </div>
 </template>
 
 <style scoped>
-.ThreeDimensionalCanvas__container {
+.ThreeDimensional__curtain,
+.ThreeDimensional {
   height: 100%;
   overflow: hidden;
   position: absolute;
   width: 100%;
 }
 
-.ThreeDimensionalCanvas {
+.ThreeDimensional__curtain,
+.ThreeDimensional__stage {
   left: 0;
   position: absolute;
   top: 0;
