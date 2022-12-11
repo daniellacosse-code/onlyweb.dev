@@ -1,15 +1,15 @@
 <script setup>
 import {
+  combineTransforms,
+  deviceOrientationBehaviorFactory,
   Game,
+  gamepadBehaviorFactory,
   GameScene,
+  GameSceneActor,
   GameSceneCamera,
   GameSceneLight,
-  GameSceneActor,
   GameStage,
-  combineTransforms,
-  keyboardBehaviorFactory,
-  orientationBehaviorFactory,
-  gamepadBehaviorFactory
+  keyboardBehaviorFactory
 } from "@only-web/game";
 
 const { public: { threeDimensional } } = useRuntimeConfig();
@@ -31,7 +31,7 @@ onMounted(() => {
         name: "Cube",
         model: "box",
         behaviors: {
-          // deviceRotation: orientationBehaviorFactory(({ self, orientation }) => (self.transform = orientation)),
+          deviceOrientation: deviceOrientationBehaviorFactory(({ self, deviceOrientation }) => (self.transform = deviceOrientation)),
           gamepadRotation: gamepadBehaviorFactory(({ updateWithSpeed, gamepad }) => {
             updateWithSpeed({
               rotation: {
