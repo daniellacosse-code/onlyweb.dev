@@ -38,7 +38,7 @@ export class GameSceneObject {
       this.behaviors[behaviorID]({
         ...parameters,
         self: this,
-        setFrameSpeedTransform: (transform) =>
+        updateWithSpeed: (transform) =>
           (this.transform = combineTransforms(
             this.transform,
             deltaTransform({

@@ -32,21 +32,21 @@ onMounted(() => {
         model: "box",
         behaviors: {
           // deviceRotation: orientationBehaviorFactory(({ self, orientation }) => (self.transform = orientation)),
-          gamepadRotation: gamepadBehaviorFactory(({ setFrameSpeedTransform, gamepad: { analog } }) => {
-            setFrameSpeedTransform({
+          gamepadRotation: gamepadBehaviorFactory(({ updateWithSpeed, gamepad }) => {
+            updateWithSpeed({
               rotation: {
-                x: analog.left.vertical * threeDimensional.rotationSpeedCube,
-                y: analog.left.horizontal * threeDimensional.rotationSpeedCube,
+                x: gamepad.analog.left.vertical * threeDimensional.rotationSpeedCube,
+                y: gamepad.analog.left.horizontal * threeDimensional.rotationSpeedCube,
               }
             });
           }),
-          keyboardRotation: keyboardBehaviorFactory(({ setFrameSpeedTransform, keyboard: { ArrowUp, ArrowDown, ArrowLeft, ArrowRight } }) => {
-            setFrameSpeedTransform(
+          keyboardRotation: keyboardBehaviorFactory(({ updateWithSpeed, keyboard }) => {
+            updateWithSpeed(
               combineTransforms(
-                ArrowUp && { rotation: { x: -1 * threeDimensional.rotationSpeedCube } },
-                ArrowDown && { rotation: { x: threeDimensional.rotationSpeedCube } },
-                ArrowLeft && { rotation: { y: -1 * threeDimensional.rotationSpeedCube } },
-                ArrowRight && { rotation: { y: threeDimensional.rotationSpeedCube } }
+                keyboard.ArrowUp && { rotation: { x: -1 * threeDimensional.rotationSpeedCube } },
+                keyboard.ArrowDown && { rotation: { x: threeDimensional.rotationSpeedCube } },
+                keyboard.ArrowLeft && { rotation: { y: -1 * threeDimensional.rotationSpeedCube } },
+                keyboard.ArrowRight && { rotation: { y: threeDimensional.rotationSpeedCube } }
               )
             );
           }),
