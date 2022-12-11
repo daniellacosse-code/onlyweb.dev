@@ -20,7 +20,7 @@ onMounted(/* async */() => {
         name: "Cube",
         model: "box",
         updaters: {
-          // deviceRotation: await Game.Scene.Object.Updater.Device(({ self, deviceTransform }) => (self.transform = deviceTransform)),
+          // deviceRotation: await Game.Scene.Object.Updater.Device(({ self, device }) => (self.transform = device.transform)),
           gamepadRotation: Game.Scene.Object.Updater.Gamepad(({ updateWithSpeed, gamepad }) => {
             updateWithSpeed({
               rotation: {
