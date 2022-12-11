@@ -7,7 +7,9 @@ import {
   GameSceneActor,
   GameStage,
   combineTransforms,
-  keyboardBehaviorFactory
+  keyboardBehaviorFactory,
+  orientationBehaviorFactory,
+  gamepadBehaviorFactory
 } from "@only-web/game";
 
 const { public: { threeDimensional } } = useRuntimeConfig();
