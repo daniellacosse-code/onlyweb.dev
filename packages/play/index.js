@@ -3,7 +3,7 @@ export * as Stage from "./Stage";
 export * as Updater from "./Updater";
 
 export * from "./combineTransforms";
-export * from "./createColor";
+// export * from "./createColor";
 
 export default class Play {
   constructor({ stages, currentScene = "__main__", scenes }) {
