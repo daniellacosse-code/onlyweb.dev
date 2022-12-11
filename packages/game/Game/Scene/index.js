@@ -1,8 +1,8 @@
 import { createColor } from "../createColor";
 
-export * from "./GameSceneObject";
+export * as Object from "./Object";
 
-export class GameScene {
+export default class Scene {
   constructor({ cameras, lights, actors, backdrop }) {
     this.backgroundColor = createColor(backdrop);
 

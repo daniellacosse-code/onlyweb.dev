@@ -1,6 +1,6 @@
 import { Application, FILLMODE_FILL_WINDOW, RESOLUTION_AUTO } from "playcanvas";
 
-export class GameStage {
+export default class Stage {
   constructor({ stageElement, curtainElement }) {
     this.stageElement = stageElement;
     this.curtainElement = curtainElement;

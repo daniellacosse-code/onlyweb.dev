@@ -1,38 +1,27 @@
 <script setup>
-import {
-  combineTransforms,
-  deviceOrientationBehaviorFactory,
-  Game,
-  gamepadBehaviorFactory,
-  GameScene,
-  GameSceneActor,
-  GameSceneCamera,
-  GameSceneLight,
-  GameStage,
-  keyboardBehaviorFactory
-} from "@only-web/game";
+import Game, { combineTransforms } from "@only-web/game";
 
 const { public: { threeDimensional } } = useRuntimeConfig();
 
 const canvas = ref(null);
 const game = ref(null);
 
-onMounted(() => {
+onMounted(/* async */() => {
   // Currently the stage must be set before the game is created, due to playcanvas' internal architecture.
   // I will not make the stage a positional argument, however, to keep our API more flexible.
 
   // We may want multiple stages to support split screen, for instance. 
   // Or no stage, to run a separate non-blocking simulation in a service worker.
-  const mainStage = new GameStage({ stageElement: canvas.value });
+  const mainStage = new Game.Stage({ stageElement: canvas.value });
 
-  const mainScene = new GameScene({
+  const mainScene = new Game.Scene({
     actors: {
-      cube: new GameSceneActor({
+      cube: new Game.Scene.Actor({
         name: "Cube",
         model: "box",
-        behaviors: {
-          deviceOrientation: deviceOrientationBehaviorFactory(({ self, deviceOrientation }) => (self.transform = deviceOrientation)),
-          gamepadRotation: gamepadBehaviorFactory(({ updateWithSpeed, gamepad }) => {
+        updaters: {
+          // deviceRotation: await Game.Scene.Object.Updater.Device(({ self, deviceTransform }) => (self.transform = deviceTransform)),
+          gamepadRotation: Game.Scene.Object.Updater.Gamepad(({ updateWithSpeed, gamepad }) => {
             updateWithSpeed({
               rotation: {
                 x: gamepad.analog.left.vertical * threeDimensional.rotationSpeedCube,
@@ -40,7 +29,7 @@ onMounted(() => {
               }
             });
           }),
-          keyboardRotation: keyboardBehaviorFactory(({ updateWithSpeed, keyboard }) => {
+          keyboardRotation: Game.Scene.Object.Updater.Keyboard(({ updateWithSpeed, keyboard }) => {
             updateWithSpeed(
               combineTransforms(
                 keyboard.ArrowUp && { rotation: { x: -1 * threeDimensional.rotationSpeedCube } },
@@ -55,7 +44,7 @@ onMounted(() => {
     },
     backdrop: threeDimensional.colorBackground,
     cameras: {
-      main: new GameSceneCamera({
+      main: new Game.Scene.Camera({
         name: "Main Camera",
         transform: {
           position: threeDimensional.positionCamera
@@ -63,7 +52,7 @@ onMounted(() => {
       })
     },
     lights: {
-      main: new GameSceneLight({
+      main: new Game.Scene.Light({
         name: "Main Light",
         transform: {
           rotation: threeDimensional.rotationLight

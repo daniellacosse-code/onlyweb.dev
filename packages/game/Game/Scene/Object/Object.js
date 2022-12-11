@@ -7,7 +7,7 @@ import {
   sanitizeTransform
 } from "../../combineTransforms";
 
-export class GameSceneObject {
+export default class Object {
   constructor({ name, transform, behaviors }) {
     this.entity = new Entity(name);
     this.transform = transform;

@@ -1,8 +1,4 @@
-// TODO: there's definitely a need for a "behavior" or even just "object" lifecycle:
-// - requesting permissions on start
-// - removing event listeners on "unmount"
-
-export const gamepadBehaviorFactory = () => {
+export default (action) => {
   // TODO: create a "controller stack" that assigns controller IDs to positions in a stack
   // based on how they're connected/disconnected.
 
@@ -39,7 +35,7 @@ export const gamepadBehaviorFactory = () => {
       ]
     } = gamepad;
 
-    behavior({
+    action({
       ...parameters,
       gamepad: {
         analog: {
@@ -85,36 +81,4 @@ export const gamepadBehaviorFactory = () => {
       }
     });
   };
-};
-
-export const keyboardBehaviorFactory = (behavior) => {
-  const keyboard = {};
-
-  addEventListener("keydown", ({ key }) => (keyboard[key] = true));
-  addEventListener("keyup", ({ key }) => (keyboard[key] = false));
-
-  return (parameters) => behavior({ ...parameters, keyboard });
-};
-
-export const deviceOrientationBehaviorFactory = async () => {
-  if (!DeviceOrientationEvent) return () => {};
-
-  // NOTE: must be done in response to a button press...
-  if (DeviceOrientationEvent.requestPermission) {
-    try {
-      await DeviceOrientationEvent.requestPermission();
-    } catch (e) {
-      return () => {};
-    }
-  }
-
-  const deviceOrientation = { rotation: {} };
-
-  addEventListener("deviceorientation", ({ alpha, gamma, beta }) => {
-    deviceOrientation.rotation.x = Math.floor(alpha ?? 0);
-    deviceOrientation.rotation.y = Math.floor(gamma ?? 0);
-    deviceOrientation.rotation.z = Math.floor(beta ?? 0);
-  });
-
-  return (parameters) => behavior({ ...parameters, deviceOrientation });
 };

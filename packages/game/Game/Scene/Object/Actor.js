@@ -1,6 +1,6 @@
-import { GameSceneObject } from "./GameSceneObject";
+import Object from "./Object";
 
-export class GameSceneActor extends GameSceneObject {
+export class Actor extends Object {
   constructor({ model, ...parameters }) {
     super(parameters);
 

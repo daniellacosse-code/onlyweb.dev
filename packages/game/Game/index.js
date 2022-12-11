@@ -1,9 +1,10 @@
-export * from "./GameScene";
-export * from "./GameStage";
+export * as Scene from "./Scene";
+export * as Stage from "./Stage";
 
 export * from "./combineTransforms";
+export * from "./createColor";
 
-export class Game {
+export default class Game {
   constructor({ stage, currentScene = "main", scenes }) {
     this.stage = stage;
     this.scenes = scenes;
