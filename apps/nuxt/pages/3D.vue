@@ -1,23 +1,13 @@
 <script setup>
-import Game, { combineTransforms } from "@only-web/game";
+import Play, { Scene, Stage, Updater, combineTransforms } from "@only-web/play";
 
 const { public: { threeDimensional } } = useRuntimeConfig();
 
 const canvas = ref(null);
-const game = ref(null);
+const play = ref(null);
 
 onMounted(/* async */() => {
-  const {
-    Stage,
-    Scene,
-    Scene: {
-      Object: {
-        Updater
-      }
-    }
-  } = Game;
-
-  // Currently the stage must be set before the game is created, due to playcanvas' internal architecture.
+  // Currently the stage must be set before the play is initialized, due to playcanvas' internal architecture.
   // I will not make the stage a positional argument, however, to keep our API more flexible.
 
   // We may want multiple stages to support split screen, for instance. 
@@ -54,7 +44,7 @@ onMounted(/* async */() => {
     },
     backdrop: threeDimensional.colorBackground,
     cameras: {
-      main: new Scene.Camera({
+      __main__: new Scene.Camera({
         name: "Main Camera",
         transform: {
           position: threeDimensional.positionCamera
@@ -62,7 +52,7 @@ onMounted(/* async */() => {
       })
     },
     lights: {
-      main: new Scene.Light({
+      __main__: new Scene.Light({
         name: "Main Light",
         transform: {
           rotation: threeDimensional.rotationLight
@@ -71,18 +61,18 @@ onMounted(/* async */() => {
     }
   });
 
-  game.value = new Game({
+  play.value = new Play({
     scenes: {
-      main: mainScene
+      __main__: mainScene
     },
     // TODO: stages?
     stage: mainStage
   });
 
-  game.value.play();
+  play.value.start();
 });
 
-onUnmounted(() => game.value.pause());
+onUnmounted(() => play.value.pause());
 </script>
 
 <template>

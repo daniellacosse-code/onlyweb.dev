@@ -1,11 +1,12 @@
 export * as Scene from "./Scene";
 export * as Stage from "./Stage";
+export * as Updater from "./Updater";
 
 export * from "./combineTransforms";
 export * from "./createColor";
 
-export default class Game {
-  constructor({ stage, currentScene = "main", scenes }) {
+export default class Play {
+  constructor({ stage, currentScene = "__main__", scenes }) {
     this.stage = stage;
     this.scenes = scenes;
     this.currentScene = currentScene;
@@ -35,7 +36,7 @@ export default class Game {
     this.stage.add(currentScene.actors);
   }
 
-  play() {
+  start() {
     // don't start multiple game loops
     if (this._loopID) return;
 

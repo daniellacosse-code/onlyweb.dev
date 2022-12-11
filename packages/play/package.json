@@ -3,5 +3,5 @@
     "playcanvas": "^1.58.2"
   },
   "browser": "index.js",
-  "name": "@only-web/game"
+  "name": "@only-web/play"
 }
