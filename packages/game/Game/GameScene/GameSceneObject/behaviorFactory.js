@@ -108,12 +108,12 @@ export const deviceOrientationBehaviorFactory = async () => {
     }
   }
 
-  const orientation = {};
+  const orientation = { rotation: {} };
 
   addEventListener("deviceorientation", ({ alpha, gamma, beta }) => {
-    orientation.x = Math.floor(alpha ?? 0);
-    orientation.y = Math.floor(gamma ?? 0);
-    orientation.z = Math.floor(beta ?? 0);
+    orientation.rotation.x = Math.floor(alpha ?? 0);
+    orientation.rotation.y = Math.floor(gamma ?? 0);
+    orientation.rotation.z = Math.floor(beta ?? 0);
   });
 
   return (parameters) => behavior({ ...parameters, orientation });

@@ -31,9 +31,7 @@ onMounted(() => {
         name: "Cube",
         model: "box",
         behaviors: {
-          deviceRotation: orientationBehaviorFactory(({ self, orientation }) => {
-            self.transform = { rotation: orientation };
-          }),
+          // deviceRotation: orientationBehaviorFactory(({ self, orientation }) => (self.transform = orientation)),
           gamepadRotation: gamepadBehaviorFactory(({ setFrameSpeedTransform, gamepad: { analog } }) => {
             setFrameSpeedTransform({
               rotation: {
