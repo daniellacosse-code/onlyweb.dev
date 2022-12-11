@@ -30,22 +30,22 @@ onMounted(() => {
         name: "Cube",
         model: "box",
         behaviors: {
-          keyboardRotation: keyboardBehaviorFactory(({ self, deltaTime, input }) => {
+          keyboardRotation: keyboardBehaviorFactory(({ self, deltaTime, keyboard: { ArrowUp, ArrowDown, ArrowLeft, ArrowRight } }) => {
             const rotationTransforms = [];
 
-            if (input.ArrowUp) {
+            if (ArrowUp) {
               rotationTransforms.push({ rotation: { x: -1 * threeDimensional.rotationSpeedCube, y: 0, z: 0 } });
             }
 
-            if (input.ArrowDown) {
+            if (ArrowDown) {
               rotationTransforms.push({ rotation: { x: threeDimensional.rotationSpeedCube, y: 0, z: 0 } });
             }
 
-            if (input.ArrowLeft) {
+            if (ArrowLeft) {
               rotationTransforms.push({ rotation: { x: 0, y: -1 * threeDimensional.rotationSpeedCube, z: 0 } });
             }
 
-            if (input.ArrowRight) {
+            if (ArrowRight) {
               rotationTransforms.push({ rotation: { x: 0, y: threeDimensional.rotationSpeedCube, z: 0 } });
             }
 
