@@ -7,30 +7,40 @@ const canvas = ref(null);
 const game = ref(null);
 
 onMounted(/* async */() => {
+  const {
+    Stage,
+    Scene,
+    Scene: {
+      Object: {
+        Updater
+      }
+    }
+  } = Game;
+
   // Currently the stage must be set before the game is created, due to playcanvas' internal architecture.
   // I will not make the stage a positional argument, however, to keep our API more flexible.
 
   // We may want multiple stages to support split screen, for instance. 
   // Or no stage, to run a separate non-blocking simulation in a service worker.
-  const mainStage = new Game.Stage({ stageElement: canvas.value });
+  const mainStage = new Stage({ stageElement: canvas.value });
 
-  const mainScene = new Game.Scene({
+  const mainScene = new Scene({
     actors: {
-      cube: new Game.Scene.Actor({
+      cube: new Scene.Actor({
         name: "Cube",
         model: "box",
         updaters: {
-          // deviceRotation: await Game.Scene.Object.Updater.Device(({ self, device }) => (self.transform = device.transform)),
-          gamepadRotation: Game.Scene.Object.Updater.Gamepad(({ updateWithSpeed, gamepad }) => {
-            updateWithSpeed({
+          // deviceRotation: await Updater.Device(({ device, self }) => (self.transform = device.transform)),
+          gamepadRotation: Updater.Gamepad(({ gamepad, withSpeed }) => {
+            withSpeed({
               rotation: {
                 x: gamepad.analog.left.vertical * threeDimensional.rotationSpeedCube,
                 y: gamepad.analog.left.horizontal * threeDimensional.rotationSpeedCube,
               }
             });
           }),
-          keyboardRotation: Game.Scene.Object.Updater.Keyboard(({ updateWithSpeed, keyboard }) => {
-            updateWithSpeed(
+          keyboardRotation: Updater.Keyboard(({ keyboard, withSpeed }) => {
+            withSpeed(
               combineTransforms(
                 keyboard.ArrowUp && { rotation: { x: -1 * threeDimensional.rotationSpeedCube } },
                 keyboard.ArrowDown && { rotation: { x: threeDimensional.rotationSpeedCube } },
@@ -44,7 +54,7 @@ onMounted(/* async */() => {
     },
     backdrop: threeDimensional.colorBackground,
     cameras: {
-      main: new Game.Scene.Camera({
+      main: new Scene.Camera({
         name: "Main Camera",
         transform: {
           position: threeDimensional.positionCamera
@@ -52,7 +62,7 @@ onMounted(/* async */() => {
       })
     },
     lights: {
-      main: new Game.Scene.Light({
+      main: new Scene.Light({
         name: "Main Light",
         transform: {
           rotation: threeDimensional.rotationLight
