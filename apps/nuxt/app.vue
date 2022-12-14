@@ -1,4 +1,9 @@
 <style>
+:root {
+  /* allows font to scale on larger screens */
+  font-size: max(16px, 0.7vw);
+}
+
 /* app frame + vars */
 body,
 main {

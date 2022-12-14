@@ -147,4 +147,9 @@ a {
 ul {
   all: initial;
 }
+
+p,
+a {
+  font-size: var(--size-default);
+}
 </style>
