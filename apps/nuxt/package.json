@@ -5,7 +5,7 @@
     "@nuxtjs/web-vitals": "^0.1.10",
     "@only-web/chords": "workspace:^",
     "@only-web/conway": "workspace:^",
-    "@only-web/game": "workspace:^",
+    "@only-web/play": "workspace:^",
     "mapbox-gl": "^2.10.0"
   },
   "devDependencies": {
