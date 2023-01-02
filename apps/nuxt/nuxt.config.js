@@ -7,7 +7,10 @@ export default defineNuxtConfig({
   build: {
     analyze: true
   },
-  plugins: ["~/plugins/quagga.js"],
+  plugins: [
+    "~/plugins/quagga.js",
+    { src: "~/plugins/vercel.js", mode: "client" }
+  ],
   postcss: {
     plugins: {
       "postcss-autoreset": {},

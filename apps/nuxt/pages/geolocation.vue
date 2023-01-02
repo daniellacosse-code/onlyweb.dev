@@ -34,10 +34,14 @@ onMounted(async () => {
   <div id="Mapbox"></div>
 </template>
 
-<style scoped>
+<style>
 #Mapbox {
   display: block;
   height: 100%;
   width: 100%;
+}
+
+.mapboxgl-control-container {
+  display: none;
 }
 </style>

@@ -7,7 +7,8 @@
   "private": true,
   "scripts": {
     "build:all": "yarn workspaces foreach -pivt run build",
-    "watch:all": "yarn workspaces foreach -piv run watch"
+    "watch:all": "yarn workspaces foreach -piv run watch",
+    "_nuxt": "yarn workspace @only-web/nuxt"
   },
   "workspaces": [
     "packages/*",

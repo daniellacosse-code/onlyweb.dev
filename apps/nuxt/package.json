@@ -6,6 +6,7 @@
     "@only-web/chords": "workspace:^",
     "@only-web/conway": "workspace:^",
     "@only-web/game": "workspace:^",
+    "@vercel/analytics": "^0.1.6",
     "mapbox-gl": "^2.10.0"
   },
   "devDependencies": {

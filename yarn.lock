@@ -830,6 +830,7 @@ __metadata:
     "@only-web/chords": "workspace:^"
     "@only-web/conway": "workspace:^"
     "@only-web/game": "workspace:^"
+    "@vercel/analytics": ^0.1.6
     mapbox-gl: ^2.10.0
     nuxi: ^3.0.0-rc.11
     nuxt: 3.0.0-rc.11
@@ -992,6 +993,15 @@ __metadata:
   dependencies:
     "@types/node": "*"
   checksum: dc6a6df507656004e242dcb02c784479deca516d5f4b58a1707e708022b269ae147e1da0521f3e8ad0d63638869d87e0adc023f0bd5454aa6f72ac66c7525cf5
+  languageName: node
+  linkType: hard
+
+"@vercel/analytics@npm:^0.1.6":
+  version: 0.1.6
+  resolution: "@vercel/analytics@npm:0.1.6"
+  peerDependencies:
+    react: ^16.8||^17||^18
+  checksum: 4428e27778cac2ddb1b55fb2e499e04cbe7ddb76dac4fbcbc1e992729da03166807f72c28664ab0addad7223217baef55b5b7b5210a25967c3652b6b2c07d0be
   languageName: node
   linkType: hard
 
