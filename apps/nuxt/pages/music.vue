@@ -1,5 +1,5 @@
 <script setup>
-import { playChord, parseChord } from "@only-web/chords";
+const { playChord, parseChord } = await import("@only-web/chords");
 
 const { public: { music, MILLISECONDS_PER_SECOND,
   SECONDS_PER_MINUTE } } = useRuntimeConfig();
