@@ -7,7 +7,7 @@
     "@only-web/conway": "workspace:^",
     "@only-web/game": "workspace:^",
     "@vercel/analytics": "^0.1.6",
-    "mapbox-gl": "^2.10.0"
+    "mapbox-gl": "^2.11.1"
   },
   "devDependencies": {
     "@nuxt/kit": "^3.0.0-rc.11",
