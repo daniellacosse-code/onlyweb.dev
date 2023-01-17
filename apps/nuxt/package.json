@@ -20,10 +20,8 @@
   },
   "name": "@only-web/nuxt",
   "scripts": {
-    "build": "nuxt build",
-    "generate": "nuxt generate",
+    "build": "nuxt generate",
     "postinstall": "nuxt prepare",
-    "preview": "nuxt preview",
     "watch": "nuxt dev"
   }
 }
