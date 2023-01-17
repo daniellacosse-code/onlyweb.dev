@@ -7,9 +7,6 @@
     "**/.pnp.*": true,
     "**/.yarn": true
   },
-  "versionlens.npm.dependencyProperties": [
-    "dependencies"
-  ],
   "versionlens.suggestions.showOnStartup": true,
   "workbench.colorCustomizations": {
     "statusBar.background": "#42b983",

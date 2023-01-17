@@ -6,17 +6,17 @@
     "@only-web/chords": "workspace:^",
     "@only-web/conway": "workspace:^",
     "@only-web/game": "workspace:^",
-    "@vercel/analytics": "^0.1.6",
+    "@vercel/analytics": "^0.1.8",
     "mapbox-gl": "^2.11.1"
   },
   "devDependencies": {
     "@nuxt/kit": "^3.0.0-rc.11",
     "@nuxt/schema": "^3.0.0-rc.11",
     "nuxi": "^3.0.0-rc.11",
-    "nuxt": "3.0.0-rc.11",
+    "nuxt": "3.0.0",
     "postcss-autoreset": "^3.0.4",
     "postcss-initial": "^3.0.4",
-    "untyped": "^0.5.0"
+    "untyped": "^1.2.2"
   },
   "name": "@only-web/nuxt",
   "scripts": {
