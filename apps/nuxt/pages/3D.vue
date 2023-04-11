@@ -9,7 +9,9 @@ import {
   combineTransforms
 } from "@only-web/game";
 
-const { public: { threeDimensional } } = useRuntimeConfig();
+const {
+  public: { threeDimensional }
+} = useAppConfig();
 
 const canvas = ref(null);
 const game = ref(null);
@@ -18,7 +20,7 @@ onMounted(() => {
   // Currently the stage must be set before the game is created, due to playcanvas' internal architecture.
   // I will not make the stage a positional argument, however, to keep our API more flexible.
 
-  // We may want multiple stages to support split screen, for instance. 
+  // We may want multiple stages to support split screen, for instance.
   // Or no stage, to run a separate non-blocking simulation in a service worker.
   const mainStage = new GameStage({ stageElement: canvas.value });
 
@@ -28,10 +30,7 @@ onMounted(() => {
         name: "Cube",
         model: "box",
         behaviors: {
-          idleRotation: ({
-            self,
-            deltaTime
-          }) => {
+          idleRotation: ({ self, deltaTime }) => {
             self.transform = combineTransforms(self.transform, {
               rotation: {
                 x: threeDimensional.rotationSpeedCube.x * deltaTime,
@@ -78,7 +77,7 @@ onUnmounted(() => game.value.pause());
 
 <template>
   <div class="ThreeDimensionalCanvas__container">
-    <canvas ref="canvas" class="ThreeDimensionalCanvas" />
+    <canvas ref="canvas" class="ThreeDimensionalCanvas"></canvas>
   </div>
 </template>
 

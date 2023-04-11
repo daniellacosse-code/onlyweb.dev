@@ -1,8 +1,9 @@
 <script setup>
 const { playChord, parseChord } = await import("@only-web/chords");
 
-const { public: { music, MILLISECONDS_PER_SECOND,
-  SECONDS_PER_MINUTE } } = useRuntimeConfig();
+const {
+  public: { music, MILLISECONDS_PER_SECOND, SECONDS_PER_MINUTE }
+} = useAppConfig();
 
 let highlightPointer = 0;
 let remainingChords = [];
@@ -14,7 +15,9 @@ const chordInstructions = ref(music.playerChordInstructionsDefault);
 const chordInstructionsInput = ref(null);
 const displayedNotes = ref(music.playerNoteReadoutDefault);
 const bpm = ref(music.playerBeatsPerMinuteDefault);
-const bpmMS = computed(() => (MILLISECONDS_PER_SECOND * SECONDS_PER_MINUTE) / bpm.value);
+const bpmMS = computed(
+  () => (MILLISECONDS_PER_SECOND * SECONDS_PER_MINUTE) / bpm.value
+);
 
 function startSequence() {
   isPreparingToPlay.value = true;
@@ -50,18 +53,21 @@ async function playNextChord() {
 
   displayedNotes.value = parseChord(currentChordString);
 
-  await playChord(displayedNotes.value, (bpmMS.value / MILLISECONDS_PER_SECOND).toFixed(1));
+  await playChord(
+    displayedNotes.value,
+    (bpmMS.value / MILLISECONDS_PER_SECOND).toFixed(1)
+  );
 }
 
 function stopSequence() {
   clearInterval(sequencePlayerID);
 
-  [
-    isPlaying.value,
-    highlightPointer,
-    displayedNotes.value,
-    remainingChords
-  ] = [false, 0, music.playerNoteReadoutDefault, []];
+  [isPlaying.value, highlightPointer, displayedNotes.value, remainingChords] = [
+    false,
+    0,
+    music.playerNoteReadoutDefault,
+    []
+  ];
 
   chordInstructionsInput.value.blur();
 }
@@ -71,8 +77,11 @@ function stopSequence() {
   <div class="Music">
     <div class="MusicNotes__container">
       <ol class="MusicNotes">
-        <li class="MusicNote" v-for="(note, index) in displayedNotes"
-          :key="note + index">
+        <li
+          class="MusicNote"
+          v-for="(note, index) in displayedNotes"
+          :key="note + index"
+        >
           {{ note }}
         </li>
       </ol>
@@ -81,27 +90,35 @@ function stopSequence() {
     <fieldset class="MusicInputs">
       <label>
         Chords
-        <textarea type="textarea" v-model="chordInstructions"
-          ref="chordInstructionsInput"></textarea>
+        <textarea
+          type="textarea"
+          v-model="chordInstructions"
+          ref="chordInstructionsInput"
+        ></textarea>
       </label>
 
       <label>
         Beats per minute (BPM)
-        <input class="MusicInput" type="number" v-model="bpm" min="24"
-          max="300" />
+        <input
+          class="MusicInput"
+          type="number"
+          v-model="bpm"
+          min="24"
+          max="300"
+        />
       </label>
     </fieldset>
 
-    <button v-if="isPlaying" @click.stop.prevent="stopSequence()"
-      :disabled="isPreparingToPlay">
+    <button
+      v-if="isPlaying"
+      @click.stop.prevent="() => stopSequence()"
+      :disabled="isPreparingToPlay"
+    >
       🛑 cancel
     </button>
 
-    <button v-else @click.stop.prevent="startSequence()">
-      ▶️ play
-    </button>
+    <button v-else @click.stop.prevent="() => startSequence()">▶️ play</button>
   </div>
-
 </template>
 
 <style scoped>

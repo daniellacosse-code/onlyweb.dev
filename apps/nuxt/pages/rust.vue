@@ -2,7 +2,9 @@
 import Conway__init, { Universe } from "@only-web/conway";
 
 const wasm = ref(null);
-const { public: { rust, BITS_PER_BYTE } } = useRuntimeConfig();
+const {
+  public: { rust, BITS_PER_BYTE }
+} = useAppConfig();
 
 const container = ref(null);
 
@@ -22,12 +24,8 @@ onMounted(async () => {
 
   wasm.value = await Conway__init();
 
-  width = Math.ceil(
-    container.value.offsetWidth / cellBorderWidth
-  );
-  height = Math.ceil(
-    container.value.offsetHeight / cellBorderWidth
-  );
+  width = Math.ceil(container.value.offsetWidth / cellBorderWidth);
+  height = Math.ceil(container.value.offsetHeight / cellBorderWidth);
 
   game = Universe.new(width, height);
   indexCache = Array.from(new Array(height), () => new Array(width));
@@ -62,18 +60,12 @@ function redrawGrid() {
 
   while (row--) {
     canvas.moveTo(row * cellBorderWidth + 1, 0);
-    canvas.lineTo(
-      row * cellBorderWidth + 1,
-      height * cellBorderWidth + 1
-    );
+    canvas.lineTo(row * cellBorderWidth + 1, height * cellBorderWidth + 1);
   }
 
   while (column--) {
     canvas.moveTo(0, column * cellBorderWidth + 1);
-    canvas.lineTo(
-      width * cellBorderWidth + 1,
-      column * cellBorderWidth + 1
-    );
+    canvas.lineTo(width * cellBorderWidth + 1, column * cellBorderWidth + 1);
   }
 
   // I AM THE STORM THAT IS APPROACHING
@@ -88,9 +80,10 @@ function redrawCells() {
     (width * height) / BITS_PER_BYTE
   );
 
-  const getIndex = (row, column) => indexCache[row][column] !== undefined
-    ? indexCache[row][column]
-    : (indexCache[row][column] = row * width + column);
+  const getIndex = (row, column) =>
+    indexCache[row][column] !== undefined
+      ? indexCache[row][column]
+      : (indexCache[row][column] = row * width + column);
 
   const isCellAlive = (row, column, cells) => {
     const index = getIndex(row, column);
@@ -136,8 +129,14 @@ function pauseGame() {
 function cellToggle({ clientX, clientY }) {
   const { width, height, left, top } = grid.value.getBoundingClientRect();
 
-  const [scaleX, scaleY] = [grid.value.width / width, grid.value.height / height];
-  const [canvasLeft, canvasTop] = [(clientX - left) * scaleX, (clientY - top) * scaleY];
+  const [scaleX, scaleY] = [
+    grid.value.width / width,
+    grid.value.height / height
+  ];
+  const [canvasLeft, canvasTop] = [
+    (clientX - left) * scaleX,
+    (clientY - top) * scaleY
+  ];
   const [row, column] = [
     Math.min(Math.floor(canvasTop / cellBorderWidth), height - 1),
     Math.min(Math.floor(canvasLeft / cellBorderWidth), width - 1)
@@ -153,11 +152,11 @@ function cellToggle({ clientX, clientY }) {
     <canvas class="Game" ref="grid" @click="cellToggle" />
 
     <div class="Game__controlsContainer">
-      <button v-if="isPlaying" @click.stop.prevent="pauseGame()">
+      <button v-if="isPlaying" @click.stop.prevent="() => pauseGame()">
         ⏸ pause
       </button>
 
-      <button v-else variant="primary" @click.stop.prevent="startGame()">
+      <button v-else variant="primary" @click.stop.prevent="() => startGame()">
         ▶️ play
       </button>
     </div>

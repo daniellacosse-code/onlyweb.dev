@@ -1,13 +1,15 @@
 <template>
   <article>
     <section>
-
       <h1><img src="/icon.png" alt="icon" /> only web</h1>
 
       <p>
         A demo showcasing the power of only developing on web.
-        <a href="https://www.howtogeek.com/196087/how-to-add-websites-to-the-home-screen-on-any-smartphone-or-tablet/"
-          target="_blank" rel="noopener">
+        <a
+          href="https://www.howtogeek.com/196087/how-to-add-websites-to-the-home-screen-on-any-smartphone-or-tablet/"
+          target="_blank"
+          rel="noopener"
+        >
           [ How to natively install this app on your device. ]
         </a>
       </p>
@@ -15,14 +17,15 @@
 
     <section>
       <h2>Source Code</h2>
-      <a href="https://github.com/daniellacosse/only-web" target="_blank"
-        rel="noopener">
+      <a
+        href="https://github.com/daniellacosse/only-web"
+        target="_blank"
+        rel="noopener"
+      >
         <pre>daniellacosse/only-web</pre>
       </a>
       <br />
-      <a href="https://daniellacos.se">
-        about the author
-      </a>
+      <a href="https://daniellacos.se"> about the author </a>
     </section>
 
     <section>
@@ -32,14 +35,20 @@
           <a href="https://nuxtjs.org/" target="_blank" rel="noopener">nuxt</a>
         </li>
         <li>
-          <a href="https://github.com/vuejs/vue-devtools#vue-devtools"
-            target="_blank" rel="noopener">
+          <a
+            href="https://github.com/vuejs/vue-devtools#vue-devtools"
+            target="_blank"
+            rel="noopener"
+          >
             vue-devtools
           </a>
         </li>
         <li>
-          <a href="https://github.com/vuejs/awesome-vue" target="_blank"
-            rel="noopener">
+          <a
+            href="https://github.com/vuejs/awesome-vue"
+            target="_blank"
+            rel="noopener"
+          >
             awesome-vue
           </a>
         </li>
@@ -53,8 +62,11 @@
           <a href="https://vuejs.org" target="_blank" rel="noopener">Vue</a>
         </li>
         <li>
-          <a href="https://www.rust-lang.org/learn" target="_blank"
-            rel="noopener">
+          <a
+            href="https://www.rust-lang.org/learn"
+            target="_blank"
+            rel="noopener"
+          >
             Rust
           </a>
         </li>
@@ -64,8 +76,11 @@
           </a>
         </li>
         <li>
-          <a href="https://developer.playcanvas.com/en/api/" target="_blank"
-            rel="noopener">
+          <a
+            href="https://developer.playcanvas.com/en/api/"
+            target="_blank"
+            rel="noopener"
+          >
             PlayCanvas
           </a>
         </li>

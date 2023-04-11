@@ -1,4 +1,5 @@
 # 👁‍🗨 only-web
+
 ![quality](https://img.shields.io/badge/code%20quality-demoware-red)
 
 Cross-platform demo of various notable cutting-edge web technologies.
@@ -6,9 +7,8 @@ Cross-platform demo of various notable cutting-edge web technologies.
 ### setup (osx only)
 
 ```sh
-# install yarn v2+
+# install yarn
 brew install yarn
-yarn set version berry
 
 # install rust
 curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh

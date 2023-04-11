@@ -2,7 +2,9 @@
 import "mapbox-gl/dist/mapbox-gl.css";
 import mapboxgl from "mapbox-gl";
 
-const { public: { geolocation } } = useRuntimeConfig();
+const {
+  public: { geolocation }
+} = useAppConfig();
 
 const map = ref(null);
 mapboxgl.accessToken = geolocation.mapboxToken;

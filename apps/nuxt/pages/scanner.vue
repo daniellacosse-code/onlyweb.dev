@@ -1,6 +1,9 @@
 <script setup>
-
-const { public: { scanner: { readoutTextDefault, decoderReaders } } } = useRuntimeConfig();
+const {
+  public: {
+    scanner: { readoutTextDefault, decoderReaders }
+  }
+} = useAppConfig();
 const nuxtApp = useNuxtApp();
 
 const scanner = ref(null);
@@ -25,7 +28,7 @@ onMounted(async () => {
       if (error) return alert(error);
 
       nuxtApp.$quagga.onDetected(({ codeResult }) => {
-        requestAnimationFrame(() => data.value = codeResult.code);
+        requestAnimationFrame(() => (data.value = codeResult.code));
       });
 
       nuxtApp.$quagga.start();
@@ -34,15 +37,16 @@ onMounted(async () => {
   );
 });
 
-onUnmounted(nuxtApp.$quagga.stop);
+onUnmounted(() => nuxtApp.$quagga?.stop());
 </script>
 
 <template>
   <div class="Quagga">
     <div
-      :class="{ 'Quagga__scanner': true, 'Quagga__scanner--loading': isLoading }"
-      ref="scanner" />
-    <pre>{{ isLoading ? 'Loading...' : data || readoutTextDefault }}</pre>
+      :class="{ Quagga__scanner: true, 'Quagga__scanner--loading': isLoading }"
+      ref="scanner"
+    ></div>
+    <pre>{{ isLoading ? "Loading..." : data || readoutTextDefault }}</pre>
   </div>
 </template>
 
@@ -67,18 +71,18 @@ onUnmounted(nuxtApp.$quagga.stop);
   opacity: 0;
 }
 
-.Quagga__scanner>.drawingBuffer {
+.Quagga__scanner > .drawingBuffer {
   position: absolute;
   left: 0;
 }
 
-.Quagga__scanner>video {
+.Quagga__scanner > video {
   width: 100%;
   max-width: var(--device-width-tablet);
   object-fit: contain;
 }
 
-.Quagga>pre {
+.Quagga > pre {
   font-family: var(--font-monospace);
   padding: var(--size-default);
   color: var(--color-text);

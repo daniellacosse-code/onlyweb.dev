@@ -6,9 +6,9 @@
   "packageManager": "yarn@3.2.4",
   "private": true,
   "scripts": {
+    "@nuxt": "yarn workspace @only-web/nuxt",
     "build:all": "yarn workspaces foreach -pivt run build",
-    "watch:all": "yarn workspaces foreach -piv run watch",
-    "_nuxt": "yarn workspace @only-web/nuxt"
+    "watch:all": "yarn workspaces foreach -piv run watch"
   },
   "workspaces": [
     "packages/*",
