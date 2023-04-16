@@ -398,7 +398,7 @@ if (activeRoute.path !== "/") {
           class="Navbar__navItem"
           v-for="{ name, path } in router
             .getRoutes()
-            .filter(({ name }) => name !== 'index')"
+            .filter(({ name }) => name !== 'index' || name !== 'geolocation')"
           :to="path"
         >
           <span class="Navbar__navItemIcon">
