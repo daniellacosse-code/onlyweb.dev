@@ -11,7 +11,7 @@
     "@nuxt/kit": "^3.3.3",
     "@nuxt/schema": "^3.3.3",
     "nuxi": "^3.3.3",
-    "nuxt": "3.3.3",
+    "nuxt": "3.4.3",
     "postcss-autoreset": "^3.0.4",
     "postcss-initial": "^3.0.4",
     "untyped": "^1.3.2"
