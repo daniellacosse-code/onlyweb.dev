@@ -1,7 +1,0 @@
-{
-  "dependencies": {
-    "tone": "^14.7.77"
-  },
-  "module": "index.js",
-  "name": "@only-web/chords"
-}
