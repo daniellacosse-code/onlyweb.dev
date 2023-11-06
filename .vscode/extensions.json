@@ -2,6 +2,7 @@
   "recommendations": [
     "dt.ghlink",
     "esbenp.prettier-vscode",
-    "pflannery.vscode-versionlens"
+    "pflannery.vscode-versionlens",
+    "denoland.vscode-deno"
   ]
 }
