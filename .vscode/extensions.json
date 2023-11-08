@@ -1,8 +1,10 @@
 {
   "recommendations": [
+    "bierner.lit-html",
+    "denoland.vscode-deno",
     "dt.ghlink",
     "esbenp.prettier-vscode",
-    "pflannery.vscode-versionlens",
-    "denoland.vscode-deno"
+    "forbeslindesay.vscode-sql-template-literal",
+    "pflannery.vscode-versionlens"
   ]
 }

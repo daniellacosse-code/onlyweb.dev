@@ -1,5 +1,4 @@
-export const escape = (html: string | number): string =>
-  String(html).replaceAll("<", "&lt;").replaceAll(">", "&gt;");
+import escape from "/libraries/transformers/escape.ts";
 
 class HTMLResponse extends Response {
   private readonly _html: string;

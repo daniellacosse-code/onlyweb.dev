@@ -1,4 +1,4 @@
-import dataURL from "/libraries/transformers/dataURL.ts";
+import data from "/libraries/transformers/data.ts";
 import html from "/libraries/templates/html.ts";
 import resetStyle from "/libraries/fragments/reset.ts";
 
@@ -18,7 +18,7 @@ export default async () => html`
     </head>
     <body>
       <main>
-        <img src="${await dataURL("./assets/fixxe.jpg")}" />
+        <img src="${await data("./assets/fixxe.jpg")}" />
       </main>
     </body>
   </html>`;
