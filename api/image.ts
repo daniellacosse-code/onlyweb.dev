@@ -7,11 +7,18 @@ export default async () => html`
     <head>
       <title>My Cool Image</title>
       ${resetStyle}
+      <style>
+        main {
+          display: flex;
+          justify-content: center;
+          align-items: center;
+          height: 100svh;
+        }
+      </style>
     </head>
     <body>
       <main>
-        <!-- TODO: resolve this path properly -->
-        <img src="${await dataURL("/assets/fixxe.jpg")}" />
+        <img src="${await dataURL("./assets/fixxe.jpg")}" />
       </main>
     </body>
   </html>`;

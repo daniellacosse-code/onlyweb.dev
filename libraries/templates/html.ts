@@ -1,24 +1,30 @@
-export const escape = (html: string) =>
-  html.replaceAll(/</g, "&lt;").replaceAll(/>/g, "&gt;");
+export const escape = (html: string | number): string =>
+  String(html).replaceAll("<", "&lt;").replaceAll(">", "&gt;");
 
-export default (template: TemplateStringsArray, ...insertions: (string | number | Response)[]) =>
-  new Response(template.reduce(
-    (result, templateFragment, index) => {
-      let insertion: string;
+class HTMLResponse extends Response {
+  private readonly _html: string;
 
-      if (insertions[index] instanceof Response) {
-        // TODO: handle this case properly (perhaps with an HTMLResponse class)
-        insertion = (insertions[index] as Response).body ?? "";
-      } else {
-        insertion = String(insertions[index] ?? "");
-      }
+  constructor(htmlBody: string, init?: ResponseInit) {
+    super(htmlBody, init);
+    this._html = htmlBody
+    this.headers.set("content-type", "text/html; charset=UTF-8");
+  }
 
-      return `${result}${templateFragment}${insertion}`;
-    },
-    ""
-  ), {
-    status: 200,
-    headers: {
-      'content-type': 'text/html; charset=UTF-8',
-    }
-  });
+  // NO TOUCHY
+  get html() {
+    return this._html;
+  }
+}
+
+export default (template: TemplateStringsArray, ...insertions: (HTMLResponse | string | number)[]) =>
+  new HTMLResponse(
+    insertions.reduce<string>((result, insertion, index) => {
+      const templateFragment = template.at(index);
+
+      insertion = insertion instanceof HTMLResponse
+        ? insertion.html
+        : escape(insertion);
+
+      return result + templateFragment + insertion;
+    }, "") + template.at(-1)
+  );

@@ -3,6 +3,15 @@ import resetStyle from "/libraries/fragments/reset.ts";
 
 const pageStyle = html`
   <style>
+    main {
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      gap: 1em;
+      height: 100svh;
+    }
+
     h1 {
       font-family: sans-serif;
       font-size: 2em;
