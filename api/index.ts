@@ -1,5 +1,6 @@
-import html from "/libraries/templates/html.ts";
-import resetStyle from "/libraries/fragments/reset.ts";
+import html from "@html";
+
+import resetStyle from "~/fragments/reset.ts";
 
 const pageStyle = html`
   <style>

@@ -1,6 +1,10 @@
 {
   "imports": {
-    "/": "./",
-    "./": "./"
+    "~/": "./",
+    "./": "./",
+    "@html": "./libraries/html/main.ts",
+    "@html/": "./libraries/html/",
+    "@file": "./libraries/file/main.ts",
+    "@file/": "./libraries/file/"
   }
 }

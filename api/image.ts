@@ -1,8 +1,11 @@
-import data from "/libraries/transformers/data.ts";
-import html from "/libraries/templates/html.ts";
-import resetStyle from "/libraries/fragments/reset.ts";
+import * as path from "https://deno.land/std@0.205.0/path/mod.ts";
 
-export default async () => html`
+import File from "@file";
+import html from "@html";
+
+import resetStyle from "~/fragments/reset.ts";
+
+export default () => html`
   <html>
     <head>
       <title>My Cool Image</title>
@@ -18,7 +21,7 @@ export default async () => html`
     </head>
     <body>
       <main>
-        <img src="${await data("./assets/fixxe.jpg")}" />
+        <img src="${new File(path.resolve("./assets/fixxe.jpg")).toString()}" />
       </main>
     </body>
   </html>`;

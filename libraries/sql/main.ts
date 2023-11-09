@@ -2,9 +2,8 @@
 // TODO: implement this 
 
 // await fetch(sql`
-//   SELECT *
-//   FROM images
-//   WHERE id = ${id}
+//   select * from images
+//   where id = ${id}
 // `);
 
 class SQLRequest extends Request {

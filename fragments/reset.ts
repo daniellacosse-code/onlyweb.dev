@@ -1,4 +1,4 @@
-import html from "/libraries/templates/html.ts";
+import html from "../libraries/html/response.ts";
 
 export default html`
   <style>
