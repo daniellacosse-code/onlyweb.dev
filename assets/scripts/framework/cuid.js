@@ -1,8 +1,8 @@
 let counter = 0;
 
 export function cuid({
-  timestampLength = (2 ** 2),
-  counterLength = (2 ** 2),
+  timestampLength = 2 ** 2,
+  counterLength = 2 ** 2,
   namespace = ""
 } = {}) {
   const timestamp = btoa(String(Date.now()))

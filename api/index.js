@@ -1,6 +1,4 @@
-import html from "@html";
-
-import resetStyle from "~/fragments/reset.ts";
+import { html } from "~/libraries/html/main.js";
 
 const pageStyle = html`
   <style>
@@ -31,17 +29,19 @@ const pageStyle = html`
 
 const pageMessage = "Hello, World! <script>alert('XSS');</script>";
 
-export default () => html`
-  <html>
-    <head>
-      <title>My Cool App</title>
-      ${resetStyle}
-      ${pageStyle}
-    </head>
-    <body>
-      <main>
-        <h1>${pageMessage}</h1>
-        <a href="/image">view image</a>
-      </main>
-    </body>
-  </html>`;
+export default () =>
+  new Response(
+    html`<html>
+      <head>
+        <title>My Cool App</title>
+        ${pageStyle}
+      </head>
+      <body>
+        <main>
+          <h1>${pageMessage}</h1>
+          <a href="/api/image">view image</a>
+        </main>
+      </body>
+    </html>`,
+    { headers: { "content-type": "text/html; charset=UTF-8" } }
+  );

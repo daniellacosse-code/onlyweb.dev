@@ -3,14 +3,8 @@
   "trailingSlash": false,
   "outputDirectory": "assets",
   "functions": {
-    "api/**/*.ts": {
+    "api/**/*.js": {
       "runtime": "vercel-deno@3.0.4"
     }
-  },
-  "rewrites": [
-    {
-      "source": "/(.*)",
-      "destination": "/api/$1"
-    }
-  ]
+  }
 }

@@ -1,13 +1,12 @@
-
-const escapedCharacters = new Map<string, string>([
+const escapedCharacters = new Map([
   ["&", "&amp;"],
   ["<", "&lt;"],
   [">", "&gt;"],
   ["'", "&#39;"],
-  ['"', "&quot;"],
+  ['"', "&quot;"]
 ]);
 
-export const escape = (html: string | number): string => {
+export const escape = (html) => {
   let result = "";
 
   for (const char of String(html)) {
@@ -15,4 +14,4 @@ export const escape = (html: string | number): string => {
   }
 
   return result;
-}
+};
