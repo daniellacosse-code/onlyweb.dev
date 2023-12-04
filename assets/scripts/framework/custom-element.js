@@ -12,6 +12,12 @@ export class CustomElement extends HTMLElement {
     return new Proxy(
       {},
       {
+        deleteProperty: (_, attribute) => {
+          this.removeAttribute(attribute);
+          this._executeRender();
+
+          return true;
+        },
         get: (_, attribute) => {
           const attributeParser =
             this.constructor.attributes[attribute] ?? String;
