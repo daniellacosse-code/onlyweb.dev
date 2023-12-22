@@ -12,11 +12,11 @@
 
 node_modules
 *.log*
-.nuxt
+# .nuxt
 .nitro
 .cache
-.output
+# .output
 .env
-dist
+# dist
 
 .DS_Store
