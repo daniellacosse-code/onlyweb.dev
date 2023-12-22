@@ -1,74 +1,64 @@
 import { cuid } from "./cuid.js";
 
-export class CustomElement extends HTMLElement {
-  static tag = "custom-element";
-  static attributes = {};
+export function CustomElement({
+  tag = "custom-element",
+  attributes = {},
+  render = () => new Error("No render function provided.")
+}) {
+  customElements.define(
+    tag,
+    class extends HTMLElement {
+      static observedAttributes = [...Object.keys(attributes), "id"];
 
-  render() {
-    throw new Error("CustomElement#render must be implemented");
-  }
-
-  get attributes() {
-    return new Proxy(
-      {},
-      {
-        deleteProperty: (_, attribute) => {
-          this.removeAttribute(attribute);
-          this._executeRender();
-
-          return true;
-        },
-        get: (_, attribute) => {
-          const attributeParser =
-            this.constructor.attributes[attribute] ?? String;
-
-          return attributeParser(this.getAttribute(attribute));
-        },
-        set: (_, attribute, value) => {
-          const rawValue = String(value);
-
-          this.setAttribute(attribute, rawValue);
-          this._executeRender();
-
-          return true;
-        }
+      render() {
+        return render(this.attributes);
       }
-    );
-  }
 
-  // TODO: why doesn't this.setAttribute trigger this?
-  attributeChangedCallback() {
-    this._executeRender();
-  }
+      get attributes() {
+        return new Proxy(
+          {},
+          {
+            deleteProperty: (_, attribute) => this.removeAttribute(attribute),
+            get: (_, attribute) =>
+              (attributes[attribute] ?? String)(this.getAttribute(attribute)),
+            set: (_, attribute, value) =>
+              this.setAttribute(attribute, String(value))
+          }
+        );
+      }
 
-  connectedCallback() {
-    this.root = this.attachShadow({ mode: "open" });
-    this.attributes.id = cuid({ namespace: this.constructor.tag });
+      attributeChangedCallback() {
+        this._executeRender();
+      }
 
-    this._executeRender();
-  }
+      connectedCallback() {
+        this.root = this.attachShadow({ mode: "open" });
+        this.attributes.id = cuid({ namespace: tag });
+      }
 
-  _executeRender() {
-    this.root.replaceChildren(
-      new Range().createContextualFragment(
-        html`<template>
-          <style>
-            *,
-            ::slotted(*) {
-              all: initial;
-            }
-            style,
-            script {
-              display: none;
-            }
-          </style>
-          ${this.render(this.attributes)}
-        </template>`
-      )
-    );
+      _executeRender() {
+        this.root.replaceChildren(
+          new Range().createContextualFragment(
+            html`<template>
+              <style>
+                *,
+                ::slotted(*) {
+                  all: initial;
+                }
+                style,
+                script {
+                  display: none;
+                }
+              </style>
+              ${this.render(this.attributes)}
+            </template>`
+          )
+        );
 
-    const templateNode = this.root.querySelector("template");
-
-    this.root.append(templateNode.content.cloneNode(true));
-  }
+        this.root.append(
+          this.root.querySelector("template").content.cloneNode(true)
+        );
+      }
+    }
+  );
 }
