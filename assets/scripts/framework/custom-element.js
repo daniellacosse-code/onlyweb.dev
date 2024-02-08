@@ -9,11 +9,7 @@ export function CustomElement({
     tag,
     class extends HTMLElement {
       static observedAttributes = [...Object.keys(attributes), "id"];
-
-      render() {
-        return render(this.attributes);
-      }
-
+    
       get attributes() {
         return new Proxy(
           {},
@@ -27,9 +23,7 @@ export function CustomElement({
         );
       }
 
-      attributeChangedCallback() {
-        this._executeRender();
-      }
+      attributeChangedCallback() { this._executeRender(); }
 
       connectedCallback() {
         this.root = this.attachShadow({ mode: "open" });
@@ -41,16 +35,10 @@ export function CustomElement({
           new Range().createContextualFragment(
             html`<template>
               <style>
-                *,
-                ::slotted(*) {
-                  all: initial;
-                }
-                style,
-                script {
-                  display: none;
-                }
+                *, ::slotted(*) { all: initial; }
+                style, script { display: none; }
               </style>
-              ${this.render(this.attributes)}
+              ${render(this.attributes)}
             </template>`
           )
         );
