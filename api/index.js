@@ -1,6 +1,6 @@
 import Response from "@backend/response";
 
-const pageStyle = response.html`
+const pageStyle = Response.html`
   <style>
     main {
       display: flex;
