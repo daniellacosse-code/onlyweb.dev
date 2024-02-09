@@ -1,4 +1,4 @@
-import Response from "@backend/response";
+import Response from "../backend/response";
 
 const pageStyle = Response.html`
   <style>
@@ -10,8 +10,7 @@ const pageStyle = Response.html`
       gap: 1em;
       height: 100svh;
     }
-
-    h1 {
+s
       font-family: sans-serif;
       font-size: 2em;
       font-weight: bold;
