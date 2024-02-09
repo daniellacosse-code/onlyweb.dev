@@ -1,6 +1,6 @@
-import { html } from "~/libraries/html/main.js";
+import Response from "@backend/response";
 
-const pageStyle = html`
+const pageStyle = response.html`
   <style>
     main {
       display: flex;
@@ -30,18 +30,15 @@ const pageStyle = html`
 const pageMessage = "Hello, World! <script>alert('XSS');</script>";
 
 export default () =>
-  new Response(
-    html`<html>
-      <head>
-        <title>My Cool App</title>
-        ${pageStyle}
-      </head>
-      <body>
-        <main>
-          <h1>${pageMessage}</h1>
-          <a href="/api/image">view image</a>
-        </main>
-      </body>
-    </html>`,
-    { headers: { "content-type": "text/html; charset=UTF-8" } }
-  );
+  Response.html`<html>
+    <head>
+      <title>My Cool App</title>
+      ${pageStyle}
+    </head>
+    <body>
+      <main>
+        <h1>${pageMessage}</h1>
+        <a href="/api/image">view image</a>
+      </main>
+    </body>
+  </html>`;

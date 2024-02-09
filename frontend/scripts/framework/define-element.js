@@ -1,6 +1,4 @@
-import { cuid } from "./cuid.js";
-
-export function CustomElement({
+Framework.DefineElement = function ({
   tag = "custom-element",
   attributes = {},
   render = () => new Error("No render function provided.")
@@ -9,7 +7,7 @@ export function CustomElement({
     tag,
     class extends HTMLElement {
       static observedAttributes = [...Object.keys(attributes), "id"];
-    
+
       get attributes() {
         return new Proxy(
           {},
@@ -18,25 +16,34 @@ export function CustomElement({
             get: (_, attribute) =>
               (attributes[attribute] ?? String)(this.getAttribute(attribute)),
             set: (_, attribute, value) =>
-              this.setAttribute(attribute, String(value))
+              this.setAttribute(attribute, String(value)) || true
           }
         );
       }
 
-      attributeChangedCallback() { this._executeRender(); }
+      attributeChangedCallback() {
+        this._executeRender();
+      }
 
       connectedCallback() {
         this.root = this.attachShadow({ mode: "open" });
-        this.attributes.id = cuid({ namespace: tag });
+        this.attributes.id = Framework.cuid({ namespace: tag });
       }
 
       _executeRender() {
+        if (!this.root) return;
         this.root.replaceChildren(
           new Range().createContextualFragment(
-            html`<template>
+            Framework.html`<template>
               <style>
-                *, ::slotted(*) { all: initial; }
-                style, script { display: none; }
+                *,
+                ::slotted(*) {
+                  all: initial;
+                }
+                style,
+                script {
+                  display: none;
+                }
               </style>
               ${render(this.attributes)}
             </template>`
@@ -49,4 +56,4 @@ export function CustomElement({
       }
     }
   );
-}
+};

@@ -2,9 +2,7 @@
   "imports": {
     "~/": "./",
     "./": "./",
-    "@html": "./libraries/html/main.ts",
-    "@html/": "./libraries/html/",
-    "@file": "./libraries/file/main.ts",
-    "@file/": "./libraries/file/"
+    "@backend/": "./backend/",
+    "@backend/response": "./backend/response/main.js"
   }
 }
