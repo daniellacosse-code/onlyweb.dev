@@ -9,6 +9,7 @@
     "exclude": ["static/"]
   },
   "tasks": {
-    "dev": "rm -rf .vercel/cache && vercel dev --debug"
+    "dev": "rm -rf .vercel/cache && vercel dev --debug",
+    "commit": "git add . && git commit -m 'wip update' && git push"
   }
 }
