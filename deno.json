@@ -10,6 +10,6 @@
   },
   "tasks": {
     "dev": "rm -rf .vercel/cache && vercel dev --debug",
-    "commit": "git add . && git commit -m '${MESSAGE}' && git push"
+    "commit": "git add . && git commit -m \"$MESSAGE\" && git push"
   }
 }
