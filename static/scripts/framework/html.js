@@ -1,4 +1,4 @@
-// TODO: reuse this file in the backend
+// TODO: hoist this into libraries/shared
 const escapedCharacters = new Map([
   ["&", "&amp;"],
   ["<", "&lt;"],

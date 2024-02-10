@@ -5,6 +5,9 @@ class HTMLResponse extends Response {
     super(htmlBody, init);
     this._html = htmlBody;
     this.headers.set("content-type", "text/html; charset=UTF-8");
+
+    // TODO: custom maxage
+    this.headers.set("cache-control", "public, s-maxage=3600");
   }
 
   // NO TOUCHY
