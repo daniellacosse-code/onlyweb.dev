@@ -1,4 +1,3 @@
-<!-- TODO: figure out rewrites lmao -->
 <html>
   <head>
     <title>2</title>
@@ -15,23 +14,46 @@
         flex-direction: column;
         align-items: center;
         justify-content: center;
-        height: 50svh;
+        height: 20svh;
         background: #202123;
         color: #f3f5f6;
       }
 
+      h1 {
+        font-size: 2.5rem;
+        margin: 0.5rem;
+      }
+
+      h2.hero {
+        font-size: 3.5rem;
+        margin: 1rem;
+      }
+
+      p.hero {
+        font-size: 1.5rem;
+      }
+
       article {
-        height: 50svh;
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-        justify-content: center;
+        height: 80svh;
         background: #f3f5f6;
-        color: 202123;
+        color: #202123;
+        box-sizing: border-box;
+        padding: 8svh 0;
+        text-align: center;
       }
 
       a {
         color: #8c9099;
+        text-decoration: none;
+      }
+
+      a:hover {
+        color: #f3f5f6;
+        background: #202123;
+      }
+
+      a::after {
+        content: " ↗";
       }
 
       iframe {
@@ -47,19 +69,15 @@
         </div>
         <h1>only web 2</h1>
       </header>
-
       <article>
         <section>
-          <h2>Please pardon our dust.</h2>
+          <h2 class="hero">Please pardon our dust.</h2>
         </section>
         <section>
-          <p>
-            We are currently rebuilding everything. Please check back again
-            later.
+          <p class="hero">
+            We're currently rebuilding literally everything.
+            <a href="https://DanielLaCos.se">Follow along</a>
           </p>
-        </section>
-        <section>
-          <a href="https://DanielLaCos.se">DanielLaCos.se</a>
         </section>
       </article>
     </main>
