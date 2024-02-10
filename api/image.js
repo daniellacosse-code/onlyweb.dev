@@ -11,11 +11,11 @@ export default () =>
       </script>
 
       <!-- TODO: get type=module to work so we can reuse code -->
-      <script src="/frontend/scripts/framework/html.js"></script>
-      <script src="/frontend/scripts/framework/cuid.js"></script>
-      <script src="/frontend/scripts/framework/define-element.js"></script>
+      <script src="/scripts/framework/html.js"></script>
+      <script src="/scripts/framework/cuid.js"></script>
+      <script src="/scripts/framework/define-element.js"></script>
 
-      <script src="/frontend/scripts/components/custom-image.js"></script>
+      <script src="/scripts/components/custom-image.js"></script>
 
       <style>
         body {
@@ -27,6 +27,6 @@ export default () =>
       </style>
     </head>
     <body>
-      <custom-image src="/frontend/images/test.jpg"></custom-image>
+      <custom-image src="/images/test.jpg"></custom-image>
     </body>
   </html>`;
