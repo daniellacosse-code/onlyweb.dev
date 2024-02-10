@@ -27,6 +27,6 @@ export default () =>
       </style>
     </head>
     <body>
-      <custom-image src="/images/test.jpg"></custom-image>
+      <custom-image src="/images/test.webp"></custom-image>
     </body>
   </html>`;
