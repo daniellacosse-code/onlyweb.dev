@@ -5,18 +5,17 @@ export default () =>
     <head>
       <title>My Cool Image</title>
 
-      <!-- TODO: need some kind of script loader -->
+      <!-- TODO: need some kind of script loader that injects the file into the response -->
       <script>
         globalThis.Framework = {};
       </script>
 
-      <!-- TODO:  get type=module to work in the browser -->
-      <!-- And/or: inject the html.js file into the response -->
+      <!-- TODO: get type=module to work so we can reuse code -->
       <script src="/frontend/scripts/framework/html.js"></script>
       <script src="/frontend/scripts/framework/cuid.js"></script>
       <script src="/frontend/scripts/framework/define-element.js"></script>
 
-      <script src="/frontend/scripts/elements/custom-image.js"></script>
+      <script src="/frontend/scripts/components/custom-image.js"></script>
 
       <style>
         body {
