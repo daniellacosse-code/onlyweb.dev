@@ -1,0 +1,15 @@
+{
+  "lint": {
+    "exclude": ["static/"]
+  },
+  "fmt": {
+    "exclude": ["static/"]
+  },
+  "test": {
+    "exclude": ["static/"]
+  },
+  "tasks": {
+    "dev": "rm -rf .vercel/cache && vercel dev --debug",
+    "commit": "git add . && git commit -m \"$MESSAGE\" && git push"
+  }
+}

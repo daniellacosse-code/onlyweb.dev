@@ -6,13 +6,7 @@ jobs:
     name: Change Size Label
     runs-on: ubuntu-latest
     steps:
-      - env:
-          IGNORED: |
-            .yarn
-            .pnp.cjs
-            .pnp.loader.mjs
-            yarn.lock
-        name: Apply Size Label
+      - name: Apply Size Label
         uses: pascalgn/size-label-action@a4655c448bb838e8d73b81e97fd0831bb4cbda1e
 name: PR Checks
 "on":

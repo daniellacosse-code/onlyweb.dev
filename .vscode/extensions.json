@@ -1,9 +1,10 @@
 {
   "recommendations": [
-    "arcanis.vscode-zipfs",
+    "bierner.lit-html",
+    "denoland.vscode-deno",
     "dt.ghlink",
     "esbenp.prettier-vscode",
-    "pflannery.vscode-versionlens",
-    "vue.volar",
+    "forbeslindesay.vscode-sql-template-literal",
+    "pflannery.vscode-versionlens"
   ]
 }
