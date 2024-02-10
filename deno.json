@@ -1,8 +1,14 @@
 {
-  "imports": {
-    "~/": "./",
-    "./": "./",
-    "@backend/": "./backend/",
-    "@backend/response": "./backend/response/main.js"
+  "lint": {
+    "exclude": ["static/"]
+  },
+  "fmt": {
+    "exclude": ["static/"]
+  },
+  "test": {
+    "exclude": ["static/"]
+  },
+  "tasks": {
+    "dev": "rm -rf .vercel/cache && vercel dev --debug"
   }
 }

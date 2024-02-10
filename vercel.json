@@ -1,7 +1,7 @@
 {
   "cleanUrls": true,
   "trailingSlash": false,
-  "outputDirectory": "assets",
+  "outputDirectory": "static",
   "functions": {
     "api/**/*.js": {
       "runtime": "vercel-deno@3.0.4"

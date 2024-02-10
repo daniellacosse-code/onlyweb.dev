@@ -1,4 +1,4 @@
-import Response from "@backend/response";
+import Response from "../libraries/backend/response/main.js";
 
 const pageStyle = Response.html`
   <style>
