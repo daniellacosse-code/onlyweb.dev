@@ -11,6 +11,7 @@ export default () =>
       </script>
 
       <!-- TODO:  get type=module to work in the browser -->
+      <!-- And/or: inject the html.js file into the response -->
       <script src="/frontend/scripts/framework/html.js"></script>
       <script src="/frontend/scripts/framework/cuid.js"></script>
       <script src="/frontend/scripts/framework/define-element.js"></script>

@@ -10,7 +10,7 @@ const pageStyle = Response.html`
       gap: 1em;
       height: 100svh;
     }
-s
+    h1 {
       font-family: sans-serif;
       font-size: 2em;
       font-weight: bold;

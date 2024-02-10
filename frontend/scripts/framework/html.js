@@ -26,7 +26,7 @@ Framework.html = function (template, ...insertions) {
 
       insertion =
         insertion instanceof HTMLElement
-          ? insertion.innerHTML
+          ? insertion.outerHTML
           : escape(insertion);
 
       return result + templateFragment + insertion;

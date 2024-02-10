@@ -29,6 +29,7 @@ class HTMLResponse extends Response {
   }
 }
 
+// TODO: "good enough" minifier
 export const html = (template, ...insertions) =>
   new HTMLResponse(
     insertions.reduce((result, insertion, index) => {

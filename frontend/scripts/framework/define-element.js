@@ -7,7 +7,6 @@ Framework.DefineElement = function ({
     tag,
     class extends HTMLElement {
       static observedAttributes = [...Object.keys(attributes), "id"];
-
       get attributes() {
         return new Proxy(
           {},
@@ -21,33 +20,24 @@ Framework.DefineElement = function ({
         );
       }
 
-      attributeChangedCallback() {
-        this._executeRender();
-      }
-
+      attributeChangedCallback = this._executeRender;
       connectedCallback() {
         this.root = this.attachShadow({ mode: "open" });
-        this.attributes.id = Framework.cuid({ namespace: tag });
+        this.attributes.id = Framework.cuid();
+        this._executeRender();
       }
 
       _executeRender() {
         if (!this.root) return;
+
         this.root.replaceChildren(
-          new Range().createContextualFragment(
-            Framework.html`<template>
-              <style>
-                *,
-                ::slotted(*) {
-                  all: initial;
-                }
-                style,
-                script {
-                  display: none;
-                }
-              </style>
-              ${render(this.attributes)}
-            </template>`
-          )
+          Framework.html`<template>
+            <style>
+              *, ::slotted(*) { all: initial; }
+              style, script { display: none; }
+            </style>
+            ${render(this.attributes)}
+          </template>`
         );
 
         this.root.append(
