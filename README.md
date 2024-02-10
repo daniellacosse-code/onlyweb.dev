@@ -1,12 +1,10 @@
-# 👁‍🗨 only-web
+# 👁 only-web 👁
 
-![quality](https://img.shields.io/badge/code%20quality-demoware-red)
-
-Cross-platform demo of various notable cutting-edge web technologies.
+![code quality](https://img.shields.io/badge/code%20quality-demoware-red)
 
 ## getting started
 
 ```bash
 brew bundle
-vercel dev
+deno task dev
 ```
