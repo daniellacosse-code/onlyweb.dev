@@ -1,28 +1,42 @@
-import { htmlEscape } from "/framework/shared/html/escape.js";
+import { escape } from "../../shared/html/escape.js";
+import { handleTemplate } from "../../shared/handlers/handle-template.js";
 
 class HTMLResponse extends Response {
+  static CACHE_MAXAGE = 3600;
+
   constructor(htmlBody, init) {
     super(htmlBody, init);
-    this._html = htmlBody;
-
+    this.#html = htmlBody;
     this.headers.set("content-type", "text/html; charset=UTF-8");
   }
 
   // NO TOUCHY
+  #html = "";
   get html() {
-    return this._html;
+    return this.#html;
   }
 }
 
-export const response = (template, ...insertions) =>
-  new HTMLResponse(
-    insertions.reduce((result, insertion, index) => {
-      const templateFragment = template.at(index);
-      insertion =
-        insertion instanceof HTMLResponse
-          ? insertion.html
-          : htmlEscape(insertion);
+function goodEnoughHTMLminifier(text) {
+  return (
+    text
+      // remove single-line comments
+      .replaceAll(/\/\/.*/g, "")
+      // replace runs of whitespace with one space. Assumes:
+      // => proper semi-colons
+      // => all content-based whitespace is outsourced
+      .replaceAll(/\s+/g, " ")
+  );
+}
 
-      return result + templateFragment + insertion;
-    }, "") + template.at(-1)
+export const html = (template, ...insertions) =>
+  new HTMLResponse(
+    handleTemplate({
+      template,
+      insertions,
+      handleInsertion: (insertion) =>
+        insertion instanceof HTMLResponse
+          ? goodEnoughHTMLminifier(insertion.html)
+          : escape(insertion)
+    })
   );

@@ -9,7 +9,21 @@ export function DefineElement({
   customElements.define(
     tag,
     class extends HTMLElement {
+      // constructor analogous
+      connectedCallback() {
+        this.root = this.attachShadow({ mode: "open" });
+        this.attributes.id = makeCUID();
+        this.events = {
+          local: new BroadcastChannel(this.attributes.id),
+          global: new BroadcastChannel("global")
+        };
+
+        this.#executeRender();
+      }
+
+      // read-side: attributes
       static observedAttributes = [...Object.keys(attributes), "id"];
+
       get attributes() {
         return new Proxy(
           {},
@@ -23,21 +37,15 @@ export function DefineElement({
         );
       }
 
-      attributeChangedCallback = this._executeRender;
-      connectedCallback() {
-        this.root = this.attachShadow({ mode: "open" });
-        this.attributes.id = makeCUID();
-        this._executeRender();
-      }
+      attributeChangedCallback = this.#executeRender;
 
-      _executeRender() {
+      #executeRender() {
         if (!this.root) return;
 
         this.root.replaceChildren(
           html`<template>
             <style>
-              *,
-              ::slotted(*) {
+              * {
                 all: initial;
               }
               style,
@@ -52,6 +60,25 @@ export function DefineElement({
         this.root.append(
           this.root.querySelector("template").content.cloneNode(true)
         );
+      }
+
+      // write-side: events
+      dispatchEvent({ type = "custom", detail }) {
+        const payload = { type, detail, target: this };
+
+        for (const id in this.events) {
+          channel[id].postMessage(payload);
+        }
+
+        return super.dispatchEvent(
+          new CustomEvent(type, { bubbles: true, detail })
+        );
+      }
+
+      disconnectedCallback() {
+        for (const id in this.events) {
+          channel[id].close();
+        }
       }
     }
   );
