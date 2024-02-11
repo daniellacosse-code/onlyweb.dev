@@ -13,10 +13,10 @@ export default () =>
           height: 100svh;
         }
       </style>
+
+      <script src="/libraries/frontend/components/vercel-image.js" type="module" defer></script>
     </head>
     <body>
-      <custom-image src="/images/test.webp"></custom-image>
-      
-      <script src="/libraries/frontend/components/custom-image.js" type="module"></script>
+      <vercel-image src="/images/test.webp"></vercel-image>
     </body>
   </html>`;

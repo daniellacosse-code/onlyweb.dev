@@ -16,7 +16,6 @@ const pageStyle = Response.html`
       font-weight: bold;
       color: blue;
     }
-
     a {
       font-family: sans-serif;
       font-size: 1.5em;
