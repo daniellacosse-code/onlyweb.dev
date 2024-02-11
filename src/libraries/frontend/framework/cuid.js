@@ -1,6 +1,6 @@
 let counter = 0;
 
-Framework.cuid = function ({
+export function cuid({
   timestampLength = 2 ** 2,
   counterLength = 2 ** 2,
   namespace = ""
@@ -18,4 +18,4 @@ Framework.cuid = function ({
     : [timestamp, counterString];
 
   return cuidParts.join("_");
-};
+}
