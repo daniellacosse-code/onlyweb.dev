@@ -1,5 +1,5 @@
-import { escape } from "../../shared/html/escape.js";
-import { handleTemplate } from "../../shared/handlers/handle-template.js";
+import { escape } from "../shared/html/escape.js";
+import { handleTemplate } from "../shared/handle-template.js";
 
 class HTMLResponse extends Response {
   static CACHE_MAXAGE = 3600;

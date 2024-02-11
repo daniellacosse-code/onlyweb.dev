@@ -12,18 +12,15 @@ export function DefineElement({
       // constructor analogous
       connectedCallback() {
         this.root = this.attachShadow({ mode: "open" });
-        this.attributes.id = makeCUID();
-        this.events = {
-          local: new BroadcastChannel(this.attributes.id),
-          global: new BroadcastChannel("global")
-        };
+        // is this needed?
+        this.attributes.id ??= makeCUID();
+        this.store = new BroadcastChannel(this.attributes.store);
 
         this.#executeRender();
       }
 
       // read-side: attributes
-      static observedAttributes = [...Object.keys(attributes), "id"];
-
+      static observedAttributes = [...Object.keys(attributes), "id", "store"];
       get attributes() {
         return new Proxy(
           {},
@@ -38,7 +35,6 @@ export function DefineElement({
       }
 
       attributeChangedCallback = this.#executeRender;
-
       #executeRender() {
         if (!this.root) return;
 
@@ -62,23 +58,13 @@ export function DefineElement({
         );
       }
 
-      // write-side: events
+      // write-side: store
       dispatchEvent({ type = "custom", detail }) {
-        const payload = { type, detail, target: this };
-
-        for (const id in this.events) {
-          channel[id].postMessage(payload);
-        }
-
-        return super.dispatchEvent(
-          new CustomEvent(type, { bubbles: true, detail })
-        );
+        this.store.postMessage({ type, detail, target: this });
       }
 
       disconnectedCallback() {
-        for (const id in this.events) {
-          channel[id].close();
-        }
+        this.store.close();
       }
     }
   );
