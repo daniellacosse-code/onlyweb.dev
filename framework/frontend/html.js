@@ -1,19 +1,14 @@
-import { htmlEscape } from "../shared/html/escape.js";
+import { escape } from "../shared/html/escape.js";
 
 export function html(template, ...insertions) {
   const wrapper = document.createElement("div");
 
-  wrapper.innerHTML =
-    insertions.reduce((result, insertion, index) => {
-      const templateFragment = template.at(index);
-
-      insertion =
-        insertion instanceof HTMLElement
-          ? insertion.outerHTML
-          : htmlEscape(insertion);
-
-      return result + templateFragment + insertion;
-    }, "") + template.at(-1);
+  wrapper.innerHTML = handleTemplate({
+    template,
+    insertions,
+    handleInsertion: (insertion) =>
+      insertion instanceof HTMLElement ? insertion.outerHTML : escape(insertion)
+  });
 
   return wrapper.firstChild;
 }

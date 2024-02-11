@@ -1,42 +1,42 @@
-import { htmlEscape } from "../shared/html/escape.js";
-import { htmlMinify } from "../shared/html/minify.js";
+import { escape } from "../../shared/html/escape.js";
+import { handleTemplate } from "../../shared/handlers/handle-template.js";
 
 class HTMLResponse extends Response {
+  static CACHE_MAXAGE = 3600;
+
   constructor(htmlBody, init) {
     super(htmlBody, init);
-    this._html = html;
-
+    this.#html = htmlBody;
     this.headers.set("content-type", "text/html; charset=UTF-8");
   }
 
   // NO TOUCHY
+  #html = "";
   get html() {
-    return this._html;
+    return this.#html;
   }
+}
+
+function goodEnoughHTMLminifier(text) {
+  return (
+    text
+      // remove single-line comments
+      .replaceAll(/\/\/.*/g, "")
+      // replace runs of whitespace with one space. Assumes:
+      // => proper semi-colons
+      // => all content-based whitespace is outsourced
+      .replaceAll(/\s+/g, " ")
+  );
 }
 
 export const html = (template, ...insertions) =>
   new HTMLResponse(
-    // htmlMinify(
-    insertions.reduce((result, insertion, index) => {
-      const templateFragment = template.at(index);
-      insertion =
+    handleTemplate({
+      template,
+      insertions,
+      handleInsertion: (insertion) =>
         insertion instanceof HTMLResponse
-          ? insertion.html
-          : htmlEscape(insertion);
-
-      return result + templateFragment + insertion;
-    }, "") + template.at(-1)
-    // )
+          ? goodEnoughHTMLminifier(insertion.html)
+          : escape(insertion)
+    })
   );
-
-export const file = (content, type) =>
-  new Response(content, {
-    headers: {
-      "content-type": type
-    }
-  });
-
-// TODO: escape insertions
-export const js = (content) =>
-  file(htmlMinify(content), "application/javascript");
