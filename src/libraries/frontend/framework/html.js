@@ -1,23 +1,6 @@
-// TODO: hoist this into libraries/shared
-const escapedCharacters = new Map([
-  ["&", "&amp;"],
-  ["<", "&lt;"],
-  [">", "&gt;"],
-  ["'", "&#39;"],
-  ['"', "&quot;"]
-]);
+import { escape } from "../../shared/html/escape.js";
 
-const escape = (html) => {
-  let result = "";
-
-  for (const char of String(html)) {
-    result += escapedCharacters.get(char) ?? char;
-  }
-
-  return result;
-};
-
-Framework.html = function (template, ...insertions) {
+export function html(template, ...insertions) {
   const wrapper = document.createElement("div");
 
   wrapper.innerHTML =
@@ -33,4 +16,4 @@ Framework.html = function (template, ...insertions) {
     }, "") + template.at(-1);
 
   return wrapper.firstChild;
-};
+}

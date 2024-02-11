@@ -1,21 +1,9 @@
-import Response from "../libraries/backend/response/main.js";
+import Response from "../src/libraries/backend/response/main.js";
 
 export default () =>
   Response.html`<html>
     <head>
       <title>My Cool Image</title>
-
-      <!-- TODO: need some kind of script loader that injects the file into the response -->
-      <script>
-        globalThis.Framework = {};
-      </script>
-
-      <!-- TODO: get type=module to work so we can reuse code -->
-      <script src="/scripts/framework/html.js"></script>
-      <script src="/scripts/framework/cuid.js"></script>
-      <script src="/scripts/framework/define-element.js"></script>
-
-      <script src="/scripts/components/custom-image.js"></script>
 
       <style>
         body {
@@ -28,5 +16,7 @@ export default () =>
     </head>
     <body>
       <custom-image src="/images/test.webp"></custom-image>
+      
+      <script src="/libraries/frontend/components/custom-image.js" type="module"></script>
     </body>
   </html>`;

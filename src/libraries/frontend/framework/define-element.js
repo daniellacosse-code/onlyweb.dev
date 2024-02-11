@@ -1,4 +1,7 @@
-Framework.DefineElement = function ({
+import { cuid } from "./cuid.js";
+import { html } from "./html.js";
+
+export function DefineElement({
   tag = "custom-element",
   attributes = {},
   render = () => new Error("No render function provided.")
@@ -23,18 +26,28 @@ Framework.DefineElement = function ({
       attributeChangedCallback = this._executeRender;
       connectedCallback() {
         this.root = this.attachShadow({ mode: "open" });
-        this.attributes.id = Framework.cuid();
+        this.attributes.id = cuid();
         this._executeRender();
       }
+
+      // dispatchEvent() {
+      //   return super.dispatchEvent(...arguments);
+      // }
 
       _executeRender() {
         if (!this.root) return;
 
         this.root.replaceChildren(
-          Framework.html`<template>
+          html`<template>
             <style>
-              *, ::slotted(*) { all: initial; }
-              style, script { display: none; }
+              *,
+              ::slotted(*) {
+                all: initial;
+              }
+              style,
+              script {
+                display: none;
+              }
             </style>
             ${render(this.attributes)}
           </template>`
@@ -46,4 +59,4 @@ Framework.DefineElement = function ({
       }
     }
   );
-};
+}
