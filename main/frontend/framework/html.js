@@ -1,4 +1,4 @@
-import { escape } from "../../shared/html/escape.js";
+import { escape } from "../../shared/sanitizers/html-escape.js";
 
 export function html(template, ...insertions) {
   const wrapper = document.createElement("div");

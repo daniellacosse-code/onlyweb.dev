@@ -1,12 +1,6 @@
 {
   "lint": {
-    "exclude": ["static/frontend/"]
-  },
-  "fmt": {
-    "exclude": ["static/frontend/"]
-  },
-  "test": {
-    "exclude": ["static/frontend/"]
+    "exclude": ["main/frontend/"]
   },
   "tasks": {
     "dev": "rm -rf .vercel/cache && vercel dev --debug",
