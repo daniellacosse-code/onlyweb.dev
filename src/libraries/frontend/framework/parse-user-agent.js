@@ -1,3 +1,13 @@
+/**
+ * @typedef Platform
+ * @property {Object} renderer
+ * @property {string} renderer.name
+ * @property {string} renderer.version
+ * @property {Object} engine
+ * @property {string} engine.name
+ * @property {string} engine.version
+ */
+
 const ENGINE_CHECKERS = {
   Firefox: /Firefox\/(?<version>\S+)/,
   Seamonkey: /Seamonkey\/(?<version>\S+)/,
@@ -17,7 +27,12 @@ const RENDERER_CHECKERS = {
   EdgeHTML: /Edge\/(?<version>\S+)/
 };
 
-export function parseUserAgent(userAgent) {
+/**
+ * Parse a user agent string and return the platform information.
+ * @param {string} userAgent
+ * @returns {Readonly<Platform>} - A frozen object with the platform information.
+ */
+export function parseUserAgentString(userAgent) {
   const platform = {};
 
   // usually the first match is the renderer
