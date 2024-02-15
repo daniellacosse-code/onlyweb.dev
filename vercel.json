@@ -1,13 +1,16 @@
 {
   "cleanUrls": true,
   "trailingSlash": false,
-  "outputDirectory": "src",
+  "outputDirectory": "app",
   "functions": {
     "api/**/*.js": {
       "runtime": "vercel-deno@3.0.4"
     }
   },
-  "rewrites": {
-    "api/(.*)": "/api"
-  }
+  "rewrites": [
+    {
+      "source": "/api/:path*",
+      "destination": "/api"
+    }
+  ]
 }
