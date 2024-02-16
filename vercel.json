@@ -6,5 +6,11 @@
     "api/**/*.js": {
       "runtime": "vercel-deno@3.0.4"
     }
-  }
+  },
+  "rewrites": [
+    {
+      "source": "/api/:path*",
+      "destination": "/api"
+    }
+  ]
 }
