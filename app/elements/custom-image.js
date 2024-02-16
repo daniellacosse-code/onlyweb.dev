@@ -1,4 +1,4 @@
-import { html, DefineElement } from "../framework/main.js";
+import { html, DefineElement } from "../../framework/frontend/index.js";
 
 DefineElement({
   attributes: { src: String, alt: String },

@@ -1,4 +1,2 @@
 .DS_Store
 .vercel
-Brewfile.lock.json
-deno.lock

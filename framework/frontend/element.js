@@ -1,4 +1,4 @@
-import { cuid } from "./cuid.js";
+import { makeCUID } from "../shared/cuid.js";
 import { html } from "./html.js";
 
 export function DefineElement({
@@ -26,13 +26,9 @@ export function DefineElement({
       attributeChangedCallback = this._executeRender;
       connectedCallback() {
         this.root = this.attachShadow({ mode: "open" });
-        this.attributes.id = cuid();
+        this.attributes.id = makeCUID();
         this._executeRender();
       }
-
-      // dispatchEvent() {
-      //   return super.dispatchEvent(...arguments);
-      // }
 
       _executeRender() {
         if (!this.root) return;

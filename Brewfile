@@ -1,2 +1,2 @@
+brew "git"
 brew "deno"
-brew "vercel-cli"

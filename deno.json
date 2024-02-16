@@ -1,15 +1,9 @@
 {
   "lint": {
-    "exclude": ["static/frontend/"]
-  },
-  "fmt": {
-    "exclude": ["static/frontend/"]
-  },
-  "test": {
-    "exclude": ["static/frontend/"]
+    "exclude": ["source/framework/frontend/", "source/app/components/"]
   },
   "tasks": {
-    "dev": "rm -rf .vercel/cache && vercel dev --debug",
-    "commit": "git add . && git commit -m \"$MESSAGE\" && git push"
+    "start": "bash ./.tasks/start.sh",
+    "commit": "bash ./.tasks/commit.sh"
   }
 }

@@ -6,5 +6,5 @@
 
 ```bash
 brew bundle
-deno task dev
+deno task start
 ```

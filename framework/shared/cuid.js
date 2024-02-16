@@ -1,6 +1,6 @@
 let counter = 0;
 
-export function cuid({
+export function makeCUID({
   timestampLength = 2 ** 2,
   counterLength = 2 ** 2,
   namespace = ""
