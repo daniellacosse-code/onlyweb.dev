@@ -1,5 +1,4 @@
 import { htmlEscape } from "../shared/html/escape.js";
-import { htmlMinify } from "../shared/html/minify.js";
 
 class HTMLResponse extends Response {
   constructor(htmlBody, init) {
@@ -17,7 +16,6 @@ class HTMLResponse extends Response {
 
 export const html = (template, ...insertions) =>
   new HTMLResponse(
-    // htmlMinify(
     insertions.reduce((result, insertion, index) => {
       const templateFragment = template.at(index);
       insertion =
@@ -27,16 +25,4 @@ export const html = (template, ...insertions) =>
 
       return result + templateFragment + insertion;
     }, "") + template.at(-1)
-    // )
   );
-
-export const file = (content, type) =>
-  new Response(content, {
-    headers: {
-      "content-type": type
-    }
-  });
-
-// TODO: escape insertions
-export const js = (content) =>
-  file(htmlMinify(content), "application/javascript");

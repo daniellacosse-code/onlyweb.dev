@@ -11,10 +11,10 @@ export default () =>
         name="description"
         content="only web. only web. only web. only web. only web. only web. only web. only web. only web. only web. only web. only web."
       />
-      <link rel="icon" href="/assets/images/logo.png" />
+      <link rel="icon" href="/app/assets/images/logo.png" />
       <meta name="theme-color" content="#202123" />
 
-      <meta name="og:image" content="/assets/images/logo.png" />
+      <meta name="og:image" content="/app/assets/images/logo.png" />
       <meta name="og:title" content="2" />
       <meta name="og:url" content="https://only-web.com/" />
       <meta name="og:type" content="website" />
@@ -89,11 +89,11 @@ export default () =>
         <header>
           <div class="logo">
             <custom-image
-              src="/assets/images/logo.png"
+              src="/app/assets/images/logo.png"
               alt="logo"
             ></custom-image>
             <custom-image
-              src="/assets/images/logo.png"
+              src="/app/assets/images/logo.png"
               alt="logo"
             ></custom-image>
           </div>
@@ -112,6 +112,6 @@ export default () =>
         </article>
       </main>
 
-      <script src="/elements/custom-image.js" type="module"></script>
+      <script src="/app/elements/custom-image.js" type="module"></script>
     </body>
   </html>`;

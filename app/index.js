@@ -1,14 +1,10 @@
 // @ts-check
 
-import * as response from "../framework/backend/response.js";
+// NOTE: deno deploy only uploads the files that are imported in the app/index.js file
+import "./pages/index.js";
 
-/**
- * @param {string} path
- * @returns {Promise<Uint8Array>} the file contents at the path
- *                                relative to the app/index.js file
- */
-export const readRelativeFilepath = (path) =>
-  Deno.readFile(new URL(path, import.meta.url));
+import { resolve } from "https://deno.land/std@0.216.0/path/mod.ts";
+import { serveFile } from "https://deno.land/std@0.140.0/http/file_server.ts";
 
 Deno.serve(async (request) => {
   const requestURL = new URL(request.url);
@@ -21,19 +17,13 @@ Deno.serve(async (request) => {
 
   switch (requestPath.split("/").at(1)) {
     case "favicon.ico":
-      return response.file(
-        await readRelativeFilepath("./assets/images/logo.png")
+      return serveFile(
+        request,
+        resolve(Deno.cwd(), "./assets/images/logo.png")
       );
-    case "assets":
-      return response.file(await readRelativeFilepath(`.${requestPath}`));
-    case "elements":
-      return response.js(
-        new TextDecoder().decode(await readRelativeFilepath(`.${requestPath}`))
-      );
+    case "app":
     case "framework":
-      return response.js(
-        new TextDecoder().decode(await readRelativeFilepath(`..${requestPath}`))
-      );
+      return serveFile(request, resolve(Deno.cwd(), `.${requestPath}`));
     case "pages":
       return (await import(`.${requestPath}`)).default(request);
     default: {
