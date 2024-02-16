@@ -1,2 +1,5 @@
 .DS_Store
 .vercel
+
+# vercel doesn't know how to parse the deno.lock file ;(
+deno.lock
