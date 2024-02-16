@@ -1,17 +1,10 @@
 // @ts-check
 
-import { resolve } from "https://deno.land/std@0.216.0/path/mod.ts";
-import { serveFile } from "https://deno.land/std@0.140.0/http/file_server.ts";
-
+// NOTE: deno deploy only uploads the files that are imported in the app/index.js file
 import "./pages/index.js";
 
-/**
- * @param {string} path
- * @returns {Promise<Uint8Array>} the file contents at the path
- *                                relative to the app/index.js file
- */
-export const readRootFilepath = (path) =>
-  Deno.readFile(resolve(Deno.cwd(), path));
+import { resolve } from "https://deno.land/std@0.216.0/path/mod.ts";
+import { serveFile } from "https://deno.land/std@0.140.0/http/file_server.ts";
 
 Deno.serve(async (request) => {
   const requestURL = new URL(request.url);
