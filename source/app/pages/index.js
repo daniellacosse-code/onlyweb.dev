@@ -1,4 +1,4 @@
-import Response from "../../framework/backend/main.js";
+import Response from "../../framework/backend/index.js";
 
 const pageStyle = Response.html`
   <style>
@@ -28,7 +28,9 @@ const pageStyle = Response.html`
 
 const pageMessage = "Hello, World! <script>alert('XSS');</script>";
 
-const handler = () =>
+export * as demo from "./demo/index.js";
+
+export default () =>
   Response.html`<html>
     <head>
       <title>My Cool App</title>
@@ -37,9 +39,7 @@ const handler = () =>
     <body>
       <main>
         <h1>${pageMessage}</h1>
-        <a href="/api/app/routes/demo/image">view image</a>
+        <a href="/demo/image">view image</a>
       </main>
     </body>
   </html>`;
-
-Deno.serve(handler);

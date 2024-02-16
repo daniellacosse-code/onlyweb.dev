@@ -3,7 +3,7 @@
     "exclude": ["source/framework/frontend/", "source/app/components/"]
   },
   "tasks": {
-    "dev": "bash ./.tasks/dev.sh",
+    "start": "deno run --allow-net source/app/index.js",
     "commit": "bash ./.tasks/commit.sh"
   }
 }
