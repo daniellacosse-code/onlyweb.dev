@@ -37,7 +37,7 @@ export default () =>
     <body>
       <main>
         <h1>${pageMessage}</h1>
-        <a href="/api/image">view image</a>
+        <a href="/api/app/routes/demo/image">view image</a>
       </main>
     </body>
   </html>`;

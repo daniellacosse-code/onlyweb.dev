@@ -1,5 +1,5 @@
 import { cuid } from "../shared/makers/make-cuid.js";
-import { html } from "../shared/sanitizers/html-escape.js";
+import { html } from "./html.js";
 
 export function DefineElement({
   tag = "custom-element",
@@ -29,10 +29,6 @@ export function DefineElement({
         this.attributes.id = cuid();
         this._executeRender();
       }
-
-      // dispatchEvent() {
-      //   return super.dispatchEvent(...arguments);
-      // }
 
       _executeRender() {
         if (!this.root) return;

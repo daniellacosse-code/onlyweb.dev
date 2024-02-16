@@ -1,4 +1,4 @@
-import Response from "../../framework/main.js";
+import Response from "../../../framework/backend/main.js";
 
 export default () =>
   Response.html`<html>
@@ -15,8 +15,8 @@ export default () =>
       </style>
     </head>
     <body>
-      <custom-image src="/images/test.webp"></custom-image>
+      <custom-image src="/app/assets/images/test.webp"></custom-image>
       
-      <script src="/libraries/frontend/components/custom-image.js" type="module"></script>
+      <script src="/api/app/components/custom-image.js" type="module"></script>
     </body>
   </html>`;
