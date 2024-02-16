@@ -1,4 +1,4 @@
-import Response from "../../source/framework/backend/main.js";
+import Response from "../../../framework/backend/main.js";
 
 export default () =>
   Response.html`<html>
