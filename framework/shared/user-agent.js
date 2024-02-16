@@ -32,7 +32,7 @@ const RENDERER_CHECKERS = {
  * @param {string} userAgent
  * @returns {Readonly<Platform>} - A frozen object with the platform information.
  */
-export function parseUserAgentString(userAgent) {
+export function parseUserAgent(userAgent) {
   const platform = {};
 
   // usually the first match is the renderer

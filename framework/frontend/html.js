@@ -1,4 +1,4 @@
-import { escape } from "../shared/sanitizers/html-escape.js";
+import { htmlEscape } from "../shared/html/escape.js";
 
 export function html(template, ...insertions) {
   const wrapper = document.createElement("div");
@@ -10,7 +10,7 @@ export function html(template, ...insertions) {
       insertion =
         insertion instanceof HTMLElement
           ? insertion.outerHTML
-          : escape(insertion);
+          : htmlEscape(insertion);
 
       return result + templateFragment + insertion;
     }, "") + template.at(-1);

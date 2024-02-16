@@ -1,2 +1,2 @@
 export { html } from "./html.js";
-export { DefineElement } from "./define-element.js";
+export { DefineElement } from "./element.js";
