@@ -1,9 +1,9 @@
 {
   "lint": {
-    "exclude": ["main/frontend/"]
+    "exclude": ["source/framework/frontend/", "source/app/components/"]
   },
   "tasks": {
-    "dev": "rm -rf .vercel/cache && vercel dev --debug",
-    "commit": "git add . && git commit -m \"$MESSAGE\" && git push"
+    "dev": "bash ./.tasks/dev.sh",
+    "commit": "bash ./.tasks/commit.sh"
   }
 }

@@ -1,4 +1,4 @@
-import { escape } from "../../shared/sanitizers/html-escape.js";
+import { escape } from "../shared/sanitizers/html-escape.js";
 
 class HTMLResponse extends Response {
   constructor(htmlBody, init) {

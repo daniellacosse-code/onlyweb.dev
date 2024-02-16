@@ -1,5 +1,5 @@
-import { cuid } from "../../shared/makers/make-cuid.js";
-import { html } from "../../shared/sanitizers/html-escape.js";
+import { cuid } from "../shared/makers/make-cuid.js";
+import { html } from "../shared/sanitizers/html-escape.js";
 
 export function DefineElement({
   tag = "custom-element",
