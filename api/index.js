@@ -25,14 +25,14 @@ function goodEnoughHTMLMinifier(text) {
 export default async (request) => {
   const url = new URL(request.url);
 
-  url.port = 3000;
+  // url.port = 3000;
   url.pathname = url.pathname.replace(/\/api\/?/, "/");
 
   if (url.pathname === "/" || !url.pathname) {
     url.pathname = "/app/routes/index";
   }
 
-  // TODO: I'm not using this how it's meant to be used, we need to re-eval the file extension
+  // TODO(#117): I'm not using this how it's meant to be used, we need to re-eval the file extension
   url.pathname += ".js";
 
   if (url.pathname.startsWith("/app/assets")) {
