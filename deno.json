@@ -5,11 +5,5 @@
   "tasks": {
     "start": "bash ./.tasks/start.sh",
     "commit": "bash ./.tasks/commit.sh"
-  },
-  "deploy": {
-    "project": "e6201c95-12db-4354-8023-4f74cc067afe",
-    "exclude": ["**/node_modules"],
-    "include": ["./app", "./framework"],
-    "entrypoint": "app/index.js"
   }
 }
