@@ -1,7 +1,7 @@
 // Assumes:
 // => proper semi-colons
 // => all content-based whitespace is outsourced or done in CSS
-export function htmlMinify(text) {
+export function minify(text) {
   return (
     text
       // remove single-line JS comments
