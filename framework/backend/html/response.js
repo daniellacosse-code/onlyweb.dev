@@ -1,4 +1,5 @@
 import { escape } from "../shared/html/escape.js";
+import { minify } from "../shared/html/minify.js";
 import { handleTemplate } from "../shared/handle-template.js";
 
 class HTMLResponse extends Response {
@@ -17,18 +18,6 @@ class HTMLResponse extends Response {
   }
 }
 
-function goodEnoughHTMLminifier(text) {
-  return (
-    text
-      // remove single-line comments
-      .replaceAll(/\/\/.*/g, "")
-      // replace runs of whitespace with one space. Assumes:
-      // => proper semi-colons
-      // => all content-based whitespace is outsourced
-      .replaceAll(/\s+/g, " ")
-  );
-}
-
 export const html = (template, ...insertions) =>
   new HTMLResponse(
     handleTemplate({
@@ -36,7 +25,7 @@ export const html = (template, ...insertions) =>
       insertions,
       handleInsertion: (insertion) =>
         insertion instanceof HTMLResponse
-          ? goodEnoughHTMLminifier(insertion.html)
+          ? minify(insertion.html)
           : escape(insertion)
     })
   );
