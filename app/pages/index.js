@@ -91,14 +91,20 @@ export default (request) => {
       <main>
         <header>
           <div class="logo">
-            <custom-image
-              src="/app/assets/images/logo.png"
+            <keycdn-image
               alt="logo"
-            ></custom-image>
-            <custom-image
+              format="webp"
+              height="80"
               src="/app/assets/images/logo.png"
+              width="80"
+            ></keycdn-image>
+            <keycdn-image
               alt="logo"
-            ></custom-image>
+              format="webp"
+              height="80"
+              src="/app/assets/images/logo.png"
+              width="80"
+            ></keycdn-image>
           </div>
           <h1>only web 2</h1>
         </header>
@@ -115,7 +121,7 @@ export default (request) => {
         </article>
       </main>
 
-      ${html.inline("./app/elements/custom-image.js", origin)}
+      ${html.inline("./app/elements/keycdn-image.js", origin)}
       ${html.inline("./framework/frontend/reload.js", origin)}
     </body>
   </html>`;
