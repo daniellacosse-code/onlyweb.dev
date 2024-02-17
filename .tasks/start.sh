@@ -1,5 +1,6 @@
 #!/bin/bash
 
+# TODO(#120) bug: fix dev server so it restarts on code change
 while :
   do
     clear

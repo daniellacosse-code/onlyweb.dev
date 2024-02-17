@@ -1,6 +1,6 @@
 import { html, DefineElement } from "../../framework/frontend/index.js";
 
-// TODO(#106): actually optimize images and rename to "vercel-image"
+// TODO(#118): add keycdn-powered image
 DefineElement({
   attributes: { src: String, alt: String },
   tag: "custom-image",
