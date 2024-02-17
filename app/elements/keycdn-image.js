@@ -10,7 +10,7 @@ DefineElement({
     height: Number
   },
   tag: "keycdn-image",
-  render({ src, alt = "keycdn image", format, width, height }) {
+  render({ src, alt = "keycdn image", ...keycdnAttributes }) {
     const url = new URL(
       location.host.startsWith("localhost")
         ? `http://localhost:${DENO_PORT}`
@@ -18,10 +18,9 @@ DefineElement({
     );
 
     url.pathname = src;
-
-    url.searchParams.set("format", format);
-    url.searchParams.set("width", width);
-    url.searchParams.set("height", height);
+    for (const [key, value] of Object.entries(keycdnAttributes)) {
+      url.searchParams.set(key, value);
+    }
 
     return html`<style>
         :host {
