@@ -2,8 +2,8 @@ export function DefineStore(
   events,
   { initialState = {}, handleEvent = () => {}, handleChange = () => {} }
 ) {
-  // we can't use a private class field here because need it in the proxy -
-  // a closure is the only way to keep this private
+  // we can't use a private class field here because need this method in the proxy -
+  // a closure is the only way to keep it private
   const stateProxyHandlerFactory = (state, handleOperation) => {
     handleOperation();
     handleChange(state);
