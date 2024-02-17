@@ -1,10 +1,9 @@
+
 import { escape } from "../shared/html/escape.js";
 import { minify } from "../shared/html/minify.js";
 import { handleTemplate } from "../shared/handle-template.js";
 
 class HTMLResponse extends Response {
-  static CACHE_MAXAGE = 3600;
-
   constructor(htmlBody, init) {
     super(htmlBody, init);
     this.#html = htmlBody;
