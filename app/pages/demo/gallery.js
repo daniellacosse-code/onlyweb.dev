@@ -9,7 +9,9 @@ export default (request) => {
       <head>
         <title>OnlyWeb Component Gallery</title>
         <link rel="icon" href="/app/assets/images/logo.png" />
+        <link rel="manifest" href="/app/assets/manifest.json" />
         <meta name="viewport" content="width=device-width, initial-scale=1" />
+        <meta name="theme-color" content="#202123" />
         <meta
           name="description"
           content="A gallery of the onlyweb components"
