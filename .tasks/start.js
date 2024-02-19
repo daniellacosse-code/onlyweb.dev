@@ -1,6 +1,7 @@
-const DENO_PORT = 8000;
 const DENO_LIVERELOAD_PORT = 35729;
+const DENO_LIVERELOAD_DELAY = 100;
 
+let serverProcess, reloadInProgress;
 startOrReloadServer();
 
 let reloadSocket;
@@ -20,19 +21,33 @@ Deno.serve({
 });
 
 for await (const event of Deno.watchFs(Deno.cwd())) {
-  console.log("Filesystem event:", event);
+  console.debug("Filesystem event:", event.kind, event.paths.join(", "));
 
-  startOrReloadServer();
-  reloadSocket.send("reload");
+  await startOrReloadServer();
+
+  setTimeout(() => reloadSocket?.send("reload"), DENO_LIVERELOAD_DELAY);
 }
 
-let serverProcess;
 async function startOrReloadServer() {
-  serverProcess?.kill();
-  await serverProcess?.output();
+  if (reloadInProgress) return;
+  reloadInProgress = true;
 
-  console.info(`Starting server at :${DENO_PORT}`);
-  serverProcess = await Deno.Command(Deno.cwd(), {
-    args: ["deno", "run", "--allow-net", "--allow-read=.", "app/index.js"]
+  try {
+    serverProcess?.kill();
+    await serverProcess?.output();
+  } catch (error) {
+    console.error("Error terminating previous process:", error);
+  }
+
+  const serverCommand = new Deno.Command("deno", {
+    args: ["run", "--allow-net", "--allow-read=.", "app/index.js"]
   });
+
+  try {
+    return (serverProcess = serverCommand.spawn());
+  } catch (error) {
+    console.error("Error spawing new process:", error);
+  } finally {
+    reloadInProgress = false;
+  }
 }
