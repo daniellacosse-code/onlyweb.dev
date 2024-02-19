@@ -1,7 +1,9 @@
 import * as html from "/framework/backend/html/index.js";
 
-export default () =>
-  html.response`<html>
+export default (request) => {
+  const origin = new URL(request.url).origin;
+
+  return html.response`<html>
     <head>
       <meta charset="utf-8" />
       <meta name="viewport" content="width=device-width, initial-scale=1" />
@@ -113,7 +115,8 @@ export default () =>
         </article>
       </main>
 
-      ${html.inline("./app/elements/custom-image.js")}
-      ${html.inline("./framework/frontend/reload.js")}
+      ${html.inline("./app/elements/custom-image.js", origin)}
+      ${html.inline("./framework/frontend/reload.js", origin)}
     </body>
   </html>`;
+};
