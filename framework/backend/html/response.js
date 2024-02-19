@@ -18,7 +18,7 @@ class HTMLResponse extends Response {
   }
 }
 
-export const html = (template, ...insertions) =>
+export const response = (template, ...insertions) =>
   new HTMLResponse(
     handleTemplate({
       template,
