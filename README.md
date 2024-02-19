@@ -1,4 +1,4 @@
-# 👁 only-web 👁
+# 👁 [onlyweb.dev](https://onlyweb.dev) 👁
 
 ![code quality](https://img.shields.io/badge/code%20quality-demoware-red)
 
