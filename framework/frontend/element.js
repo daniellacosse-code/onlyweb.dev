@@ -7,7 +7,7 @@ export function DefineElement({
   handleMount = () => {},
   handleRender = () => new Error("No render handler provided.")
 }) {
-  customElements.define(
+  globalThis.customElements.define(
     tag,
     class extends HTMLElement {
       // constructor analogous
@@ -67,6 +67,7 @@ export function DefineElement({
 
       // write-side: store
       dispatchEvent({ type = "custom", detail }) {
+        console.log({ type, detail });
         this.store?.postMessage({ type, detail, target: this });
       }
 
