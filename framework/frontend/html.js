@@ -1,4 +1,4 @@
-import { htmlEscape } from "../shared/html/escape.js";
+import { htmlEscape } from "/framework/shared/html/escape.js";
 
 export function html(template, ...insertions) {
   const wrapper = document.createElement("div");

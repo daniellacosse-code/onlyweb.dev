@@ -4,9 +4,9 @@
 export function htmlMinify(text) {
   return (
     text
-      // remove single-line JS comments
+      // remove single-line JS comments, but not URLs
       // (can't do this after newlines are removed)
-      .replaceAll(/\/\/.*/g, "")
+      .replaceAll(/[^\:]\/\/.*/g, "")
 
       // replace runs of whitespace with one space,
       // including newlines

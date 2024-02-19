@@ -1,4 +1,4 @@
-import { makeCUID } from "../shared/cuid.js";
+import { makeCUID } from "/framework/shared/cuid.js";
 import { html } from "./html.js";
 
 export function DefineElement({
