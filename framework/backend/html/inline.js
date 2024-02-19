@@ -7,8 +7,6 @@ export function inline(filePath, host = "http://localhost:8000") {
   const fileContents = Deno.readTextFileSync(filePath);
   const sanitizedScript = htmlMinify(fileContents).replaceAll(
     ' from "/',
-
-    // TODO: set host based on environment
     ` from "${host}/`
   );
 
