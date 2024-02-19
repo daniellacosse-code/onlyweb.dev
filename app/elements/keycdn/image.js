@@ -1,7 +1,7 @@
 import { KEYCDN_IMAGE_ZONE_URL, DENO_PORT } from "/app/constants.js";
 import { html, DefineElement } from "/framework/frontend/index.js";
 
-import "../core/loading/skeleton.js";
+import "/app/elements/core/loading/skeleton.js";
 
 DefineElement({
   attributes: {
@@ -42,12 +42,13 @@ DefineElement({
             width: 100%;
             height: 100%;
             object-fit: contain;
+            overflow: hidden;
           }
         </style>
         ${this.image}`;
     }
 
-    return html` <style>
+    return html`<style>
         .container {
           width: ${width}px;
           height: ${height}px;

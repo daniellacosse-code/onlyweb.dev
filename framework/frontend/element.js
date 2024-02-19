@@ -10,22 +10,25 @@ export function DefineElement({
   globalThis.customElements.define(
     tag,
     class extends HTMLElement {
+      #handleRender;
+      #handleMount;
       // constructor analogous
       connectedCallback() {
         this.root = this.attachShadow({ mode: "open" });
         this.attributes.id ??= makeCUID();
-        if (this.attributes.store)
-          this.store = new BroadcastChannel(this.attributes.store);
 
-        this.handleMount = handleMount.bind(this);
-        this.handleMount(this.attributes);
+        if (this.attributes.channel)
+          this.channel = new BroadcastChannel(this.attributes.channel);
 
-        this.handleRender = handleRender.bind(this);
+        this.#handleRender = handleRender.bind(this);
         this.#executeRender();
+
+        this.#handleMount = handleMount.bind(this);
+        this.#handleMount(this.attributes);
       }
 
       // read-side: attributes
-      static observedAttributes = ["id", "store", ...Object.keys(attributes)];
+      static observedAttributes = ["id", "channel", ...Object.keys(attributes)];
       get attributes() {
         return new Proxy(
           {},
@@ -55,8 +58,11 @@ export function DefineElement({
             script {
               display: none;
             }
+            slot {
+              cursor: inherit;
+            }
           </style>
-          ${this.handleRender(this.attributes)}
+          ${this.#handleRender(this.attributes)}
         </template>`;
 
         this.root.replaceChildren(...renderResult);
@@ -65,14 +71,13 @@ export function DefineElement({
         );
       }
 
-      // write-side: store
-      dispatchEvent({ type = "custom", detail }) {
-        console.log({ type, detail });
-        this.store?.postMessage({ type, detail, target: this });
+      // write-side: state
+      dispatchEvent({ type = "custom", detail = {} }) {
+        this.channel?.postMessage({ type, detail, target: this.attributes.id });
       }
 
       disconnectedCallback() {
-        this.store?.close();
+        this.channel?.close();
       }
     }
   );

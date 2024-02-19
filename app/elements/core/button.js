@@ -1,5 +1,5 @@
-import { DefineElement } from "../../../framework/frontend/element.js";
-import { html } from "../../../framework/frontend/html.js";
+import { DefineElement } from "/framework/frontend/element.js";
+import { html } from "/framework/frontend/html.js";
 
 const sharedStyles = html`<style>
   button {
@@ -12,7 +12,6 @@ const sharedStyles = html`<style>
     cursor: pointer;
     background-color: hsl(0, 0%, 100%);
     color: hsl(0, 0%, 0%);
-    transition: background-color 0.2s ease-in-out;
   }
 </style>`;
 
@@ -22,7 +21,15 @@ DefineElement({
     disabled: Boolean,
     click: String
   },
-  handleRender({ disabled, click }) {
+  handleMount({ click }) {
+    this.root.querySelector("button").addEventListener("click", (event) => {
+      event.preventDefault();
+      event.stopPropagation();
+
+      this.dispatchEvent(new CustomEvent(click));
+    });
+  },
+  handleRender({ disabled }) {
     if (disabled)
       return html`${sharedStyles}
         <style>
@@ -37,16 +44,16 @@ DefineElement({
 
     return html`${sharedStyles}
       <style>
-        button:hover {
-          background-color: hsl(0, 0%, 95%);
-        }
+        button:hover,
         button:active {
-          background-color: hsl(0, 0%, 90%);
+          background-color: hsl(0, 0%, 0%);
+        }
+        button:hover > slot,
+        button:active > slot {
+          color: hsl(0, 0%, 100%);
         }
       </style>
-      <button
-        onclick="event.preventDefault(); this.dispatchEvent(new CustomEvent('${click}'))"
-      >
+      <button>
         <slot></slot>
       </button>`;
   }
