@@ -9,7 +9,8 @@ DefineElement({
     alt: String,
     format: String,
     width: Number,
-    height: Number
+    height: Number,
+    loaded: Boolean
   },
   tag: "keycdn-image",
   handleMount({ src, alt, ...keycdnAttributes }) {
@@ -25,12 +26,13 @@ DefineElement({
     }
 
     this.image = new Image(keycdnAttributes.width, keycdnAttributes.height);
+    this.image.onload = () => (this.attributes.loaded = true);
     this.image.src = url.toString();
     this.image.alt = alt;
   },
-  handleRender({ width, height }) {
-    if (this.image.completed) {
-      html`<style>
+  handleRender({ width, height, loaded }) {
+    if (loaded) {
+      return html`<style>
           :host {
             width: ${width}px;
             height: ${height}px;
@@ -45,10 +47,15 @@ DefineElement({
         ${this.image}`;
     }
 
-    return html`<div
-      style="display: block; width: ${width}px; height: ${height}px;"
-    >
-      <core-loading-skeleton></core-loading-skeleton>
-    </div>`;
+    return html` <style>
+        .container {
+          width: ${width}px;
+          height: ${height}px;
+          display: inline-block;
+        }
+      </style>
+      <div class="container">
+        <core-loading-skeleton></core-loading-skeleton>
+      </div>`;
   }
 });

@@ -12,7 +12,7 @@ DefineElement({
           border-radius: 0.5rem;
           border: 1px solid hsla(0, 0%, 50%, 0.8);
           background: linear-gradient(
-            45deg,
+            90deg,
             hsla(0, 0%, 0%, 0) 0%,
             hsla(0, 0%, 80%, 0) 10%,
             hsla(0, 0%, 50%, 0.8) 45%,

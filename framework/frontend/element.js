@@ -13,16 +13,19 @@ export function DefineElement({
       // constructor analogous
       connectedCallback() {
         this.root = this.attachShadow({ mode: "open" });
-        // is this needed?
         this.attributes.id ??= makeCUID();
-        this.store = new BroadcastChannel(this.attributes.store);
+        if (this.attributes.store)
+          this.store = new BroadcastChannel(this.attributes.store);
 
-        handleMount.bind(this)(this.attributes);
+        this.handleMount = handleMount.bind(this);
+        this.handleMount(this.attributes);
+
+        this.handleRender = handleRender.bind(this);
         this.#executeRender();
       }
 
       // read-side: attributes
-      static observedAttributes = [...Object.keys(attributes), "id", "store"];
+      static observedAttributes = ["id", "store", ...Object.keys(attributes)];
       get attributes() {
         return new Proxy(
           {},
@@ -36,11 +39,14 @@ export function DefineElement({
         );
       }
 
-      attributeChangedCallback = this.#executeRender;
+      attributeChangedCallback() {
+        this.#executeRender();
+      }
+
       #executeRender() {
         if (!this.root) return;
 
-        const result = html`<template>
+        const renderResult = html`<template>
           <style>
             * {
               all: initial;
@@ -50,11 +56,10 @@ export function DefineElement({
               display: none;
             }
           </style>
-          ${handleRender.bind(this)(this.attributes)}
+          ${this.handleRender(this.attributes)}
         </template>`;
 
-        this.root.replaceChildren(...result);
-
+        this.root.replaceChildren(...renderResult);
         this.root.append(
           this.root.querySelector("template").content.cloneNode(true)
         );
@@ -62,11 +67,11 @@ export function DefineElement({
 
       // write-side: store
       dispatchEvent({ type = "custom", detail }) {
-        this.store.postMessage({ type, detail, target: this });
+        this.store?.postMessage({ type, detail, target: this });
       }
 
       disconnectedCallback() {
-        this.store.close();
+        this.store?.close();
       }
     }
   );
