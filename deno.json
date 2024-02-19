@@ -5,5 +5,9 @@
   "tasks": {
     "start": "deno run --allow-net --allow-read=. --allow-run ./.tasks/start.js",
     "commit": "bash ./.tasks/commit.sh"
+  },
+  "imports": {
+    "/": "./",
+    "./": "./"
   }
 }

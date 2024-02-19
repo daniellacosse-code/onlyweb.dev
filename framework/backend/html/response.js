@@ -1,9 +1,9 @@
-import { htmlEscape } from "../shared/html/escape.js";
+import { htmlEscape } from "/framework/shared/html/escape.js";
 
 class HTMLResponse extends Response {
   constructor(htmlBody, init) {
     super(htmlBody, init);
-    this._html = html;
+    this._html = htmlBody;
 
     this.headers.set("content-type", "text/html; charset=UTF-8");
   }
@@ -14,7 +14,7 @@ class HTMLResponse extends Response {
   }
 }
 
-export const html = (template, ...insertions) =>
+export const response = (template, ...insertions) =>
   new HTMLResponse(
     insertions.reduce((result, insertion, index) => {
       const templateFragment = template.at(index);

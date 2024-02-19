@@ -1,8 +1,11 @@
-import * as response from "../../framework/backend/response.js";
+import * as html from "/framework/backend/html/index.js";
 
-export default () =>
-  response.html`<html>
+export default (request) => {
+  const origin = new URL(request.url).origin;
+
+  return html.response`<html>
     <head>
+      <meta charset="utf-8" />
       <meta name="viewport" content="width=device-width, initial-scale=1" />
       <meta name="robots" content="noindex, nofollow" />
 
@@ -112,20 +115,8 @@ export default () =>
         </article>
       </main>
 
-      <script src="/app/elements/custom-image.js" type="module"></script>
-      <script>
-        // TODO: inject this script at buildtime on dev
-        if (location.host.startsWith("localhost")) {
-          const socket = new WebSocket("ws://localhost:35729");
-
-          socket.onopen = () => {
-            console.log("LiveReload connected~");
-          };
-
-          socket.onmessage = (event) => {
-            if (event.data === "reload") location.reload();
-          };
-        }
-      </script>
+      ${html.inline("./app/elements/custom-image.js", origin)}
+      ${html.inline("./framework/frontend/reload.js", origin)}
     </body>
   </html>`;
+};
