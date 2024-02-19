@@ -4,7 +4,8 @@ import { html } from "./html.js";
 export function DefineElement({
   tag = "custom-element",
   attributes = {},
-  render = () => new Error("No render function provided.")
+  handleMount = () => {},
+  handleRender = () => new Error("No render handler provided.")
 }) {
   customElements.define(
     tag,
@@ -16,6 +17,7 @@ export function DefineElement({
         this.attributes.id ??= makeCUID();
         this.store = new BroadcastChannel(this.attributes.store);
 
+        handleMount.bind(this)(this.attributes);
         this.#executeRender();
       }
 
@@ -38,20 +40,20 @@ export function DefineElement({
       #executeRender() {
         if (!this.root) return;
 
-        this.root.replaceChildren(
-          html`<template>
-            <style>
-              * {
-                all: initial;
-              }
-              style,
-              script {
-                display: none;
-              }
-            </style>
-            ${render(this.attributes)}
-          </template>`
-        );
+        const result = html`<template>
+          <style>
+            * {
+              all: initial;
+            }
+            style,
+            script {
+              display: none;
+            }
+          </style>
+          ${handleRender.bind(this)(this.attributes)}
+        </template>`;
+
+        this.root.replaceChildren(...result);
 
         this.root.append(
           this.root.querySelector("template").content.cloneNode(true)

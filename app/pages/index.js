@@ -121,7 +121,7 @@ export default (request) => {
         </article>
       </main>
 
-      ${html.inline("./app/elements/keycdn-image.js", origin)}
+      ${html.inline("./app/elements/keycdn/image.js", origin)}
       ${html.inline("./framework/frontend/reload.js", origin)}
     </body>
   </html>`;

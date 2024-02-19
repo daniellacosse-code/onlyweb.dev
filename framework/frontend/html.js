@@ -7,9 +7,24 @@ export function html(template, ...insertions) {
   wrapper.innerHTML = handleTemplate({
     template,
     insertions,
-    handleInsertion: (insertion) =>
-      insertion instanceof HTMLElement ? insertion.outerHTML : escape(insertion)
+    handleInsertion: (insertion) => {
+      if (insertion instanceof HTMLCollection) {
+        let collectionHTML = "";
+
+        for (const element of insertion) {
+          collectionHTML += element.outerHTML;
+        }
+
+        return collectionHTML;
+      }
+
+      if (insertion instanceof HTMLElement) {
+        return insertion.outerHTML;
+      }
+
+      return escape(insertion);
+    }
   });
 
-  return wrapper.firstChild;
+  return wrapper.children;
 }

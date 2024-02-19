@@ -1,0 +1,54 @@
+import { KEYCDN_IMAGE_ZONE_URL, DENO_PORT } from "/app/constants.js";
+import { html, DefineElement } from "/framework/frontend/index.js";
+
+import "../core/loading/skeleton.js";
+
+DefineElement({
+  attributes: {
+    src: String,
+    alt: String,
+    format: String,
+    width: Number,
+    height: Number
+  },
+  tag: "keycdn-image",
+  handleMount({ src, alt, ...keycdnAttributes }) {
+    const url = new URL(
+      location.host.startsWith("localhost")
+        ? `http://localhost:${DENO_PORT}`
+        : KEYCDN_IMAGE_ZONE_URL
+    );
+
+    url.pathname = src;
+    for (const [key, value] of Object.entries(keycdnAttributes)) {
+      url.searchParams.set(key, value);
+    }
+
+    this.image = new Image(keycdnAttributes.width, keycdnAttributes.height);
+    this.image.src = url.toString();
+    this.image.alt = alt;
+  },
+  handleRender({ width, height }) {
+    if (this.image.completed) {
+      html`<style>
+          :host {
+            width: ${width}px;
+            height: ${height}px;
+            display: inline-block;
+          }
+          img {
+            width: 100%;
+            height: 100%;
+            object-fit: contain;
+          }
+        </style>
+        ${this.image}`;
+    }
+
+    return html`<div
+      style="display: block; width: ${width}px; height: ${height}px;"
+    >
+      <core-loading-skeleton></core-loading-skeleton>
+    </div>`;
+  }
+});
