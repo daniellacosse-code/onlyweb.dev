@@ -113,5 +113,19 @@ export default () =>
       </main>
 
       <script src="/app/elements/custom-image.js" type="module"></script>
+      <script>
+        // TODO: inject this script at buildtime on dev
+        if (location.host.startsWith("localhost")) {
+          const socket = new WebSocket("ws://localhost:35729");
+
+          socket.onopen = () => {
+            console.log("LiveReload connected~");
+          };
+
+          socket.onmessage = (event) => {
+            if (event.data === "reload") location.reload();
+          };
+        }
+      </script>
     </body>
   </html>`;

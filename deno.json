@@ -3,7 +3,7 @@
     "exclude": ["source/framework/frontend/", "source/app/components/"]
   },
   "tasks": {
-    "start": "bash ./.tasks/start.sh",
+    "start": "bash ./.tasks/start.js",
     "commit": "bash ./.tasks/commit.sh"
   }
 }
