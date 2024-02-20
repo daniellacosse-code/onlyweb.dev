@@ -15,11 +15,11 @@ export default (request) => {
           name="description"
           content="only web. only web. only web. only web. only web. only web. only web. only web. only web. only web. only web. only web."
         />
-        <link rel="icon" href="/app/assets/images/logo.png" />
+        <link rel="icon" href="/app/assets/images/logo.svg" />
         <link rel="manifest" href="/app/assets/manifest.json" />
         <meta name="theme-color" content="#202123" />
 
-        <meta name="og:image" content="/app/assets/images/logo.png" />
+        <meta name="og:image" content="/app/assets/images/logo.svg" />
         <meta name="og:title" content="2" />
         <meta name="og:url" content="https://only-web.com/" />
         <meta name="og:type" content="website" />
@@ -100,16 +100,14 @@ export default (request) => {
             <div class="logo">
               <keycdn-image
                 alt="logo"
-                format="webp"
                 height="80"
-                src="/app/assets/images/logo.png"
+                src="/app/assets/images/logo.svg"
                 width="80"
               ></keycdn-image>
               <keycdn-image
                 alt="logo"
-                format="webp"
                 height="80"
-                src="/app/assets/images/logo.png"
+                src="/app/assets/images/logo.svg"
                 width="80"
               ></keycdn-image>
             </div>

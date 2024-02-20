@@ -3,12 +3,19 @@
   "background_color": "#ffffff",
   "default_locale": "en",
   "display": "standalone",
-  "homepage_url": "https://onlyweb.dev",
+  "homepage_url": "https://onlyweb.dev/",
   "icons": [
     {
-      "sizes": "80x80",
-      "src": "/app/assets/images/logo.png",
-      "type": "image/png"
+      "purpose": "maskable",
+      "sizes": "512x512",
+      "src": "/app/assets/images/logo.svg",
+      "type": "image/svg+xml"
+    },
+    {
+      "purpose": "any",
+      "sizes": "512x512",
+      "src": "/app/assets/images/logo.svg",
+      "type": "image/svg+xml"
     }
   ],
   "name": "onlyweb.dev",
