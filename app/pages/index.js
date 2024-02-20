@@ -2,11 +2,51 @@ import * as pages from "/framework/backend/pages/html.js";
 import * as components from "/framework/backend/components/register-inline.js";
 import * as constants from "/app/constants.js";
 
-export default (request) => {
-  const { origin } = new URL(request.url);
+export default async (request) => {
+  const { origin, searchParams } = new URL(request.url);
+
+  let lang = "en";
+  let translationFragment;
+  if (searchParams.has("lang")) {
+    const requestedLang = searchParams.get("lang");
+
+    try {
+      const { default: rawTranslations } = await import(
+        `/app/assets/messages/${requestedLang}.json`,
+        {
+          with: {
+            type: "json"
+          }
+        }
+      );
+
+      let translationPayload = "";
+      for (const [key, value] of Object.entries(rawTranslations)) {
+        if (!key.startsWith("/app/pages/index.js")) {
+          continue;
+        }
+
+        translationPayload += `${key.split("#")[1]}:${value};`;
+      }
+
+      lang = searchParams.get("lang");
+      translationFragment = pages.html`<script>
+      const translations = '${translationPayload}'.split(';').map((pair) => pair.split(':'));
+
+      for (const [key, value] of translations) {
+        const element = document.getElementById(key);
+        if (element) {
+          element.textContent = value;
+        }
+      }
+    </script>`;
+    } catch (error) {
+      console.error(`Lang ${requestedLang} not supported:`, error);
+    }
+  }
 
   return pages.html`<!DOCTYPE html>
-    <html lang="en">
+    <html lang="${lang}">
       <head>
         <meta charset="utf-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1" />
@@ -140,20 +180,22 @@ export default (request) => {
                 width="${constants.THEME_SIZE_ICON}"
               ></keycdn-image>
             </div>
-            <h1>only web 2</h1>
+            <h1 id="title">only web 2</h1>
           </header>
           <article>
             <section>
-              <h2 class="hero">Please pardon our dust.</h2>
+              <h2 id="apology" class="hero">Please pardon our dust.</h2>
             </section>
             <section>
               <p class="hero">
-                We're currently rebuilding literally everything.
-                <a href="https://DanielLaCos.se">Follow along</a>
+                <span id="explaination">We're currently rebuilding literally everything.</span>
+                <a id="call-to-action" href="https://DanielLaCos.se">Follow along</a>
               </p>
             </section>
           </article>
         </main>
+
+        ${translationFragment}
 
         ${components.registerInline(
           "/app/components/elements/core/loading/skeleton.js",
