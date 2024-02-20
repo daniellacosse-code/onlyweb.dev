@@ -1,0 +1,18 @@
+{
+  "author": "DanielLaCos.se",
+  "background_color": "#ffffff",
+  "default_locale": "en",
+  "display": "standalone",
+  "homepage_url": "https://onlyweb.dev",
+  "icons": [
+    {
+      "sizes": "80x80",
+      "src": "/app/assets/images/logo.png",
+      "type": "image/png"
+    }
+  ],
+  "name": "onlyweb.dev",
+  "short_name": "only",
+  "start_url": "/",
+  "theme_color": "#202123"
+}

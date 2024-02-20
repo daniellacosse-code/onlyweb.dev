@@ -1,28 +1,31 @@
-import { htmlEscape } from "/framework/shared/html/escape.js";
+import { escape } from "/framework/shared/html/escape.js";
+import { minify } from "/framework/shared/html/minify.js";
+import { handleTemplate } from "/framework/shared/handle-template.js";
 
 class HTMLResponse extends Response {
+  static CACHE_MAXAGE = 3600;
+
   constructor(htmlBody, init) {
     super(htmlBody, init);
-    this._html = htmlBody;
-
+    this.#html = htmlBody;
     this.headers.set("content-type", "text/html; charset=UTF-8");
   }
 
   // NO TOUCHY
+  #html = "";
   get html() {
-    return this._html;
+    return this.#html;
   }
 }
 
 export const response = (template, ...insertions) =>
   new HTMLResponse(
-    insertions.reduce((result, insertion, index) => {
-      const templateFragment = template.at(index);
-      insertion =
+    handleTemplate({
+      template,
+      insertions,
+      handleInsertion: (insertion) =>
         insertion instanceof HTMLResponse
-          ? insertion.html
-          : htmlEscape(insertion);
-
-      return result + templateFragment + insertion;
-    }, "") + template.at(-1)
+          ? minify(insertion.html)
+          : escape(insertion)
+    })
   );
