@@ -121,7 +121,10 @@ export default (request) => {
           "/app/components/elements/keycdn/image.js",
           origin
         )}
-        ${Component.registerInline("/app/components/reload.js", origin)}
+        ${components.registerInline(
+          "/app/components/services/reload.js",
+          origin
+        )}
       </body>
     </html>`;
 };
