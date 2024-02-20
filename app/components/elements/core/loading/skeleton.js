@@ -1,7 +1,7 @@
-import { DefineElement } from "/framework/frontend/element.js";
-import { html } from "/framework/frontend/html.js";
+import { RegisterElement } from "/framework/frontend/component/element/register.js";
+import { html } from "/framework/frontend/component/element/html.js";
 
-DefineElement({
+RegisterElement({
   tag: "core-loading-skeleton",
   handleRender() {
     return html`<style>

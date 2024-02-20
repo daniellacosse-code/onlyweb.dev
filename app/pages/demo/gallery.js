@@ -1,10 +1,10 @@
-import * as pages from "/framework/backend/pages/html.js";
-import * as components from "/framework/backend/components/register-inline.js";
+import * as Page from "/framework/backend/page/html.js";
+import * as Component from "/framework/backend/component/register-inline.js";
 
 export default (request) => {
   const { origin } = new URL(request.url);
 
-  return pages.html`<!DOCTYPE html>
+  return Page.html`<!DOCTYPE html>
     <html lang="en">
       <head>
         <title>OnlyWeb Component Gallery</title>
@@ -62,9 +62,10 @@ export default (request) => {
           <section>
             <h2>&lt;core-button&gt;</h2>
             <script type="module">
-              import { DefineStore } from "/framework/frontend/store.js";
+              import { RegisterStore } from "/framework/frontend/store/register.js";
 
-              DefineStore({
+              RegisterStore({
+                tag: "global-counter",
                 listensFor: ["counter.increment"],
                 handleEvent(event) {
                   const { id } = event.target.attributes;
@@ -79,8 +80,12 @@ export default (request) => {
               });
             </script>
 
-            <core-button click="counter.increment">Click me</core-button>
-            <core-button click="counter.increment">Click me, too</core-button>
+            <core-button id="counter-1" click="counter.increment"
+              >Click me</core-button
+            >
+            <core-button id="counter-2" click="counter.increment"
+              >Click me, too</core-button
+            >
 
             <core-button disabled>Don't click me</core-button>
           </section>
@@ -104,20 +109,19 @@ export default (request) => {
           </section>
         </article>
 
-        <script
-          type="module"
-          src="/app/components/elements/core/button.js"
-        ></script>
-        <script
-          type="module"
-          src="/app/components/elements/core/loading/skeleton.js"
-        ></script>
-        <script
-          type="module"
-          src="/app/components/elements/keycdn/image.js"
-        ></script>
-
-        ${components.registerInline("/app/components/reload.js", origin)}
+        ${Component.registerInline(
+          "/app/components/elements/core/button.js",
+          origin
+        )}
+        ${Component.registerInline(
+          "/app/components/elements/core/loading/skeleton.js",
+          origin
+        )}
+        ${Component.registerInline(
+          "/app/components/elements/keycdn/image.js",
+          origin
+        )}
+        ${Component.registerInline("/app/components/reload.js", origin)}
       </body>
     </html>`;
 };

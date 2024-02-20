@@ -1,11 +1,11 @@
-import * as pages from "/framework/backend/pages/html.js";
-import * as components from "/framework/backend/components/register-inline.js";
-import * as constants from "/app/constants.js";
+import * as Page from "/framework/backend/page/html.js";
+import * as Component from "/framework/backend/component/register-inline.js";
+import * as Constant from "/app/constants.js";
 
 export default (request) => {
   const { origin } = new URL(request.url);
 
-  return pages.html`<!DOCTYPE html>
+  return Page.html`<!DOCTYPE html>
     <html lang="en">
       <head>
         <meta charset="utf-8" />
@@ -31,17 +31,17 @@ export default (request) => {
 
         <style>
           :root {
-            --color-background: ${constants.THEME_COLOR_BACKGROUND};
-            --color-foreground: ${constants.THEME_COLOR_FOREGROUND};
-            --color-highlight: ${constants.THEME_COLOR_HIGHLIGHT};
+            --color-background: ${Constant.THEME_COLOR_BACKGROUND};
+            --color-foreground: ${Constant.THEME_COLOR_FOREGROUND};
+            --color-highlight: ${Constant.THEME_COLOR_HIGHLIGHT};
 
-            --size-narrow: ${constants.THEME_SIZE_NARROW};
-            --size-default: ${constants.THEME_SIZE_DEFAULT};
-            --size-large: ${constants.THEME_SIZE_LARGE};
-            --size-huge: ${constants.THEME_SIZE_HUGE};
-            --size-hero: ${constants.THEME_SIZE_HERO};
+            --size-narrow: ${Constant.THEME_SIZE_NARROW};
+            --size-default: ${Constant.THEME_SIZE_DEFAULT};
+            --size-large: ${Constant.THEME_SIZE_LARGE};
+            --size-huge: ${Constant.THEME_SIZE_HUGE};
+            --size-hero: ${Constant.THEME_SIZE_HERO};
 
-            --size-icon: ${constants.THEME_SIZE_ICON}px;
+            --size-icon: ${Constant.THEME_SIZE_ICON}px;
           }
 
           ::selection {
@@ -129,15 +129,15 @@ export default (request) => {
             <div class="logo">
               <keycdn-image
                 alt="logo"
-                height="${constants.THEME_SIZE_ICON}"
+                height="${Constant.THEME_SIZE_ICON}"
                 src="/app/assets/images/logo.svg"
-                width="${constants.THEME_SIZE_ICON}"
+                width="${Constant.THEME_SIZE_ICON}"
               ></keycdn-image>
               <keycdn-image
                 alt="logo"
-                height="${constants.THEME_SIZE_ICON}"
+                height="${Constant.THEME_SIZE_ICON}"
                 src="/app/assets/images/logo.svg"
-                width="${constants.THEME_SIZE_ICON}"
+                width="${Constant.THEME_SIZE_ICON}"
               ></keycdn-image>
             </div>
             <h1>only web 2</h1>
@@ -155,15 +155,24 @@ export default (request) => {
           </article>
         </main>
 
-        ${components.registerInline(
+        ${Component.registerInline(
           "/app/components/elements/core/loading/skeleton.js",
           origin
         )}
-        ${components.registerInline(
+        ${Component.registerInline(
           "/app/components/elements/keycdn/image.js",
           origin
         )}
-        ${components.registerInline("/app/components/reload.js", origin)}
+        ${Component.registerInline("/app/components/reload.js", origin)}
+
+        <script type="module">
+          import { RegisterService } from "/framework/frontend/service/register.js";
+
+          RegisterService({
+            tag: "only-cache",
+            source: "/app/services/cache.js"
+          });
+        </script>
       </body>
     </html>`;
 };

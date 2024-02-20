@@ -1,7 +1,7 @@
 import { makeCUID } from "/framework/shared/cuid.js";
 import { html } from "./html.js";
 
-export function DefineElement({
+export function RegisterElement({
   tag = "custom-element",
   attributes = {},
   handleMount = () => {},

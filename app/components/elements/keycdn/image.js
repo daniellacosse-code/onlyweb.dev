@@ -1,10 +1,10 @@
 import { KEYCDN_IMAGE_ZONE_URL, DENO_PORT } from "/app/constants.js";
-import { html } from "/framework/frontend/html.js";
-import { DefineElement } from "/framework/frontend/element.js";
+import { html } from "/framework/frontend/component/element/html.js";
+import { RegisterElement } from "/framework/frontend/component/element/register.js";
 
 import "/app/components/elements/core/loading/skeleton.js";
 
-DefineElement({
+RegisterElement({
   attributes: {
     src: String,
     alt: String,

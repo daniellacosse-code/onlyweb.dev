@@ -1,5 +1,5 @@
-import { DefineElement } from "/framework/frontend/element.js";
-import { html } from "/framework/frontend/html.js";
+import { RegisterElement } from "/framework/frontend/element/register.js";
+import { html } from "/framework/frontend/element/html.js";
 
 const sharedStyles = html`<style>
   button {
@@ -16,7 +16,7 @@ const sharedStyles = html`<style>
   }
 </style>`;
 
-DefineElement({
+RegisterElement({
   tag: "core-button",
   attributes: {
     disabled: Boolean,
