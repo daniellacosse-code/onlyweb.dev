@@ -20,29 +20,36 @@ export function DefineElement({
         this.#handleRender = handleRender.bind(this);
         this.#handleMount = handleMount.bind(this);
 
-        if (this.attributes.id === "null") this.attributes.id = makeCUID();
-
-        if (this.attributes.channel)
-          this.channel = new BroadcastChannel(this.attributes.channel);
+        this.attributes.id ??= makeCUID();
 
         this.#executeRender();
-
         this.#handleMount(this.attributes);
       }
 
       // read-side: attributes
-      static observedAttributes = ["id", "channel", ...Object.keys(attributes)];
+      static observedAttributes = ["id", ...Object.keys(attributes)];
       get attributes() {
         return new Proxy(
           {},
           {
-            deleteProperty: (_, attribute) => this.removeAttribute(attribute),
-            get: (_, attribute) =>
-              (attributes[attribute] ?? String)(this.getAttribute(attribute)),
-            set: (_, attribute, value) =>
-              this.setAttribute(attribute, String(value)) || true
+            deleteProperty: (_, name) => this.removeAttribute(name),
+            get: (_, name) =>
+              this.#attributeResolver(name, this.getAttribute(name)),
+            set: (_, name, value) =>
+              this.setAttribute(name, this.#attributeResolver(name, value)) ||
+              true
           }
         );
+      }
+
+      #attributeResolver(name, value) {
+        const providedResolver = attributes[name];
+        const resolver = providedResolver ?? String;
+
+        if (value === null) return null;
+        if (resolver === Boolean && value === "") return true;
+
+        return resolver(value);
       }
 
       attributeChangedCallback() {
@@ -63,6 +70,8 @@ export function DefineElement({
             }
             slot {
               cursor: inherit;
+              user-select: inherit;
+              pointer-events: inherit;
             }
           </style>
           ${this.#handleRender(this.attributes)}
@@ -74,15 +83,19 @@ export function DefineElement({
         );
       }
 
-      // write-side: state
+      // write-side: events
       dispatchEvent({ type, detail } = {}) {
-        this.channel?.postMessage({
+        const ephemeralChannel = new BroadcastChannel(type);
+
+        ephemeralChannel.postMessage({
           type,
           detail,
           // we can't clone an element and have to send the ID -
           // so that the reciever can find the target
           __targetID: `#${this.attributes.id}`
         });
+
+        ephemeralChannel.close();
       }
 
       disconnectedCallback() {

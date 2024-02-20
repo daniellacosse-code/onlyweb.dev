@@ -65,10 +65,8 @@ export default (request) => {
               import { DefineStore } from "/framework/frontend/store.js";
 
               DefineStore({
-                channel: "counter",
+                listensFor: ["counter.increment"],
                 handleEvent(event) {
-                  if (event.type !== "increment") return;
-
                   const { id } = event.target.attributes;
 
                   this.state[id] = (this.state[id] ?? 0) + 1;
@@ -81,13 +79,10 @@ export default (request) => {
               });
             </script>
 
-            <core-button channel="counter" click="increment"
-              >Click me</core-button
-            >
-            <core-button channel="counter" click="increment"
-              >Click me, too</core-button
-            >
-            <core-button channel="counter" disabled>Don't click me</core-button>
+            <core-button click="counter.increment">Click me</core-button>
+            <core-button click="counter.increment">Click me, too</core-button>
+
+            <core-button disabled>Don't click me</core-button>
           </section>
 
           <section>

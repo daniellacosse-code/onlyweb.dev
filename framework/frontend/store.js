@@ -2,19 +2,37 @@ import { makeCUID } from "/framework/shared/cuid.js";
 
 export function DefineStore({
   id = makeCUID(),
-  name,
-  channel,
+  listensFor = new Set(),
   state = {},
+  handleMount = () => {},
   handleEvent = () => {},
   handleChange = () => {}
 }) {
-  if (!globalThis.customStates) globalThis.customStates = {};
+  if (!globalThis.customStores) globalThis.customStores = {};
+
+  switch (typeof listensFor) {
+    case "string":
+      listensFor = new Set([listensFor]);
+      break;
+    case "object":
+      if (listensFor instanceof Array) {
+        listensFor = new Set(listensFor);
+      }
+      break;
+  }
 
   const Store = class {
-    #channel = new BroadcastChannel(channel);
+    #channels = Array.from(listensFor).map(
+      (channel) => new BroadcastChannel(channel)
+    );
     #handleChange = null;
     #handleEvent = null;
+    #handleMount = null;
     constructor() {
+      this.#handleChange = handleChange.bind(this);
+      this.#handleEvent = handleEvent.bind(this);
+      this.#handleMount = handleMount.bind(this);
+
       this.state = new Proxy(state, {
         set: (target, key, value) => {
           target[key] = Object.freeze(value);
@@ -23,19 +41,19 @@ export function DefineStore({
         }
       });
 
-      this.#handleEvent = handleEvent.bind(this);
-      this.#channel.onmessage = ({ data: { __targetID, type, detail } }) => {
-        this.#handleEvent({
-          type,
-          detail,
-          target: document.querySelector(__targetID)
-        });
-      };
+      for (const channel of this.#channels) {
+        channel.onmessage = ({ data: { __targetID, type, detail } }) => {
+          this.#handleEvent({
+            type,
+            detail,
+            target: document.querySelector(__targetID)
+          });
+        };
+      }
 
-      this.#handleChange = handleChange.bind(this);
-      this.#handleChange(this.state);
+      this.#handleMount(state);
     }
   };
 
-  return (globalThis.customStates[name || channel || id] = new Store());
+  return (globalThis.customStores[id] = new Store());
 }

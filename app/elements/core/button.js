@@ -12,13 +12,14 @@ const sharedStyles = html`<style>
     cursor: pointer;
     background-color: hsl(0, 0%, 100%);
     color: hsl(0, 0%, 0%);
+    user-select: none;
   }
 </style>`;
 
 DefineElement({
   tag: "core-button",
   attributes: {
-    disabled: (value) => typeof value === "string",
+    disabled: Boolean,
     click: String
   },
   handleMount({ click }) {
