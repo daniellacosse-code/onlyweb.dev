@@ -14,6 +14,7 @@ DefineElement({
   },
   tag: "keycdn-image",
   handleMount({ src, alt, ...keycdnAttributes }) {
+    // TODO(#127): pull image host from the environment
     const url = new URL(
       location.host.startsWith("localhost")
         ? `http://localhost:${DENO_PORT}`
@@ -32,6 +33,7 @@ DefineElement({
   },
   handleRender({ width, height, loaded }) {
     if (loaded) {
+      // TODO(#126): have `keycdn-image` fade in on image load
       return html`<style>
           :host {
             width: ${width}px;

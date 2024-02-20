@@ -7,6 +7,9 @@ export function DefineElement({
   handleMount = () => {},
   handleRender = () => new Error("No render handler provided.")
 }) {
+  if (globalThis.customElements.get(tag))
+    return console.warn(`Element ${tag} already defined.`);
+
   globalThis.customElements.define(
     tag,
     class extends HTMLElement {
