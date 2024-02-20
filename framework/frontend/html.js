@@ -1,5 +1,5 @@
-import { escape } from "../shared/html/escape.js";
-import { handleTemplate } from "../shared/handle-template.js";
+import { escape } from "/framework/shared/html/escape.js";
+import { handleTemplate } from "/framework/shared/handle-template.js";
 
 export function html(template, ...insertions) {
   const wrapper = document.createElement("div");

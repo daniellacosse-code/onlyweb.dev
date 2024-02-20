@@ -1,5 +1,5 @@
 import { DefineElement } from "/framework/frontend/element.js";
-import { html } from "/framework/frontend/index.js";
+import { html } from "/framework/frontend/html.js";
 
 DefineElement({
   tag: "core-loading-skeleton",

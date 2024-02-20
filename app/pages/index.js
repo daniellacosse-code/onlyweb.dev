@@ -1,10 +1,11 @@
-import { response as html } from "/framework/backend/html/index.js";
-import * as elements from "/framework/backend/elements/inline.js";
+import * as pages from "/framework/backend/pages/html.js";
+import * as components from "/framework/backend/components/register-inline.js";
+import * as constants from "/app/constants.js";
 
 export default (request) => {
   const { origin } = new URL(request.url);
 
-  return html`<!DOCTYPE html>
+  return pages.html`<!DOCTYPE html>
     <html lang="en">
       <head>
         <meta charset="utf-8" />
@@ -29,68 +30,96 @@ export default (request) => {
         />
 
         <style>
+          :root {
+            --color-background: ${constants.THEME_COLOR_BACKGROUND};
+            --color-foreground: ${constants.THEME_COLOR_FOREGROUND};
+            --color-highlight: ${constants.THEME_COLOR_HIGHLIGHT};
+
+            --size-narrow: ${constants.THEME_SIZE_NARROW};
+            --size-default: ${constants.THEME_SIZE_DEFAULT};
+            --size-large: ${constants.THEME_SIZE_LARGE};
+            --size-huge: ${constants.THEME_SIZE_HUGE};
+            --size-hero: ${constants.THEME_SIZE_HERO};
+
+            --size-icon: ${constants.THEME_SIZE_ICON}px;
+          }
+
+          ::selection {
+            background: var(--color-highlight);
+            color: var(--color-background);
+          }
+
           body {
             all: initial;
             font-family: system-ui;
+            touch-events: pan-y;
+            background: var(--color-foreground);
+          }
+
+          main {
+            align-items: center;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            min-height: 100svh;
+            width: 100vw;
           }
 
           header {
-            width: 100vw;
+            align-items: center;
+            background: var(--color-background);
+            box-sizing: border-box;
+            color: var(--color-foreground);
             display: flex;
             flex-direction: column;
-            align-items: center;
+            flex-shrink: 0;
             justify-content: center;
-            min-height: 20svh;
-            padding: 1rem;
-            box-sizing: border-box;
-            background: #202123;
-            color: #f3f5f6;
+            padding: var(--size-huge) 0;
+            width: 100vw;
           }
 
           h1 {
-            font-size: 2.5rem;
-            margin: 0.5rem;
-          }
-
-          h2.hero {
-            font-size: 3.5rem;
-            margin: 1rem;
-          }
-
-          p.hero {
-            font-size: 1.5rem;
+            font-size: var(--size-huge);
+            margin: 0;
           }
 
           article {
-            height: 80svh;
-            background: #f3f5f6;
-            color: #202123;
             box-sizing: border-box;
-            padding: 8svh 0;
+            color: var(--color-background);
+            flex-grow: 1;
             text-align: center;
+            padding: var(--size-large);
           }
 
-          a {
-            color: #6c6066;
+          a,
+          a::selection {
+            color: white;
+            background: var(--color-background);
             text-decoration: none;
           }
 
           a:hover {
-            color: #f3f5f6;
-            background: #202123;
-          }
-
-          .logo {
-            display: block;
-            min-height: 80px;
+            color: var(--color-background);
+            background: var(--color-highlight);
           }
 
           a::after {
             content: " ↗";
           }
 
-          iframe {
-            border: none;
+          h2.hero {
+            font-size: var(--size-hero);
+            margin: var(--size-narrow) 0;
+          }
+
+          p.hero {
+            font-size: var(--size-large);
+            margin: 0;
+          }
+
+          .logo {
+            display: block;
+            min-height: var(--size-icon);
           }
         </style>
       </head>
@@ -100,15 +129,15 @@ export default (request) => {
             <div class="logo">
               <keycdn-image
                 alt="logo"
-                height="80"
+                height="${constants.THEME_SIZE_ICON}"
                 src="/app/assets/images/logo.svg"
-                width="80"
+                width="${constants.THEME_SIZE_ICON}"
               ></keycdn-image>
               <keycdn-image
                 alt="logo"
-                height="80"
+                height="${constants.THEME_SIZE_ICON}"
                 src="/app/assets/images/logo.svg"
-                width="80"
+                width="${constants.THEME_SIZE_ICON}"
               ></keycdn-image>
             </div>
             <h1>only web 2</h1>
@@ -126,9 +155,15 @@ export default (request) => {
           </article>
         </main>
 
-        ${elements.inline("/app/elements/core/loading/skeleton.js", origin)}
-        ${elements.inline("/app/elements/keycdn/image.js", origin)}
-        ${elements.inline("/framework/frontend/reload.js", origin)}
+        ${components.registerInline(
+          "/app/components/elements/core/loading/skeleton.js",
+          origin
+        )}
+        ${components.registerInline(
+          "/app/components/elements/keycdn/image.js",
+          origin
+        )}
+        ${components.registerInline("/app/components/reload.js", origin)}
       </body>
     </html>`;
 };

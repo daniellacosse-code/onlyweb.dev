@@ -1,10 +1,10 @@
-import { response as html } from "/framework/backend/html/response.js";
-import * as elements from "/framework/backend/elements/inline.js";
+import * as pages from "/framework/backend/pages/html.js";
+import * as components from "/framework/backend/components/register-inline.js";
 
 export default (request) => {
   const { origin } = new URL(request.url);
 
-  return html`<!DOCTYPE html>
+  return pages.html`<!DOCTYPE html>
     <html lang="en">
       <head>
         <title>OnlyWeb Component Gallery</title>
@@ -104,14 +104,20 @@ export default (request) => {
           </section>
         </article>
 
-        <script type="module" src="/app/elements/core/button.js"></script>
         <script
           type="module"
-          src="/app/elements/core/loading/skeleton.js"
+          src="/app/components/elements/core/button.js"
         ></script>
-        <script type="module" src="/app/elements/keycdn/image.js"></script>
+        <script
+          type="module"
+          src="/app/components/elements/core/loading/skeleton.js"
+        ></script>
+        <script
+          type="module"
+          src="/app/components/elements/keycdn/image.js"
+        ></script>
 
-        ${elements.inline("/framework/frontend/reload.js", origin)}
+        ${components.registerInline("/app/components/reload.js", origin)}
       </body>
     </html>`;
 };
