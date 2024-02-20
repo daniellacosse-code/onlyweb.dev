@@ -5,10 +5,10 @@ import * as constants from "/app/constants.js";
 
 export default async (request) => {
   const { origin } = new URL(request.url);
-  const translationResult = await translate(request);
+  const translation = await translate(request);
 
   return pages.html`<!DOCTYPE html>
-    <html lang="${translationResult.lanugageCode}">
+    <html lang="${translation.code}">
       <head>
         <meta charset="utf-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1" />
@@ -157,7 +157,7 @@ export default async (request) => {
           </article>
         </main>
 
-        ${translationResult.translationService}
+        ${translation.service}
 
         ${components.registerInline(
           "/app/components/elements/core/loading/skeleton.js",

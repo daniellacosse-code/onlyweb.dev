@@ -1,44 +1,45 @@
 import * as pages from "/framework/backend/pages/html.js";
 
 export const translate = async (request) => {
-  // TODO(#134): support accept-language request header
-  const { searchParams, pathname } = new URL(request.url);
+  const requestURL = new URL(request.url);
 
-  let lanugageCode = "en";
-  let translationService;
-  if (searchParams.has("lang")) {
-    const requestedLang = searchParams.get("lang");
+  const result = {
+    // TODO(#134): support accept-language request header
+    code: requestURL.searchParams.get("lang") ?? "en",
+    service: pages.html`<script></script>`
+  };
 
-    try {
-      const { default: rawTranslations } = await import(
-        `/app/assets/messages/${requestedLang}.json`,
-        {
-          with: {
-            type: "json"
-          }
-        }
-      );
-
-      let translationPayload = "";
-      for (const [key, value] of Object.entries(rawTranslations)) {
-        if (!key.startsWith(pathname)) continue;
-
-        translationPayload += `${key.split("#")[1]}:${value};`;
+  try {
+    // "module" is a reserved word
+    const mod_ule = await import(`/app/assets/messages/${result.code}.json`, {
+      with: {
+        type: "json"
       }
+    });
 
-      lanugageCode = searchParams.get("lang");
-      translationService = pages.html`<script>
-        for (const [key, value] of '${translationPayload}'.split(';').map((pair) => pair.split(':'))) {
-          const element = document.getElementById(key);
-          if (element) {
-            element.textContent = value;
-          }
-        }
-      </script>`;
-    } catch (error) {
-      console.error(`Lang ${requestedLang} not supported:`, error);
-    }
+    // we have to serialize it this way to avoid
+    // escaping JSON characters in the HTML
+    const payload = Object.entries(mod_ule.default).reduce(
+      (reduction, [key, value]) => {
+        const [keyPath, elementID] = key.split("#");
+
+        if (!keyPath.startsWith(requestURL.pathname)) return reduction;
+
+        return reduction + `${elementID}:${value};`;
+      },
+      ""
+    );
+
+    result.service = pages.html`<script>
+      '${payload}'.split(';').forEach((pair) => {
+        const [id, value] = pair.split(':');
+        const element = document.getElementById(id);
+        if (element) element.textContent = value;
+      });
+    </script>`;
+  } catch (error) {
+    console.error(`Lang ${requestedLang} not supported:`, error);
   }
 
-  return { lanugageCode, translationService };
+  return result;
 };
