@@ -1,6 +1,7 @@
 import * as pages from "/framework/backend/pages/html.js";
 
 export const translate = async (request) => {
+  // TODO(#134): support accept-language request header
   const { searchParams, pathname } = new URL(request.url);
 
   let lanugageCode = "en";
