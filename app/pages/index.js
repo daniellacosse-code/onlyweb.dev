@@ -1,52 +1,14 @@
 import * as pages from "/framework/backend/pages/html.js";
 import * as components from "/framework/backend/components/register-inline.js";
+import { translate } from "/app/components/services/translate.js";
 import * as constants from "/app/constants.js";
 
 export default async (request) => {
-  const { origin, searchParams } = new URL(request.url);
-
-  let lang = "en";
-  let translationFragment;
-  if (searchParams.has("lang")) {
-    const requestedLang = searchParams.get("lang");
-
-    try {
-      const { default: rawTranslations } = await import(
-        `/app/assets/messages/${requestedLang}.json`,
-        {
-          with: {
-            type: "json"
-          }
-        }
-      );
-
-      let translationPayload = "";
-      for (const [key, value] of Object.entries(rawTranslations)) {
-        if (!key.startsWith("/app/pages/index.js")) {
-          continue;
-        }
-
-        translationPayload += `${key.split("#")[1]}:${value};`;
-      }
-
-      lang = searchParams.get("lang");
-      translationFragment = pages.html`<script>
-      const translations = '${translationPayload}'.split(';').map((pair) => pair.split(':'));
-
-      for (const [key, value] of translations) {
-        const element = document.getElementById(key);
-        if (element) {
-          element.textContent = value;
-        }
-      }
-    </script>`;
-    } catch (error) {
-      console.error(`Lang ${requestedLang} not supported:`, error);
-    }
-  }
+  const { origin } = new URL(request.url);
+  const translationResult = await translate(request);
 
   return pages.html`<!DOCTYPE html>
-    <html lang="${lang}">
+    <html lang="${translationResult.lanugageCode}">
       <head>
         <meta charset="utf-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1" />
@@ -195,7 +157,7 @@ export default async (request) => {
           </article>
         </main>
 
-        ${translationFragment}
+        ${translationResult.translationService}
 
         ${components.registerInline(
           "/app/components/elements/core/loading/skeleton.js",
@@ -205,7 +167,10 @@ export default async (request) => {
           "/app/components/elements/keycdn/image.js",
           origin
         )}
-        ${components.registerInline("/app/components/reload.js", origin)}
+        ${components.registerInline(
+          "/app/components/services/reload.js",
+          origin
+        )}
       </body>
     </html>`;
 };
