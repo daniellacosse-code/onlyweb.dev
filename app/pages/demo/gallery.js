@@ -1,5 +1,5 @@
 import { response as html } from "/framework/backend/html/response.js";
-import { inline } from "/framework/backend/html/inline.js";
+import * as elements from "/framework/backend/elements/inline.js";
 
 export default (request) => {
   const { origin } = new URL(request.url);
@@ -62,23 +62,32 @@ export default (request) => {
           <section>
             <h2>&lt;core-button&gt;</h2>
             <script type="module">
-              import { DefineState } from "/framework/frontend/state.js";
+              import { DefineStore } from "/framework/frontend/store.js";
 
-              DefineState({
+              DefineStore({
                 channel: "counter",
-                handleEvent({ type }) {
-                  if (type === "increment") this.count = (this.count ?? 0) + 1;
+                handleEvent(event) {
+                  if (event.type !== "increment") return;
+
+                  const { id } = event.target.attributes;
+
+                  this.state[id] = (this.state[id] ?? 0) + 1;
                 },
-                handleChange({ count = 0 }) {
-                  document.querySelector("#counter-button").textContent = count;
+                handleChange(state) {
+                  for (const [id, count] of Object.entries(state)) {
+                    document.querySelector("#" + id).textContent = count;
+                  }
                 }
               });
             </script>
 
-            <core-button id="counter-button" channel="counter" click="increment"
+            <core-button channel="counter" click="increment"
               >Click me</core-button
             >
-            <core-button disabled="true">Don't click me</core-button>
+            <core-button channel="counter" click="increment"
+              >Click me, too</core-button
+            >
+            <core-button channel="counter" disabled>Don't click me</core-button>
           </section>
 
           <section>
@@ -107,7 +116,7 @@ export default (request) => {
         ></script>
         <script type="module" src="/app/elements/keycdn/image.js"></script>
 
-        ${inline("./framework/frontend/reload.js", origin)}
+        ${elements.inline("/framework/frontend/reload.js", origin)}
       </body>
     </html>`;
 };

@@ -18,16 +18,13 @@ const sharedStyles = html`<style>
 DefineElement({
   tag: "core-button",
   attributes: {
-    disabled: Boolean,
+    disabled: (value) => typeof value === "string",
     click: String
   },
   handleMount({ click }) {
-    this.root.querySelector("button").addEventListener("click", (event) => {
-      event.preventDefault();
-      event.stopPropagation();
-
-      this.dispatchEvent(new CustomEvent(click));
-    });
+    this.host.addEventListener("click", () =>
+      this.dispatchEvent(new CustomEvent(click))
+    );
   },
   handleRender({ disabled }) {
     if (disabled)

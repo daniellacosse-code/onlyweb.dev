@@ -1,4 +1,5 @@
 import { response as html } from "/framework/backend/html/index.js";
+import * as elements from "/framework/backend/elements/inline.js";
 
 export default (request) => {
   const { origin } = new URL(request.url);
@@ -127,9 +128,9 @@ export default (request) => {
           </article>
         </main>
 
-        ${html.inline("./app/elements/core/loading/skeleton.js", origin)}
-        ${html.inline("./app/elements/keycdn/image.js", origin)}
-        ${html.inline("./framework/frontend/reload.js", origin)}
+        ${elements.inline("/app/elements/core/loading/skeleton.js", origin)}
+        ${elements.inline("/app/elements/keycdn/image.js", origin)}
+        ${elements.inline("/framework/frontend/reload.js", origin)}
       </body>
     </html>`;
 };

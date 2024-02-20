@@ -15,15 +15,18 @@ export function DefineElement({
       // constructor analogous
       connectedCallback() {
         this.root = this.attachShadow({ mode: "open" });
-        this.attributes.id ??= makeCUID();
+        this.host = this.root.host;
+
+        this.#handleRender = handleRender.bind(this);
+        this.#handleMount = handleMount.bind(this);
+
+        if (this.attributes.id === "null") this.attributes.id = makeCUID();
 
         if (this.attributes.channel)
           this.channel = new BroadcastChannel(this.attributes.channel);
 
-        this.#handleRender = handleRender.bind(this);
         this.#executeRender();
 
-        this.#handleMount = handleMount.bind(this);
         this.#handleMount(this.attributes);
       }
 
@@ -72,8 +75,14 @@ export function DefineElement({
       }
 
       // write-side: state
-      dispatchEvent({ type = "custom", detail = {} }) {
-        this.channel?.postMessage({ type, detail, target: this.attributes.id });
+      dispatchEvent({ type, detail } = {}) {
+        this.channel?.postMessage({
+          type,
+          detail,
+          // we can't clone an element and have to send the ID -
+          // so that the reciever can find the target
+          __targetID: `#${this.attributes.id}`
+        });
       }
 
       disconnectedCallback() {
