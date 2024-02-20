@@ -1,12 +1,14 @@
 import * as pages from "/framework/backend/pages/html.js";
 import * as components from "/framework/backend/components/register-inline.js";
+import { translate } from "/app/components/services/translate.js";
 import * as constants from "/app/constants.js";
 
-export default (request) => {
+export default async (request) => {
   const { origin } = new URL(request.url);
+  const translation = await translate(request);
 
   return pages.html`<!DOCTYPE html>
-    <html lang="en">
+    <html lang="${translation.code}">
       <head>
         <meta charset="utf-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1" />
@@ -140,20 +142,22 @@ export default (request) => {
                 width="${constants.THEME_SIZE_ICON}"
               ></keycdn-image>
             </div>
-            <h1>only web 2</h1>
+            <h1 id="title">only web 2</h1>
           </header>
           <article>
             <section>
-              <h2 class="hero">Please pardon our dust.</h2>
+              <h2 id="apology" class="hero">Please pardon our dust.</h2>
             </section>
             <section>
               <p class="hero">
-                We're currently rebuilding literally everything.
-                <a href="https://DanielLaCos.se">Follow along</a>
+                <span id="explaination">We're currently rebuilding literally everything.</span>
+                <a id="call-to-action" href="https://DanielLaCos.se">Follow along</a>
               </p>
             </section>
           </article>
         </main>
+
+        ${translation.service}
 
         ${components.registerInline(
           "/app/components/elements/core/loading/skeleton.js",
@@ -163,7 +167,10 @@ export default (request) => {
           "/app/components/elements/keycdn/image.js",
           origin
         )}
-        ${components.registerInline("/app/components/reload.js", origin)}
+        ${components.registerInline(
+          "/app/components/services/reload.js",
+          origin
+        )}
       </body>
     </html>`;
 };
