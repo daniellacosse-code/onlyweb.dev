@@ -4,7 +4,7 @@ import { minify } from "/framework/shared/html/minify.js";
 import * as pages from "../pages/html.js";
 
 // register components inline ONLY when you're sure all
-// their dependencies are also loaded
+// their dependencies are also registered
 export function registerInline(filePath, host = "http://localhost:8000") {
   const fileContents = Deno.readTextFileSync(`.${filePath}`);
   const sanitizedScript = minify(fileContents)
