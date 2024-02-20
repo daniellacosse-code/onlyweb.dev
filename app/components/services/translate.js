@@ -1,4 +1,4 @@
-import * as pages from "/framework/backend/pages/html.js";
+import * as pages from "/framework/backend/page/html.js";
 
 export const translate = async (request) => {
   const requestURL = new URL(request.url);
