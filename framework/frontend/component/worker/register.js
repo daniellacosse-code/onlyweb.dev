@@ -11,5 +11,7 @@ export async function RegisterWorker({
   // => `navigator.serviceWorker.register("/app/proxies/worker.js?tags=custom-worker")`
   // 3. backend compiles worker.js based on provided tags,
   // => pulling in the default export of each worker component
-  // 4. once registered, call handleMount and communicate via postMessage prepended with tag
+  // 4. once registered, call handleMount and communicate via broadcastChannel prepended with tag
+  // => this is so stores can subscribe to specific worker updates
+  // => `const channel = new BroadcastChannel("custom-worker.fetch");`
 }

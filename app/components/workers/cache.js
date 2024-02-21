@@ -30,6 +30,8 @@ export default () => ({
     ]);
   },
   handleEvent: async (event) => {
+    if (!event.request) return null;
+
     const cache = await caches.open(this.context.tag);
     const response = await cache.match(event.request);
 

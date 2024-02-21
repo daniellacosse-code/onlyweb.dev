@@ -4,6 +4,7 @@ RegisterWorker({
   tag: "translate",
   source: "/app/components/workers/translate.js",
   handleEvent: (event) => {
+    // TODO: move to store
     for (const [id, value] of event.detail.translations) {
       const element = document.getElementById(id);
       if (element) element.textContent = value;

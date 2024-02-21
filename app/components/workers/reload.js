@@ -3,6 +3,7 @@ import { RegisterWorker } from "/framework/frontend/component/worker/register.js
 RegisterWorker({
   tag: "reload",
   handleMount: () => {
+    // TODO: move to store
     if (!globalThis.location?.host.startsWith("localhost")) return;
 
     const socket = new WebSocket("ws://localhost:35729");
