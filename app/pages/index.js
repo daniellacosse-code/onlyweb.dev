@@ -1,14 +1,20 @@
 import * as Page from "/framework/backend/page/html.js";
 import * as Component from "/framework/backend/component/register-inline.js";
 import * as Constant from "/app/constants.js";
-import { translate } from "/app/components/services/translate.js";
 
-export default async (request) => {
-  const { origin } = new URL(request.url);
-  const translation = await translate(request);
+export default (request) => {
+  const { searchParams } = new URL(request.url);
 
   return Page.html`<!DOCTYPE html>
-    <html lang="${translation.code}">
+    <html lang="${searchParams.get("lang") ?? "en"}">
+      ${Component.registerInline(
+        "/app/components/elements/core/loading/skeleton.js",
+        "/app/components/elements/keycdn/image.js",
+        "/app/components/workers/cache.js",
+        "/app/components/workers/reload.js",
+        "/app/components/workers/translate.js"
+      )}
+
       <head>
         <meta charset="utf-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1" />
@@ -156,29 +162,6 @@ export default async (request) => {
             </section>
           </article>
         </main>
-
-        ${Component.registerInline(
-          "/app/components/elements/core/loading/skeleton.js",
-          origin
-        )}
-        ${Component.registerInline(
-          "/app/components/elements/keycdn/image.js",
-          origin
-        )}
-        ${Component.registerInline(
-          "/app/components/services/reload.js",
-          origin
-        )}
-
-        ${translation.service}
-        <script type="module">
-          import { RegisterService } from "/framework/frontend/service/register.js";
-
-          RegisterService({
-            tag: "only-cache",
-            source: "/app/components/services/cache.js"
-          });
-        </script>
       </body>
     </html>`;
 };

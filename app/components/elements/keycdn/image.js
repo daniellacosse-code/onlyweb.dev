@@ -15,11 +15,10 @@ RegisterElement({
   },
   tag: "keycdn-image",
   handleMount({ src, alt, ...keycdnAttributes }) {
-    // TODO(#127): pull image host from the environment
     const url = new URL(
-      location.host.startsWith("localhost")
-        ? `http://localhost:${DENO_PORT}`
-        : KEYCDN_IMAGE_ZONE_URL
+      Deno.env.get("DENO_HOST")
+        ? KEYCDN_IMAGE_ZONE_URL
+        : `http://localhost:${DENO_PORT}`
     );
 
     url.pathname = src;

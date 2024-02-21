@@ -1,11 +1,16 @@
 import * as Page from "/framework/backend/page/html.js";
 import * as Component from "/framework/backend/component/register-inline.js";
 
-export default (request) => {
-  const { origin } = new URL(request.url);
-
-  return Page.html`<!DOCTYPE html>
+export default () =>
+  Page.html`<!DOCTYPE html>
     <html lang="en">
+      ${Component.registerInline(
+        "/app/components/elements/core/button.js",
+        "/app/components/elements/core/loading/skeleton.js",
+        "/app/components/elements/keycdn/image.js",
+        "/app/components/services/reload.js"
+      )}
+
       <head>
         <title>OnlyWeb Component Gallery</title>
         <link rel="icon" href="/app/assets/images/logo.png" />
@@ -108,23 +113,5 @@ export default (request) => {
             ></keycdn-image>
           </section>
         </article>
-
-        ${Component.registerInline(
-          "/app/components/elements/core/button.js",
-          origin
-        )}
-        ${Component.registerInline(
-          "/app/components/elements/core/loading/skeleton.js",
-          origin
-        )}
-        ${Component.registerInline(
-          "/app/components/elements/keycdn/image.js",
-          origin
-        )}
-        ${components.registerInline(
-          "/app/components/services/reload.js",
-          origin
-        )}
       </body>
     </html>`;
-};
