@@ -38,7 +38,7 @@ export const translate = async (request) => {
       });
     </script>`;
   } catch (error) {
-    console.error(`Lang ${requestedLang} not supported:`, error);
+    console.error(`Lang ${result.code} not supported:`, error);
   }
 
   return result;
