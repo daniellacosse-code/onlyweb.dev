@@ -160,15 +160,15 @@ export default async (request) => {
         ${translation.service}
 
         ${Backend.Element.registerInline(
-          "/app/components/elements/core/loading/skeleton.js",
+          "/app/elements/core/loading/skeleton.js",
           origin
         )}
         ${Backend.Element.registerInline(
-          "/app/components/elements/keycdn/image.js",
+          "/app/elements/keycdn/image.js",
           origin
         )}
         ${Backend.Element.registerInline(
-          "/app/components/services/reload.js",
+          "/app/elements/services/reload.js",
           origin
         )}
       </body>

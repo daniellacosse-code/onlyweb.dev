@@ -1,4 +1,4 @@
-import { RegisterElement } from "./register.js";
+import { Register } from "./register.js";
 
 export function RegisterStore({
   state = {},
@@ -8,10 +8,18 @@ export function RegisterStore({
   handleEvent = () => {},
   ...parameters
 }) {
-  RegisterElement({
+  const handleEventWrapper = (event) => {
+    event.stopPropagation();
+    event.preventDefault();
+    event.cancelBubble = true;
+
+    handleEvent(event);
+  };
+
+  Register({
     handleMount: () => {
       for (const event of listensFor)
-        this.addEventListener(event, this.#handleEvent);
+        this.addEventListener(event, handleEventWrapper);
 
       this.state = new Proxy(state, {
         set: (target, key, value) => {
@@ -23,16 +31,10 @@ export function RegisterStore({
 
       handleMount();
     },
-    handleEvent: (event) => {
-      event.stopPropagation();
-      event.preventDefault();
-      event.cancelBubble = true;
-
-      handleEvent(event);
-    },
+    handleEvent: handleEventWrapper,
     handleUnmount: () => {
       for (const event of listensFor)
-        this.removeEventListener(event, this.#handleEvent);
+        this.removeEventListener(event, handleEventWrapper);
 
       handleUnmount();
     },

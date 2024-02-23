@@ -1,3 +1,3 @@
 export { html } from "./html.js";
-export { RegisterElement } from "./register.js";
-export { RegisterElementStore } from "./register-store.js";
+export { Register } from "./register.js";
+export { RegisterStore } from "./register-store.js";

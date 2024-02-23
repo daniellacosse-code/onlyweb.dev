@@ -30,7 +30,7 @@ export const translate = async (request) => {
       ""
     );
 
-    result.service = pages.html`<script>
+    result.service = Page.html`<script>
       '${payload}'.split(';').forEach((pair) => {
         const [id, value] = pair.split(':');
         const element = document.getElementById(id);
