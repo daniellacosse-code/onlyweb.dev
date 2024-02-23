@@ -1,4 +1,4 @@
-import { html } from "./html.js";
+import { html } from "/framework/frontend/element/html.js";
 
 export function Register({
   tag = "custom-element",
@@ -49,11 +49,11 @@ export function Register({
         this.#handleUnmount = handleUnmount.bind(this);
 
         this.EXECUTE_RENDER();
-        this.#handleMount(this.attributes);
+        this.#handleMount(this.attributes, this);
       }
 
       disconnectedCallback() {
-        this.#handleUnmount();
+        this.#handleUnmount(this.attributes, this);
       }
 
       EXECUTE_RENDER() {
@@ -75,7 +75,7 @@ export function Register({
               pointer-events: inherit;
             }
           </style>
-          ${this.#handleRender(this.attributes)}
+          ${this.#handleRender(this.attributes, this)}
         </template>`;
 
         this.root.replaceChildren(...renderResult);

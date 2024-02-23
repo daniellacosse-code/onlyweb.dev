@@ -28,7 +28,7 @@ Frontend.Element.Register({
   },
   handleRender({ disabled }) {
     if (disabled)
-      return html`${sharedStyles}
+      return Frontend.Element.html`${sharedStyles}
         <style>
           button {
             cursor: not-allowed;

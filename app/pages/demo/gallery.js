@@ -61,15 +61,14 @@ export default (request) => {
           <section>
             <h2>&lt;core-button&gt;</h2>
             <script type="module">
-              import { RegisterStore } from "/framework/frontend/store.js";
+              import * as Frontend from "/framework/frontend/main.js";
 
-              RegisterStore({
+              Frontend.Element.RegisterStore({
                 tag: "counter-store",
                 state: { ["counter-1"]: 0, ["counter-2"]: 0 },
-                listensFor: ["click"],
                 handleEvent(event) {
                   if (event.type === "click")
-                    this.state[event.target.attributes.id]?.++;
+                    this.state[event.target.attributes.id]++;
                 },
                 handleRender(state) {
                   for (const [id, count] of Object.entries(state))
@@ -78,7 +77,7 @@ export default (request) => {
               });
             </script>
 
-            <counter-store id="counter-demo">
+            <counter-store id="counter-demo" listens-for="click">
               <core-button id="counter-1">Click me</core-button>
               <core-button id="counter-2">Click me, too</core-button>
             </counter-store>

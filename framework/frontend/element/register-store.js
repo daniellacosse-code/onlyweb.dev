@@ -2,9 +2,6 @@ import { Register } from "./register.js";
 
 export function RegisterStore({
   state = {},
-  listensFor = [],
-  handleMount = () => {},
-  handleUnmount = () => {},
   handleEvent = () => {},
   ...parameters
 }) {
@@ -17,26 +14,25 @@ export function RegisterStore({
   };
 
   Register({
-    handleMount: () => {
-      for (const event of listensFor)
-        this.addEventListener(event, handleEventWrapper);
-
-      this.state = new Proxy(state, {
+    handleMount: (_, self) => {
+      self.state = new Proxy(state, {
         set: (target, key, value) => {
           target[key] = Object.freeze(value);
-          this.handleRender(this.state);
+          self.EXECUTE_RENDER();
           return true;
         }
       });
+    },
+    handleRender: ({ ["listens-for"]: listensFor }) => {
+      for (const event of listensFor.split(" "))
+        self.addEventListener(event, handleEventWrapper);
 
-      handleMount();
+      return Frontend.Element.html`<slot></slot>`;
     },
     handleEvent: handleEventWrapper,
-    handleUnmount: () => {
+    handleUnmount: ({ ["listens-for"]: listensFor }) => {
       for (const event of listensFor)
-        this.removeEventListener(event, handleEventWrapper);
-
-      handleUnmount();
+        self.removeEventListener(event, handleEventWrapper);
     },
     ...parameters
   });
