@@ -1,10 +1,9 @@
-import * as pages from "/framework/backend/pages/html.js";
-import * as components from "/framework/backend/components/register-inline.js";
+import * as Backend from "/framework/backend/main.js";
 
 export default (request) => {
   const { origin } = new URL(request.url);
 
-  return pages.html`<!DOCTYPE html>
+  return Backend.Page.html`<!DOCTYPE html>
     <html lang="en">
       <head>
         <title>OnlyWeb Component Gallery</title>
@@ -62,25 +61,27 @@ export default (request) => {
           <section>
             <h2>&lt;core-button&gt;</h2>
             <script type="module">
-              import { DefineStore } from "/framework/frontend/store.js";
+              import { RegisterStore } from "/framework/frontend/store.js";
 
-              DefineStore({
-                listensFor: ["counter.increment"],
+              RegisterStore({
+                tag: "counter-store",
+                state: { ["counter-1"]: 0, ["counter-2"]: 0 },
+                listensFor: ["click"],
                 handleEvent(event) {
-                  const { id } = event.target.attributes;
-
-                  this.state[id] = (this.state[id] ?? 0) + 1;
+                  if (event.type === "click")
+                    this.state[event.target.attributes.id]?.++;
                 },
-                handleChange(state) {
-                  for (const [id, count] of Object.entries(state)) {
-                    document.querySelector("#" + id).textContent = count;
-                  }
+                handleRender(state) {
+                  for (const [id, count] of Object.entries(state))
+                    this.host.getElementById(id).textContent = count;
                 }
               });
             </script>
 
-            <core-button click="counter.increment">Click me</core-button>
-            <core-button click="counter.increment">Click me, too</core-button>
+            <counter-store id="counter-demo">
+              <core-button id="counter-1">Click me</core-button>
+              <core-button id="counter-2">Click me, too</core-button>
+            </counter-store>
 
             <core-button disabled>Don't click me</core-button>
           </section>
@@ -106,19 +107,19 @@ export default (request) => {
 
         <script
           type="module"
-          src="/app/components/elements/core/button.js"
+          src="/app/elements/core/button.js"
         ></script>
         <script
           type="module"
-          src="/app/components/elements/core/loading/skeleton.js"
+          src="/app/elements/core/loading/skeleton.js"
         ></script>
         <script
           type="module"
-          src="/app/components/elements/keycdn/image.js"
+          src="/app/elements/keycdn/image.js"
         ></script>
 
-        ${components.registerInline(
-          "/app/components/services/reload.js",
+        ${Backend.Element.registerInline(
+          "/app/elements/services/reload.js",
           origin
         )}
       </body>

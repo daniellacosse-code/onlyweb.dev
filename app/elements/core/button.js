@@ -1,7 +1,6 @@
-import { DefineElement } from "/framework/frontend/element.js";
-import { html } from "/framework/frontend/html.js";
+import * as Frontend from "/framework/frontend/main.js";
 
-const sharedStyles = html`<style>
+const sharedStyles = Frontend.Element.html`<style>
   button {
     display: inline-block;
     font-family: inherit;
@@ -16,7 +15,7 @@ const sharedStyles = html`<style>
   }
 </style>`;
 
-DefineElement({
+Frontend.Element.Register({
   tag: "core-button",
   attributes: {
     disabled: Boolean,
@@ -40,7 +39,7 @@ DefineElement({
           <slot></slot>
         </button>`;
 
-    return html`${sharedStyles}
+    return Frontend.Element.html`${sharedStyles}
       <style>
         button:hover,
         button:active {

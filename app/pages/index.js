@@ -1,13 +1,13 @@
-import * as pages from "/framework/backend/pages/html.js";
-import * as components from "/framework/backend/components/register-inline.js";
-import { translate } from "/app/components/services/translate.js";
+import * as Backend from "/framework/backend/main.js";
+
+import { translate } from "/app/elements/services/translate.js";
 import * as constants from "/app/constants.js";
 
 export default async (request) => {
   const { origin } = new URL(request.url);
   const translation = await translate(request);
 
-  return pages.html`<!DOCTYPE html>
+  return Backend.Page.html`<!DOCTYPE html>
     <html lang="${translation.code}">
       <head>
         <meta charset="utf-8" />
@@ -159,15 +159,15 @@ export default async (request) => {
 
         ${translation.service}
 
-        ${components.registerInline(
+        ${Backend.Element.registerInline(
           "/app/components/elements/core/loading/skeleton.js",
           origin
         )}
-        ${components.registerInline(
+        ${Backend.Element.registerInline(
           "/app/components/elements/keycdn/image.js",
           origin
         )}
-        ${components.registerInline(
+        ${Backend.Element.registerInline(
           "/app/components/services/reload.js",
           origin
         )}

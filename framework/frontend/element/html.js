@@ -10,17 +10,12 @@ export function html(template, ...insertions) {
     handleInsertion: (insertion) => {
       if (insertion instanceof HTMLCollection) {
         let collectionHTML = "";
-
-        for (const element of insertion) {
-          collectionHTML += element.outerHTML;
-        }
+        for (const element of insertion) collectionHTML += element.outerHTML;
 
         return collectionHTML;
       }
 
-      if (insertion instanceof HTMLElement) {
-        return insertion.outerHTML;
-      }
+      if (insertion instanceof HTMLElement) return insertion.outerHTML;
 
       return escape(insertion);
     }
