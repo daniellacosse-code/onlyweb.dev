@@ -1,5 +1,6 @@
 export const KEYCDN_IMAGE_ZONE_URL = "https://onlyweb-201bf.kxcdn.com";
 export const DENO_PORT = 8000;
+export const DENO_LIVERELOAD_PORT = 35729;
 
 export const THEME_COLOR_BACKGROUND = "#202123";
 export const THEME_COLOR_FOREGROUND = "#f3f5f6";

@@ -1,2 +1,2 @@
 export * as Page from "./page/html.js";
-export * as Element from "./element/register-inline.js";
+export * as Inline from "./inline/elements.js";

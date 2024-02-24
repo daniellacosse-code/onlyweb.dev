@@ -1,14 +1,19 @@
 import * as Backend from "/framework/backend/main.js";
 
-import { translate } from "/app/elements/services/translate.js";
 import * as constants from "/app/constants.js";
 
-export default async (request) => {
-  const { origin } = new URL(request.url);
-  const translation = await translate(request);
+export default (request) => {
+  const { searchParams } = new URL(request.url);
+  const code = searchParams.get("lang") ?? "en";
 
   return Backend.Page.html`<!DOCTYPE html>
-    <html lang="${translation.code}">
+    <html lang="${code}">
+      ${Backend.Inline.elements(
+        "/app/elements/core/loading/skeleton.js",
+        "/app/elements/keycdn/image.js",
+        "/app/elements/services/reload.js",
+        "/app/elements/services/translate.js"
+      )}
       <head>
         <meta charset="utf-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1" />
@@ -127,50 +132,39 @@ export default async (request) => {
       </head>
       <body>
         <main>
-          <header>
-            <div class="logo">
-              <keycdn-image
-                alt="logo"
-                height="${constants.THEME_SIZE_ICON}"
-                src="/app/assets/images/logo.svg"
-                width="${constants.THEME_SIZE_ICON}"
-              ></keycdn-image>
-              <keycdn-image
-                alt="logo"
-                height="${constants.THEME_SIZE_ICON}"
-                src="/app/assets/images/logo.svg"
-                width="${constants.THEME_SIZE_ICON}"
-              ></keycdn-image>
-            </div>
-            <h1 id="title">only web 2</h1>
-          </header>
-          <article>
-            <section>
-              <h2 id="apology" class="hero">Please pardon our dust.</h2>
-            </section>
-            <section>
-              <p class="hero">
-                <span id="explaination">We're currently rebuilding literally everything.</span>
-                <a id="call-to-action" href="https://DanielLaCos.se">Follow along</a>
-              </p>
-            </section>
-          </article>
+          <translation-service code="${code}">
+            <header>
+              <div class="logo">
+                <keycdn-image
+                  alt="logo"
+                  height="${constants.THEME_SIZE_ICON}"
+                  src="/app/assets/images/logo.svg"
+                  width="${constants.THEME_SIZE_ICON}"
+                ></keycdn-image>
+                <keycdn-image
+                  alt="logo"
+                  height="${constants.THEME_SIZE_ICON}"
+                  src="/app/assets/images/logo.svg"
+                  width="${constants.THEME_SIZE_ICON}"
+                ></keycdn-image>
+              </div>
+              <h1 id="title">only web 2</h1>
+            </header>
+            <article>
+              <section>
+                <h2 id="apology" class="hero">Please pardon our dust.</h2>
+              </section>
+              <section>
+                <p class="hero">
+                  <span id="explaination">We're currently rebuilding literally everything.</span>
+                  <a id="call-to-action" href="https://DanielLaCos.se">Follow along</a>
+                </p>
+              </section>
+            </article>
+          </translation-service>
         </main>
 
-        ${translation.service}
-
-        ${Backend.Element.registerInline(
-          "/app/elements/core/loading/skeleton.js",
-          origin
-        )}
-        ${Backend.Element.registerInline(
-          "/app/elements/keycdn/image.js",
-          origin
-        )}
-        ${Backend.Element.registerInline(
-          "/app/elements/services/reload.js",
-          origin
-        )}
+        <reload-service></reload-service>
       </body>
     </html>`;
 };
