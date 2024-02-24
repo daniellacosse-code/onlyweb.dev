@@ -1,9 +1,9 @@
-import * as Backend from "/framework/backend/main.js";
+import * as BackendPage from "/framework/backend-page/main.js";
 
 export default (request) => {
   const { origin } = new URL(request.url);
 
-  return Backend.Page.html`<!DOCTYPE html>
+  return BackendPage.html`<!DOCTYPE html>
     <html lang="en">
       <head>
         <title>OnlyWeb Component Gallery</title>
@@ -32,7 +32,7 @@ export default (request) => {
 
           article {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            grid-template-columns: repeat(auto-fit, minmax(30vw, 1fr));
             gap: 2rem;
           }
 
@@ -60,15 +60,20 @@ export default (request) => {
         <article>
           <section>
             <h2>&lt;core-button&gt;</h2>
-            <counter-demo>
-              <core-button id="counter-1">0</core-button>
-              <core-button id="counter-2">0</core-button>
-            </counter-demo>
+            <core-button>Do click me</core-button>
           </section>
 
           <section>
             <h2>&lt;core-button&gt;[disabled]</h2>
             <core-button disabled>Don't click me</core-button>
+          </section>
+
+          <section>
+            <h2>&lt;counter-demo&gt;</h2>
+            <counter-demo>
+              <core-button id="counter-1">0</core-button>
+              <core-button id="counter-2">0</core-button>
+            </counter-demo>
           </section>
 
           <section>
@@ -90,26 +95,15 @@ export default (request) => {
           </section>
         </article>
 
-        <script
-          type="module"
-          src="/app/elements/core/button.js"
-        ></script>
-        <script
-          type="module"
-          src="/app/elements/core/loading/skeleton.js"
-        ></script>
-        <script
-          type="module"
-          src="/app/elements/keycdn/image.js"
-        ></script>
-        <script
-          type="module"
-          src="/app/elements/demo/counter.js"
-        ></script>
+        <reload-service></reload-service>
 
-        ${Backend.Element.registerInline(
+        ${BackendPage.Inline.elements(
+          origin,
           "/app/elements/services/reload.js",
-          origin
+          "/app/elements/core/button.js",
+          "/app/elements/core/loading/skeleton.js",
+          "/app/elements/keycdn/image.js",
+          "/app/elements/stores/demo/counter.js"
         )}
       </body>
     </html>`;

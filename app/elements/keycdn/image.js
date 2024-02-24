@@ -1,9 +1,10 @@
-import * as Frontend from "/framework/frontend/main.js";
+import * as FrontendElement from "/framework/frontend-element/main.js";
 
 import { KEYCDN_IMAGE_ZONE_URL, DENO_PORT } from "/app/constants.js";
+
 import "/app/elements/core/loading/skeleton.js";
 
-Frontend.Element.Register({
+FrontendElement.Register({
   attributes: {
     src: String,
     alt: String,
@@ -14,9 +15,9 @@ Frontend.Element.Register({
   },
   tag: "keycdn-image",
   handleMount({ src, alt, ...keycdnAttributes }) {
-    // TODO(#127): pull image host from the environment
+    // TODO(#127): pull origin from the request url
     const url = new URL(
-      location.host.startsWith("localhost")
+      globalThis.location.hostname === "localhost"
         ? `http://localhost:${DENO_PORT}`
         : KEYCDN_IMAGE_ZONE_URL
     );
@@ -34,7 +35,7 @@ Frontend.Element.Register({
   handleRender({ width, height, loaded }) {
     if (loaded) {
       // TODO(#126): have `keycdn-image` fade in on image load
-      return Frontend.Element.html`<style>
+      return FrontendElement.html`<style>
           :host {
             width: ${width}px;
             height: ${height}px;
@@ -52,7 +53,7 @@ Frontend.Element.Register({
         ${this.image}`;
     }
 
-    return Frontend.Element.html`<style>
+    return FrontendElement.html`<style>
         .container {
           width: ${width}px;
           height: ${height}px;

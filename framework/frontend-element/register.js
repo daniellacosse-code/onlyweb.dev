@@ -1,5 +1,5 @@
 import DeepProxy from "/framework/shared/deep-proxy.js";
-import { html } from "/framework/frontend/element/html.js";
+import { html } from "./html.js";
 
 export function Register({
   tag = "custom-element",
@@ -34,8 +34,8 @@ export function Register({
         );
       }
 
-      attributeChangedCallback() {
-        this.EXECUTE_RENDER();
+      async attributeChangedCallback() {
+        await this.EXECUTE_RENDER();
       }
 
       connectedCallback() {
@@ -71,10 +71,11 @@ export function Register({
         );
       }
 
-      EXECUTE_RENDER() {
+      async EXECUTE_RENDER() {
         if (!this.root) return;
 
-        const renderResult = this.#handleRender(this.attributes) ?? html``;
+        const renderResult =
+          (await this.#handleRender(this.attributes)) ?? html``;
         const renderWrapper = html`<template>
           <style>
             * {

@@ -2,7 +2,7 @@ import { escape } from "/framework/shared/html/escape.js";
 import { minify } from "/framework/shared/html/minify.js";
 import { handleTemplate } from "/framework/shared/handle-template.js";
 
-class HTMLResponse extends Response {
+export class HTMLResponse extends Response {
   static CACHE_MAXAGE = 3600;
 
   constructor(htmlBody, init) {

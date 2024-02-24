@@ -2,5 +2,9 @@
   "/app/pages/index.js#title": "web 2 uniquement",
   "/app/pages/index.js#apology": "Veuillez nous excuser pour le désordre.",
   "/app/pages/index.js#explaination": "Nous sommes en train de tout reconstruire, littéralement.",
-  "/app/pages/index.js#call-to-action": "Suivre"
+  "/app/pages/index.js#call-to-action": "Suivre",
+  "/#title": "web 2 uniquement",
+  "/#apology": "Veuillez nous excuser pour le désordre.",
+  "/#explaination": "Nous sommes en train de tout reconstruire, littéralement.",
+  "/#call-to-action": "Suivre"
 }

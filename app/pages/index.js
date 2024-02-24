@@ -1,14 +1,13 @@
-import * as Backend from "/framework/backend/main.js";
+import * as BackendPage from "/framework/backend-page/main.js";
 
-import { translate } from "/app/elements/services/translate.js";
 import * as constants from "/app/constants.js";
 
-export default async (request) => {
-  const { origin } = new URL(request.url);
-  const translation = await translate(request);
+export default (request) => {
+  const { origin, searchParams } = new URL(request.url);
+  const code = searchParams.get("lang") ?? "en";
 
-  return Backend.Page.html`<!DOCTYPE html>
-    <html lang="${translation.code}">
+  return BackendPage.html`<!DOCTYPE html>
+    <html lang="${code}">
       <head>
         <meta charset="utf-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1" />
@@ -62,7 +61,6 @@ export default async (request) => {
             align-items: center;
             display: flex;
             flex-direction: column;
-            justify-content: center;
             min-height: 100svh;
             width: 100vw;
           }
@@ -127,49 +125,47 @@ export default async (request) => {
       </head>
       <body>
         <main>
-          <header>
-            <div class="logo">
-              <keycdn-image
-                alt="logo"
-                height="${constants.THEME_SIZE_ICON}"
-                src="/app/assets/images/logo.svg"
-                width="${constants.THEME_SIZE_ICON}"
-              ></keycdn-image>
-              <keycdn-image
-                alt="logo"
-                height="${constants.THEME_SIZE_ICON}"
-                src="/app/assets/images/logo.svg"
-                width="${constants.THEME_SIZE_ICON}"
-              ></keycdn-image>
-            </div>
-            <h1 id="title">only web 2</h1>
-          </header>
-          <article>
-            <section>
-              <h2 id="apology" class="hero">Please pardon our dust.</h2>
-            </section>
-            <section>
-              <p class="hero">
-                <span id="explaination">We're currently rebuilding literally everything.</span>
-                <a id="call-to-action" href="https://DanielLaCos.se">Follow along</a>
-              </p>
-            </section>
-          </article>
+          <translation-service code="${code}">
+            <!-- TODO(#137): FrontendElement children shouldn't require slot="root" -->
+            <header slot="root">
+              <div class="logo">
+                <keycdn-image
+                  alt="logo"
+                  height="${constants.THEME_SIZE_ICON}"
+                  src="/app/assets/images/logo.svg"
+                  width="${constants.THEME_SIZE_ICON}"
+                ></keycdn-image>
+                <keycdn-image
+                  alt="logo"
+                  height="${constants.THEME_SIZE_ICON}"
+                  src="/app/assets/images/logo.svg"
+                  width="${constants.THEME_SIZE_ICON}"
+                ></keycdn-image>
+              </div>
+              <h1 id="title">only web 2</h1>
+            </header>
+            <article slot="root">
+              <section>
+                <h2 id="apology" class="hero">Please pardon our dust.</h2>
+              </section>
+              <section>
+                <p class="hero">
+                  <span id="explaination">We're currently rebuilding literally everything.</span>
+                  <a id="call-to-action" href="https://DanielLaCos.se">Follow along</a>
+                </p>
+              </section>
+            </article>
+          </translation-service>
         </main>
 
-        ${translation.service}
+        <reload-service></reload-service>
 
-        ${Backend.Element.registerInline(
+        ${BackendPage.Inline.elements(
+          origin,
           "/app/elements/core/loading/skeleton.js",
-          origin
-        )}
-        ${Backend.Element.registerInline(
           "/app/elements/keycdn/image.js",
-          origin
-        )}
-        ${Backend.Element.registerInline(
           "/app/elements/services/reload.js",
-          origin
+          "/app/elements/services/translate.js"
         )}
       </body>
     </html>`;

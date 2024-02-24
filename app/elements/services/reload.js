@@ -1,8 +1,17 @@
-(function () {
-  if (!globalThis.location.host.startsWith("localhost")) return;
+import * as FrontendElement from "/framework/frontend-element/main.js";
 
-  const socket = new WebSocket("ws://localhost:35729");
+import * as constants from "/app/constants.js";
 
-  socket.onopen = () => console.log("LiveReload connected~");
-  socket.onmessage = (event) => event.data === "reload" && location.reload();
-})();
+FrontendElement.Register("reload-service", {
+  handleMount() {
+    // TODO(#127): pull origin from the request url
+    if (!globalThis.location.host.startsWith("localhost")) return;
+
+    const socket = new WebSocket(
+      `ws://localhost:${constants.DENO_LIVERELOAD_PORT}`
+    );
+
+    socket.onopen = () => console.log("LiveReload connected~");
+    socket.onmessage = (event) => event.data === "reload" && location.reload();
+  }
+});

@@ -23,8 +23,16 @@ Deno.serve(async (request) => {
         resolve(Deno.cwd(), "./assets/images/logo.png")
       );
     case "app":
-    case "framework":
-      return serveFile(request, resolve(Deno.cwd(), `.${requestPath}`));
+    case "framework": {
+      const response = await serveFile(
+        request,
+        resolve(Deno.cwd(), `.${requestPath}`)
+      );
+
+      response.headers.set("service-worker-allowed", "/");
+
+      return response;
+    }
     case "pages":
       return (await import(`.${requestPath}`)).default(request);
     default: {

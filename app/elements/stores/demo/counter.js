@@ -1,8 +1,8 @@
-import * as Frontend from "/framework/frontend/main.js";
+import * as FrontendElement from "/framework/frontend-element/main.js";
 
 import "/app/elements/core/button.js";
 
-Frontend.Element.Register({
+FrontendElement.Register({
   tag: "counter-demo",
   attributes: {
     state: JSON

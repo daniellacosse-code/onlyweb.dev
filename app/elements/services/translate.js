@@ -1,45 +1,25 @@
-import * as Page from "/framework/backend/page/html.js";
+import * as FrontendElement from "/framework/frontend-element/main.js";
 
-export const translate = async (request) => {
-  const requestURL = new URL(request.url);
+FrontendElement.Register({
+  tag: "translation-service",
+  attributes: {
+    code: String
+  },
+  async handleMount({ code = "en" }) {
+    try {
+      const messages = await (
+        await fetch(`/app/assets/messages/${code}.json`)
+      ).json();
 
-  const result = {
-    // TODO(#134): support accept-language request header
-    code: requestURL.searchParams.get("lang") ?? "en",
-    service: Page.html`<script></script>`
-  };
-
-  try {
-    // "module" is a reserved word
-    const mod_ule = await import(`/app/assets/messages/${result.code}.json`, {
-      with: {
-        type: "json"
-      }
-    });
-
-    // we have to serialize it this way to avoid
-    // escaping JSON characters in the HTML
-    const payload = Object.entries(mod_ule.default).reduce(
-      (reduction, [key, value]) => {
+      for (const [key, value] of Object.entries(messages)) {
         const [keyPath, elementID] = key.split("#");
+        if (location.pathname !== keyPath) continue;
 
-        if (!keyPath.startsWith(requestURL.pathname)) return reduction;
-
-        return reduction + `${elementID}:${value};`;
-      },
-      ""
-    );
-
-    result.service = Page.html`<script>
-      '${payload}'.split(';').forEach((pair) => {
-        const [id, value] = pair.split(':');
-        const element = document.getElementById(id);
+        const element = this.querySelector(`#${elementID}`);
         if (element) element.textContent = value;
-      });
-    </script>`;
-  } catch (error) {
-    console.error(`Lang ${result.code} not supported:`, error);
+      }
+    } catch (error) {
+      console.error(`Language "${code}" not supported.`, error);
+    }
   }
-
-  return result;
-};
+});
