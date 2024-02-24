@@ -2,5 +2,9 @@
   "/app/pages/index.js#title": "solo web 2",
   "/app/pages/index.js#apology": "Por favor, perdona nuestro polvo.",
   "/app/pages/index.js#explaination": "Estamos reconstruyendo literalmente todo.",
-  "/app/pages/index.js#call-to-action": "Seguir a lo largo"
+  "/app/pages/index.js#call-to-action": "Seguir a lo largo",
+  "/#title": "solo web 2",
+  "/#apology": "Por favor, perdona nuestro polvo.",
+  "/#explaination": "Estamos reconstruyendo literalmente todo.",
+  "/#call-to-action": "Seguir a lo largo"
 }

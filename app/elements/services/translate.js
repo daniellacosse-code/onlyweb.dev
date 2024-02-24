@@ -13,10 +13,9 @@ FrontendElement.Register({
 
       for (const [key, value] of Object.entries(messages)) {
         const [keyPath, elementID] = key.split("#");
-        if (location.path !== keyPath) continue;
+        if (location.pathname !== keyPath) continue;
 
         const element = this.querySelector(`#${elementID}`);
-
         if (element) element.textContent = value;
       }
     } catch (error) {

@@ -2,5 +2,9 @@
   "/app/pages/index.js#title": "ウェブ2のみ",
   "/app/pages/index.js#apology": "すみません。",
   "/app/pages/index.js#explaination": "私たちはは作り直す。",
-  "/app/pages/index.js#call-to-action": "行くがついて来る"
+  "/app/pages/index.js#call-to-action": "行くがついて来る",
+  "/#title": "ウェブ2のみ",
+  "/#apology": "すみません。",
+  "/#explaination": "私たちはは作り直す。",
+  "/#call-to-action": "行くがついて来る"
 }
