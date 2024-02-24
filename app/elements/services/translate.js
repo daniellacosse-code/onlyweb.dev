@@ -1,6 +1,6 @@
-import * as Element from "/framework/element/main.js";
+import * as FrontendElement from "/framework/frontend-element/main.js";
 
-Element.Register({
+FrontendElement.Register({
   tag: "translation-service",
   attributes: {
     code: String
@@ -21,8 +21,8 @@ Element.Register({
 
         if (element) element.textContent = value;
       }
-    } catch {
-      console.error(`Lang ${code} not supported`);
+    } catch (error) {
+      console.error(`Language "${code}" not supported.`, error);
     }
   }
 });

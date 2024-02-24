@@ -1,6 +1,6 @@
-import * as Element from "/framework/element/main.js";
+import * as FrontendElement from "/framework/frontend-element/main.js";
 
-const sharedStyles = Element.html`<style>
+const sharedStyles = FrontendElement.html`<style>
   button {
     display: inline-block;
     font-family: inherit;
@@ -15,14 +15,14 @@ const sharedStyles = Element.html`<style>
   }
 </style>`;
 
-Element.Register({
+FrontendElement.Register({
   tag: "core-button",
   attributes: {
     disabled: Boolean
   },
   handleRender({ disabled }) {
     if (disabled)
-      return Element.html`${sharedStyles}
+      return FrontendElement.html`${sharedStyles}
         <style>
           button {
             cursor: not-allowed;
@@ -33,7 +33,7 @@ Element.Register({
           <slot></slot>
         </button>`;
 
-    return Element.html`${sharedStyles}
+    return FrontendElement.html`${sharedStyles}
       <style>
         button:hover,
         button:active {

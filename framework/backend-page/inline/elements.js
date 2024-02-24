@@ -1,6 +1,6 @@
 import { encode } from "https://deno.land/std@v0.56.0/encoding/base64.ts";
 
-import { HTMLResponse } from "/framework/page/html.js";
+import { HTMLResponse } from "/framework/backend-page/html.js";
 import { minify } from "/framework/shared/html/minify.js";
 
 // register elements inline ONLY when you're sure all

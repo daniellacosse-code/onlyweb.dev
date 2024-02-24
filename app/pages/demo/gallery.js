@@ -1,9 +1,9 @@
-import * as Page from "/framework/page/main.js";
+import * as BackendPage from "/framework/backend-page/main.js";
 
 export default (request) => {
   const { origin } = new URL(request.url);
 
-  return Page.html`<!DOCTYPE html>
+  return BackendPage.html`<!DOCTYPE html>
     <html lang="en">
       <head>
         <title>OnlyWeb Component Gallery</title>
@@ -97,7 +97,7 @@ export default (request) => {
 
         <reload-service></reload-service>
 
-        ${Page.Inline.elements(
+        ${BackendPage.Inline.elements(
           origin,
           "/app/elements/services/reload.js",
           "/app/elements/core/button.js",

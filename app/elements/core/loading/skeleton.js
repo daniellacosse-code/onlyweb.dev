@@ -1,9 +1,9 @@
-import * as Element from "/framework/element/main.js";
+import * as FrontendElement from "/framework/frontend-element/main.js";
 
-Element.Register({
+FrontendElement.Register({
   tag: "core-loading-skeleton",
   handleRender() {
-    return Element.html`<style>
+    return FrontendElement.html`<style>
         .skeleton {
           display: block;
           width: 100%;

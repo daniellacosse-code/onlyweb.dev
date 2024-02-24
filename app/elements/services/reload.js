@@ -1,8 +1,8 @@
-import * as Element from "/framework/element/main.js";
+import * as FrontendElement from "/framework/frontend-element/main.js";
 
 import * as constants from "/app/constants.js";
 
-Element.Register("reload-service", {
+FrontendElement.Register("reload-service", {
   handleMount() {
     if (!globalThis.location.host.startsWith("localhost")) return;
 
