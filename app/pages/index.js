@@ -3,7 +3,7 @@ import * as Page from "/framework/page/main.js";
 import * as constants from "/app/constants.js";
 
 export default (request) => {
-  const { host, searchParams } = new URL(request.url);
+  const { hostname, searchParams } = new URL(request.url);
   const code = searchParams.get("lang") ?? "en";
 
   return Page.html`<!DOCTYPE html>
@@ -160,7 +160,7 @@ export default (request) => {
         <reload-service></reload-service>
 
         ${Page.Inline.elements(
-          host,
+          hostname,
           "/app/elements/core/loading/skeleton.js",
           "/app/elements/keycdn/image.js",
           "/app/elements/services/reload.js",

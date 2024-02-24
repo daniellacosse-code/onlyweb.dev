@@ -5,14 +5,14 @@ import { minify } from "/framework/shared/html/minify.js";
 
 // register elements inline ONLY when you're sure all
 // their dependencies are also registered
-export function elements(host, ...filePaths) {
+export function elements(hostname, ...filePaths) {
   let result = "";
 
   for (const filePath of filePaths) {
     const fileContents = Deno.readTextFileSync(`.${filePath}`);
     const sanitizedScript = minify(fileContents)
-      .replaceAll(' from "/', ` from "${host}/`)
-      .replaceAll('import "/', `import "${host}/`);
+      .replaceAll(' from "/', ` from "${hostname}/`)
+      .replaceAll('import "/', `import "${hostname}/`);
 
     result += `<script defer type="module"
       src="data:application/javascript;base64,${encode(sanitizedScript)}"

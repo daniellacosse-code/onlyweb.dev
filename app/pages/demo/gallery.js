@@ -1,7 +1,7 @@
 import * as Page from "/framework/page/main.js";
 
 export default (request) => {
-  const { host } = new URL(request.url);
+  const { hostname } = new URL(request.url);
 
   return Page.html`<!DOCTYPE html>
     <html lang="en">
@@ -98,7 +98,7 @@ export default (request) => {
         <reload-service></reload-service>
 
         ${Page.Inline.elements(
-          host,
+          hostname,
           "/app/elements/services/reload.js",
           "/app/elements/core/button.js",
           "/app/elements/core/loading/skeleton.js",
