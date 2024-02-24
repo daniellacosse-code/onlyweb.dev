@@ -103,23 +103,21 @@ export function Register({
         const resolver = providedResolver ?? String;
 
         if (resolver === JSON) {
-          if (value === null) return void 0;
-          if (typeof value === "object") return JSON.stringify(value);
+          if (typeof value === "object" && value !== null)
+            return JSON.stringify(value);
 
-          let proxyObject = {};
-          if (typeof value === "string") proxyObject = JSON.parse(value);
-          return new Proxy(proxyObject, {
-            set: (_, key, value) => {
-              proxyObject[key] = value;
-              this.EXECUTE_RENDER();
+          return new Proxy(typeof value === "string" ? JSON.parse(value) : {}, {
+            set: (jsonProxy, key, value) => {
+              jsonProxy[key] = value;
+              this.attributes[name] = JSON.stringify(jsonProxy);
               return true;
             },
-            get: (_, key) => proxyObject[key]
+            get: (jsonProxy, key) => jsonProxy[key]
           });
         }
 
-        if (resolver === Boolean && value === "") return true;
         if (value === null) return void 0;
+        if (resolver === Boolean && value === "") return true;
 
         return resolver(value);
       }
