@@ -3,9 +3,8 @@ import { html } from "/framework/frontend/element/html.js";
 export function Register({
   tag = "custom-element",
   attributes = {},
-  handleEvent = () => {},
   handleMount = () => {},
-  handleRender = () => html`<slot></slot>`,
+  handleRender = () => null,
   handleUnmount = () => {}
 }) {
   if (globalThis.customElements.get(tag))
@@ -17,9 +16,8 @@ export function Register({
       #handleRender;
       #handleMount;
       #handleUnmount;
-      #handleEvent;
 
-      static observedAttributes = Object.keys(attributes);
+      static observedAttributes = ["slot", ...Object.keys(attributes)];
 
       get attributes() {
         return new Proxy(
@@ -41,25 +39,24 @@ export function Register({
 
       connectedCallback() {
         this.root = this.attachShadow({ mode: "open" });
-        this.host = this.root.host;
 
-        this.#handleEvent = handleEvent.bind(this);
         this.#handleMount = handleMount.bind(this);
         this.#handleRender = handleRender.bind(this);
         this.#handleUnmount = handleUnmount.bind(this);
 
+        this.#handleMount(this.attributes);
         this.EXECUTE_RENDER();
-        this.#handleMount(this.attributes, this);
       }
 
       disconnectedCallback() {
-        this.#handleUnmount(this.attributes, this);
+        this.#handleUnmount(this.attributes);
       }
 
       EXECUTE_RENDER() {
         if (!this.root) return;
 
-        const renderResult = html`<template>
+        const renderResult = this.#handleRender(this.attributes) ?? html``;
+        const renderWrapper = html`<template>
           <style>
             * {
               all: initial;
@@ -75,10 +72,10 @@ export function Register({
               pointer-events: inherit;
             }
           </style>
-          ${this.#handleRender(this.attributes, this)}
+          ${renderResult}
         </template>`;
 
-        this.root.replaceChildren(...renderResult);
+        this.root.replaceChildren(...renderWrapper);
         this.root.append(
           this.root.querySelector("template").content.cloneNode(true)
         );
@@ -88,8 +85,13 @@ export function Register({
         const providedResolver = attributes[name];
         const resolver = providedResolver ?? String;
 
-        if (value === null) return null;
+        if (resolver === JSON) {
+          if (!value) return {};
+          if (typeof value === "object") return JSON.stringify(value);
+          if (typeof value === "string") return JSON.parse(value);
+        }
         if (resolver === Boolean && value === "") return true;
+        if (value === null) return void 0;
 
         return resolver(value);
       }

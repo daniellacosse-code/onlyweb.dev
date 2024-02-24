@@ -60,34 +60,17 @@ export default (request) => {
         <article>
           <section>
             <h2>&lt;core-button&gt;</h2>
-            <script type="module">
-              import * as Frontend from "/framework/frontend/main.js";
+            <counter-demo></counter-demo>
+          </section>
 
-              Frontend.Element.RegisterStore({
-                tag: "counter-store",
-                state: { ["counter-1"]: 0, ["counter-2"]: 0 },
-                handleEvent(event) {
-                  if (event.type === "click")
-                    this.state[event.target.attributes.id]++;
-                },
-                handleRender(state) {
-                  for (const [id, count] of Object.entries(state))
-                    this.host.getElementById(id).textContent = count;
-                }
-              });
-            </script>
-
-            <counter-store id="counter-demo" listens-for="click">
-              <core-button id="counter-1">Click me</core-button>
-              <core-button id="counter-2">Click me, too</core-button>
-            </counter-store>
-
+          <section>
+            <h2>&lt;core-button&gt;[disabled]</h2>
             <core-button disabled>Don't click me</core-button>
           </section>
 
           <section>
             <h2>&lt;core-loading-skeleton&gt;</h2>
-            <div style="width: 200px; height: 50px;">
+            <div style="width: 200px; height: 50px; resize: both; overflow: hidden;">
               <core-loading-skeleton></core-loading-skeleton>
             </div>
           </section>
@@ -115,6 +98,10 @@ export default (request) => {
         <script
           type="module"
           src="/app/elements/keycdn/image.js"
+        ></script>
+        <script
+          type="module"
+          src="/app/elements/demo/counter.js"
         ></script>
 
         ${Backend.Element.registerInline(

@@ -18,13 +18,7 @@ const sharedStyles = Frontend.Element.html`<style>
 Frontend.Element.Register({
   tag: "core-button",
   attributes: {
-    disabled: Boolean,
-    click: String
-  },
-  handleMount({ click }) {
-    this.host.addEventListener("click", () =>
-      this.dispatchEvent(new CustomEvent(click))
-    );
+    disabled: Boolean
   },
   handleRender({ disabled }) {
     if (disabled)
