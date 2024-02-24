@@ -1,5 +1,7 @@
 import * as BackendPage from "/framework/backend-page/main.js";
 
+import * as constants from "/app/constants.js";
+
 export default (request) => {
   const { origin } = new URL(request.url);
 
@@ -17,16 +19,44 @@ export default (request) => {
         />
 
         <style>
+          :root {
+            --color-background: ${constants.THEME_COLOR_BACKGROUND};
+            --color-foreground: ${constants.THEME_COLOR_FOREGROUND};
+            --color-highlight: ${constants.THEME_COLOR_HIGHLIGHT};
+
+            --color-neutral: ${constants.THEME_COLOR_NEUTRAL};
+            --color-neutral-semi-transparent: ${
+              constants.THEME_COLOR_NEUTRAL_SEMITRANSPARENT
+            };
+            --color-neutral-transparent: ${
+              constants.THEME_COLOR_NEUTRAL_TRANSPARENT
+            };
+
+            --size-hairline: 2px;
+            --size-narrow: ${constants.THEME_SIZE_NARROW};
+            --size-default: ${constants.THEME_SIZE_DEFAULT};
+            --size-large: ${constants.THEME_SIZE_LARGE};
+            --size-huge: ${constants.THEME_SIZE_HUGE};
+            --size-hero: ${constants.THEME_SIZE_HERO};
+
+            --size-icon: ${constants.THEME_SIZE_ICON}px;
+
+            --animation-duration: 350ms;
+            --animation-timing-function: cubic-bezier(0.6, 0.15, 0, 1);
+          }
+
           body {
             all: initial;
             font-family: system-ui;
-            background: #202123;
+            background: var(--color-background);
           }
 
           h1 {
             font-size: 2.5rem;
-            margin: 0.5rem;
-            color: white;
+            padding: 2rem;
+            color: var(--color-background);
+            background: var(--color-foreground);
+            margin: 0;
             text-align: center;
           }
 
@@ -60,25 +90,31 @@ export default (request) => {
         <article>
           <section>
             <h2>&lt;core-button&gt;</h2>
-            <core-button>Do click me</core-button>
+            <div style="width: 200px; height: 50px; resize: both; overflow: hidden; padding: 1rem;">
+              <core-button>Do click me</core-button>
+            </div>
           </section>
 
           <section>
-            <h2>&lt;core-button&gt;[disabled]</h2>
-            <core-button disabled>Don't click me</core-button>
+            <h2>&lt;core-button disabled&gt;</h2>
+            <div style="width: 200px; height: 50px; resize: both; overflow: hidden; padding: 1rem;">
+              <core-button disabled>Don't click me</core-button>
+            </div>
           </section>
 
           <section>
             <h2>&lt;counter-demo&gt;</h2>
-            <counter-demo>
-              <core-button id="counter-1">0</core-button>
-              <core-button id="counter-2">0</core-button>
-            </counter-demo>
+            <div style="width: 200px; height: 200px;">
+              <counter-demo>
+                <core-button id="counter-1">0</core-button>
+                <core-button id="counter-2">0</core-button>
+              </counter-demo>
+            </div>
           </section>
 
           <section>
             <h2>&lt;core-loading-skeleton&gt;</h2>
-            <div style="width: 200px; height: 50px; resize: both; overflow: hidden;">
+            <div style="width: 200px; height: 50px; resize: both; overflow: hidden; padding: 1rem;">
               <core-loading-skeleton></core-loading-skeleton>
             </div>
           </section>

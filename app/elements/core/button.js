@@ -1,17 +1,33 @@
 import * as FrontendElement from "/framework/frontend-element/main.js";
 
 const sharedStyles = FrontendElement.html`<style>
+  :host, button {
+    width: 100%;
+    height: 100%;
+  }
+
   button {
-    display: inline-block;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
     font-family: inherit;
     font-size: 1rem;
     padding: 0.5rem 1rem;
     border: none;
     border-radius: 0.5rem;
     cursor: pointer;
-    background-color: hsl(0, 0%, 100%);
-    color: hsl(0, 0%, 0%);
+    background: linear-gradient(45deg, var(--color-highlight) 0 25%, var(--color-foreground) 75% 100%);
+    background-size: 400% 200%;
+    background-position: 100% 0;
     user-select: none;
+    transition: background var(--animation-duration) var(--animation-timing-function);
+    margin: var(--size-narrow);
+  }
+
+  button > slot {
+    color: var(--color-background);
+    transition: color var(--animation-duration) var(--animation-timing-function);
+    text-align: center;
   }
 </style>`;
 
@@ -36,12 +52,15 @@ FrontendElement.Register({
     return FrontendElement.html`${sharedStyles}
       <style>
         button:hover,
-        button:active {
-          background-color: hsl(0, 0%, 0%);
+        button:active,
+        button:focus {
+          background-position: 0 100%;
         }
-        button:hover > slot,
-        button:active > slot {
-          color: hsl(0, 0%, 100%);
+        button:focus,
+        button:active {
+          outline: solid;
+          outline-color: var(--color-highlight);
+          outline-offset: 2px;
         }
       </style>
       <button>
