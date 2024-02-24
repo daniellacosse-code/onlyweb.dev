@@ -15,6 +15,7 @@ FrontendElement.Register({
   },
   tag: "keycdn-image",
   handleMount({ src, alt, ...keycdnAttributes }) {
+    // TODO(#127): pull origin from the request url
     const url = new URL(
       globalThis.location.hostname === "localhost"
         ? `http://localhost:${DENO_PORT}`

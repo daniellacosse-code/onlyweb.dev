@@ -4,6 +4,7 @@ import * as constants from "/app/constants.js";
 
 FrontendElement.Register("reload-service", {
   handleMount() {
+    // TODO(#127): pull origin from the request url
     if (!globalThis.location.host.startsWith("localhost")) return;
 
     const socket = new WebSocket(
