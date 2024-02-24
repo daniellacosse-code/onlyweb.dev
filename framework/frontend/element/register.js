@@ -4,8 +4,7 @@ export function Register({
   tag = "custom-element",
   attributes = {},
   handleMount = () => {},
-  handleRender = () => null,
-  handleUnmount = () => {}
+  handleRender = () => null
 }) {
   if (globalThis.customElements.get(tag))
     return console.warn(`Element ${tag} already defined.`);
@@ -15,7 +14,7 @@ export function Register({
     class extends HTMLElement {
       #handleRender;
       #handleMount;
-      #handleUnmount;
+      #abortController = new AbortController();
 
       static observedAttributes = ["slot", ...Object.keys(attributes)];
 
@@ -42,14 +41,32 @@ export function Register({
 
         this.#handleMount = handleMount.bind(this);
         this.#handleRender = handleRender.bind(this);
-        this.#handleUnmount = handleUnmount.bind(this);
 
         this.#handleMount(this.attributes);
-        this.EXECUTE_RENDER();
+        this.attributes.slot = "root";
       }
 
       disconnectedCallback() {
-        this.#handleUnmount(this.attributes);
+        this.#abortController.abort();
+      }
+
+      addEventListener(eventType, listener, options) {
+        super.addEventListener(
+          eventType,
+          (event) => {
+            // You can't change the target of an event by default,
+            // so we have to force it
+            Object.defineProperty(event, "target", {
+              writable: false,
+              value: event
+                .composedPath()
+                .find((target) => target.attributes?.id)
+            });
+
+            return listener(event);
+          },
+          { signal: this.#abortController.signal, ...options }
+        );
       }
 
       EXECUTE_RENDER() {
@@ -72,7 +89,7 @@ export function Register({
               pointer-events: inherit;
             }
           </style>
-          ${renderResult}
+          <slot name="root">${renderResult}</slot>
         </template>`;
 
         this.root.replaceChildren(...renderWrapper);
@@ -86,10 +103,21 @@ export function Register({
         const resolver = providedResolver ?? String;
 
         if (resolver === JSON) {
-          if (!value) return {};
+          if (value === null) return void 0;
           if (typeof value === "object") return JSON.stringify(value);
-          if (typeof value === "string") return JSON.parse(value);
+
+          let proxyObject = {};
+          if (typeof value === "string") proxyObject = JSON.parse(value);
+          return new Proxy(proxyObject, {
+            set: (_, key, value) => {
+              proxyObject[key] = value;
+              this.EXECUTE_RENDER();
+              return true;
+            },
+            get: (_, key) => proxyObject[key]
+          });
         }
+
         if (resolver === Boolean && value === "") return true;
         if (value === null) return void 0;
 

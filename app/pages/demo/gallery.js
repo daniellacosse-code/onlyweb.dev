@@ -60,7 +60,10 @@ export default (request) => {
         <article>
           <section>
             <h2>&lt;core-button&gt;</h2>
-            <counter-demo></counter-demo>
+            <counter-demo>
+              <core-button id="counter-1">0</core-button>
+              <core-button id="counter-2">0</core-button>
+            </counter-demo>
           </section>
 
           <section>
