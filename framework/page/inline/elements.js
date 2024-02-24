@@ -5,9 +5,7 @@ import { minify } from "/framework/shared/html/minify.js";
 
 // register elements inline ONLY when you're sure all
 // their dependencies are also registered
-export function elementRegistration(...filePaths) {
-  const host = Deno.env.get("DENO_HOST") ?? "http://localhost:8000";
-
+export function elements(host, ...filePaths) {
   let result = "";
 
   for (const filePath of filePaths) {

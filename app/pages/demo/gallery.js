@@ -1,6 +1,8 @@
 import * as Page from "/framework/page/main.js";
 
-export default () => {
+export default (request) => {
+  const { host } = new URL(request.url);
+
   return Page.html`<!DOCTYPE html>
     <html lang="en">
       <head>
@@ -95,7 +97,8 @@ export default () => {
 
         <reload-service></reload-service>
 
-        ${Page.Inline.elementRegistration(
+        ${Page.Inline.elements(
+          host,
           "/app/elements/services/reload.js",
           "/app/elements/core/button.js",
           "/app/elements/core/loading/skeleton.js",

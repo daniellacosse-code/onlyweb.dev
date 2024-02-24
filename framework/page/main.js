@@ -1,4 +1,4 @@
-import { elementRegistration } from "./inline/element-registration.js";
+import { elements } from "./inline/elements.js";
 
 export { html } from "./html.js";
-export const Inline = { elementRegistration };
+export const Inline = { elements };

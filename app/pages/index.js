@@ -3,7 +3,7 @@ import * as Page from "/framework/page/main.js";
 import * as constants from "/app/constants.js";
 
 export default (request) => {
-  const { searchParams } = new URL(request.url);
+  const { host, searchParams } = new URL(request.url);
   const code = searchParams.get("lang") ?? "en";
 
   return Page.html`<!DOCTYPE html>
@@ -61,7 +61,6 @@ export default (request) => {
             align-items: center;
             display: flex;
             flex-direction: column;
-            justify-content: center;
             min-height: 100svh;
             width: 100vw;
           }
@@ -160,7 +159,8 @@ export default (request) => {
 
         <reload-service></reload-service>
 
-        ${Page.Inline.elementRegistration(
+        ${Page.Inline.elements(
+          host,
           "/app/elements/core/loading/skeleton.js",
           "/app/elements/keycdn/image.js",
           "/app/elements/services/reload.js",
