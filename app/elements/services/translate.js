@@ -1,6 +1,6 @@
-import * as Frontend from "/framework/frontend/main.js";
+import * as Element from "/framework/element/main.js";
 
-Frontend.Element.Register({
+Element.Register({
   tag: "translation-service",
   attributes: {
     code: String

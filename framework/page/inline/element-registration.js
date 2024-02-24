@@ -1,11 +1,11 @@
 import { encode } from "https://deno.land/std@v0.56.0/encoding/base64.ts";
 
+import { HTMLResponse } from "/framework/page/html.js";
 import { minify } from "/framework/shared/html/minify.js";
-import * as Page from "/framework/backend/page/html.js";
 
 // register elements inline ONLY when you're sure all
 // their dependencies are also registered
-export function elements(...filePaths) {
+export function elementRegistration(...filePaths) {
   const host = Deno.env.get("DENO_HOST") ?? "http://localhost:8000";
 
   let result = "";
@@ -21,5 +21,5 @@ export function elements(...filePaths) {
     ></script>`;
   }
 
-  return new Page.HTMLResponse(result);
+  return new HTMLResponse(result);
 }

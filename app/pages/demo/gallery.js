@@ -1,7 +1,7 @@
-import * as Backend from "/framework/backend/main.js";
+import * as Page from "/framework/page/main.js";
 
 export default () => {
-  return Backend.Page.html`<!DOCTYPE html>
+  return Page.html`<!DOCTYPE html>
     <html lang="en">
       <head>
         <title>OnlyWeb Component Gallery</title>
@@ -30,7 +30,7 @@ export default () => {
 
           article {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            grid-template-columns: repeat(auto-fit, minmax(30vw, 1fr));
             gap: 2rem;
           }
 
@@ -58,15 +58,20 @@ export default () => {
         <article>
           <section>
             <h2>&lt;core-button&gt;</h2>
-            <counter-demo>
-              <core-button id="counter-1">0</core-button>
-              <core-button id="counter-2">0</core-button>
-            </counter-demo>
+            <core-button>Do click me</core-button>
           </section>
 
           <section>
             <h2>&lt;core-button&gt;[disabled]</h2>
             <core-button disabled>Don't click me</core-button>
+          </section>
+
+          <section>
+            <h2>&lt;counter-demo&gt;</h2>
+            <counter-demo>
+              <core-button id="counter-1">0</core-button>
+              <core-button id="counter-2">0</core-button>
+            </counter-demo>
           </section>
 
           <section>
@@ -88,12 +93,14 @@ export default () => {
           </section>
         </article>
 
-        ${Backend.Inline.elements(
+        <reload-service></reload-service>
+
+        ${Page.Inline.elementRegistration(
           "/app/elements/services/reload.js",
           "/app/elements/core/button.js",
           "/app/elements/core/loading/skeleton.js",
           "/app/elements/keycdn/image.js",
-          "/app/elements/demo/counter.js"
+          "/app/elements/stores/demo/counter.js"
         )}
       </body>
     </html>`;

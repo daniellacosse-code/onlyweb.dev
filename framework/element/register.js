@@ -1,5 +1,5 @@
 import DeepProxy from "/framework/shared/deep-proxy.js";
-import { html } from "/framework/frontend/element/html.js";
+import { html } from "./html.js";
 
 export function Register({
   tag = "custom-element",

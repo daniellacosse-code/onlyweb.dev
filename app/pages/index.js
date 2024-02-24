@@ -1,4 +1,4 @@
-import * as Backend from "/framework/backend/main.js";
+import * as Page from "/framework/page/main.js";
 
 import * as constants from "/app/constants.js";
 
@@ -6,7 +6,7 @@ export default (request) => {
   const { searchParams } = new URL(request.url);
   const code = searchParams.get("lang") ?? "en";
 
-  return Backend.Page.html`<!DOCTYPE html>
+  return Page.html`<!DOCTYPE html>
     <html lang="${code}">
       <head>
         <meta charset="utf-8" />
@@ -160,7 +160,7 @@ export default (request) => {
 
         <reload-service></reload-service>
 
-        ${Backend.Inline.elements(
+        ${Page.Inline.elementRegistration(
           "/app/elements/core/loading/skeleton.js",
           "/app/elements/keycdn/image.js",
           "/app/elements/services/reload.js",
