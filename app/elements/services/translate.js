@@ -1,4 +1,4 @@
-import * as pages from "/framework/backend/pages/html.js";
+import * as Page from "/framework/backend/page/html.js";
 
 export const translate = async (request) => {
   const requestURL = new URL(request.url);
@@ -6,7 +6,7 @@ export const translate = async (request) => {
   const result = {
     // TODO(#134): support accept-language request header
     code: requestURL.searchParams.get("lang") ?? "en",
-    service: pages.html`<script></script>`
+    service: Page.html`<script></script>`
   };
 
   try {
@@ -30,7 +30,7 @@ export const translate = async (request) => {
       ""
     );
 
-    result.service = pages.html`<script>
+    result.service = Page.html`<script>
       '${payload}'.split(';').forEach((pair) => {
         const [id, value] = pair.split(':');
         const element = document.getElementById(id);

@@ -2,6 +2,7 @@
 
 // NOTE: deno deploy only uploads the files that are imported in the app/index.js file
 import "./pages/index.js";
+import "./pages/demo/gallery.js";
 
 import { resolve } from "https://deno.land/std@0.216.0/path/mod.ts";
 import { serveFile } from "https://deno.land/std@0.140.0/http/file_server.ts";

@@ -1,10 +1,9 @@
-import * as pages from "/framework/backend/pages/html.js";
-import * as components from "/framework/backend/components/register-inline.js";
+import * as Backend from "/framework/backend/main.js";
 
 export default (request) => {
   const { origin } = new URL(request.url);
 
-  return pages.html`<!DOCTYPE html>
+  return Backend.Page.html`<!DOCTYPE html>
     <html lang="en">
       <head>
         <title>OnlyWeb Component Gallery</title>
@@ -61,33 +60,20 @@ export default (request) => {
         <article>
           <section>
             <h2>&lt;core-button&gt;</h2>
-            <script type="module">
-              import { DefineStore } from "/framework/frontend/store.js";
+            <counter-demo>
+              <core-button id="counter-1">0</core-button>
+              <core-button id="counter-2">0</core-button>
+            </counter-demo>
+          </section>
 
-              DefineStore({
-                listensFor: ["counter.increment"],
-                handleEvent(event) {
-                  const { id } = event.target.attributes;
-
-                  this.state[id] = (this.state[id] ?? 0) + 1;
-                },
-                handleChange(state) {
-                  for (const [id, count] of Object.entries(state)) {
-                    document.querySelector("#" + id).textContent = count;
-                  }
-                }
-              });
-            </script>
-
-            <core-button click="counter.increment">Click me</core-button>
-            <core-button click="counter.increment">Click me, too</core-button>
-
+          <section>
+            <h2>&lt;core-button&gt;[disabled]</h2>
             <core-button disabled>Don't click me</core-button>
           </section>
 
           <section>
             <h2>&lt;core-loading-skeleton&gt;</h2>
-            <div style="width: 200px; height: 50px;">
+            <div style="width: 200px; height: 50px; resize: both; overflow: hidden;">
               <core-loading-skeleton></core-loading-skeleton>
             </div>
           </section>
@@ -106,19 +92,23 @@ export default (request) => {
 
         <script
           type="module"
-          src="/app/components/elements/core/button.js"
+          src="/app/elements/core/button.js"
         ></script>
         <script
           type="module"
-          src="/app/components/elements/core/loading/skeleton.js"
+          src="/app/elements/core/loading/skeleton.js"
         ></script>
         <script
           type="module"
-          src="/app/components/elements/keycdn/image.js"
+          src="/app/elements/keycdn/image.js"
+        ></script>
+        <script
+          type="module"
+          src="/app/elements/demo/counter.js"
         ></script>
 
-        ${components.registerInline(
-          "/app/components/services/reload.js",
+        ${Backend.Element.registerInline(
+          "/app/elements/services/reload.js",
           origin
         )}
       </body>
