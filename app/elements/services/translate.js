@@ -7,13 +7,12 @@ FrontendElement.Register({
   },
   async handleRender({ code = "en" }) {
     try {
-      const messages = await import(`/app/assets/messages/${code}.json`, {
-        with: {
-          type: "json"
-        }
-      });
+      const messages = await (
+        await fetch(`/app/assets/messages/${code}.json`)
+      ).json();
 
-      for (const [key, value] of Object.entries(messages.default)) {
+      debugger;
+      for (const [key, value] of Object.entries(messages)) {
         const [keyPath, elementID] = key.split("#");
         if (location.path !== keyPath) continue;
 

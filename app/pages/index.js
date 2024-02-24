@@ -126,7 +126,7 @@ export default (request) => {
       <body>
         <main>
           <translation-service code="${code}">
-            <header>
+            <header slot="root">
               <div class="logo">
                 <keycdn-image
                   alt="logo"
@@ -143,7 +143,7 @@ export default (request) => {
               </div>
               <h1 id="title">only web 2</h1>
             </header>
-            <article>
+            <article slot="root">
               <section>
                 <h2 id="apology" class="hero">Please pardon our dust.</h2>
               </section>
