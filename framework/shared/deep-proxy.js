@@ -1,28 +1,37 @@
-// TODO: need to revise this file
 export default function DeepProxy(root, handler = {}) {
   return new Proxy(root, {
     get(target, property, receiver) {
+      let result;
       try {
-        return new Proxy(target[property], handler);
+        result = new Proxy(target[property], handler);
       } catch {
-        return Reflect.get(target, property, receiver);
+        result = Reflect.get(target, property, receiver);
       }
+
+      handler.get?.(root, property);
+      return result;
     },
     set(target, property, value, receiver) {
+      let result;
       try {
-        Reflect.set(target[property], value, receiver);
-        return handler.set?.(root, value, receiver) ?? true;
+        result = Reflect.set(target[property], value, receiver);
       } catch {
-        Reflect.set(target, property, value, receiver);
-        return handler.set?.(root, property, value, receiver) ?? true;
+        result = Reflect.set(target, property, value, receiver);
       }
+
+      handler.set?.(root, property, value);
+      return result;
     },
     deleteProperty(target, property) {
+      let result;
       try {
-        return Reflect.deleteProperty(target[property]);
+        result = Reflect.deleteProperty(target[property]);
       } catch {
-        return Reflect.deleteProperty(target, property);
+        result = Reflect.deleteProperty(target, property);
       }
+
+      handler.deleteProperty?.(root, property);
+      return result;
     }
   });
 }
