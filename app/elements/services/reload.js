@@ -1,3 +1,5 @@
+import * as Frontend from "/framework/frontend/main.js";
+
 import * as constants from "/app/constants.js";
 
 Frontend.Element.Register("reload-service", {

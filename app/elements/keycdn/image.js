@@ -15,9 +15,9 @@ Frontend.Element.Register({
   tag: "keycdn-image",
   handleMount({ src, alt, ...keycdnAttributes }) {
     const url = new URL(
-      Deno.env.get("DENO_HOST")
-        ? KEYCDN_IMAGE_ZONE_URL
-        : `http://localhost:${DENO_PORT}`
+      globalThis.location.hostname === "localhost"
+        ? `http://localhost:${DENO_PORT}`
+        : KEYCDN_IMAGE_ZONE_URL
     );
 
     url.pathname = src;

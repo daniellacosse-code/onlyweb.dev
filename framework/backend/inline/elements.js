@@ -5,7 +5,7 @@ import * as Page from "/framework/backend/page/html.js";
 
 // register elements inline ONLY when you're sure all
 // their dependencies are also registered
-export function element(...filePaths) {
+export function elements(...filePaths) {
   const host = Deno.env.get("DENO_HOST") ?? "http://localhost:8000";
 
   let result = "";
@@ -21,5 +21,5 @@ export function element(...filePaths) {
     ></script>`;
   }
 
-  return Page.html`${result}`;
+  return new Page.HTMLResponse(result);
 }

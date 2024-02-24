@@ -3,14 +3,6 @@ import * as Backend from "/framework/backend/main.js";
 export default () => {
   return Backend.Page.html`<!DOCTYPE html>
     <html lang="en">
-      ${Backend.Inline.elements(
-        "/app/elements/services/reload.js",
-        "/app/elements/core/button.js",
-        "/app/elements/core/loading/skeleton.js",
-        "/app/elements/keycdn/image.js",
-        "/app/elements/demo/counter.js"
-      )}
-
       <head>
         <title>OnlyWeb Component Gallery</title>
         <link rel="icon" href="/app/assets/images/logo.png" />
@@ -95,6 +87,14 @@ export default () => {
             ></keycdn-image>
           </section>
         </article>
+
+        ${Backend.Inline.elements(
+          "/app/elements/services/reload.js",
+          "/app/elements/core/button.js",
+          "/app/elements/core/loading/skeleton.js",
+          "/app/elements/keycdn/image.js",
+          "/app/elements/demo/counter.js"
+        )}
       </body>
     </html>`;
 };

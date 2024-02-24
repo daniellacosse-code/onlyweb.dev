@@ -8,12 +8,6 @@ export default (request) => {
 
   return Backend.Page.html`<!DOCTYPE html>
     <html lang="${code}">
-      ${Backend.Inline.elements(
-        "/app/elements/core/loading/skeleton.js",
-        "/app/elements/keycdn/image.js",
-        "/app/elements/services/reload.js",
-        "/app/elements/services/translate.js"
-      )}
       <head>
         <meta charset="utf-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1" />
@@ -165,6 +159,13 @@ export default (request) => {
         </main>
 
         <reload-service></reload-service>
+
+        ${Backend.Inline.elements(
+          "/app/elements/core/loading/skeleton.js",
+          "/app/elements/keycdn/image.js",
+          "/app/elements/services/reload.js",
+          "/app/elements/services/translate.js"
+        )}
       </body>
     </html>`;
 };
