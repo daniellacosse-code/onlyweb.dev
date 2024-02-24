@@ -1,3 +1,4 @@
+import DeepProxy from "/framework/shared/deep-proxy.js";
 import { html } from "/framework/frontend/element/html.js";
 
 export function Register({
@@ -24,10 +25,11 @@ export function Register({
           {
             deleteProperty: (_, name) => this.removeAttribute(name),
             get: (_, name) =>
-              this.#RESOLVE_ATTRIBUTE(name, this.getAttribute(name)),
-            set: (_, name, value) =>
-              this.setAttribute(name, this.#RESOLVE_ATTRIBUTE(name, value)) ||
-              true
+              this.#RESOLVE_ATTRIBUTE_GET(name, this.getAttribute(name)),
+            set: (_, name, value) => {
+              this.setAttribute(name, this.#RESOLVE_ATTRIBUTE_SET(name, value));
+              return true;
+            }
           }
         );
       }
@@ -98,25 +100,44 @@ export function Register({
         );
       }
 
-      #RESOLVE_ATTRIBUTE(name, value) {
-        const providedResolver = attributes[name];
-        const resolver = providedResolver ?? String;
-
-        if (resolver === JSON) {
-          if (typeof value === "object" && value !== null)
-            return JSON.stringify(value);
-
-          return new Proxy(typeof value === "string" ? JSON.parse(value) : {}, {
-            set: (jsonProxy, key, value) => {
-              jsonProxy[key] = value;
-              this.attributes[name] = JSON.stringify(jsonProxy);
-              return true;
-            },
-            get: (jsonProxy, key) => jsonProxy[key]
-          });
-        }
+      #RESOLVE_ATTRIBUTE_GET(name, value) {
+        const resolver = attributes[name] ?? String;
 
         if (value === null) return void 0;
+        if (resolver === JSON) {
+          try {
+            return DeepProxy(JSON.parse(value), {
+              set: (rootObject) => {
+                return Reflect.set(
+                  this.attributes,
+                  name,
+                  JSON.stringify(rootObject)
+                );
+              }
+            });
+          } catch {
+            return void 0;
+          }
+        }
+        if (resolver === Boolean && value === "") return true;
+
+        return resolver(value);
+      }
+
+      #RESOLVE_ATTRIBUTE_SET(name, value) {
+        const resolver = attributes[name] ?? String;
+
+        if (value === null) return void 0;
+        if (resolver === JSON) {
+          if (value === "") return void 0;
+          if (typeof value === "string") return value;
+
+          try {
+            return JSON.stringify(value);
+          } catch {
+            return void 0;
+          }
+        }
         if (resolver === Boolean && value === "") return true;
 
         return resolver(value);

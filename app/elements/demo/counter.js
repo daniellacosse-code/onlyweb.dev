@@ -8,6 +8,8 @@ Frontend.Element.Register({
     state: JSON
   },
   handleMount() {
+    this.attributes.state ??= {};
+
     this.addEventListener("click", ({ target }) => {
       const currentState = this.attributes.state[target.attributes.id] || 0;
 
