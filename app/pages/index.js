@@ -126,6 +126,7 @@ export default (request) => {
       <body>
         <main>
           <translation-service code="${code}">
+            <!-- TODO(#137): FrontendElement children shouldn't require slot="root" -->
             <header slot="root">
               <div class="logo">
                 <keycdn-image
