@@ -21,7 +21,6 @@ const sharedStyles = FrontendElement.html`<style>
     background-position: 100% 0;
     user-select: none;
     transition: background var(--animation-duration) var(--animation-timing-function);
-    margin: var(--size-narrow);
   }
 
   slot {

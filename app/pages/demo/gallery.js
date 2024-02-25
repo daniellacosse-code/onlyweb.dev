@@ -90,7 +90,7 @@ export default (request) => {
 
           .resize-container {
             width: 200px;
-            height: 50px;
+            height: 80px;
             resize: both;
             overflow: hidden;
             padding: 1rem;
@@ -132,18 +132,18 @@ export default (request) => {
 
           <section>
             <h2>&lt;counter-demo&gt;</h2>
-            <div style="width: 200px; height: 80px;">
               <counter-demo>
                 <core-button id="counter-1">0</core-button>
                 <core-button id="counter-2">0</core-button>
               </counter-demo>
-            </div>
           </section>
 
           <section>
-            <h2>&lt;core-input&gt;</h2>
+            <h2>[WIP] &lt;core-input&gt;</h2>
             <div class="resize-container">
-              <core-input label="test"></core-input>
+              <core-input label="test">
+                edit me
+              </core-input>
             </div>
           </section>
 

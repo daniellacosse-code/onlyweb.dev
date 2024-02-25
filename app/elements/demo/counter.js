@@ -22,5 +22,12 @@ FrontendElement.Register({
 
       if (target) target.textContent = value;
     }
+
+    return FrontendElement.html`<style>
+      div {
+        display: flex;
+        gap: var(--size-narrow);
+      }
+    </style><div><slot></slot></div>`;
   }
 });
