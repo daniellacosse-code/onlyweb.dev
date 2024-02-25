@@ -71,6 +71,12 @@ export function Register({
         );
       }
 
+      querySelector(selector) {
+        return (
+          super.querySelector(selector) ?? this.root.querySelector(selector)
+        );
+      }
+
       async EXECUTE_RENDER() {
         if (!this.root) return;
 
@@ -116,6 +122,7 @@ export function Register({
           }
         }
         if (resolver === Boolean && value === "") return true;
+        if (resolver === Boolean && value === "false") return false;
 
         return resolver(value);
       }
@@ -135,6 +142,7 @@ export function Register({
           }
         }
         if (resolver === Boolean && value === "") return true;
+        if (resolver === Boolean && value === "false") return false;
 
         return resolver(value);
       }

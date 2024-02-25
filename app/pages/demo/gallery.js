@@ -9,7 +9,7 @@ export default (request) => {
     <html lang="en">
       <head>
         <title>OnlyWeb Component Gallery</title>
-        <link rel="icon" href="/app/assets/images/logo.png" />
+        <link rel="icon" href="/app/assets/images/logo/white.png" />
         <link rel="manifest" href="/app/assets/manifest.json" />
         <meta name="viewport" content="width=device-width, initial-scale=1" />
         <meta name="theme-color" content="#202123" />
@@ -141,9 +141,7 @@ export default (request) => {
           <section>
             <h2>[WIP] &lt;core-input&gt;</h2>
             <div class="resize-container">
-              <core-input label="test">
-                edit me
-              </core-input>
+              <core-input label="edit me"></core-input>
             </div>
           </section>
 
@@ -160,7 +158,7 @@ export default (request) => {
               alt="logo"
               format="webp"
               height="80"
-              src="/app/assets/images/logo.png"
+              src="/app/assets/images/logo/white.png"
               width="80"
             ></keycdn-image>
           </section>
