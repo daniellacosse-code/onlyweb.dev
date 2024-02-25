@@ -39,6 +39,15 @@ export default (request) => {
             --size-huge: ${constants.THEME_SIZE_HUGE};
             --size-hero: ${constants.THEME_SIZE_HERO};
 
+            --size-text-h1: 2.985rem;
+            --size-text-h2: 2.488rem;
+            --size-text-h3: 2.074rem;
+            --size-text-h4: 1.728rem;
+            --size-text-h5: 1.44rem;
+            --size-text-h6: 1.2rem;
+            --size-text-p: 1rem;
+            --size-text-small: 0.833rem;
+
             --size-icon: ${constants.THEME_SIZE_ICON}px;
 
             --animation-duration: 350ms;
@@ -88,6 +97,22 @@ export default (request) => {
       <body>
         <h1>OnlyWeb Component Gallery</h1>
         <article>
+        <section>
+            <h2>&lt;core-text&gt;</h2>
+            <core-text type="h1">Hello, World!</core-text>
+            <core-text type="h2">Hello, World!</core-text>
+            <core-text type="h3">Hello, World!</core-text>
+            <core-text type="h4">Hello, World!</core-text>
+            <core-text type="h5">Hello, World!</core-text>
+            <core-text type="h6">Hello, World!</core-text>
+            <core-text type="p">Hello, World!</core-text>
+          </section>
+
+          <section>
+            <h2>&lt;core-link&gt;</h2>
+            <core-link href="https://DanielLaCos.se">DanielLaCos.se</core-link>
+          </section>
+
           <section>
             <h2>&lt;core-button&gt;</h2>
             <div style="width: 200px; height: 50px; resize: both; overflow: hidden; padding: 1rem;">
@@ -109,6 +134,13 @@ export default (request) => {
                 <core-button id="counter-1">0</core-button>
                 <core-button id="counter-2">0</core-button>
               </counter-demo>
+            </div>
+          </section>
+
+          <section>
+            <h2>&lt;core-input&gt;</h2>
+            <div style="width: 200px; height: 50px; resize: both; overflow: hidden; padding: 1rem;">
+              <core-input label="test"></core-input>
             </div>
           </section>
 
@@ -137,6 +169,9 @@ export default (request) => {
           origin,
           "/app/elements/services/reload.js",
           "/app/elements/core/button.js",
+          "/app/elements/core/text.js",
+          "/app/elements/core/link.js",
+          "/app/elements/core/input.js",
           "/app/elements/core/loading/skeleton.js",
           "/app/elements/keycdn/image.js",
           "/app/elements/stores/demo/counter.js"
