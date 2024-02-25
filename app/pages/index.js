@@ -17,11 +17,11 @@ export default (request) => {
           name="description"
           content="only web. only web. only web. only web. only web. only web. only web. only web. only web. only web. only web. only web."
         />
-        <link rel="icon" href="/app/assets/images/logo.svg" />
+        <link rel="icon" href="/app/assets/images/logo/white.svg" />
         <link rel="manifest" href="/app/assets/manifest.json" />
         <meta name="theme-color" content="#202123" />
 
-        <meta name="og:image" content="/app/assets/images/logo.svg" />
+        <meta name="og:image" content="/app/assets/images/logo/white.svg" />
         <meta name="og:title" content="2" />
         <meta name="og:url" content="https://only-web.com/" />
         <meta name="og:type" content="website" />
@@ -36,13 +36,29 @@ export default (request) => {
             --color-foreground: ${constants.THEME_COLOR_FOREGROUND};
             --color-highlight: ${constants.THEME_COLOR_HIGHLIGHT};
 
+            --color-neutral: ${constants.THEME_COLOR_NEUTRAL};
+            --color-neutral-semi-transparent: ${
+              constants.THEME_COLOR_NEUTRAL_SEMITRANSPARENT
+            };
+            --color-neutral-transparent: ${
+              constants.THEME_COLOR_NEUTRAL_TRANSPARENT
+            };
+
+            --size-hairline: 2px;
             --size-narrow: ${constants.THEME_SIZE_NARROW};
             --size-default: ${constants.THEME_SIZE_DEFAULT};
             --size-large: ${constants.THEME_SIZE_LARGE};
             --size-huge: ${constants.THEME_SIZE_HUGE};
             --size-hero: ${constants.THEME_SIZE_HERO};
 
+            --size-text-title: 3rem;
+            --size-text-subtitle: 2rem;
+            --size-text-paragraph: 1rem;
+
             --size-icon: ${constants.THEME_SIZE_ICON}px;
+
+            --animation-duration: 350ms;
+            --animation-timing-function: cubic-bezier(0.6, 0.15, 0, 1);
           }
 
           ::selection {
@@ -54,7 +70,7 @@ export default (request) => {
             all: initial;
             font-family: system-ui;
             touch-events: pan-y;
-            background: var(--color-foreground);
+            background: var(--color-background);
           }
 
           main {
@@ -67,15 +83,20 @@ export default (request) => {
 
           header {
             align-items: center;
-            background: var(--color-background);
+            background: var(--color-foreground);
             box-sizing: border-box;
-            color: var(--color-foreground);
+            color: var(--color-background);
             display: flex;
             flex-direction: column;
             flex-shrink: 0;
             justify-content: center;
             padding: var(--size-huge) 0;
             width: 100vw;
+          }
+
+          header * {
+            --color-foreground: var(--color-background);
+
           }
 
           h1 {
@@ -91,30 +112,11 @@ export default (request) => {
             padding: var(--size-large);
           }
 
-          a,
-          a::selection {
-            color: white;
-            background: var(--color-background);
-            text-decoration: none;
-          }
-
-          a:hover {
-            color: var(--color-background);
-            background: var(--color-highlight);
-          }
-
-          a::after {
-            content: " ↗";
-          }
-
-          h2.hero {
-            font-size: var(--size-hero);
-            margin: var(--size-narrow) 0;
-          }
-
-          p.hero {
-            font-size: var(--size-large);
-            margin: 0;
+          section {
+            margin: var(--size-huge) 0;
+            display: flex;
+            flex-direction: column;
+            gap: var(--size-narrow);
           }
 
           .logo {
@@ -126,33 +128,30 @@ export default (request) => {
       <body>
         <main>
           <translation-helper code="${code}">
-            <!-- TODO(#137): FrontendElement children shouldn't require slot="root" -->
             <header>
               <div class="logo">
                 <keycdn-image
                   alt="logo"
                   height="${constants.THEME_SIZE_ICON}"
-                  src="/app/assets/images/logo.svg"
+                  src="/app/assets/images/logo/black.svg"
                   width="${constants.THEME_SIZE_ICON}"
                 ></keycdn-image>
                 <keycdn-image
                   alt="logo"
                   height="${constants.THEME_SIZE_ICON}"
-                  src="/app/assets/images/logo.svg"
+                  src="/app/assets/images/logo/black.svg"
                   width="${constants.THEME_SIZE_ICON}"
                 ></keycdn-image>
               </div>
-              <h1 id="title">only web 2</h1>
+              <core-text id="title" kind="title">only web 2</core-text>
             </header>
             <article>
               <section>
-                <h2 id="apology" class="hero">Please pardon our dust.</h2>
+                <core-text id="apology" kind="subtitle">Please pardon our dust.</core-text>
               </section>
               <section>
-                <p class="hero">
-                  <span id="explaination">We're currently rebuilding literally everything.</span>
-                  <a id="call-to-action" href="https://DanielLaCos.se">Follow along</a>
-                </p>
+                <core-text id="explaination">We're currently rebuilding literally everything.</core-text>
+                <core-link id="call-to-action" href="https://DanielLaCos.se">Follow along</core-link>
               </section>
             </article>
           </translation-helper>
@@ -164,6 +163,8 @@ export default (request) => {
           origin,
           "/app/elements/core/loading/skeleton.js",
           "/app/elements/keycdn/image.js",
+          "/app/elements/core/link.js",
+          "/app/elements/core/text.js",
           "/app/elements/helpers/reload.js",
           "/app/elements/helpers/translate.js"
         )}

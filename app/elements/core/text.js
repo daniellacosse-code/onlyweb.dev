@@ -25,6 +25,6 @@ FrontendElement.Register({
         color: var(--color-background);
       }
     </style>
-    <span>${this.textContent}</span>`;
+    <span><slot></slot></span>`;
   }
 });

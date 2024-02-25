@@ -1,7 +1,5 @@
 import * as FrontendElement from "/framework/frontend-element/main.js";
 
-import "/app/elements/core/button.js";
-
 FrontendElement.Register({
   tag: "counter-demo",
   attributes: {
