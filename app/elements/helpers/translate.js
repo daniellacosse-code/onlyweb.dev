@@ -1,7 +1,7 @@
 import * as FrontendElement from "/framework/frontend-element/main.js";
 
 FrontendElement.Register({
-  tag: "translation-service",
+  tag: "translation-helper",
   attributes: {
     code: String
   },

@@ -7,21 +7,18 @@ FrontendElement.Register({
   },
   handleRender({ href = "#" }) {
     return FrontendElement.html`<style>
-                  a,
-          a::selection {
-            color: var(--color-foreground);
-            background: var(--color-background);
-            text-decoration: none;
-          }
+      a,
+      a::selection {
+        cursor: ne-resize;
+        color: var(--color-foreground);
+        text-decoration: underline dotted;
+      }
 
-          a:hover {
-            color: var(--color-background);
-            background: var(--color-highlight);
-          }
+      a:hover {
+        --color-foreground: var(--color-background);
 
-          a::after {
-            content: " ->";
-          }
+        background: var(--color-highlight);
+      }
     </style>
     <a href="${href}" target="_blank"><slot></slot></a>`;
   }

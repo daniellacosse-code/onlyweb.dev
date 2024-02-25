@@ -16,7 +16,7 @@ FrontendElement.Register({
       .input {
         display: flex;
         align-items: center;
-        border: 5px solid var(--color-foreground);
+        border: 3px solid var(--color-foreground);
         color: var(--color-foreground);
         width: 100%;
         height: 100%;

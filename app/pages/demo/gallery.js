@@ -39,14 +39,9 @@ export default (request) => {
             --size-huge: ${constants.THEME_SIZE_HUGE};
             --size-hero: ${constants.THEME_SIZE_HERO};
 
-            --size-text-h1: 2.985rem;
-            --size-text-h2: 2.488rem;
-            --size-text-h3: 2.074rem;
-            --size-text-h4: 1.728rem;
-            --size-text-h5: 1.44rem;
-            --size-text-h6: 1.2rem;
-            --size-text-p: 1rem;
-            --size-text-small: 0.833rem;
+            --size-text-title: 3rem;
+            --size-text-subtitle: 2rem;
+            --size-text-paragraph: 1rem;
 
             --size-icon: ${constants.THEME_SIZE_ICON}px;
 
@@ -92,6 +87,14 @@ export default (request) => {
             padding: 0.5rem;
             border-radius: 0.5rem;
           }
+
+          .resize-container {
+            width: 200px;
+            height: 50px;
+            resize: both;
+            overflow: hidden;
+            padding: 1rem;
+          }
         </style>
       </head>
       <body>
@@ -99,37 +102,37 @@ export default (request) => {
         <article>
         <section>
             <h2>&lt;core-text&gt;</h2>
-            <core-text type="h1">Hello, World!</core-text>
-            <core-text type="h2">Hello, World!</core-text>
-            <core-text type="h3">Hello, World!</core-text>
-            <core-text type="h4">Hello, World!</core-text>
-            <core-text type="h5">Hello, World!</core-text>
-            <core-text type="h6">Hello, World!</core-text>
-            <core-text type="p">Hello, World!</core-text>
+            <core-text kind="title">Hello, World!</core-text>
+            <core-text kind="subtitle">Hello, World!</core-text>
+            <core-text kind="paragraph">Hello, World!</core-text>
           </section>
 
           <section>
             <h2>&lt;core-link&gt;</h2>
-            <core-link href="https://DanielLaCos.se">DanielLaCos.se</core-link>
+            <core-link href="https://DanielLaCos.se">
+              <core-text>DanielLaCos.se</core-text>
+            </core-link>
           </section>
 
           <section>
             <h2>&lt;core-button&gt;</h2>
-            <div style="width: 200px; height: 50px; resize: both; overflow: hidden; padding: 1rem;">
-              <core-button>Do click me</core-button>
+            <div class="resize-container">
+              <core-button>
+                <core-text>Do click me</core-text>
+              </core-button>
             </div>
           </section>
 
           <section>
             <h2>&lt;core-button disabled&gt;</h2>
-            <div style="width: 200px; height: 50px; resize: both; overflow: hidden; padding: 1rem;">
+            <div class="resize-container">
               <core-button disabled>Don't click me</core-button>
             </div>
           </section>
 
           <section>
             <h2>&lt;counter-demo&gt;</h2>
-            <div style="width: 200px; height: 200px;">
+            <div style="width: 200px; height: 80px;">
               <counter-demo>
                 <core-button id="counter-1">0</core-button>
                 <core-button id="counter-2">0</core-button>
@@ -139,14 +142,14 @@ export default (request) => {
 
           <section>
             <h2>&lt;core-input&gt;</h2>
-            <div style="width: 200px; height: 50px; resize: both; overflow: hidden; padding: 1rem;">
+            <div class="resize-container">
               <core-input label="test"></core-input>
             </div>
           </section>
 
           <section>
             <h2>&lt;core-loading-skeleton&gt;</h2>
-            <div style="width: 200px; height: 50px; resize: both; overflow: hidden; padding: 1rem;">
+            <div class="resize-container">
               <core-loading-skeleton></core-loading-skeleton>
             </div>
           </section>
@@ -163,18 +166,18 @@ export default (request) => {
           </section>
         </article>
 
-        <reload-service></reload-service>
+        <reload-helper></reload-helper>
 
         ${BackendPage.Inline.elements(
           origin,
-          "/app/elements/services/reload.js",
           "/app/elements/core/button.js",
           "/app/elements/core/text.js",
           "/app/elements/core/link.js",
           "/app/elements/core/input.js",
           "/app/elements/core/loading/skeleton.js",
           "/app/elements/keycdn/image.js",
-          "/app/elements/stores/demo/counter.js"
+          "/app/elements/demo/counter.js",
+          "/app/elements/helpers/reload.js"
         )}
       </body>
     </html>`;

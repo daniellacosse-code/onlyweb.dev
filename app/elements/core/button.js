@@ -24,7 +24,9 @@ const sharedStyles = FrontendElement.html`<style>
     margin: var(--size-narrow);
   }
 
-  button > slot {
+  slot {
+    --color-foreground: var(--color-background);
+
     color: var(--color-background);
     transition: color var(--animation-duration) var(--animation-timing-function);
     text-align: center;

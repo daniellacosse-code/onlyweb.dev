@@ -125,9 +125,9 @@ export default (request) => {
       </head>
       <body>
         <main>
-          <translation-service code="${code}">
+          <translation-helper code="${code}">
             <!-- TODO(#137): FrontendElement children shouldn't require slot="root" -->
-            <header slot="root">
+            <header>
               <div class="logo">
                 <keycdn-image
                   alt="logo"
@@ -144,7 +144,7 @@ export default (request) => {
               </div>
               <h1 id="title">only web 2</h1>
             </header>
-            <article slot="root">
+            <article>
               <section>
                 <h2 id="apology" class="hero">Please pardon our dust.</h2>
               </section>
@@ -155,17 +155,17 @@ export default (request) => {
                 </p>
               </section>
             </article>
-          </translation-service>
+          </translation-helper>
         </main>
 
-        <reload-service></reload-service>
+        <reload-helper></reload-helper>
 
         ${BackendPage.Inline.elements(
           origin,
           "/app/elements/core/loading/skeleton.js",
           "/app/elements/keycdn/image.js",
-          "/app/elements/services/reload.js",
-          "/app/elements/services/translate.js"
+          "/app/elements/helpers/reload.js",
+          "/app/elements/helpers/translate.js"
         )}
       </body>
     </html>`;

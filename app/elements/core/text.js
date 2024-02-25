@@ -3,21 +3,28 @@ import * as FrontendElement from "/framework/frontend-element/main.js";
 FrontendElement.Register({
   tag: "core-text",
   attributes: {
-    type: String
+    kind: String
   },
-  handleRender({ type = "p" }) {
+  handleRender({ kind = "paragraph" }) {
     return FrontendElement.html`<style>
-      :host {
-        display: inline;
+      :host, span {
+        cursor: inherit;
+        user-select: inherit;
       }
 
-      :host slot {
+      span {
         font-family: system-ui;
-        font-size: var(--size-text-${type});
-        color: var(--color-foreground);
+        font-weight: ${kind === "title" ? "bold" : "normal"};
+        font-size: var(--size-text-${kind});
+        color: var(--color-${kind === "subtitle" ? "neutral" : "foreground"});
+        line-height: 1;
+      }
 
+      ::selection {
+        background-color: var(--color-highlight);
+        color: var(--color-background);
       }
     </style>
-    <slot></slot>`;
+    <span>${this.textContent}</span>`;
   }
 });

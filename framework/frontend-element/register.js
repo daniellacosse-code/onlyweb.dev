@@ -8,7 +8,7 @@ export function Register({
   handleRender = () => null
 }) {
   if (globalThis.customElements.get(tag))
-    return console.warn(`Element ${tag} already defined.`);
+    return console.warn(`Element ${tag} already registered.`);
 
   globalThis.customElements.define(
     tag,
@@ -17,7 +17,7 @@ export function Register({
       #handleMount;
       #abortController = new AbortController();
 
-      static observedAttributes = ["slot", ...Object.keys(attributes)];
+      static observedAttributes = Object.keys(attributes);
 
       get attributes() {
         return new Proxy(
@@ -45,7 +45,7 @@ export function Register({
         this.#handleRender = handleRender.bind(this);
 
         this.#handleMount(this.attributes);
-        this.attributes.slot = "root";
+        this.EXECUTE_RENDER();
       }
 
       disconnectedCallback() {
@@ -75,10 +75,10 @@ export function Register({
         if (!this.root) return;
 
         const renderResult =
-          (await this.#handleRender(this.attributes)) ?? html``;
+          (await this.#handleRender(this.attributes)) ?? html`<slot></slot>`;
         const renderWrapper = html`<template>
           <style>
-            * {
+            *:not(slot) {
               all: initial;
               box-sizing: border-box;
             }
@@ -86,13 +86,8 @@ export function Register({
             script {
               display: none;
             }
-            slot {
-              cursor: inherit;
-              user-select: inherit;
-              pointer-events: inherit;
-            }
           </style>
-          <slot name="root">${renderResult}</slot>
+          ${renderResult}
         </template>`;
 
         this.root.replaceChildren(...renderWrapper);
