@@ -1,10 +1,10 @@
-import * as FrontendElement from "/framework/frontend-element/main.js";
+import RegisterElement from "/framework/frontend-element/main.js";
 
 import { KEYCDN_IMAGE_ZONE_URL, DENO_PORT } from "/app/constants.js";
 
 import "/app/elements/core/loading/skeleton.js";
 
-FrontendElement.Register({
+RegisterElement("keycdn-image", {
   attributes: {
     src: String,
     alt: String,
@@ -13,7 +13,6 @@ FrontendElement.Register({
     height: Number,
     loaded: Boolean
   },
-  tag: "keycdn-image",
   handleMount({ src, alt, ...keycdnAttributes }) {
     // TODO(#127): pull origin from the request url
     const url = new URL(

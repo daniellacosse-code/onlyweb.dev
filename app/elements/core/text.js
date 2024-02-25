@@ -1,7 +1,6 @@
-import * as FrontendElement from "/framework/frontend-element/main.js";
+import RegisterElement from "/framework/frontend-element/main.js";
 
-FrontendElement.Register({
-  tag: "core-text",
+RegisterElement("core-text", {
   attributes: {
     kind: String
   },

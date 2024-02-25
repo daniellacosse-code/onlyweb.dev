@@ -1,4 +1,4 @@
-import * as FrontendElement from "/framework/frontend-element/main.js";
+import RegisterElement from "/framework/frontend-element/main.js";
 
 const sharedStyles = FrontendElement.html`<style>
   :host, button {
@@ -32,8 +32,7 @@ const sharedStyles = FrontendElement.html`<style>
   }
 </style>`;
 
-FrontendElement.Register({
-  tag: "core-button",
+RegisterElement("core-button", {
   attributes: {
     disabled: Boolean
   },
