@@ -1,7 +1,8 @@
-import RegisterElement from "/framework/frontend-element/main.js";
+import FrontendElement from "/framework/frontend-element/entry.js";
 
 const sharedStyles = FrontendElement.html`<style>
-  :host, button {
+  :host,
+  button {
     width: 100%;
     height: 100%;
   }
@@ -16,11 +17,16 @@ const sharedStyles = FrontendElement.html`<style>
     border: none;
     border-radius: 0.5rem;
     cursor: pointer;
-    background: linear-gradient(45deg, var(--color-highlight) 0 25%, var(--color-foreground) 75% 100%);
+    background: linear-gradient(
+      45deg,
+      var(--color-highlight) 0 25%,
+      var(--color-foreground) 75% 100%
+    );
     background-size: 400% 200%;
     background-position: 100% 0;
     user-select: none;
-    transition: background var(--animation-duration) var(--animation-timing-function);
+    transition: background var(--animation-duration)
+      var(--animation-timing-function);
   }
 
   slot {
@@ -32,7 +38,7 @@ const sharedStyles = FrontendElement.html`<style>
   }
 </style>`;
 
-RegisterElement("core-button", {
+FrontendElement.Register("core-button", {
   attributes: {
     disabled: Boolean
   },

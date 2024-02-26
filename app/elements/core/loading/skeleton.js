@@ -1,9 +1,9 @@
-import RegisterElement from "/framework/frontend-element/main.js";
+import FrontendElement from "/framework/frontend-element/register.js";
 
-RegisterElement("core-loading-skeleton", {
+FrontendElement.Register("core-loading-skeleton", {
   handleRender() {
     return FrontendElement.html`<style>
-        .skeleton {
+        :host {
           display: block;
           width: 100%;
           height: 100%;
@@ -26,7 +26,6 @@ RegisterElement("core-loading-skeleton", {
             background-position: -400% 50%;
           }
         }
-      </style>
-      <div class="skeleton"></div>`;
+      </style>`;
   }
 });

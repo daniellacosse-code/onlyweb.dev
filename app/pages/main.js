@@ -1,11 +1,11 @@
-import RegisterPage, { Inline, html } from "/framework/backend-page/main.js";
+import BackendPage from "/framework/backend-page/entry.js";
 
-import sharedTheme from "./shared-theme.js";
 import * as constants from "/app/constants.js";
+import sharedTheme from "/app/pages/shared-theme.js";
 
-RegisterPage("/", {
+BackendPage.Register("/", {
   handleRequest: (request) => {
-    return html` <head>
+    return BackendPage.html` <head>
         <meta charset="utf-8" />
         <link rel="icon" href="/app/assets/images/logo.png" />
         <link rel="manifest" href="/app/assets/manifest.json" />
@@ -15,7 +15,7 @@ RegisterPage("/", {
           content="${constants.THEME_COLOR_BACKGROUND}"
         />
 
-        ${Inline.metadata({
+        ${BackendPage.Inline.metadata({
           title: "2",
           description:
             "only web. only web. only web. only web. only web. only web. only web. only web. only web. only web. only web. only web",
@@ -114,7 +114,7 @@ RegisterPage("/", {
         <translation-helper code="${request.language}"></translation-helper>
         <reload-helper></reload-helper>
 
-        ${Inline.elements(
+        ${BackendPage.Inline.elements(
           request.url.origin,
           "/app/elements/core/loading/skeleton.js",
           "/app/elements/keycdn/image.js",

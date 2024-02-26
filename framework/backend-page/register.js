@@ -1,8 +1,4 @@
-import { elements } from "./inline/elements.js";
-import { metadata } from "./inline/metadata.js";
-export { html } from "./html.js";
-
-export const Inline = { elements, metadata };
+import { html } from "./html.js";
 
 export default (route, { handleRequest = () => {} }) => {
   globalThis.customPages ??= new Map();
@@ -17,17 +13,16 @@ export default (route, { handleRequest = () => {} }) => {
       request.url.searchParams.get("lang") ??
       "en";
 
-    const response = html`
-      <!DOCTYPE html>
-      <html lang="${request.language}">
-        ${await handleRequest(request)}
-      </html>
-    `;
-
-    if (response) {
-      return response;
+    try {
+      return html`
+        <!DOCTYPE html>
+        <html lang="${request.language}">
+          ${await handleRequest(request)}
+        </html>
+      `;
+    } catch (error) {
+      console.error(error);
+      return new Response("Internal Server Error", { status: 500 });
     }
-
-    return new Response("Not found", { status: 404 });
   });
 };

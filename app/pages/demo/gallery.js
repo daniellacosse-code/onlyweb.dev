@@ -1,11 +1,11 @@
-import RegisterPage, { html, Inline } from "/framework/backend-page/main.js";
+import BackendPage from "/framework/backend-page/entry.js";
 
-import sharedTheme from "../shared-theme.js";
 import * as constants from "/app/constants.js";
+import sharedTheme from "/app/pages/shared-theme.js";
 
-RegisterPage("/_gallery", {
+BackendPage.Register("/_gallery", {
   handleRequest: (request) => {
-    return html` <head>
+    return BackendPage.html` <head>
         <meta charset="utf-8" />
         <link rel="icon" href="/app/assets/images/logo/white.png" />
         <link rel="manifest" href="/app/assets/manifest.json" />
@@ -15,7 +15,7 @@ RegisterPage("/_gallery", {
           content="${constants.THEME_COLOR_BACKGROUND}"
         />
 
-        ${Inline.metadata({
+        ${BackendPage.Inline.metadata({
           title: "OnlyWeb Component Gallery",
           description: "A gallery of the onlyweb components"
         })}

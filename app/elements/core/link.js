@@ -1,24 +1,24 @@
-import RegisterElement from "/framework/frontend-element/main.js";
+import FrontendElement from "/framework/frontend-element/entry.js";
 
-RegisterElement("core-link", {
+FrontendElement.Register("core-link", {
   attributes: {
     href: String
   },
   handleRender({ href = "#" }) {
     return FrontendElement.html`<style>
-      a,
-      a::selection {
-        cursor: ne-resize;
-        color: var(--color-foreground);
-        text-decoration: underline dotted;
-      }
+        a,
+        a::selection {
+          cursor: ne-resize;
+          color: var(--color-foreground);
+          text-decoration: underline dotted;
+        }
 
-      a:hover {
-        --color-foreground: var(--color-background);
+        a:hover {
+          --color-foreground: var(--color-background);
 
-        background: var(--color-highlight);
-      }
-    </style>
-    <a href="${href}" target="_blank"><slot></slot></a>`;
+          background: var(--color-highlight);
+        }
+      </style>
+      <a href="${href}" target="_blank"><slot></slot></a>`;
   }
 });

@@ -1,7 +1,7 @@
-import { html } from "/framework/backend-page/main.js";
+import BackendPage from "/framework/backend-page/entry.js";
 import * as constants from "/app/constants.js";
 
-export default () => html`<style>
+export default () => BackendPage.html`<style>
   :root {
     --color-background: ${constants.THEME_COLOR_BACKGROUND};
     --color-foreground: ${constants.THEME_COLOR_FOREGROUND};

@@ -1,6 +1,6 @@
-import RegisterElement from "/framework/frontend-element/main.js";
+import FrontendElement from "/framework/frontend-element/entry.js";
 
-RegisterElement("counter-demo", {
+FrontendElement.Register("counter-demo", {
   attributes: {
     state: JSON
   },

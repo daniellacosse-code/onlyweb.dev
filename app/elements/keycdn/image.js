@@ -1,10 +1,10 @@
-import RegisterElement from "/framework/frontend-element/main.js";
+import FrontendElement from "/framework/frontend-element/entry.js";
 
 import { KEYCDN_IMAGE_ZONE_URL, DENO_PORT } from "/app/constants.js";
 
 import "/app/elements/core/loading/skeleton.js";
 
-RegisterElement("keycdn-image", {
+FrontendElement.Register("keycdn-image", {
   attributes: {
     src: String,
     alt: String,
@@ -33,7 +33,6 @@ RegisterElement("keycdn-image", {
   },
   handleRender({ width, height, loaded }) {
     if (loaded) {
-      // TODO(#126): have `keycdn-image` fade in on image load
       return FrontendElement.html`<style>
           :host {
             width: ${width}px;
