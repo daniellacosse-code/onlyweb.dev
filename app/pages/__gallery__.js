@@ -120,14 +120,19 @@ BackendPage.Register("/__gallery__", {
           </section>
 
           <section>
-            <h2>&lt;keycdn-image&gt;</h2>
-            <keycdn-image
+            <h2>&lt;core-image&gt;</h2>
+            <core-image
               alt="logo"
               format="webp"
               height="80"
               src="/app/assets/images/logo/white.png"
               width="80"
-            ></keycdn-image>
+              origin="${
+                request.url.origin === "http://localhost:8000"
+                  ? request.url.origin
+                  : constants.KEYCDN_IMAGE_ZONE_URL
+              }"
+            ></core-image>
           </section>
         </article>
 
@@ -140,7 +145,7 @@ BackendPage.Register("/__gallery__", {
           "/app/elements/core/link.js",
           "/app/elements/core/input.js",
           "/app/elements/core/loading/skeleton.js",
-          "/app/elements/keycdn/image.js",
+          "/app/elements/core/image.js",
           "/app/elements/gallery/counter-demo.js",
           "/app/elements/helpers/reload.js"
         )}

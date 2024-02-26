@@ -80,18 +80,28 @@ BackendPage.Register("/", {
         <main>
           <header>
             <div class="logo">
-              <keycdn-image
+              <core-image
                 alt="logo"
                 height="${constants.THEME_SIZE_ICON}"
                 src="/app/assets/images/logo/black.svg"
                 width="${constants.THEME_SIZE_ICON}"
-              ></keycdn-image>
-              <keycdn-image
+                origin="${
+                  request.url.origin === "http://localhost:8000"
+                    ? request.url.origin
+                    : constants.KEYCDN_IMAGE_ZONE_URL
+                }"
+              ></core-image>
+              <core-image
                 alt="logo"
                 height="${constants.THEME_SIZE_ICON}"
                 src="/app/assets/images/logo/black.svg"
                 width="${constants.THEME_SIZE_ICON}"
-              ></keycdn-image>
+                origin="${
+                  request.url.origin === "http://localhost:8000"
+                    ? request.url.origin
+                    : constants.KEYCDN_IMAGE_ZONE_URL
+                }"
+              ></core-image>
             </div>
             <core-text id="title" kind="title">only web 2</core-text>
           </header>
@@ -118,7 +128,7 @@ BackendPage.Register("/", {
         ${BackendPage.Inline.elements(
           request.url.origin,
           "/app/elements/core/loading/skeleton.js",
-          "/app/elements/keycdn/image.js",
+          "/app/elements/core/image.js",
           "/app/elements/core/link.js",
           "/app/elements/core/text.js",
           "/app/elements/helpers/reload.js",
