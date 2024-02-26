@@ -1,26 +1,32 @@
-import { HTMLResponse } from "/framework/backend-page/html.js";
+import html, { HTMLResponse } from "/framework/backend-page/html.js";
 
 export default ({ title, description, previewImage, url }) => {
-  let result = "";
+  const tags = [];
 
   if (title) {
-    result += `<title>${title}</title>`;
-    result += `<meta name="og:title" content="${title}" />`;
+    tags.push(
+      html`<title>${title}</title>`,
+      html`<meta name="og:title" content="${title}" />`
+    );
   }
 
   if (description) {
-    result += `<meta name="description" content="${description}" />`;
-    result += `<meta name="og:description" content="${description}" />`;
+    tags.push(
+      html`<meta name="description" content="${description}" />`,
+      html`<meta name="og:description" content="${description}" />`
+    );
   }
 
   if (previewImage) {
-    result += `<meta name="og:image" content="${previewImage}" />`;
+    tags.push(html`<meta name="og:image" content="${previewImage}" />`);
   }
 
   if (url) {
-    result += `<link rel="canonical" href="${url}" />`;
-    result += `<meta name="og:url" content="${url}" />`;
+    tags.push(
+      html`<link rel="canonical" href="${url}" />`,
+      html`<meta name="og:url" content="${url}" />`
+    );
   }
 
-  return new HTMLResponse(result);
+  return new HTMLResponse(tags.reduce((result, { html }) => result + html, ""));
 };
