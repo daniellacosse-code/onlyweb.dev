@@ -141,7 +141,7 @@ BackendPage.Register("/__gallery__", {
           "/app/elements/core/input.js",
           "/app/elements/core/loading/skeleton.js",
           "/app/elements/keycdn/image.js",
-          "/app/elements/demo/counter.js",
+          "/app/elements/gallery/counter-demo.js",
           "/app/elements/helpers/reload.js"
         )}
       </body>`;

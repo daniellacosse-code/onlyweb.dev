@@ -1,6 +1,6 @@
 import { HTMLResponse } from "/framework/backend-page/html.js";
 
-export function metadata({ title, description, previewImage }) {
+export default ({ title, description, previewImage, url }) => {
   let result = "";
 
   if (title) {
@@ -17,5 +17,10 @@ export function metadata({ title, description, previewImage }) {
     result += `<meta name="og:image" content="${previewImage}" />`;
   }
 
+  if (url) {
+    result += `<link rel="canonical" href="${url}" />`;
+    result += `<meta name="og:url" content="${url}" />`;
+  }
+
   return new HTMLResponse(result);
-}
+};

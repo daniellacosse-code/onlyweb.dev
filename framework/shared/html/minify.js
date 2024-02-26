@@ -1,7 +1,7 @@
 // Assumes:
 // => proper semi-colons
 // => all content-based whitespace is outsourced or done in CSS
-export function minify(text) {
+export default (text) => {
   return (
     text
       // remove single-line JS comments, but not URLs
@@ -20,4 +20,4 @@ export function minify(text) {
     // but it might fuck up weird copy -
     // it's "good enough" for me!
   );
-}
+};

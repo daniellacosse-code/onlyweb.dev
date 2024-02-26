@@ -19,7 +19,8 @@ BackendPage.Register("/", {
           title: "2",
           description:
             "only web. only web. only web. only web. only web. only web. only web. only web. only web. only web. only web. only web",
-          previewImage: "/app/assets/images/logo/black.svg"
+          previewImage: "/app/assets/images/logo/black.svg",
+          url: "https://onlyweb.dev/"
         })}
         ${sharedTheme()}
 

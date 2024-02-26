@@ -146,4 +146,6 @@ export default (
       }
     }
   );
+
+  console.debug(`Registered element "<${tag}>".`);
 };

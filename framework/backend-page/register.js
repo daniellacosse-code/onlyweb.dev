@@ -1,4 +1,4 @@
-import { html } from "./html.js";
+import html from "./html.js";
 
 export default (route, { handleRequest = () => {} }) => {
   globalThis.customPages ??= new Map();
@@ -7,7 +7,10 @@ export default (route, { handleRequest = () => {} }) => {
     return console.warn(`Page "${route}" already registered.`);
 
   globalThis.customPages.set(route, async (request) => {
-    request.url = new URL(request.url);
+    Object.defineProperty(request, "url", {
+      writable: true,
+      value: new URL(request.url)
+    });
     request.language =
       request.headers.get("accept-language")?.split(",")[0] ??
       request.url.searchParams.get("lang") ??
@@ -25,4 +28,6 @@ export default (route, { handleRequest = () => {} }) => {
       return new Response("Internal Server Error", { status: 500 });
     }
   });
+
+  console.debug(`Registered page "${route}".`);
 };

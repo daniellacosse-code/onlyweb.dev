@@ -1,7 +1,7 @@
 import Backend from "/framework/backend/entry.js";
 
-import "./pages/main.js";
-import "./pages/favicon.js";
-import "./pages/__gallery__.js";
+import "/app/pages/main.js";
+import "/app/pages/favicon.js";
+import "/app/pages/__gallery__.js";
 
 Backend.start();

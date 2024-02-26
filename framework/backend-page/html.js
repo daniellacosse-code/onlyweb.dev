@@ -1,6 +1,6 @@
-import { escape } from "/framework/shared/html/escape.js";
-import { minify } from "/framework/shared/html/minify.js";
-import { handleTemplate } from "/framework/shared/handle-template.js";
+import escape from "/framework/shared/html/escape.js";
+import minify from "/framework/shared/html/minify.js";
+import handleTemplate from "/framework/shared/handle-template.js";
 
 export class HTMLResponse extends Response {
   static CACHE_MAXAGE = 3600;
@@ -18,7 +18,7 @@ export class HTMLResponse extends Response {
   }
 }
 
-export const html = (template, ...insertions) =>
+export default (template, ...insertions) =>
   new HTMLResponse(
     handleTemplate({
       template,

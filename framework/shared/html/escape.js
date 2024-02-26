@@ -6,7 +6,7 @@ const escapedCharacters = new Map([
   ['"', "&quot;"]
 ]);
 
-export const escape = (html) => {
+export default (html) => {
   let result = "";
 
   for (const char of String(html)) {
