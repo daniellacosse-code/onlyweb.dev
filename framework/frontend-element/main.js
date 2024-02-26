@@ -32,8 +32,8 @@ export default (
         );
       }
 
-      async attributeChangedCallback() {
-        await this.EXECUTE_RENDER();
+      attributeChangedCallback() {
+        this.EXECUTE_RENDER();
       }
 
       connectedCallback() {
@@ -75,11 +75,11 @@ export default (
         );
       }
 
-      async EXECUTE_RENDER() {
+      EXECUTE_RENDER() {
         if (!this.root) return;
 
         const renderResult =
-          (await this.#handleRender(this.attributes)) ?? html`<slot></slot>`;
+          this.#handleRender(this.attributes) ?? html`<slot></slot>`;
         const renderWrapper = html`<template>
           <style>
             *:not(slot) {

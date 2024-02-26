@@ -1,78 +1,29 @@
-import * as BackendPage from "/framework/backend-page/main.js";
+import RegisterPage, { Inline, html } from "/framework/backend-page/main.js";
 
+import sharedTheme from "./shared-theme.js";
 import * as constants from "/app/constants.js";
 
-export default (request) => {
-  const { origin, searchParams } = new URL(request.url);
-  const code = searchParams.get("lang") ?? "en";
-
-  return BackendPage.html`<!DOCTYPE html>
-    <html lang="${code}">
-      <head>
+RegisterPage("/", {
+  handleRequest: (request) => {
+    return html` <head>
         <meta charset="utf-8" />
-        <meta name="viewport" content="width=device-width, initial-scale=1" />
-
-        <title>2</title>
-        <meta
-          name="description"
-          content="only web. only web. only web. only web. only web. only web. only web. only web. only web. only web. only web. only web."
-        />
-        <link rel="icon" href="/app/assets/images/logo/white.svg" />
+        <link rel="icon" href="/app/assets/images/logo.png" />
         <link rel="manifest" href="/app/assets/manifest.json" />
-        <meta name="theme-color" content="#202123" />
-
-        <meta name="og:image" content="/app/assets/images/logo/white.svg" />
-        <meta name="og:title" content="2" />
-        <meta name="og:url" content="https://only-web.com/" />
-        <meta name="og:type" content="website" />
+        <meta name="viewport" content="width=device-width, initial-scale=1" />
         <meta
-          name="og:description"
-          content="only web. only web. only web. only web. only web. only web. only web. only web. only web. only web. only web. only web."
+          name="theme-color"
+          content="${constants.THEME_COLOR_BACKGROUND}"
         />
+
+        ${Inline.metadata({
+          title: "2",
+          description:
+            "only web. only web. only web. only web. only web. only web. only web. only web. only web. only web. only web. only web",
+          previewImage: "/app/assets/images/logo/black.svg"
+        })}
+        ${sharedTheme()}
 
         <style>
-          :root {
-            --color-background: ${constants.THEME_COLOR_BACKGROUND};
-            --color-foreground: ${constants.THEME_COLOR_FOREGROUND};
-            --color-highlight: ${constants.THEME_COLOR_HIGHLIGHT};
-
-            --color-neutral: ${constants.THEME_COLOR_NEUTRAL};
-            --color-neutral-semi-transparent: ${
-              constants.THEME_COLOR_NEUTRAL_SEMITRANSPARENT
-            };
-            --color-neutral-transparent: ${
-              constants.THEME_COLOR_NEUTRAL_TRANSPARENT
-            };
-
-            --size-hairline: 2px;
-            --size-narrow: ${constants.THEME_SIZE_NARROW};
-            --size-default: ${constants.THEME_SIZE_DEFAULT};
-            --size-large: ${constants.THEME_SIZE_LARGE};
-            --size-huge: ${constants.THEME_SIZE_HUGE};
-            --size-hero: ${constants.THEME_SIZE_HERO};
-
-            --size-text-title: 3rem;
-            --size-text-subtitle: 2rem;
-            --size-text-paragraph: 1rem;
-
-            --size-icon: ${constants.THEME_SIZE_ICON}px;
-
-            --animation-duration: 350ms;
-            --animation-timing-function: cubic-bezier(0.6, 0.15, 0, 1);
-          }
-
-          ::selection {
-            background: var(--color-highlight);
-            color: var(--color-background);
-          }
-
-          body {
-            all: initial;
-            font-family: system-ui;
-            touch-events: pan-y;
-            background: var(--color-background);
-          }
-
           main {
             align-items: center;
             display: flex;
@@ -96,7 +47,6 @@ export default (request) => {
 
           header * {
             --color-foreground: var(--color-background);
-
           }
 
           h1 {
@@ -127,40 +77,45 @@ export default (request) => {
       </head>
       <body>
         <main>
-          <translation-helper code="${code}">
-            <header>
-              <div class="logo">
-                <keycdn-image
-                  alt="logo"
-                  height="${constants.THEME_SIZE_ICON}"
-                  src="/app/assets/images/logo/black.svg"
-                  width="${constants.THEME_SIZE_ICON}"
-                ></keycdn-image>
-                <keycdn-image
-                  alt="logo"
-                  height="${constants.THEME_SIZE_ICON}"
-                  src="/app/assets/images/logo/black.svg"
-                  width="${constants.THEME_SIZE_ICON}"
-                ></keycdn-image>
-              </div>
-              <core-text id="title" kind="title">only web 2</core-text>
-            </header>
-            <article>
-              <section>
-                <core-text id="apology" kind="subtitle">Please pardon our dust.</core-text>
-              </section>
-              <section>
-                <core-text id="explaination">We're currently rebuilding literally everything.</core-text>
-                <core-link id="call-to-action" href="https://DanielLaCos.se">Follow along</core-link>
-              </section>
-            </article>
-          </translation-helper>
+          <header>
+            <div class="logo">
+              <keycdn-image
+                alt="logo"
+                height="${constants.THEME_SIZE_ICON}"
+                src="/app/assets/images/logo/black.svg"
+                width="${constants.THEME_SIZE_ICON}"
+              ></keycdn-image>
+              <keycdn-image
+                alt="logo"
+                height="${constants.THEME_SIZE_ICON}"
+                src="/app/assets/images/logo/black.svg"
+                width="${constants.THEME_SIZE_ICON}"
+              ></keycdn-image>
+            </div>
+            <core-text id="title" kind="title">only web 2</core-text>
+          </header>
+          <article>
+            <section>
+              <core-text id="apology" kind="subtitle"
+                >Please pardon our dust.</core-text
+              >
+            </section>
+            <section>
+              <core-text id="explaination"
+                >We're currently rebuilding literally everything.</core-text
+              >
+              <core-link id="call-to-action" href="https://DanielLaCos.se"
+                >Follow along</core-link
+              >
+            </section>
+          </article>
         </main>
 
+        <translation-helper code="${request.language}"></translation-helper>
         <reload-helper></reload-helper>
 
-        ${BackendPage.Inline.elements(
-          origin,
+        ${Inline.elements(
+          request.url.origin,
           "/app/elements/core/loading/skeleton.js",
           "/app/elements/keycdn/image.js",
           "/app/elements/core/link.js",
@@ -168,6 +123,6 @@ export default (request) => {
           "/app/elements/helpers/reload.js",
           "/app/elements/helpers/translate.js"
         )}
-      </body>
-    </html>`;
-};
+      </body>`;
+  }
+});

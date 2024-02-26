@@ -14,7 +14,7 @@ RegisterElement("translation-helper", {
         const [keyPath, elementID] = key.split("#");
         if (location.pathname !== keyPath) continue;
 
-        const element = this.querySelector(`#${elementID}`);
+        const element = document.querySelector(`#${elementID}`);
         if (element) element.textContent = value;
       }
     } catch (error) {
