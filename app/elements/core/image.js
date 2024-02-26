@@ -1,40 +1,31 @@
-import * as FrontendElement from "/framework/frontend-element/main.js";
-
-import { KEYCDN_IMAGE_ZONE_URL, DENO_PORT } from "/app/constants.js";
+import FrontendElement from "/framework/frontend-element/entry.js";
 
 import "/app/elements/core/loading/skeleton.js";
 
-FrontendElement.Register({
+FrontendElement.Register("core-image", {
   attributes: {
     src: String,
     alt: String,
-    format: String,
+    origin: String,
     width: Number,
     height: Number,
     loaded: Boolean
   },
-  tag: "keycdn-image",
-  handleMount({ src, alt, ...keycdnAttributes }) {
-    // TODO(#127): pull origin from the request url
-    const url = new URL(
-      globalThis.location.hostname === "localhost"
-        ? `http://localhost:${DENO_PORT}`
-        : KEYCDN_IMAGE_ZONE_URL
-    );
+  handleMount({ src, alt, origin, ...cdnConfig }) {
+    const url = new URL(origin);
 
     url.pathname = src;
-    for (const [key, value] of Object.entries(keycdnAttributes)) {
+    for (const [key, value] of Object.entries(cdnConfig)) {
       url.searchParams.set(key, value);
     }
 
-    this.image = new Image(keycdnAttributes.width, keycdnAttributes.height);
+    this.image = new Image(cdnConfig.width, cdnConfig.height);
     this.image.onload = () => (this.attributes.loaded = true);
     this.image.src = url.toString();
     this.image.alt = alt;
   },
   handleRender({ width, height, loaded }) {
     if (loaded) {
-      // TODO(#126): have `keycdn-image` fade in on image load
       return FrontendElement.html`<style>
           :host {
             width: ${width}px;
@@ -54,14 +45,12 @@ FrontendElement.Register({
     }
 
     return FrontendElement.html`<style>
-        .container {
+        :host {
           width: ${width}px;
           height: ${height}px;
           display: inline-block;
         }
       </style>
-      <div class="container">
-        <core-loading-skeleton></core-loading-skeleton>
-      </div>`;
+      <core-loading-skeleton></core-loading-skeleton>`;
   }
 });

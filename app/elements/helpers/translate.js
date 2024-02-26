@@ -1,7 +1,6 @@
-import * as FrontendElement from "/framework/frontend-element/main.js";
+import FrontendElement from "/framework/frontend-element/entry.js";
 
-FrontendElement.Register({
-  tag: "translation-helper",
+FrontendElement.Register("translation-helper", {
   attributes: {
     code: String
   },
@@ -15,7 +14,7 @@ FrontendElement.Register({
         const [keyPath, elementID] = key.split("#");
         if (location.pathname !== keyPath) continue;
 
-        const element = this.querySelector(`#${elementID}`);
+        const element = document.querySelector(`#${elementID}`);
         if (element) element.textContent = value;
       }
     } catch (error) {

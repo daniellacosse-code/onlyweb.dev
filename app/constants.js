@@ -11,10 +11,13 @@ export const THEME_COLOR_NEUTRAL = `hsl(${neutralValues})`;
 export const THEME_COLOR_NEUTRAL_SEMITRANSPARENT = `hsla(${neutralValues}, 0.95)`;
 export const THEME_COLOR_NEUTRAL_TRANSPARENT = `hsla(${neutralValues}, 0.25)`;
 
-export const THEME_SIZE_NARROW = "0.75rem";
+export const THEME_SIZE_HAIRLINE = "3px";
+export const THEME_SIZE_NARROW = "0.85rem";
 export const THEME_SIZE_DEFAULT = "1rem";
-export const THEME_SIZE_LARGE = "1.5rem";
-export const THEME_SIZE_HUGE = "2.125rem";
-export const THEME_SIZE_HERO = "3rem";
+export const THEME_SIZE_LARGE = "2rem";
+export const THEME_SIZE_HUGE = "3rem";
 
 export const THEME_SIZE_ICON = "80";
+
+export const THEME_ANIMATION_DURATION = "350ms";
+export const THEME_ANIMATION_TIMING_FUNCTION = "cubic-bezier(0.6, 0.15, 0, 1)";

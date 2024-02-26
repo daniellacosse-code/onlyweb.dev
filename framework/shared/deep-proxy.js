@@ -1,4 +1,4 @@
-export default function DeepProxy(root, handler = {}) {
+export default (root, handler = {}) => {
   return new Proxy(root, {
     get(target, property, receiver) {
       let result;
@@ -34,4 +34,4 @@ export default function DeepProxy(root, handler = {}) {
       return result;
     }
   });
-}
+};

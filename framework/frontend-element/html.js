@@ -1,7 +1,7 @@
-import { escape } from "/framework/shared/html/escape.js";
-import { handleTemplate } from "/framework/shared/handle-template.js";
+import escape from "/framework/shared/html/escape.js";
+import handleTemplate from "/framework/shared/handle-template.js";
 
-export function html(template, ...insertions) {
+export default (template, ...insertions) => {
   const wrapper = document.createElement("div");
 
   wrapper.innerHTML = handleTemplate({
@@ -22,4 +22,4 @@ export function html(template, ...insertions) {
   });
 
   return wrapper.children;
-}
+};

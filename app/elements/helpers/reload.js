@@ -1,9 +1,8 @@
-import * as FrontendElement from "/framework/frontend-element/main.js";
+import FrontendElement from "/framework/frontend-element/entry.js";
 
 import * as constants from "/app/constants.js";
 
-FrontendElement.Register({
-  tag: "reload-helper",
+FrontendElement.Register("reload-helper", {
   handleMount() {
     // TODO(#127): pull origin from the request url
     if (!globalThis.location.host.startsWith("localhost")) return;

@@ -1,11 +1,11 @@
 import { encode } from "https://deno.land/std@v0.56.0/encoding/base64.ts";
 
 import { HTMLResponse } from "/framework/backend-page/html.js";
-import { minify } from "/framework/shared/html/minify.js";
+import minify from "/framework/shared/html/minify.js";
 
 // register elements inline ONLY when you're sure all
 // their dependencies are also registered
-export function elements(origin, ...filePaths) {
+export default (origin, ...filePaths) => {
   let result = "";
 
   for (const filePath of filePaths) {
@@ -20,4 +20,4 @@ export function elements(origin, ...filePaths) {
   }
 
   return new HTMLResponse(result);
-}
+};

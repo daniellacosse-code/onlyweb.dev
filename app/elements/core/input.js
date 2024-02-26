@@ -1,7 +1,6 @@
-import * as FrontendElement from "/framework/frontend-element/main.js";
+import FrontendElement from "/framework/frontend-element/entry.js";
 
-FrontendElement.Register({
-  tag: "core-input",
+FrontendElement.Register("core-input", {
   attributes: {
     label: String,
     ["has-value"]: Boolean

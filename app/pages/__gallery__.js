@@ -1,60 +1,27 @@
-import * as BackendPage from "/framework/backend-page/main.js";
+import BackendPage from "/framework/backend-page/entry.js";
 
 import * as constants from "/app/constants.js";
+import sharedTheme from "/app/pages/shared-theme.js";
 
-export default (request) => {
-  const { origin } = new URL(request.url);
-
-  return BackendPage.html`<!DOCTYPE html>
-    <html lang="en">
-      <head>
-        <title>OnlyWeb Component Gallery</title>
+BackendPage.Register("/__gallery__", {
+  handleRequest: (request) => {
+    return BackendPage.html` <head>
+        <meta charset="utf-8" />
         <link rel="icon" href="/app/assets/images/logo/white.png" />
         <link rel="manifest" href="/app/assets/manifest.json" />
         <meta name="viewport" content="width=device-width, initial-scale=1" />
-        <meta name="theme-color" content="#202123" />
         <meta
-          name="description"
-          content="A gallery of the onlyweb components"
+          name="theme-color"
+          content="${constants.THEME_COLOR_BACKGROUND}"
         />
 
+        ${BackendPage.Inline.metadata({
+          title: "OnlyWeb Component Gallery",
+          description: "A gallery of the onlyweb components"
+        })}
+        ${sharedTheme()}
+
         <style>
-          :root {
-            --color-background: ${constants.THEME_COLOR_BACKGROUND};
-            --color-foreground: ${constants.THEME_COLOR_FOREGROUND};
-            --color-highlight: ${constants.THEME_COLOR_HIGHLIGHT};
-
-            --color-neutral: ${constants.THEME_COLOR_NEUTRAL};
-            --color-neutral-semi-transparent: ${
-              constants.THEME_COLOR_NEUTRAL_SEMITRANSPARENT
-            };
-            --color-neutral-transparent: ${
-              constants.THEME_COLOR_NEUTRAL_TRANSPARENT
-            };
-
-            --size-hairline: 2px;
-            --size-narrow: ${constants.THEME_SIZE_NARROW};
-            --size-default: ${constants.THEME_SIZE_DEFAULT};
-            --size-large: ${constants.THEME_SIZE_LARGE};
-            --size-huge: ${constants.THEME_SIZE_HUGE};
-            --size-hero: ${constants.THEME_SIZE_HERO};
-
-            --size-text-title: 3rem;
-            --size-text-subtitle: 2rem;
-            --size-text-paragraph: 1rem;
-
-            --size-icon: ${constants.THEME_SIZE_ICON}px;
-
-            --animation-duration: 350ms;
-            --animation-timing-function: cubic-bezier(0.6, 0.15, 0, 1);
-          }
-
-          body {
-            all: initial;
-            font-family: system-ui;
-            background: var(--color-background);
-          }
-
           h1 {
             font-size: 2.5rem;
             padding: 2rem;
@@ -100,7 +67,7 @@ export default (request) => {
       <body>
         <h1>OnlyWeb Component Gallery</h1>
         <article>
-        <section>
+          <section>
             <h2>&lt;core-text&gt;</h2>
             <core-text kind="title">Hello, World!</core-text>
             <core-text kind="subtitle">Hello, World!</core-text>
@@ -132,10 +99,10 @@ export default (request) => {
 
           <section>
             <h2>&lt;counter-demo&gt;</h2>
-              <counter-demo>
-                <core-button id="counter-1">0</core-button>
-                <core-button id="counter-2">0</core-button>
-              </counter-demo>
+            <counter-demo>
+              <core-button id="counter-1">0</core-button>
+              <core-button id="counter-2">0</core-button>
+            </counter-demo>
           </section>
 
           <section>
@@ -153,30 +120,35 @@ export default (request) => {
           </section>
 
           <section>
-            <h2>&lt;keycdn-image&gt;</h2>
-            <keycdn-image
+            <h2>&lt;core-image&gt;</h2>
+            <core-image
               alt="logo"
               format="webp"
               height="80"
               src="/app/assets/images/logo/white.png"
               width="80"
-            ></keycdn-image>
+              origin="${
+                request.url.origin === "http://localhost:8000"
+                  ? request.url.origin
+                  : constants.KEYCDN_IMAGE_ZONE_URL
+              }"
+            ></core-image>
           </section>
         </article>
 
         <reload-helper></reload-helper>
 
         ${BackendPage.Inline.elements(
-          origin,
+          request.url.origin,
           "/app/elements/core/button.js",
           "/app/elements/core/text.js",
           "/app/elements/core/link.js",
           "/app/elements/core/input.js",
           "/app/elements/core/loading/skeleton.js",
-          "/app/elements/keycdn/image.js",
-          "/app/elements/demo/counter.js",
+          "/app/elements/core/image.js",
+          "/app/elements/gallery/counter-demo.js",
           "/app/elements/helpers/reload.js"
         )}
-      </body>
-    </html>`;
-};
+      </body>`;
+  }
+});

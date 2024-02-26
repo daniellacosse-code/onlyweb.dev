@@ -1,12 +1,10 @@
+import html from "./html.js";
 import DeepProxy from "/framework/shared/deep-proxy.js";
-import { html } from "./html.js";
 
-export function Register({
-  tag = "custom-element",
-  attributes = {},
-  handleMount = () => {},
-  handleRender = () => null
-}) {
+export default (
+  tag,
+  { attributes = {}, handleMount = () => {}, handleRender = () => null }
+) => {
   if (globalThis.customElements.get(tag))
     return console.warn(`Element ${tag} already registered.`);
 
@@ -34,8 +32,8 @@ export function Register({
         );
       }
 
-      async attributeChangedCallback() {
-        await this.EXECUTE_RENDER();
+      attributeChangedCallback() {
+        this.EXECUTE_RENDER();
       }
 
       connectedCallback() {
@@ -77,11 +75,11 @@ export function Register({
         );
       }
 
-      async EXECUTE_RENDER() {
+      EXECUTE_RENDER() {
         if (!this.root) return;
 
         const renderResult =
-          (await this.#handleRender(this.attributes)) ?? html`<slot></slot>`;
+          this.#handleRender(this.attributes) ?? html`<slot></slot>`;
         const renderWrapper = html`<template>
           <style>
             *:not(slot) {
@@ -148,4 +146,6 @@ export function Register({
       }
     }
   );
-}
+
+  console.debug(`Registered element "<${tag}>".`);
+};
