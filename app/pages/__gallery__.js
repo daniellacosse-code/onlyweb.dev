@@ -3,7 +3,7 @@ import BackendPage from "/framework/backend-page/entry.js";
 import * as constants from "/app/constants.js";
 import sharedTheme from "/app/pages/shared-theme.js";
 
-BackendPage.Register("/_gallery", {
+BackendPage.Register("/__gallery__", {
   handleRequest: (request) => {
     return BackendPage.html` <head>
         <meta charset="utf-8" />
