@@ -7,7 +7,7 @@ BackendPage.Register("/", {
   handleRequest: (request) => {
     return BackendPage.html` <head>
         <meta charset="utf-8" />
-        <link rel="icon" href="/app/assets/images/logo.png" />
+        <link rel="icon" href="/app/assets/images/logo/white.png" />
         <link rel="manifest" href="/app/assets/manifest.json" />
         <meta name="viewport" content="width=device-width, initial-scale=1" />
         <meta

@@ -12,9 +12,9 @@ export default (route, { handleRequest = () => {} }) => {
       value: new URL(request.url)
     });
     request.language =
-      request.headers.get("accept-language")?.split(",")[0] ??
       request.url.searchParams.get("lang") ??
-      "en";
+      request.headers.get("accept-language")?.split(",")[0] ??
+      "en-US";
 
     try {
       return html`

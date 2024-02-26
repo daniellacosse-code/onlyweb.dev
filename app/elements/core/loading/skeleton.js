@@ -1,4 +1,4 @@
-import FrontendElement from "/framework/frontend-element/register.js";
+import FrontendElement from "/framework/frontend-element/entry.js";
 
 FrontendElement.Register("core-loading-skeleton", {
   handleRender() {

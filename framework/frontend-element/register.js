@@ -1,4 +1,4 @@
-export { html } from "./html.js";
+import html from "./html.js";
 import DeepProxy from "/framework/shared/deep-proxy.js";
 
 export default (

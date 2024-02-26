@@ -9,7 +9,7 @@ export default () =>
       : `/${requestURL.pathname}`;
 
     for (const route of globalThis.customPages.keys()) {
-      if (requestPath.startsWith(route)) {
+      if (requestPath === route) {
         console.debug(`Serving custom page "${route}"...`);
         return globalThis.customPages.get(route)(request);
       }
