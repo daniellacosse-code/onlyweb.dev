@@ -108,7 +108,9 @@ BackendPage.Register("/__gallery__", {
           <section>
             <h2>[WIP] &lt;core-input&gt;</h2>
             <div class="resize-container">
-              <core-input label="edit me"></core-input>
+              <core-input label="core input demo">
+                edit me
+              </core-input>
             </div>
           </section>
 

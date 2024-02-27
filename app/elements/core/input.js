@@ -5,10 +5,25 @@ FrontendElement.Register("core-input", {
     label: String
   },
   handleMount() {
+    this.attributes.contenteditable = true;
+    this.hasContent = Boolean(this.textContent);
+
+    requestAnimationFrame(() => {
+      if (this.hasContent) {
+        this.querySelector("label").classList.add("hidden");
+      } else {
+        this.querySelector("label").classList.remove("hidden");
+      }
+    });
+
     // re-rendering messes with the focus, so we
     // manage the state this way
-    this.addEventListener("input", (event) => {
-      this.hasContent = Boolean(event.target.textContent);
+    this.addEventListener("input", () => {
+      this.hasContent = Boolean(this.textContent);
+
+      if (!this.hasContent) {
+        this.innerText = ".";
+      }
 
       if (this.hasContent) {
         this.querySelector("label").classList.add("hidden");
@@ -19,6 +34,10 @@ FrontendElement.Register("core-input", {
 
     this.attributes.tabindex = 0;
     this.addEventListener("focus", () => this.querySelector("#input").focus());
+
+    this.addEventListener("blur", () => {
+      requestAnimationFrame(() => document.body.blur());
+    });
   },
   handleRender({ label = "" }) {
     return FrontendElement.html`<style>
@@ -81,6 +100,6 @@ FrontendElement.Register("core-input", {
 
       </style>
       <label for="input">${label}</label>
-      <div contenteditable="true" role="input" id="input"></div>`;
+      <slot role="input" id="input"></slot>`;
   }
 });
