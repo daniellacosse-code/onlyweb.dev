@@ -19,7 +19,7 @@ FrontendElement.Register("core-input", {
         box-sizing: border-box;
         display: inline-block;
         width: 100%;
-        height: 100%;
+        min-height: 100%;
       }
       :host {
         position: relative;

@@ -57,7 +57,7 @@ BackendPage.Register("/__gallery__", {
 
           .resize-container {
             width: 200px;
-            height: 80px;
+            min-height: 80px;
             resize: both;
             overflow: hidden;
             padding: 1rem;
