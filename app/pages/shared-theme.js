@@ -24,6 +24,7 @@ export default () => BackendPage.html`<style>
     --size-icon: ${constants.THEME_SIZE_ICON}px;
 
     --animation-duration: ${constants.THEME_ANIMATION_DURATION};
+    --animation-duration-fast: ${constants.THEME_ANIMATION_DURATION_FAST};
     --animation-timing-function: ${constants.THEME_ANIMATION_TIMING_FUNCTION};
   }
 

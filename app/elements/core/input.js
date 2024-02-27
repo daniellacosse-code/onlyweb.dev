@@ -30,9 +30,9 @@ FrontendElement.Register("core-input", {
         label,
         #input {
           box-sizing: border-box;
-          display: inline-block;
           min-height: 100%;
           width: 100%;
+          word-wrap: break-word;
         }
         :host,
         #input {
@@ -40,6 +40,7 @@ FrontendElement.Register("core-input", {
         }
         :host,
         label {
+          display: inline-block;
           padding: var(--size-narrow);
         }
         label.hidden,
@@ -48,9 +49,9 @@ FrontendElement.Register("core-input", {
         }
         :host {
           border-radius: var(--size-narrow);
-          border: 3px solid var(--color-foreground);
+          border: var(--size-hairline) solid var(--color-foreground);
           position: relative;
-          transition: border-color 140ms var(--animation-timing-function);
+          transition: border-color var(--animation-duration-fast) var(--animation-timing-function);
         }
         :host(:focus-within),
         :host(:active) {
@@ -74,7 +75,7 @@ FrontendElement.Register("core-input", {
           opacity: 1;
           position: absolute;
           top: 0;
-          transition: opacity 140ms var(--animation-timing-function);
+          transition: opacity var(--animation-duration-fast) var(--animation-timing-function);
           z-index: -1;
         }
 
