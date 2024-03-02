@@ -87,7 +87,7 @@ export default (
       }
 
       querySelector(selector) {
-        if (!selector) return;
+        if (!selector || selector === "#") return;
 
         return (
           super.querySelector(selector) ?? this.root.querySelector(selector)
@@ -118,8 +118,7 @@ export default (
           ${renderResult}
         </template>`;
 
-        const previousActiveElement =
-          globalThis.document.activeElement.cloneNode(true);
+        const previousActiveElement = this.root.activeElement?.cloneNode(true);
 
         this.root.replaceChildren(...renderWrapper);
         this.root.append(
@@ -187,7 +186,7 @@ const defaultMount = function () {
 };
 
 const defaultRenderCleanup = function (_, { previousActiveElement }) {
-  const newActiveElement = this.querySelector(previousActiveElement.id);
+  const newActiveElement = this.getElementById(previousActiveElement?.id);
 
   if (newActiveElement) {
     newActiveElement.focus();
@@ -195,16 +194,6 @@ const defaultRenderCleanup = function (_, { previousActiveElement }) {
       previousActiveElement.scrollTop,
       previousActiveElement.scrollLeft
     );
-
-    const selectionRange = globalThis.document.createRange();
-
-    selectionRange.setStart(
-      newActiveElement,
-      previousActiveElement.selectionStart
-    );
-    selectionRange.setEnd(newActiveElement, previousActiveElement.selectionEnd);
-
-    globalThis.getSelection().addRange(selectionRange);
   }
 };
 
