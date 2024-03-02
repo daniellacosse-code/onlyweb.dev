@@ -1,13 +1,16 @@
-import html from "./html.js";
-import metadata from "./inline/metadata.js";
 import elements from "./inline/elements.js";
+import metadata from "./inline/metadata.js";
 import Register from "./register.js";
+import * as __Response from "./response.js";
+
+const _Response = __Response.default;
+_Response.html = __Response.html;
 
 export default {
-  html,
   Inline: {
     elements,
     metadata
   },
-  Register
+  Register,
+  Response: _Response
 };

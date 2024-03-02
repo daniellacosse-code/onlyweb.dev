@@ -1,4 +1,4 @@
-import html, { HTMLResponse } from "/framework/backend-page/html.js";
+import Response from "../response.js";
 
 export default ({ title, description, previewImage, url }) => {
   const tags = [];
@@ -28,5 +28,5 @@ export default ({ title, description, previewImage, url }) => {
     );
   }
 
-  return new HTMLResponse(tags.reduce((result, { html }) => result + html, ""));
+  return Response.html(tags.reduce((result, { html }) => result + html, ""));
 };

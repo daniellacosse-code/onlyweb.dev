@@ -1,6 +1,9 @@
-import html from "./html.js";
+import html from "./response.js";
 
-export default (route, { handleRequest = () => {} }) => {
+export default (
+  route,
+  { handleRequest = () => {}, handleServiceWorkerRequest = () => {} }
+) => {
   globalThis.customPages ??= new Map();
 
   if (globalThis.customPages.has(route))
@@ -11,16 +14,30 @@ export default (route, { handleRequest = () => {} }) => {
       writable: true,
       value: new URL(request.url)
     });
+
     request.language =
       request.url.searchParams.get("lang") ??
       request.headers.get("accept-language")?.split(",")[0] ??
       "en-US";
+
+    if (request.searchParams.has("service")) {
+      return handleServiceWorkerRequest(request);
+    }
 
     try {
       return html`
         <!DOCTYPE html>
         <html lang="${request.language}">
           ${await handleRequest(request)}
+          <script>
+            globalThis.addEventListener("load", () => {
+              if (!("serviceWorker" in navigator)) return;
+
+              navigator.serviceWorker.register("${route}" + "?service", {
+                scope: route
+              });
+            });
+          </script>
         </html>
       `;
     } catch (error) {
@@ -29,5 +46,5 @@ export default (route, { handleRequest = () => {} }) => {
     }
   });
 
-  console.debug(`Registered page "${route}".`);
+  console.debug(`Registered page @ route "${route}".`);
 };

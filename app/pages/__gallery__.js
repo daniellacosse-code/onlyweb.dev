@@ -5,7 +5,8 @@ import sharedTheme from "/app/pages/shared-theme.js";
 
 BackendPage.Register("/__gallery__", {
   handleRequest: (request) => {
-    return BackendPage.html` <head>
+    const html = BackendPage.Response("text/html");
+    return html`<head>
         <meta charset="utf-8" />
         <link rel="icon" href="/app/assets/images/logo/white.png" />
         <link rel="manifest" href="/app/assets/manifest.json" />
@@ -19,7 +20,7 @@ BackendPage.Register("/__gallery__", {
           title: "OnlyWeb Component Gallery",
           description: "A gallery of the onlyweb components"
         })}
-        ${sharedTheme()}
+        ${sharedTheme}
 
         <style>
           h1 {
@@ -127,11 +128,9 @@ BackendPage.Register("/__gallery__", {
               height="80"
               src="/app/assets/images/logo/white.png"
               width="80"
-              origin="${
-                request.url.origin === "http://localhost:8000"
-                  ? request.url.origin
-                  : constants.KEYCDN_IMAGE_ZONE_URL
-              }"
+              origin="${request.url.origin === "http://localhost:8000"
+                ? request.url.origin
+                : constants.KEYCDN_IMAGE_ZONE_URL}"
             ></core-image>
           </section>
         </article>

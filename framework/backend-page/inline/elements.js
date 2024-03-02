@@ -1,6 +1,6 @@
 import { encode } from "https://deno.land/std@v0.56.0/encoding/base64.ts";
 
-import { HTMLResponse } from "/framework/backend-page/html.js";
+import Response from "../response.js";
 import minify from "/framework/shared/html/minify.js";
 
 // register elements inline ONLY when you're sure all
@@ -19,5 +19,5 @@ export default (origin, ...filePaths) => {
     ></script>`;
   }
 
-  return new HTMLResponse(result);
+  return Response.html(result);
 };

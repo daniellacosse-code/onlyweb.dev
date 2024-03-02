@@ -1,7 +1,7 @@
 import BackendPage from "/framework/backend-page/entry.js";
 import * as constants from "/app/constants.js";
 
-export default () => BackendPage.html`<style>
+export default BackendPage.Response.html`<style>
   :root {
     --color-background: ${constants.THEME_COLOR_BACKGROUND};
     --color-foreground: ${constants.THEME_COLOR_FOREGROUND};
