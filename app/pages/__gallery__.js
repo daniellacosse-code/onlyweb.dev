@@ -9,7 +9,7 @@ BackendPage.Register("/__gallery__", {
       (request.url.origin.match(/localhost/)
         ? request.url.origin
         : constants.KEYCDN_IMAGE_ZONE_URL) +
-      "/app/assets/images/logo/black.svg";
+      "/app/assets/images/logo/white.png";
 
     const inliner = BackendPage.Inliner(request);
 
