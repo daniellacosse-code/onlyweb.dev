@@ -1,26 +1,34 @@
 import BackendPage from "/framework/backend-page/entry.js";
 
 import * as constants from "/app/constants.js";
-import sharedTheme from "/app/pages/shared-theme.js";
+import OnlyWebTheme from "/app/pages/shared-theme.js";
 
 BackendPage.Register("/__gallery__", {
   handleRequest: (request) => {
-    const html = BackendPage.Response("text/html");
-    return html`<head>
+    const logoSrc =
+      (request.url.origin.match(/localhost/)
+        ? request.url.origin
+        : constants.KEYCDN_IMAGE_ZONE_URL) +
+      "/app/assets/images/logo/black.svg";
+
+    const inliner = BackendPage.Inliner(request);
+
+    return BackendPage.Response.html`<head>
         <meta charset="utf-8" />
         <link rel="icon" href="/app/assets/images/logo/white.png" />
         <link rel="manifest" href="/app/assets/manifest.json" />
         <meta name="viewport" content="width=device-width, initial-scale=1" />
+
+        ${inliner.metadata({
+          title: "OnlyWeb Component Gallery",
+          description: "A gallery of the onlyweb components"
+        })}
+
         <meta
           name="theme-color"
           content="${constants.THEME_COLOR_BACKGROUND}"
         />
-
-        ${BackendPage.Inline.metadata({
-          title: "OnlyWeb Component Gallery",
-          description: "A gallery of the onlyweb components"
-        })}
-        ${sharedTheme}
+        ${OnlyWebTheme}
 
         <style>
           h1 {
@@ -64,6 +72,16 @@ BackendPage.Register("/__gallery__", {
             padding: 1rem;
           }
         </style>
+
+        ${inliner.elements(
+          "/app/elements/core/loading/skeleton.js",
+          "/app/elements/core/button.js",
+          "/app/elements/core/image.js",
+          "/app/elements/core/input.js",
+          "/app/elements/core/link.js",
+          "/app/elements/core/text.js",
+          "/app/elements/gallery/counter-demo.js"
+        )}
       </head>
       <body>
         <h1>OnlyWeb Component Gallery</h1>
@@ -126,28 +144,11 @@ BackendPage.Register("/__gallery__", {
               alt="logo"
               format="webp"
               height="80"
-              src="/app/assets/images/logo/white.png"
+              src="${logoSrc}"
               width="80"
-              origin="${request.url.origin === "http://localhost:8000"
-                ? request.url.origin
-                : constants.KEYCDN_IMAGE_ZONE_URL}"
             ></core-image>
           </section>
         </article>
-
-        <reload-helper></reload-helper>
-
-        ${BackendPage.Inline.elements(
-          request.url.origin,
-          "/app/elements/core/button.js",
-          "/app/elements/core/text.js",
-          "/app/elements/core/link.js",
-          "/app/elements/core/input.js",
-          "/app/elements/core/loading/skeleton.js",
-          "/app/elements/core/image.js",
-          "/app/elements/gallery/counter-demo.js",
-          "/app/elements/helpers/reload.js"
-        )}
       </body>`;
   }
 });

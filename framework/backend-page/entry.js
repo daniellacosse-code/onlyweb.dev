@@ -1,5 +1,4 @@
-import elements from "./inline/elements.js";
-import metadata from "./inline/metadata.js";
+import Inliner from "./inliner.js";
 import Register from "./register.js";
 import * as __Response from "./response.js";
 
@@ -9,10 +8,7 @@ _Response.html = __Response.html;
 _Response.js = __Response.js;
 
 export default {
-  Inline: {
-    elements,
-    metadata
-  },
+  Inliner,
   Register,
   Response: _Response
 };

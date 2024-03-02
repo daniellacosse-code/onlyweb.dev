@@ -1,30 +1,47 @@
 import BackendPage from "/framework/backend-page/entry.js";
 
 import * as constants from "/app/constants.js";
-import sharedTheme from "/app/pages/shared-theme.js";
+import OnlyWebTheme from "/app/pages/shared-theme.js";
 
 const route = "/";
 
 BackendPage.Register(route, {
   handleRequest: (request) => {
+    const logoSrc =
+      (request.url.origin.match(/localhost/)
+        ? request.url.origin
+        : constants.KEYCDN_IMAGE_ZONE_URL) +
+      "/app/assets/images/logo/black.svg";
+
+    const inliner = BackendPage.Inliner(request);
+
     return BackendPage.Response.html`<head>
         <meta charset="utf-8" />
         <link rel="icon" href="/app/assets/images/logo/white.png" />
         <link rel="manifest" href="/app/assets/manifest.json" />
         <meta name="viewport" content="width=device-width, initial-scale=1" />
-        <meta
-          name="theme-color"
-          content="${constants.THEME_COLOR_BACKGROUND}"
-        />
 
-        ${BackendPage.Inline.metadata({
+        ${inliner.metadata({
           title: "2",
           description:
             "only web. only web. only web. only web. only web. only web. only web. only web. only web. only web. only web. only web",
           previewImage: "/app/assets/images/logo/black.svg",
           url: "https://onlyweb.dev/"
         })}
-        ${sharedTheme}
+
+        ${inliner.elements(
+          "/app/elements/core/loading/skeleton.js",
+          "/app/elements/core/image.js",
+          "/app/elements/core/link.js",
+          "/app/elements/core/text.js",
+          "/app/elements/helpers/translate.js"
+        )}
+
+        <meta
+          name="theme-color"
+          content="${constants.THEME_COLOR_BACKGROUND}"
+        />
+        ${OnlyWebTheme}
 
         <style>
           main {
@@ -85,24 +102,14 @@ BackendPage.Register(route, {
               <core-image
                 alt="logo"
                 height="${constants.THEME_SIZE_ICON}"
-                src="/app/assets/images/logo/black.svg"
+                src="${logoSrc}"
                 width="${constants.THEME_SIZE_ICON}"
-                origin="${
-                  request.url.origin === "http://localhost:8000"
-                    ? request.url.origin
-                    : constants.KEYCDN_IMAGE_ZONE_URL
-                }"
               ></core-image>
               <core-image
                 alt="logo"
                 height="${constants.THEME_SIZE_ICON}"
-                src="/app/assets/images/logo/black.svg"
+                src="${logoSrc}"
                 width="${constants.THEME_SIZE_ICON}"
-                origin="${
-                  request.url.origin === "http://localhost:8000"
-                    ? request.url.origin
-                    : constants.KEYCDN_IMAGE_ZONE_URL
-                }"
               ></core-image>
             </div>
             <core-text id="title" kind="title">only web 2</core-text>
@@ -125,17 +132,6 @@ BackendPage.Register(route, {
         </main>
 
         <translation-helper code="${request.language}"></translation-helper>
-        <reload-helper></reload-helper>
-
-        ${BackendPage.Inline.elements(
-          request.url.origin,
-          "/app/elements/core/loading/skeleton.js",
-          "/app/elements/core/image.js",
-          "/app/elements/core/link.js",
-          "/app/elements/core/text.js",
-          "/app/elements/helpers/reload.js",
-          "/app/elements/helpers/translate.js"
-        )}
       </body>`;
   },
   handleServiceWorkerRequest: () => BackendPage.Response.js`

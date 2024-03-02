@@ -40,11 +40,21 @@ export default (
           ${await handleRequest(request)}
           <script>
             globalThis.addEventListener("load", () => {
-              if (!("serviceWorker" in navigator)) return;
+              if (globalThis.location.href.match(/localhost/)) {
+                const reloadSocket = new WebSocket(
+                  "ws://localhost:${constants.DENO_LIVERELOAD_PORT}"
+                );
 
-              navigator.serviceWorker.register("${route}?service", {
-                scope: "${route}"
-              });
+                socket.onopen = () => console.log("LiveReload connected~");
+                socket.onmessage = ({ data }) =>
+                  data === "reload" && location.reload();
+              }
+
+              if ("serviceWorker" in navigator) {
+                navigator.serviceWorker.register("${route}?service", {
+                  scope: "${route}"
+                });
+              }
             });
           </script>
         </html>

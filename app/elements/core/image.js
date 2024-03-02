@@ -11,10 +11,9 @@ FrontendElement.Register("core-image", {
     height: Number,
     loaded: Boolean
   },
-  handleMount({ src, alt, origin, ...cdnConfig }) {
-    const url = new URL(origin);
+  handleMount({ src, alt, ...cdnConfig }) {
+    const url = new URL(src);
 
-    url.pathname = src;
     for (const [key, value] of Object.entries(cdnConfig)) {
       url.searchParams.set(key, value);
     }
