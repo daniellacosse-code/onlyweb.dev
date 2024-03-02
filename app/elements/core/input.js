@@ -30,7 +30,7 @@ const sharedStyles = FrontendElement.html`<style>
     border-radius: var(--size-narrow);
     border: var(--size-hairline) solid var(--color-foreground);
     position: relative;
-    /* transition: border-color var(--animation-duration-fast) var(--animation-timing-function); */
+    transition: border-color var(--animation-duration-fast) var(--animation-timing-function);
   }
   :host(:focus-within),
   :host(:active) {
