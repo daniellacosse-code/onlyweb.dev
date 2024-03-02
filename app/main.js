@@ -1,4 +1,4 @@
-import Backend from "/framework/backend/entry.js";
+import Backend from "/framework/backend/module.js";
 
 import "/app/pages/main.js";
 import "/app/pages/favicon.js";

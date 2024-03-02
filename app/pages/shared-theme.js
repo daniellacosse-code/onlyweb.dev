@@ -1,4 +1,4 @@
-import BackendPage from "/framework/backend-page/entry.js";
+import BackendPage from "/framework/backend-page/module.js";
 import * as constants from "/app/constants.js";
 
 export default BackendPage.Response.html`<style>

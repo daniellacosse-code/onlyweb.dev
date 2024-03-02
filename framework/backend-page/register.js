@@ -39,7 +39,8 @@ export default (
         <html lang="${request.language}">
           ${await handleRequest(request)}
           <script>
-            globalThis.addEventListener("load", () => {
+            (function () {
+              // launch devtools
               if (globalThis.location.href.match(/localhost/)) {
                 const reloadSocket = new WebSocket(
                   "ws://localhost:${constants.DENO_LIVERELOAD_PORT}"
@@ -50,12 +51,16 @@ export default (
                   data === "reload" && location.reload();
               }
 
+              // register service worker
               if ("serviceWorker" in navigator) {
                 navigator.serviceWorker.register("${route}?service", {
                   scope: "${route}"
                 });
               }
-            });
+
+              // TODO: user agent warning
+              // TODO: load translations, if any
+            })();
           </script>
         </html>
       `;

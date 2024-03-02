@@ -1,4 +1,4 @@
-import FrontendElement from "/framework/frontend-element/entry.js";
+import FrontendElement from "/framework/frontend-element/module.js";
 
 FrontendElement.Register("core-input", {
   attributes: {
