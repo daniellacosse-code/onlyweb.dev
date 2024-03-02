@@ -113,6 +113,13 @@ BackendPage.Register("/__gallery__", {
           </section>
 
           <section>
+            <h2>[WIP] &lt;core-input type="password"&gt;</h2>
+            <div class="resize-container">
+              <core-input label="give secrets" type="password"></core-input>
+            </div>
+          </section>
+
+          <section>
             <h2>&lt;core-loading-skeleton&gt;</h2>
             <div class="resize-container">
               <core-loading-skeleton></core-loading-skeleton>

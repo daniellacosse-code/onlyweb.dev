@@ -5,7 +5,7 @@ export default (
   tag,
   {
     attributes = {},
-    handleMount = () => {},
+    handleMount = defaultMount,
     handleRender = () => html`<slot></slot>`,
     handleRenderCleanup = defaultRenderCleanup,
     handleDismount = defaultDismount
@@ -23,6 +23,7 @@ export default (
       #handleDismount;
       #eventController = new AbortController();
 
+      // element data - attributes
       static observedAttributes = Object.keys(attributes);
 
       get attributes() {
@@ -40,9 +41,8 @@ export default (
         );
       }
 
+      // element lifecycle
       connectedCallback() {
-        this.root = this.attachShadow({ mode: "open" });
-
         this.#handleMount = handleMount.bind(this);
         this.#handleRender = handleRender.bind(this);
         this.#handleRenderCleanup = handleRenderCleanup.bind(this);
@@ -58,14 +58,19 @@ export default (
 
       disconnectedCallback() {
         this.#handleDismount(this.attributes, {
+          self: this,
           eventController: this.#eventController
         });
       }
 
+      // standard method wrappers
       addEventListener(eventType, listener, options) {
         super.addEventListener(
           eventType,
           (event) => {
+            event.stopPropagation();
+            event.preventDefault();
+
             // You can't change the target of an event by default,
             // so we have to force it
             Object.defineProperty(event, "target", {
@@ -82,6 +87,8 @@ export default (
       }
 
       querySelector(selector) {
+        if (!selector) return;
+
         return (
           super.querySelector(selector) ?? this.root.querySelector(selector)
         );
@@ -91,6 +98,7 @@ export default (
         return this.querySelector(`#${id}`);
       }
 
+      // utility methods
       EXECUTE_RENDER() {
         if (!this.root) return;
 
@@ -118,7 +126,9 @@ export default (
           this.root.querySelector("template").content.cloneNode(true)
         );
 
-        this.#handleRenderCleanup(this.attributes, { previousActiveElement });
+        this.#handleRenderCleanup(this.attributes, {
+          previousActiveElement
+        });
       }
 
       // TODO: dedupe resolution logic across get and set
@@ -172,8 +182,12 @@ export default (
   console.debug(`Registered element "<${tag}>".`);
 };
 
-const defaultRenderCleanup = (root, { previousActiveElement }) => {
-  const newActiveElement = root.querySelector(previousActiveElement.id);
+const defaultMount = function () {
+  this.root = this.attachShadow({ mode: "open" });
+};
+
+const defaultRenderCleanup = function (_, { previousActiveElement }) {
+  const newActiveElement = this.querySelector(previousActiveElement.id);
 
   if (newActiveElement) {
     newActiveElement.focus();
@@ -194,4 +208,6 @@ const defaultRenderCleanup = (root, { previousActiveElement }) => {
   }
 };
 
-const defaultDismount = (_, { eventController }) => eventController.abort();
+const defaultDismount = function (_, { eventController }) {
+  eventController.abort();
+};

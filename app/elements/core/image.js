@@ -12,6 +12,8 @@ FrontendElement.Register("core-image", {
     loaded: Boolean
   },
   handleMount({ src, alt, origin, ...cdnConfig }) {
+    this.root = this.attachShadow({ mode: "open" });
+
     const url = new URL(origin);
 
     url.pathname = src;
@@ -19,10 +21,10 @@ FrontendElement.Register("core-image", {
       url.searchParams.set(key, value);
     }
 
-    this.image = new Image(cdnConfig.width, cdnConfig.height);
-    this.image.onload = () => (this.attributes.loaded = true);
-    this.image.src = url.toString();
-    this.image.alt = alt;
+    this.__image__ = new Image(cdnConfig.width, cdnConfig.height);
+    this.__image__.onload = () => (this.attributes.loaded = true);
+    this.__image__.src = url.toString();
+    this.__image__.alt = alt;
   },
   handleRender({ width, height, loaded }) {
     if (loaded) {
@@ -41,7 +43,7 @@ FrontendElement.Register("core-image", {
             user-select: none;
           }
         </style>
-        ${this.image}`;
+        ${this.__image__}`;
     }
 
     return FrontendElement.html`<style>
