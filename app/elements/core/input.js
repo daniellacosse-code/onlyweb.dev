@@ -2,7 +2,8 @@ import FrontendElement from "/framework/frontend-element/entry.js";
 
 FrontendElement.Register("core-input", {
   attributes: {
-    label: String
+    label: String,
+    type: String
   },
   handleMount() {
     // re-rendering messes with the focus, so we
@@ -20,8 +21,9 @@ FrontendElement.Register("core-input", {
     this.attributes.tabindex = 0;
     this.addEventListener("focus", () => this.querySelector("#input").focus());
   },
-  handleRender({ label = "" }) {
-    return FrontendElement.html`<style>
+  handleRender({ label = "", type = "content" }) {
+    if (type === "content") {
+      return FrontendElement.html`<style>
         ::selection {
           background-color: var(--color-highlight);
           color: var(--color-background);
@@ -82,5 +84,6 @@ FrontendElement.Register("core-input", {
       </style>
       <label for="input">${label}</label>
       <div contenteditable="true" role="input" id="input"></div>`;
+    }
   }
 });

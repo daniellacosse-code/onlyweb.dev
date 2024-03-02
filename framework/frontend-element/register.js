@@ -3,7 +3,13 @@ import DeepProxy from "/framework/shared/deep-proxy.js";
 
 export default (
   tag,
-  { attributes = {}, handleMount = () => {}, handleRender = () => null }
+  {
+    attributes = {},
+    handleMount = () => {},
+    handleRender = () => html`<slot></slot>`,
+    handleRenderCleanup = defaultRenderCleanup,
+    handleDismount = defaultDismount
+  }
 ) => {
   if (globalThis.customElements.get(tag))
     return console.warn(`Element ${tag} already registered.`);
@@ -13,7 +19,9 @@ export default (
     class extends HTMLElement {
       #handleRender;
       #handleMount;
-      #abortController = new AbortController();
+      #handleRenderCleanup;
+      #handleDismount;
+      #eventController = new AbortController();
 
       static observedAttributes = Object.keys(attributes);
 
@@ -32,22 +40,26 @@ export default (
         );
       }
 
-      attributeChangedCallback() {
-        this.EXECUTE_RENDER();
-      }
-
       connectedCallback() {
         this.root = this.attachShadow({ mode: "open" });
 
         this.#handleMount = handleMount.bind(this);
         this.#handleRender = handleRender.bind(this);
+        this.#handleRenderCleanup = handleRenderCleanup.bind(this);
+        this.#handleDismount = handleDismount.bind(this);
 
         this.#handleMount(this.attributes);
         this.EXECUTE_RENDER();
       }
 
+      attributeChangedCallback() {
+        this.EXECUTE_RENDER();
+      }
+
       disconnectedCallback() {
-        this.#abortController.abort();
+        this.#handleDismount(this.attributes, {
+          eventController: this.#eventController
+        });
       }
 
       addEventListener(eventType, listener, options) {
@@ -65,7 +77,7 @@ export default (
 
             return listener(event);
           },
-          { signal: this.#abortController.signal, ...options }
+          { signal: this.#eventController.signal, ...options }
         );
       }
 
@@ -73,6 +85,10 @@ export default (
         return (
           super.querySelector(selector) ?? this.root.querySelector(selector)
         );
+      }
+
+      getElementById(id) {
+        return this.querySelector(`#${id}`);
       }
 
       EXECUTE_RENDER() {
@@ -94,12 +110,18 @@ export default (
           ${renderResult}
         </template>`;
 
+        const previousActiveElement =
+          globalThis.document.activeElement.cloneNode(true);
+
         this.root.replaceChildren(...renderWrapper);
         this.root.append(
           this.root.querySelector("template").content.cloneNode(true)
         );
+
+        this.#handleRenderCleanup(this.attributes, { previousActiveElement });
       }
 
+      // TODO: dedupe resolution logic across get and set
       #RESOLVE_ATTRIBUTE_GET(name, value) {
         const resolver = attributes[name] ?? String;
 
@@ -149,3 +171,27 @@ export default (
 
   console.debug(`Registered element "<${tag}>".`);
 };
+
+const defaultRenderCleanup = (root, { previousActiveElement }) => {
+  const newActiveElement = root.querySelector(previousActiveElement.id);
+
+  if (newActiveElement) {
+    newActiveElement.focus();
+    newActiveElement.scrollTo(
+      previousActiveElement.scrollTop,
+      previousActiveElement.scrollLeft
+    );
+
+    const selectionRange = globalThis.document.createRange();
+
+    selectionRange.setStart(
+      newActiveElement,
+      previousActiveElement.selectionStart
+    );
+    selectionRange.setEnd(newActiveElement, previousActiveElement.selectionEnd);
+
+    globalThis.getSelection().addRange(selectionRange);
+  }
+};
+
+const defaultDismount = (_, { eventController }) => eventController.abort();
