@@ -12,10 +12,10 @@ const sharedStyles = FrontendElement.html`<style>
     align-items: center;
     justify-content: center;
     font-family: inherit;
-    font-size: 1rem;
-    padding: 0.5rem 1rem;
+    font-size: var(--size-text-paragraph);
+    padding: var(--size-narrow) var(--size-default);
     border: none;
-    border-radius: 0.5rem;
+    border-radius: var(--size-narrow);
     cursor: pointer;
     background: linear-gradient(
       45deg,
@@ -64,9 +64,8 @@ FrontendElement.Register("core-button", {
         }
         button:focus,
         button:active {
-          outline: solid;
-          outline-color: var(--color-highlight);
-          outline-offset: 2px;
+          outline: var(--size-hairline) solid var(--color-highlight);
+          outline-offset: var(--size-hairline);
         }
       </style>
       <button>
