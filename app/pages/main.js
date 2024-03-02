@@ -7,8 +7,7 @@ const route = "/";
 
 BackendPage.Register(route, {
   handleRequest: (request) => {
-    const html = BackendPage.Response("text/html");
-    return html`<head>
+    return BackendPage.Response.html`<head>
         <meta charset="utf-8" />
         <link rel="icon" href="/app/assets/images/logo/white.png" />
         <link rel="manifest" href="/app/assets/manifest.json" />
@@ -88,18 +87,22 @@ BackendPage.Register(route, {
                 height="${constants.THEME_SIZE_ICON}"
                 src="/app/assets/images/logo/black.svg"
                 width="${constants.THEME_SIZE_ICON}"
-                origin="${request.url.origin === "http://localhost:8000"
-                  ? request.url.origin
-                  : constants.KEYCDN_IMAGE_ZONE_URL}"
+                origin="${
+                  request.url.origin === "http://localhost:8000"
+                    ? request.url.origin
+                    : constants.KEYCDN_IMAGE_ZONE_URL
+                }"
               ></core-image>
               <core-image
                 alt="logo"
                 height="${constants.THEME_SIZE_ICON}"
                 src="/app/assets/images/logo/black.svg"
                 width="${constants.THEME_SIZE_ICON}"
-                origin="${request.url.origin === "http://localhost:8000"
-                  ? request.url.origin
-                  : constants.KEYCDN_IMAGE_ZONE_URL}"
+                origin="${
+                  request.url.origin === "http://localhost:8000"
+                    ? request.url.origin
+                    : constants.KEYCDN_IMAGE_ZONE_URL
+                }"
               ></core-image>
             </div>
             <core-text id="title" kind="title">only web 2</core-text>
@@ -135,19 +138,21 @@ BackendPage.Register(route, {
         )}
       </body>`;
   },
-  handleServiceWorkerRequest: () => BackendPage.Response("text/javascript")`
-    self.addEventListener("fetch", async ({ request }) => {
-      let response = await caches.match(request);
-
-      if (!response) {
-        response = await fetch(request);
-
-        const cache = await caches.open("${route}");
-        cache.put(request, response.clone());
-      }
-
-      event.respondWith(
-        (async () => response)()
-      );
-    });`
+  handleServiceWorkerRequest: () => BackendPage.Response.js`
+    self.addEventListener("fetch", async (event) => {
+      event.respondWith(new Promise(async (resolve) => {
+        const { request } = event;
+        let response = await caches.match(request);
+  
+        if (!response) {
+          response = await fetch(request);
+  
+          const cache = await caches.open("${route}");
+          cache.put(request, response.clone());
+        }
+        
+        resolve(response);
+      })
+    );
+  })`
 });
