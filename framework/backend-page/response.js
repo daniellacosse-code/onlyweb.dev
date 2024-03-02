@@ -31,4 +31,6 @@ const _Response = (mimetype = "text/html") => {
 };
 
 export const html = _Response("text/html");
+export const js = _Response("text/javascript");
+
 export default _Response;
