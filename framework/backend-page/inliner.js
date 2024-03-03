@@ -7,7 +7,7 @@ export default function Inliner(request) {
   return {
     elements(...filePaths) {
       const { origin } = request.url;
-      let result = "";
+      const result = [];
 
       for (const filePath of filePaths) {
         const fileContents = Deno.readTextFileSync(`.${filePath}`);
@@ -15,12 +15,12 @@ export default function Inliner(request) {
           .replaceAll(' from "/', ` from "${origin}/`)
           .replaceAll('import "/', `import "${origin}/`);
 
-        result += `<script defer type="module"
+        result.push(Response.html`<script defer type="module"
           src="data:application/javascript;base64,${encode(sanitizedScript)}"
-        ></script>`;
+        ></script>`);
       }
 
-      return Response.html(result);
+      return Response.html`${result}`;
     },
 
     metadata({
@@ -33,32 +33,32 @@ export default function Inliner(request) {
 
       if (title) {
         tags.push(
-          html`<title>${title}</title>`,
-          html`<meta name="og:title" content="${title}" />`
+          Response.html`<title>${title}</title>`,
+          Response.html`<meta name="og:title" content="${title}" />`
         );
       }
 
       if (description) {
         tags.push(
-          html`<meta name="description" content="${description}" />`,
-          html`<meta name="og:description" content="${description}" />`
+          Response.html`<meta name="description" content="${description}" />`,
+          Response.html`<meta name="og:description" content="${description}" />`
         );
       }
 
       if (previewImage) {
-        tags.push(html`<meta name="og:image" content="${previewImage}" />`);
+        tags.push(
+          Response.html`<meta name="og:image" content="${previewImage}" />`
+        );
       }
 
       if (url) {
         tags.push(
-          html`<link rel="canonical" href="${url}" />`,
-          html`<meta name="og:url" content="${url}" />`
+          Response.html`<link rel="canonical" href="${url}" />`,
+          Response.html`<meta name="og:url" content="${url}" />`
         );
       }
 
-      return Response.html(
-        tags.reduce((result, { html }) => result + html, "")
-      );
+      return Response.html`${tags}`;
     }
   };
 }
