@@ -120,13 +120,48 @@ export default (
 
         const previousActiveElement = this.root.activeElement?.cloneNode(true);
 
+        // TOOD: support multiple selections
+        let previousSelectionData = null;
+        try {
+          const selectionRange = this.root.getSelection().getRangeAt(0);
+          // there seems to be no way to satisfactorily clone a selection range,
+          // (even <rangeObject>.cloneRange() doesn't work as expected in all cases)
+          // so we must do it manually after the render is complete (see below)
+          previousSelectionData = {
+            startContainer: selectionRange.startContainer,
+            endContainer: selectionRange.endContainer,
+            startOffset: selectionRange.startOffset,
+            endOffset: selectionRange.endOffset
+          };
+        } catch (error) {
+          // console.error(error);
+        }
+
         this.root.replaceChildren(...renderWrapper);
         this.root.append(
           this.root.querySelector("template").content.cloneNode(true)
         );
 
+        const previousSelectionRange = new Range();
+        if (previousSelectionData) {
+          // TOOD: we must retarget the start and end containers in the new tree
+
+          previousSelectionRange.setStart(
+            previousSelectionData.startContainer,
+            previousSelectionData.startOffset
+          );
+
+          previousSelectionRange.setEnd(
+            previousSelectionData.endContainer,
+            previousSelectionData.endOffset
+          );
+        }
+
+        // TODO: i think we pass through the element id only? not sure
         this.#handleRenderCleanup(this.attributes, {
-          previousActiveElement
+          newActiveElement: this.getElementById(previousActiveElement?.id),
+          previousActiveElement,
+          previousSelectionRange
         });
       }
 
@@ -185,15 +220,21 @@ const defaultMount = function () {
   this.root = this.attachShadow({ mode: "open" });
 };
 
-const defaultRenderCleanup = function (_, { previousActiveElement }) {
-  const newActiveElement = this.getElementById(previousActiveElement?.id);
-
+const defaultRenderCleanup = function (
+  _,
+  { newActiveElement, previousActiveElement, previousSelectionRange }
+) {
   if (newActiveElement) {
     newActiveElement.focus();
     newActiveElement.scrollTo(
       previousActiveElement.scrollTop,
       previousActiveElement.scrollLeft
     );
+  }
+
+  if (previousSelectionRange) {
+    this.root.getSelection().removeAllRanges();
+    this.root.getSelection().addRange(previousSelectionRange);
   }
 };
 
