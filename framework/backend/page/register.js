@@ -57,9 +57,12 @@ export default (
               if (
                 !(
                   navigator.userAgent &&
-                  checkRequirements(
-                    parseUserAgent(navigator.userAgent),
-                    frontendRequirements.userAgent
+                  Shared.UserAgent.check(
+                    Shared.UserAgent.parse(navigator.userAgent),
+                    Shared.UserAgent.merge(
+                      Frontend.Requirements.userAgent,
+                      JSON.parse("${JSON.stringify(requirements)}").userAgent
+                    )
                   )
                 )
               ) {
