@@ -11,6 +11,7 @@ FrontendElement.Register("core-image", {
     loaded: Boolean
   },
   handleMount({ src, alt, ...cdnConfig }) {
+    this.template = this.attachShadow({ mode: "open" });
     const url = new URL(src);
 
     for (const [key, value] of Object.entries(cdnConfig)) {
@@ -23,8 +24,6 @@ FrontendElement.Register("core-image", {
     this.__image__.alt = alt;
   },
   handleTemplateBuild({ width, height, loaded }) {
-    console.log({ width, height, loaded });
-
     if (loaded) {
       return FrontendElement.html`<style>
           :host {
