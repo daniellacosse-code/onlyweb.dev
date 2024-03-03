@@ -1,4 +1,5 @@
 import { html } from "./response.js";
+import * as constants from "/framework/constants.js";
 
 export default (
   route,
@@ -46,8 +47,9 @@ export default (
                   "ws://localhost:${constants.DENO_LIVERELOAD_PORT}"
                 );
 
-                socket.onopen = () => console.log("LiveReload connected~");
-                socket.onmessage = ({ data }) =>
+                reloadSocket.onopen = () =>
+                  console.log("LiveReload connected~");
+                reloadSocket.onmessage = ({ data }) =>
                   data === "reload" && location.reload();
               }
 

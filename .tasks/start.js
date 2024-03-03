@@ -15,7 +15,7 @@ for await (const event of Deno.watchFs([
 
   const intervalID = setInterval(async () => {
     try {
-      if (reloadSocket.readyState === WebSocket.OPEN) {
+      if (reloadSocket?.readyState === WebSocket.OPEN) {
         reloadSocket.send("reload");
         clearInterval(intervalID);
       } else {

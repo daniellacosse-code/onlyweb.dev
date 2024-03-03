@@ -148,20 +148,17 @@ BackendPage.Register(route, {
       );
     });
 
-    self.addEventListener("fetch", async (event) => {
-      event.respondWith(new Promise(async (resolve) => {
-        const { request } = event;
-        let response = await caches.match(request);
+    self.addEventListener("fetch", (event) => {
+      event.respondWith(caches.open("${route}").then((cache) => {
+        return cache.match(event.request).then((cachedResponse) => {
+          const fetchedResponse = fetch(event.request).then((networkResponse) => {
+            cache.put(event.request, networkResponse.clone());
   
-        if (!response) {
-          response = await fetch(request);
+            return networkResponse;
+          });
   
-          const cache = await caches.open("${route}");
-          cache.put(request, response.clone());
-        }
-        
-        resolve(response);
-      })
-    );
+          return cachedResponse || fetchedResponse;
+        });
+      }));  
   })`
 });
