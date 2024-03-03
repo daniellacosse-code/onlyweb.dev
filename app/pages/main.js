@@ -135,6 +135,19 @@ BackendPage.Register(route, {
       </body>`;
   },
   handleServiceWorkerRequest: () => BackendPage.Response.js`
+    self.addEventListener("install", (event) => {
+      event.waitUntil(
+        caches.open("${route}").then((cache) => {
+          return cache.addAll([
+            "/",
+            "/app/assets/images/logo/black.svg",
+            "/app/assets/images/logo/white.png",
+            "/app/assets/manifest.json"
+          ]);
+        })
+      );
+    });
+
     self.addEventListener("fetch", async (event) => {
       event.respondWith(new Promise(async (resolve) => {
         const { request } = event;
