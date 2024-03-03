@@ -86,6 +86,7 @@ export default (
         );
       }
 
+      // system methods
       UPDATE_TEMPLATE() {
         if (!this.template) return;
 
