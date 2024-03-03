@@ -19,7 +19,9 @@ FrontendElement.Register("core-input", {
       }
     });
 
-    this.addEventListener("focus", () => this.querySelector("#input").focus());
+    this.addEventListener("focus", () =>
+      this.template.querySelector("#input").focus()
+    );
   },
   handleTemplateUpdate({ label = "" }) {
     return FrontendElement.html`<style>
