@@ -55,18 +55,20 @@ async function startOrReloadLiveReloadServer() {
   reloadSocket?.close();
   await reloadServer?.shutdown();
 
-  reloadServer = Deno.serve({
-    port: DENO_LIVERELOAD_PORT,
-    handler: (request) => {
-      if (request.headers.get("upgrade") !== "websocket") {
-        return new Response("Not a websocket upgrade request", { code: 400 });
+  setTimeout(() => {
+    reloadServer = Deno.serve({
+      port: DENO_LIVERELOAD_PORT,
+      handler: (request) => {
+        if (request.headers.get("upgrade") !== "websocket") {
+          return new Response("Not a websocket upgrade request", { code: 400 });
+        }
+
+        const { socket, response } = Deno.upgradeWebSocket(request);
+
+        reloadSocket = socket;
+
+        return response;
       }
-
-      const { socket, response } = Deno.upgradeWebSocket(request);
-
-      reloadSocket = socket;
-
-      return response;
-    }
-  });
+    });
+  }, DENO_LIVERELOAD_DELAY);
 }

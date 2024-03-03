@@ -39,8 +39,27 @@ export default (
         <!DOCTYPE html>
         <html lang="${request.language}">
           ${await handleRequest(request)}
-          <script>
+          <script type="module">
+            import checkRequirements from "/framework/shared/user-agent/check-requirements.js";
+            import frontendRequirements from "/framework/frontend/requirements.js";
+            import parseUserAgent from "/framework/shared/user-agent/parse.js";
+
             (function () {
+              // check browser requirements
+              if (
+                !(
+                  navigator.userAgent &&
+                  checkRequirements(
+                    parseUserAgent(navigator.userAgent),
+                    frontendRequirements.userAgent
+                  )
+                )
+              ) {
+                alert(
+                  "Your browser is not supported. Certain things may not work as expected. Please update your browser to the latest version."
+                );
+              }
+
               // launch devtools
               if (globalThis.location.href.match(/localhost/)) {
                 const reloadSocket = new WebSocket(
@@ -60,7 +79,6 @@ export default (
                 });
               }
 
-              // TODO: user agent warning
               // TODO: load translations, if any
             })();
           </script>
