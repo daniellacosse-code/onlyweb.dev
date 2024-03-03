@@ -53,6 +53,21 @@ export default (
             import Shared from "/framework/shared/module.js";
 
             (function () {
+              // check browser requirements
+              if (
+                !(
+                  navigator.userAgent &&
+                  checkRequirements(
+                    parseUserAgent(navigator.userAgent),
+                    frontendRequirements.userAgent
+                  )
+                )
+              ) {
+                alert(
+                  "Your browser is not supported. Certain things may not work as expected. Please update your browser to the latest version."
+                );
+              }
+
               // launch devtools
               if (globalThis.location.href.match(/localhost/)) {
                 const reloadSocket = new WebSocket(
