@@ -24,7 +24,7 @@ export default (
       // element data - template attributes
       static observedAttributes = Object.keys(templateAttributes);
 
-      get attributes() {
+      get templateAttributes() {
         return new Proxy(
           {},
           {
