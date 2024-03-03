@@ -1,7 +1,7 @@
 import FrontendElement from "/framework/frontend-element/entry.js";
 
 FrontendElement.Register("core-text", {
-  attributes: {
+  templateAttributes: {
     kind: String
   },
   handleTemplateUpdate({ kind = "paragraph" }) {

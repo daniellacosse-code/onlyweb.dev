@@ -1,16 +1,17 @@
 import FrontendElement from "/framework/frontend-element/entry.js";
 
 FrontendElement.Register("counter-demo", {
-  attributes: {
+  templateAttributes: {
     state: JSON
   },
   handleMount() {
-    this.attributes.state ??= {};
+    this.templateAttributes.state ??= {};
 
     this.addEventListener("click", ({ target }) => {
-      const currentState = this.attributes.state[target.attributes.id] || 0;
+      const currentState =
+        this.templateAttributes.state[target.attributes.id] || 0;
 
-      this.attributes.state[target.attributes.id] = currentState + 1;
+      this.templateAttributes.state[target.attributes.id] = currentState + 1;
     });
   },
   // TODO: update not being triggered here (issue with the deep proxy)

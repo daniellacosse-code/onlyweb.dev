@@ -1,7 +1,7 @@
 import FrontendElement from "/framework/frontend-element/entry.js";
 
 FrontendElement.Register("translation-helper", {
-  attributes: {
+  templateAttributes: {
     code: String
   },
   async handleMount({ code = "en" }) {

@@ -39,7 +39,7 @@ const sharedStyles = FrontendElement.html`<style>
 </style>`;
 
 FrontendElement.Register("core-button", {
-  attributes: {
+  templateAttributes: {
     disabled: Boolean
   },
   handleTemplateUpdate({ disabled }) {

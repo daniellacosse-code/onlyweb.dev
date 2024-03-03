@@ -3,7 +3,7 @@ import FrontendElement from "/framework/frontend-element/entry.js";
 import "/app/elements/core/loading/skeleton.js";
 
 FrontendElement.Register("core-image", {
-  attributes: {
+  templateAttributes: {
     src: String,
     alt: String,
     origin: String,
@@ -22,7 +22,7 @@ FrontendElement.Register("core-image", {
     }
 
     this.__image__ = new Image(cdnConfig.width, cdnConfig.height);
-    this.__image__.onload = () => (this.attributes.loaded = true);
+    this.__image__.onload = () => (this.templateAttributes.loaded = true);
     this.__image__.src = url.toString();
     this.__image__.alt = alt;
   },

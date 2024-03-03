@@ -52,34 +52,36 @@ const sharedStyles = FrontendElement.html`<style>
 </style>`;
 
 FrontendElement.Register("core-input", {
-  attributes: {
+  templateAttributes: {
     label: String,
-    type: String,
-    value: String
+    type: String
+    /* value: String */
   },
-  handleMount() {
-    this.template = this.attachShadow({ mode: "open" });
-    this.labelID = this.attributes.label.toLowerCase().replace(/\s/g, "-");
+  handleMount({ label }) {
+    this.templateAttributes.tabindex = 0;
+    this.templateAttributes.role = "input";
 
-    this.attributes.tabindex = 0;
-    this.attributes.role = "input";
+    this.template = this.attachShadow({ mode: "open" });
+    this.__inputID__ = label.toLowerCase().replace(/\s/g, "-");
 
     this.addEventListener("focus", () =>
-      this.template.querySelector(`#${this.labelID}`).focus()
+      this.template.getElementById(this.__inputID__).focus()
     );
+
     this.addEventListener("input", ({ target }) => {
-      this.attributes.value =
+      const hasValue =
         target.tag === "input" ? target.value : target.textContent;
+
+      this.template.querySelector("label").classList.toggle("hidden", hasValue);
     });
   },
-  handleTemplateUpdate({ label = "", value = "", type = "content" }) {
+  handleTemplateUpdate({ label = "", type = "content" }) {
     let inputElement;
-
     switch (type) {
       case "text":
       case "password":
       case "email":
-        inputElement = FrontendElement.html`<input id="${this.labelID}" type="${type}" value="${value}">`;
+        inputElement = FrontendElement.html`<input id="${this.__inputID__}" type="${type}">`;
         break;
       case "content":
       default:
@@ -90,14 +92,12 @@ FrontendElement.Register("core-input", {
             i { font-style: italic; }
             u { text-decoration: underline; }
           </style>
-          <div id="${this.labelID}" role="input" contenteditable="true">${value}</div>`;
+          <div id="${this.__inputID__}" role="input" contenteditable="true"></div>`;
     }
 
     return FrontendElement.html`
       ${sharedStyles}
-      <label for="${this.labelID}" class="${
-      this.attributes.value && "hidden"
-    }">${label}</label>
+      <label for="${this.__inputID__}">${label}</label>
       ${inputElement}`;
   }
 });
