@@ -120,10 +120,11 @@ export default (
 
         const previousActiveElement = this.root.activeElement?.cloneNode(true);
 
-        // TOOD: support multiple selections
         let previousSelectionData = null;
         try {
+          // TOOD: support multiple selections
           const selectionRange = this.root.getSelection().getRangeAt(0);
+
           // there seems to be no way to satisfactorily clone a selection range,
           // (even <rangeObject>.cloneRange() doesn't work as expected in all cases)
           // so we must do it manually after the render is complete (see below)
