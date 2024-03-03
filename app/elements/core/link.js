@@ -1,11 +1,11 @@
-import FrontendElement from "/framework/frontend-element/module.js";
+import Frontend from "/framework/frontend/module.js";
 
-FrontendElement.Register("core-link", {
+Frontend.Element.Register("core-link", {
   templateAttributes: {
     href: String
   },
   handleTemplateBuild({ href = "#" }) {
-    return FrontendElement.html`<style>
+    return Frontend.Element.html`<style>
         a,
         a::selection {
           cursor: ne-resize;

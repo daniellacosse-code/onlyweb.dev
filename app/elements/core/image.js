@@ -1,8 +1,8 @@
-import FrontendElement from "/framework/frontend-element/module.js";
+import Frontend from "/framework/frontend/module.js";
 
 import "/app/elements/core/loading/skeleton.js";
 
-FrontendElement.Register("core-image", {
+Frontend.Element.Register("core-image", {
   templateAttributes: {
     src: String,
     alt: String,
@@ -25,7 +25,7 @@ FrontendElement.Register("core-image", {
   },
   handleTemplateBuild({ width, height, loaded }) {
     if (loaded) {
-      return FrontendElement.html`<style>
+      return Frontend.Element.html`<style>
           :host {
             width: ${width}px;
             height: ${height}px;
@@ -43,7 +43,7 @@ FrontendElement.Register("core-image", {
         ${this.__image__}`;
     }
 
-    return FrontendElement.html`<style>
+    return Frontend.Element.html`<style>
         :host {
           width: ${width}px;
           height: ${height}px;

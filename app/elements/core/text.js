@@ -1,11 +1,11 @@
-import FrontendElement from "/framework/frontend-element/module.js";
+import Frontend from "/framework/frontend/module.js";
 
-FrontendElement.Register("core-text", {
+Frontend.Element.Register("core-text", {
   templateAttributes: {
     type: String
   },
   handleTemplateBuild({ type = "paragraph" }) {
-    return FrontendElement.html`<style>
+    return Frontend.Element.html`<style>
         :host {
           cursor: inherit;
           user-select: inherit;

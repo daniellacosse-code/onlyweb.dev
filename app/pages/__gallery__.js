@@ -1,9 +1,9 @@
-import BackendPage from "/framework/backend-page/module.js";
+import Backend from "/framework/backend/module.js";
 
 import * as constants from "/app/constants.js";
 import OnlyWebTheme from "/app/pages/shared-theme.js";
 
-BackendPage.Register("/__gallery__", {
+Backend.Page.Register("/__gallery__", {
   handleRequest: (request) => {
     const logoSrc =
       (request.url.origin.match(/localhost/)
@@ -11,9 +11,9 @@ BackendPage.Register("/__gallery__", {
         : constants.KEYCDN_IMAGE_ZONE_URL) +
       "/app/assets/images/logo/white.png";
 
-    const inliner = BackendPage.Inliner(request);
+    const inliner = Backend.Page.Inliner(request);
 
-    return BackendPage.Response.html`<head>
+    return Backend.Page.Response.html`<head>
         <meta charset="utf-8" />
         <link rel="icon" href="/app/assets/images/logo/white.png" />
         <link rel="manifest" href="/app/assets/manifest.json" />

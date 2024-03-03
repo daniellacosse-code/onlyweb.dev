@@ -1,6 +1,6 @@
-import FrontendElement from "/framework/frontend-element/module.js";
+import Frontend from "/framework/frontend/module.js";
 
-const sharedStyles = FrontendElement.html`<style>
+const sharedStyles = Frontend.Element.html`<style>
   ::selection {
     background-color: var(--color-highlight);
     color: var(--color-background);
@@ -52,7 +52,7 @@ const sharedStyles = FrontendElement.html`<style>
   }
 </style>`;
 
-FrontendElement.Register("core-input", {
+Frontend.Element.Register("core-input", {
   templateAttributes: {
     label: String,
     type: String
@@ -81,11 +81,12 @@ FrontendElement.Register("core-input", {
       case "text":
       case "password":
       case "email":
-        inputElement = FrontendElement.html`<input id="${this.__inputID__}" type="${type}">`;
+        inputElement = Frontend.Element
+          .html`<input id="${this.__inputID__}" type="${type}">`;
         break;
       case "content":
       default:
-        inputElement = FrontendElement.html`
+        inputElement = Frontend.Element.html`
           <style>
             b, i, u { color: var(--color-foreground); }
             b { font-weight: bold; }
@@ -95,7 +96,7 @@ FrontendElement.Register("core-input", {
           <div id="${this.__inputID__}" role="input" contenteditable="true"></div>`;
     }
 
-    return FrontendElement.html`
+    return Frontend.Element.html`
       ${sharedStyles}
       <label for="${this.__inputID__}">${label}</label>
       ${inputElement}`;

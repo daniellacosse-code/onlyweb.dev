@@ -1,6 +1,6 @@
-import FrontendElement from "/framework/frontend-element/module.js";
+import Frontend from "/framework/frontend/module.js";
 
-FrontendElement.Register("translation-helper", {
+Frontend.Element.Register("translation-helper", {
   templateAttributes: {
     code: String
   },

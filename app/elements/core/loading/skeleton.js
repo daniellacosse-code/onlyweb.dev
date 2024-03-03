@@ -1,8 +1,8 @@
-import FrontendElement from "/framework/frontend-element/module.js";
+import Frontend from "/framework/frontend/module.js";
 
-FrontendElement.Register("core-loading-skeleton", {
+Frontend.Element.Register("core-loading-skeleton", {
   handleTemplateBuild() {
-    return FrontendElement.html`<style>
+    return Frontend.Element.html`<style>
         :host {
           display: block;
           width: 100%;

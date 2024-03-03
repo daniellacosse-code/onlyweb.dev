@@ -1,9 +1,13 @@
 import { html } from "./response.js";
-import * as constants from "/framework/constants.js";
+import * as constants from "../constants.js";
 
 export default (
   route,
-  { handleRequest = () => {}, handleServiceWorkerRequest = () => {} }
+  {
+    requirements = {},
+    handleRequest = () => {},
+    handleServiceWorkerRequest = () => {}
+  }
 ) => {
   globalThis.customPages ??= new Map();
 
@@ -40,18 +44,20 @@ export default (
         <html lang="${request.language}">
           ${await handleRequest(request)}
           <script type="module">
-            import checkRequirements from "/framework/shared/user-agent/check-requirements.js";
-            import frontendRequirements from "/framework/frontend/requirements.js";
-            import parseUserAgent from "/framework/shared/user-agent/parse.js";
+            import Frontend from "/framework/frontend/module.js";
+            import Shared from "/framework/shared/module.js";
 
             (function () {
               // check browser requirements
               if (
                 !(
                   navigator.userAgent &&
-                  checkRequirements(
-                    parseUserAgent(navigator.userAgent),
-                    frontendRequirements.userAgent
+                  Shared.UserAgent.check(
+                    Shared.UserAgent.parse(navigator.userAgent),
+                    Shared.UserAgent.merge(
+                      Frontend.Requirements.userAgent,
+                      JSON.parse("${JSON.stringify(requirements)}").userAgent
+                    )
                   )
                 )
               ) {

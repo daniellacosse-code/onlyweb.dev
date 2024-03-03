@@ -1,6 +1,6 @@
-import FrontendElement from "/framework/frontend-element/module.js";
+import Frontend from "/framework/frontend/module.js";
 
-FrontendElement.Register("counter-demo", {
+Frontend.Element.Register("counter-demo", {
   templateAttributes: {
     state: JSON
   },

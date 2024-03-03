@@ -1,6 +1,6 @@
 export default {
   userAgent: {
-    // These requirements largely come from the use of private fields during element registration..
+    // These requirements largely come from the use of private fields during element registration.
     engine: {
       Chrome: "74",
       Edge: "79",

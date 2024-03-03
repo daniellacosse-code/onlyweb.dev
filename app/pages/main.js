@@ -1,11 +1,11 @@
-import BackendPage from "/framework/backend-page/module.js";
+import Backend from "/framework/backend/module.js";
 
 import * as constants from "/app/constants.js";
 import OnlyWebTheme from "/app/pages/shared-theme.js";
 
 const route = "/";
 
-BackendPage.Register(route, {
+Backend.Page.Register(route, {
   handleRequest: (request) => {
     const logoSrc =
       (request.url.origin.match(/localhost/)
@@ -13,9 +13,9 @@ BackendPage.Register(route, {
         : constants.KEYCDN_IMAGE_ZONE_URL) +
       "/app/assets/images/logo/black.svg";
 
-    const inliner = BackendPage.Inliner(request);
+    const inliner = Backend.Page.Inliner(request);
 
-    return BackendPage.Response.html`<head>
+    return Backend.Page.Response.html`<head>
         <meta charset="utf-8" />
         <link rel="icon" href="/app/assets/images/logo/white.png" />
         <link rel="manifest" href="/app/assets/manifest.json" />
@@ -134,7 +134,7 @@ BackendPage.Register(route, {
         <translation-helper code="${request.language}"></translation-helper>
       </body>`;
   },
-  handleServiceWorkerRequest: () => BackendPage.Response.js`
+  handleServiceWorkerRequest: () => Backend.Page.Response.js`
     self.addEventListener("install", (event) => {
       event.waitUntil(
         caches.open("${route}").then((cache) => {
