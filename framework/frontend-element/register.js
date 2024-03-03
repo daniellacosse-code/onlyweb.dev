@@ -53,7 +53,7 @@ export default (
       }
 
       attributeChangedCallback() {
-        this.EXECUTE_RENDER();
+        this.UPDATE_TEMPLATE();
       }
 
       disconnectedCallback() {
