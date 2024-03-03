@@ -1,7 +1,7 @@
 const DENO_LIVERELOAD_PORT = 35729;
-const DENO_LIVERELOAD_DELAY = 100;
+const DENO_LIVERELOAD_DELAY = 1000;
 
-let serverProcess, reloadInProgress, reloadServer;
+let server, reloadInProgress, reloadServer, reloadSocket;
 startOrReloadAppServer();
 startOrReloadLiveReloadServer();
 
@@ -13,12 +13,16 @@ for await (const event of Deno.watchFs([
 
   await startOrReloadAppServer();
 
-  setTimeout(() => {
+  const intervalID = setInterval(async () => {
     try {
-      reloadServer?.send("reload");
+      if (reloadSocket.readyState === WebSocket.OPEN) {
+        reloadSocket.send("reload");
+        clearInterval(intervalID);
+      } else {
+        await startOrReloadLiveReloadServer();
+      }
     } catch (error) {
       console.error("Error sending reload message:", error);
-      startOrReloadLiveReloadServer();
     }
   }, DENO_LIVERELOAD_DELAY);
 }
@@ -28,8 +32,8 @@ async function startOrReloadAppServer() {
   reloadInProgress = true;
 
   try {
-    serverProcess?.kill();
-    await serverProcess?.output();
+    server?.kill();
+    await server?.output();
   } catch (error) {
     console.error("Error terminating previous process:", error);
   }
@@ -39,7 +43,7 @@ async function startOrReloadAppServer() {
   });
 
   try {
-    return (serverProcess = serverCommand.spawn());
+    return (server = serverCommand.spawn());
   } catch (error) {
     console.error("Error spawing new process:", error);
   } finally {
@@ -47,10 +51,11 @@ async function startOrReloadAppServer() {
   }
 }
 
-function startOrReloadLiveReloadServer() {
-  if (reloadServer) reloadServer.close();
+async function startOrReloadLiveReloadServer() {
+  reloadSocket?.close();
+  await reloadServer?.shutdown();
 
-  Deno.serve({
+  reloadServer = Deno.serve({
     port: DENO_LIVERELOAD_PORT,
     handler: (request) => {
       if (request.headers.get("upgrade") !== "websocket") {
@@ -59,7 +64,7 @@ function startOrReloadLiveReloadServer() {
 
       const { socket, response } = Deno.upgradeWebSocket(request);
 
-      reloadServer = socket;
+      reloadSocket = socket;
 
       return response;
     }

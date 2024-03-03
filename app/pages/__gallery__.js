@@ -88,9 +88,9 @@ BackendPage.Register("/__gallery__", {
         <article>
           <section>
             <h2>&lt;core-text&gt;</h2>
-            <core-text kind="title">Hello, World!</core-text>
-            <core-text kind="subtitle">Hello, World!</core-text>
-            <core-text kind="paragraph">Hello, World!</core-text>
+            <core-text type="title">Hello, World!</core-text>
+            <core-text type="subtitle">Hello, World!</core-text>
+            <core-text type="paragraph">Hello, World!</core-text>
           </section>
 
           <section>
@@ -119,8 +119,10 @@ BackendPage.Register("/__gallery__", {
           <section>
             <h2>&lt;counter-demo&gt;</h2>
             <counter-demo>
-              <core-button id="counter-1">0</core-button>
-              <core-button id="counter-2">0</core-button>
+              <div style="display: flex; gap: 1rem;">
+                <core-button id="counter-1">0</core-button>
+                <core-button id="counter-2">0</core-button>
+              </div>
             </counter-demo>
           </section>
 
@@ -128,6 +130,13 @@ BackendPage.Register("/__gallery__", {
             <h2>[WIP] &lt;core-input&gt;</h2>
             <div class="resize-container">
               <core-input label="edit me"></core-input>
+            </div>
+          </section>
+
+          <section>
+            <h2>[WIP] &lt;core-input type="password"&gt;</h2>
+            <div class="resize-container">
+              <core-input label="give secrets" type="password"></core-input>
             </div>
           </section>
 

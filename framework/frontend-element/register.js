@@ -3,7 +3,12 @@ import DeepProxy from "/framework/shared/deep-proxy.js";
 
 export default (
   tag,
-  { attributes = {}, handleMount = () => {}, handleRender = () => null }
+  {
+    templateAttributes = {},
+    handleMount = defaultMount,
+    handleTemplateBuild = () => html`<slot></slot>`,
+    handleDismount = defaultDismount
+  }
 ) => {
   if (globalThis.customElements.get(tag))
     return console.warn(`Element ${tag} already registered.`);
@@ -11,13 +16,15 @@ export default (
   globalThis.customElements.define(
     tag,
     class extends HTMLElement {
-      #handleRender;
       #handleMount;
-      #abortController = new AbortController();
+      #handleTemplateBuild;
+      #handleDismount;
+      #eventController = new AbortController();
 
-      static observedAttributes = Object.keys(attributes);
+      // element data - template attributes
+      static observedAttributes = Object.keys(templateAttributes);
 
-      get attributes() {
+      get templateAttributes() {
         return new Proxy(
           {},
           {
@@ -32,28 +39,35 @@ export default (
         );
       }
 
-      attributeChangedCallback() {
-        this.EXECUTE_RENDER();
+      // element lifecycle
+      connectedCallback() {
+        this.#handleMount = handleMount.bind(this);
+        this.#handleTemplateBuild = handleTemplateBuild.bind(this);
+        this.#handleDismount = handleDismount.bind(this);
+
+        this.#handleMount(this.templateAttributes);
+        this.UPDATE_TEMPLATE();
       }
 
-      connectedCallback() {
-        this.root = this.attachShadow({ mode: "open" });
-
-        this.#handleMount = handleMount.bind(this);
-        this.#handleRender = handleRender.bind(this);
-
-        this.#handleMount(this.attributes);
-        this.EXECUTE_RENDER();
+      attributeChangedCallback() {
+        this.UPDATE_TEMPLATE();
       }
 
       disconnectedCallback() {
-        this.#abortController.abort();
+        this.#handleDismount(this.templateAttributes, {
+          self: this,
+          eventController: this.#eventController
+        });
       }
 
+      // standard method wrappers
       addEventListener(eventType, listener, options) {
         super.addEventListener(
           eventType,
           (event) => {
+            event.stopPropagation();
+            event.preventDefault();
+
             // You can't change the target of an event by default,
             // so we have to force it
             Object.defineProperty(event, "target", {
@@ -65,22 +79,18 @@ export default (
 
             return listener(event);
           },
-          { signal: this.#abortController.signal, ...options }
+          { signal: this.#eventController.signal, ...options }
         );
       }
 
-      querySelector(selector) {
-        return (
-          super.querySelector(selector) ?? this.root.querySelector(selector)
-        );
-      }
+      // system methods
+      UPDATE_TEMPLATE() {
+        if (!this.template) return;
 
-      EXECUTE_RENDER() {
-        if (!this.root) return;
-
-        const renderResult =
-          this.#handleRender(this.attributes) ?? html`<slot></slot>`;
-        const renderWrapper = html`<template>
+        const templateResult =
+          this.#handleTemplateBuild(this.templateAttributes) ??
+          html`<slot></slot>`;
+        const templateWrapper = html`<template>
           <style>
             *:not(slot) {
               all: initial;
@@ -91,17 +101,17 @@ export default (
               display: none;
             }
           </style>
-          ${renderResult}
+          ${templateResult}
         </template>`;
 
-        this.root.replaceChildren(...renderWrapper);
-        this.root.append(
-          this.root.querySelector("template").content.cloneNode(true)
+        this.template.replaceChildren(...templateWrapper);
+        this.template.append(
+          this.template.querySelector("template").content.cloneNode(true)
         );
       }
 
       #RESOLVE_ATTRIBUTE_GET(name, value) {
-        const resolver = attributes[name] ?? String;
+        const resolver = templateAttributes[name] ?? String;
 
         if (value === null) return void 0;
         if (resolver === JSON) {
@@ -119,14 +129,13 @@ export default (
             return void 0;
           }
         }
-        if (resolver === Boolean && value === "") return true;
-        if (resolver === Boolean && value === "false") return false;
+        if (resolver === Boolean) return this.#RESOLVE_BOOLEAN_ATTRIBUTE(value);
 
         return resolver(value);
       }
 
       #RESOLVE_ATTRIBUTE_SET(name, value) {
-        const resolver = attributes[name] ?? String;
+        const resolver = templateAttributes[name] ?? String;
 
         if (value === null) return void 0;
         if (resolver === JSON) {
@@ -139,13 +148,33 @@ export default (
             return void 0;
           }
         }
-        if (resolver === Boolean && value === "") return true;
-        if (resolver === Boolean && value === "false") return false;
+        if (resolver === Boolean) return this.#RESOLVE_BOOLEAN_ATTRIBUTE(value);
 
         return resolver(value);
+      }
+
+      #RESOLVE_BOOLEAN_ATTRIBUTE(value) {
+        switch (value) {
+          case "true":
+          case "": // empty string is considered true
+            return true;
+          case "false":
+            return false;
+          default:
+            return Boolean(value);
+        }
       }
     }
   );
 
   console.debug(`Registered element "<${tag}>".`);
+};
+
+const defaultMount = function () {
+  this.template = this.attachShadow({ mode: "open" });
+  this.host = this;
+};
+
+const defaultDismount = function (_, { eventController }) {
+  eventController.abort();
 };
