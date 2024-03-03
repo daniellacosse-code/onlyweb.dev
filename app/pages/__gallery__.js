@@ -69,9 +69,9 @@ BackendPage.Register("/__gallery__", {
         <article>
           <section>
             <h2>&lt;core-text&gt;</h2>
-            <core-text kind="title">Hello, World!</core-text>
-            <core-text kind="subtitle">Hello, World!</core-text>
-            <core-text kind="paragraph">Hello, World!</core-text>
+            <core-text type="title">Hello, World!</core-text>
+            <core-text type="subtitle">Hello, World!</core-text>
+            <core-text type="paragraph">Hello, World!</core-text>
           </section>
 
           <section>
