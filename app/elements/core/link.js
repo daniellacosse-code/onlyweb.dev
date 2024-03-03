@@ -4,7 +4,7 @@ FrontendElement.Register("core-link", {
   attributes: {
     href: String
   },
-  handleRender({ href = "#" }) {
+  handleTemplateUpdate({ href = "#" }) {
     return FrontendElement.html`<style>
         a,
         a::selection {

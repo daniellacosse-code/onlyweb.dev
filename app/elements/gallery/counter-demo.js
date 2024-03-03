@@ -13,18 +13,11 @@ FrontendElement.Register("counter-demo", {
       this.attributes.state[target.attributes.id] = currentState + 1;
     });
   },
-  handleRender({ state = {} }) {
+  handleTemplateUpdate({ state = {} }) {
     for (const [key, value] of Object.entries(state)) {
-      const target = this.querySelector(`#${key}`);
+      const target = this.host.querySelector(`#${key}`);
 
       if (target) target.textContent = value;
     }
-
-    return FrontendElement.html`<style>
-      div {
-        display: flex;
-        gap: var(--size-narrow);
-      }
-    </style><div><slot></slot></div>`;
   }
 });
