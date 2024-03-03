@@ -99,9 +99,11 @@ BackendPage.Register("/__gallery__", {
 
           <section>
             <h2>&lt;counter-demo&gt;</h2>
-            <counter-demo style="display: flex; gap: var(--size-narrow);">
-              <core-button id="counter-1">0</core-button>
-              <core-button id="counter-2">0</core-button>
+            <counter-demo>
+              <div style="display: flex; gap: 1rem;">
+                <core-button id="counter-1">0</core-button>
+                <core-button id="counter-2">0</core-button>
+              </div>
             </counter-demo>
           </section>
 

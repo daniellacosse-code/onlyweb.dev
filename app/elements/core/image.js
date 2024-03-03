@@ -26,7 +26,7 @@ FrontendElement.Register("core-image", {
     this.__image__.src = url.toString();
     this.__image__.alt = alt;
   },
-  handleRender({ width, height, loaded }) {
+  handleTemplateUpdate({ width, height, loaded }) {
     if (loaded) {
       return FrontendElement.html`<style>
           :host {

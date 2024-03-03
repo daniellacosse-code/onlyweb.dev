@@ -13,10 +13,10 @@ FrontendElement.Register("counter-demo", {
       this.attributes.state[target.attributes.id] = currentState + 1;
     });
   },
-  // TODO: render not being triggered here (issue with the deep proxy)
-  handleRender({ state = {} }) {
+  // TODO: update not being triggered here (issue with the deep proxy)
+  handleTemplateUpdate({ state = {} }) {
     for (const [key, value] of Object.entries(state)) {
-      const target = this.querySelector(`#${key}`);
+      const target = this.host.querySelector(`#${key}`);
 
       if (target) target.textContent = value;
     }

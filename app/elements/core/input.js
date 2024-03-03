@@ -58,21 +58,21 @@ FrontendElement.Register("core-input", {
     value: String
   },
   handleMount() {
-    this.root = this.attachShadow({ mode: "open" });
+    this.template = this.attachShadow({ mode: "open" });
     this.labelID = this.attributes.label.toLowerCase().replace(/\s/g, "-");
 
     this.attributes.tabindex = 0;
     this.attributes.role = "input";
 
     this.addEventListener("focus", () =>
-      this.querySelector(`#${this.labelID}`).focus()
+      this.template.querySelector(`#${this.labelID}`).focus()
     );
     this.addEventListener("input", ({ target }) => {
       this.attributes.value =
         target.tag === "input" ? target.value : target.textContent;
     });
   },
-  handleRender({ label = "", value = "", type = "content" }) {
+  handleTemplateUpdate({ label = "", value = "", type = "content" }) {
     let inputElement;
 
     switch (type) {

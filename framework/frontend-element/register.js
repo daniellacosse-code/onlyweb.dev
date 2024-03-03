@@ -6,8 +6,8 @@ export default (
   {
     attributes = {},
     handleMount = defaultMount,
-    handleRender = () => html`<slot></slot>`,
-    handleRenderCleanup = defaultRenderCleanup,
+    handleTemplateUpdate = () => html`<slot></slot>`,
+    handleTemplateCleanup = defaultRenderCleanup,
     handleDismount = defaultDismount
   }
 ) => {
@@ -17,9 +17,9 @@ export default (
   globalThis.customElements.define(
     tag,
     class extends HTMLElement {
-      #handleRender;
       #handleMount;
-      #handleRenderCleanup;
+      #handleTemplateUpdate;
+      #handleTemplateCleanup;
       #handleDismount;
       #eventController = new AbortController();
 
@@ -43,13 +43,15 @@ export default (
 
       // element lifecycle
       connectedCallback() {
+        this.template = this.attachShadow({ mode: "open" });
+        this.host = this;
+
         this.#handleMount = handleMount.bind(this);
-        this.#handleRender = handleRender.bind(this);
-        this.#handleRenderCleanup = handleRenderCleanup.bind(this);
+        this.#handleTemplateUpdate = handleTemplateUpdate.bind(this);
+        this.#handleTemplateCleanup = handleRenderCleanup.bind(this);
         this.#handleDismount = handleDismount.bind(this);
 
-        this.#handleMount(this.attributes);
-        this.EXECUTE_RENDER();
+        this.UPDATE_TEMPLATE();
       }
 
       attributeChangedCallback() {
@@ -86,25 +88,12 @@ export default (
         );
       }
 
-      querySelector(selector) {
-        if (!selector || selector === "#") return;
+      UPDATE_TEMPLATE() {
+        if (!this.template) return;
 
-        return (
-          super.querySelector(selector) ?? this.root.querySelector(selector)
-        );
-      }
-
-      getElementById(id) {
-        return this.querySelector(`#${id}`);
-      }
-
-      // utility methods
-      EXECUTE_RENDER() {
-        if (!this.root) return;
-
-        const renderResult =
-          this.#handleRender(this.attributes) ?? html`<slot></slot>`;
-        const renderWrapper = html`<template>
+        const templateResult =
+          this.#handleTemplateUpdate(this.attributes) ?? html`<slot></slot>`;
+        const templateWrapper = html`<template>
           <style>
             *:not(slot) {
               all: initial;
@@ -115,7 +104,7 @@ export default (
               display: none;
             }
           </style>
-          ${renderResult}
+          ${templateResult}
         </template>`;
 
         const previousActiveElement = this.root.activeElement?.cloneNode(true);
@@ -138,8 +127,8 @@ export default (
           // console.error(error);
         }
 
-        this.root.replaceChildren(...renderWrapper);
-        this.root.append(
+        this.template.replaceChildren(...renderWrapper);
+        this.template.append(
           this.root.querySelector("template").content.cloneNode(true)
         );
 
