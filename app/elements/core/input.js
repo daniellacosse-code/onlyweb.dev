@@ -7,6 +7,7 @@ const sharedStyles = FrontendElement.html`<style>
   }
   :host,
   label,
+  input,
   [role="input"] {
     box-sizing: border-box;
     min-height: 100%;
@@ -14,6 +15,7 @@ const sharedStyles = FrontendElement.html`<style>
     word-wrap: break-word;
   }
   :host,
+  input,
   [role="input"] {
     outline: 0;
   }
@@ -30,14 +32,13 @@ const sharedStyles = FrontendElement.html`<style>
     border-radius: var(--size-narrow);
     border: var(--size-hairline) solid var(--color-foreground);
     position: relative;
-    /* TODO: mount both elements at once, revealing the second once the transition is done on each render
-    /* transition: border-color var(--animation-duration-fast) var(--animation-timing-function); */
+    transition: border-color var(--animation-duration-fast) var(--animation-timing-function);
   }
   :host(:focus-within),
   :host(:active) {
     border-color: var(--color-highlight);
   }
-  [role="input"] {
+  [role="input"], input {
     color: var(--color-foreground);
   }
   label {
@@ -55,14 +56,10 @@ FrontendElement.Register("core-input", {
   templateAttributes: {
     label: String,
     type: String
-    /* value: String */
   },
   handleMount({ label }) {
-    this.templateAttributes.tabindex = 0;
-    this.templateAttributes.role = "input";
-
-    this.template = this.attachShadow({ mode: "open" });
-    this.__inputID__ = label.toLowerCase().replace(/\s/g, "-");
+    this.setAttribute("tabIndex", 0);
+    this.setAttribute("role", "input");
 
     this.addEventListener("focus", () =>
       this.template.getElementById(this.__inputID__).focus()
@@ -70,12 +67,15 @@ FrontendElement.Register("core-input", {
 
     this.addEventListener("input", ({ target }) => {
       const hasValue =
-        target.tag === "input" ? target.value : target.textContent;
+        target.localName === "input" ? target.value : target.textContent;
 
       this.template.querySelector("label").classList.toggle("hidden", hasValue);
     });
+
+    this.template = this.attachShadow({ mode: "open" });
+    this.__inputID__ = label.toLowerCase().replace(/\s/g, "-");
   },
-  handleTemplateUpdate({ label = "", type = "content" }) {
+  handleTemplateBuild({ label = "", type = "content" }) {
     let inputElement;
     switch (type) {
       case "text":

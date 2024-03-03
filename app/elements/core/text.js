@@ -4,7 +4,7 @@ FrontendElement.Register("core-text", {
   templateAttributes: {
     kind: String
   },
-  handleTemplateUpdate({ kind = "paragraph" }) {
+  handleTemplateBuild({ kind = "paragraph" }) {
     return FrontendElement.html`<style>
         :host {
           cursor: inherit;

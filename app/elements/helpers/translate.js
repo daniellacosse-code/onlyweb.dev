@@ -4,7 +4,7 @@ FrontendElement.Register("translation-helper", {
   templateAttributes: {
     code: String
   },
-  async handleMount({ code = "en" }) {
+  async handleMount({ code = "en-US" }) {
     try {
       const messages = await (
         await fetch(`/app/assets/messages/${code}.json`)

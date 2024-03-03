@@ -1,7 +1,7 @@
 import FrontendElement from "/framework/frontend-element/entry.js";
 
 FrontendElement.Register("core-loading-skeleton", {
-  handleTemplateUpdate() {
+  handleTemplateBuild() {
     return FrontendElement.html`<style>
         :host {
           display: block;

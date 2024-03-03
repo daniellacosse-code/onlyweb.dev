@@ -6,7 +6,7 @@ export default (
   {
     templateAttributes = {},
     handleMount = defaultMount,
-    handleTemplateUpdate = () => html`<slot></slot>`,
+    handleTemplateBuild = () => html`<slot></slot>`,
     handleDismount = defaultDismount
   }
 ) => {
@@ -17,7 +17,7 @@ export default (
     tag,
     class extends HTMLElement {
       #handleMount;
-      #handleTemplateUpdate;
+      #handleTemplateBuild;
       #handleDismount;
       #eventController = new AbortController();
 
@@ -41,14 +41,11 @@ export default (
 
       // element lifecycle
       connectedCallback() {
-        this.template = this.attachShadow({ mode: "open" });
-        this.host = this;
-
         this.#handleMount = handleMount.bind(this);
-        this.#handleTemplateUpdate = handleTemplateUpdate.bind(this);
+        this.#handleTemplateBuild = handleTemplateBuild.bind(this);
         this.#handleDismount = handleDismount.bind(this);
 
-        this.#handleMount(this.attributes);
+        this.#handleMount(this.templateAttributes);
         this.UPDATE_TEMPLATE();
       }
 
@@ -57,7 +54,7 @@ export default (
       }
 
       disconnectedCallback() {
-        this.#handleDismount(this.attributes, {
+        this.#handleDismount(this.templateAttributes, {
           self: this,
           eventController: this.#eventController
         });
@@ -91,7 +88,8 @@ export default (
         if (!this.template) return;
 
         const templateResult =
-          this.#handleTemplateUpdate(this.attributes) ?? html`<slot></slot>`;
+          this.#handleTemplateBuild(this.templateAttributes) ??
+          html`<slot></slot>`;
         const templateWrapper = html`<template>
           <style>
             *:not(slot) {
@@ -108,7 +106,7 @@ export default (
 
         this.template.replaceChildren(...templateWrapper);
         this.template.append(
-          this.root.querySelector("template").content.cloneNode(true)
+          this.template.querySelector("template").content.cloneNode(true)
         );
       }
 

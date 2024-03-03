@@ -12,7 +12,7 @@ FrontendElement.Register("core-image", {
     loaded: Boolean
   },
   handleMount({ src, alt, origin, ...cdnConfig }) {
-    this.root = this.attachShadow({ mode: "open" });
+    this.template = this.attachShadow({ mode: "open" });
 
     const url = new URL(origin);
 
@@ -26,7 +26,9 @@ FrontendElement.Register("core-image", {
     this.__image__.src = url.toString();
     this.__image__.alt = alt;
   },
-  handleTemplateUpdate({ width, height, loaded }) {
+  handleTemplateBuild({ width, height, loaded }) {
+    console.log({ width, height, loaded });
+
     if (loaded) {
       return FrontendElement.html`<style>
           :host {
