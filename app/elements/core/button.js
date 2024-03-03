@@ -42,7 +42,7 @@ FrontendElement.Register("core-button", {
   attributes: {
     disabled: Boolean
   },
-  handleRender({ disabled }) {
+  handleTemplateUpdate({ disabled }) {
     if (disabled)
       return FrontendElement.html`${sharedStyles}
         <style>

@@ -3,7 +3,11 @@ import DeepProxy from "/framework/shared/deep-proxy.js";
 
 export default (
   tag,
-  { attributes = {}, handleMount = () => {}, handleRender = () => null }
+  {
+    attributes = {},
+    handleMount = () => {},
+    handleTemplateUpdate = () => html`<slot></slot>`
+  }
 ) => {
   if (globalThis.customElements.get(tag))
     return console.warn(`Element ${tag} already registered.`);
@@ -11,8 +15,8 @@ export default (
   globalThis.customElements.define(
     tag,
     class extends HTMLElement {
-      #handleRender;
       #handleMount;
+      #handleTemplateUpdate;
       #abortController = new AbortController();
 
       static observedAttributes = Object.keys(attributes);
@@ -33,17 +37,18 @@ export default (
       }
 
       attributeChangedCallback() {
-        this.EXECUTE_RENDER();
+        this.UPDATE_TEMPLATE();
       }
 
       connectedCallback() {
-        this.root = this.attachShadow({ mode: "open" });
+        this.template = this.attachShadow({ mode: "open" });
+        this.host = this;
 
         this.#handleMount = handleMount.bind(this);
-        this.#handleRender = handleRender.bind(this);
+        this.#handleTemplateUpdate = handleTemplateUpdate.bind(this);
 
         this.#handleMount(this.attributes);
-        this.EXECUTE_RENDER();
+        this.UPDATE_TEMPLATE();
       }
 
       disconnectedCallback() {
@@ -69,18 +74,12 @@ export default (
         );
       }
 
-      querySelector(selector) {
-        return (
-          super.querySelector(selector) ?? this.root.querySelector(selector)
-        );
-      }
+      UPDATE_TEMPLATE() {
+        if (!this.template) return;
 
-      EXECUTE_RENDER() {
-        if (!this.root) return;
-
-        const renderResult =
-          this.#handleRender(this.attributes) ?? html`<slot></slot>`;
-        const renderWrapper = html`<template>
+        const templateResult =
+          this.#handleTemplateUpdate(this.attributes) ?? html`<slot></slot>`;
+        const templateWrapper = html`<template>
           <style>
             *:not(slot) {
               all: initial;
@@ -91,12 +90,12 @@ export default (
               display: none;
             }
           </style>
-          ${renderResult}
+          ${templateResult}
         </template>`;
 
-        this.root.replaceChildren(...renderWrapper);
-        this.root.append(
-          this.root.querySelector("template").content.cloneNode(true)
+        this.template.replaceChildren(...templateWrapper);
+        this.template.append(
+          this.template.querySelector("template").content.cloneNode(true)
         );
       }
 

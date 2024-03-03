@@ -5,22 +5,25 @@ FrontendElement.Register("core-input", {
     label: String
   },
   handleMount() {
-    // re-rendering messes with the focus, so we
+    this.attributes.tabindex = 0;
+
+    // rebuilding messes with the focus, so we
     // manage the state this way
     this.addEventListener("input", (event) => {
       this.hasContent = Boolean(event.target.textContent);
 
       if (this.hasContent) {
-        this.querySelector("label").classList.add("hidden");
+        this.template.querySelector("label").classList.add("hidden");
       } else {
-        this.querySelector("label").classList.remove("hidden");
+        this.template.querySelector("label").classList.remove("hidden");
       }
     });
 
-    this.attributes.tabindex = 0;
-    this.addEventListener("focus", () => this.querySelector("#input").focus());
+    this.addEventListener("focus", () =>
+      this.template.querySelector("#input").focus()
+    );
   },
-  handleRender({ label = "" }) {
+  handleTemplateUpdate({ label = "" }) {
     return FrontendElement.html`<style>
         ::selection {
           background-color: var(--color-highlight);
