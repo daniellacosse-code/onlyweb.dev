@@ -12,7 +12,7 @@ export const THEME_COLOR_NEUTRAL_SEMITRANSPARENT = `hsla(${neutralValues}, 0.95)
 export const THEME_COLOR_NEUTRAL_TRANSPARENT = `hsla(${neutralValues}, 0.25)`;
 
 export const THEME_SIZE_HAIRLINE = "3px";
-export const THEME_SIZE_NARROW = "0.85rem";
+export const THEME_SIZE_NARROW = "0.5rem";
 export const THEME_SIZE_DEFAULT = "1rem";
 export const THEME_SIZE_LARGE = "2rem";
 export const THEME_SIZE_HUGE = "3rem";

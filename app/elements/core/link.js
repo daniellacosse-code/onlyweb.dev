@@ -1,10 +1,10 @@
 import FrontendElement from "/framework/frontend-element/entry.js";
 
 FrontendElement.Register("core-link", {
-  attributes: {
+  templateAttributes: {
     href: String
   },
-  handleTemplateUpdate({ href = "#" }) {
+  handleTemplateBuild({ href = "#" }) {
     return FrontendElement.html`<style>
         a,
         a::selection {

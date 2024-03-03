@@ -69,9 +69,9 @@ BackendPage.Register("/__gallery__", {
         <article>
           <section>
             <h2>&lt;core-text&gt;</h2>
-            <core-text kind="title">Hello, World!</core-text>
-            <core-text kind="subtitle">Hello, World!</core-text>
-            <core-text kind="paragraph">Hello, World!</core-text>
+            <core-text type="title">Hello, World!</core-text>
+            <core-text type="subtitle">Hello, World!</core-text>
+            <core-text type="paragraph">Hello, World!</core-text>
           </section>
 
           <section>
@@ -111,6 +111,13 @@ BackendPage.Register("/__gallery__", {
             <h2>[WIP] &lt;core-input&gt;</h2>
             <div class="resize-container">
               <core-input label="edit me"></core-input>
+            </div>
+          </section>
+
+          <section>
+            <h2>[WIP] &lt;core-input type="password"&gt;</h2>
+            <div class="resize-container">
+              <core-input label="give secrets" type="password"></core-input>
             </div>
           </section>
 

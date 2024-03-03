@@ -1,13 +1,13 @@
 import FrontendElement from "/framework/frontend-element/entry.js";
 
 FrontendElement.Register("core-loading-skeleton", {
-  handleTemplateUpdate() {
+  handleTemplateBuild() {
     return FrontendElement.html`<style>
         :host {
           display: block;
           width: 100%;
           height: 100%;
-          border-radius: 0.5rem;
+          border-radius: var(--size-narrow);
           background: linear-gradient(
             90deg,
             var(--color-neutral-transparent) 0%,

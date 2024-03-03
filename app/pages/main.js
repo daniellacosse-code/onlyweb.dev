@@ -103,11 +103,11 @@ BackendPage.Register("/", {
                 }"
               ></core-image>
             </div>
-            <core-text id="title" kind="title">only web 2</core-text>
+            <core-text id="title" type="title">only web 2</core-text>
           </header>
           <article>
             <section>
-              <core-text id="apology" kind="subtitle"
+              <core-text id="apology" type="subtitle"
                 >Please pardon our dust.</core-text
               >
             </section>

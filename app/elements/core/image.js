@@ -3,7 +3,7 @@ import FrontendElement from "/framework/frontend-element/entry.js";
 import "/app/elements/core/loading/skeleton.js";
 
 FrontendElement.Register("core-image", {
-  attributes: {
+  templateAttributes: {
     src: String,
     alt: String,
     origin: String,
@@ -12,6 +12,8 @@ FrontendElement.Register("core-image", {
     loaded: Boolean
   },
   handleMount({ src, alt, origin, ...cdnConfig }) {
+    this.template = this.attachShadow({ mode: "open" });
+
     const url = new URL(origin);
 
     url.pathname = src;
@@ -19,12 +21,14 @@ FrontendElement.Register("core-image", {
       url.searchParams.set(key, value);
     }
 
-    this.image = new Image(cdnConfig.width, cdnConfig.height);
-    this.image.onload = () => (this.attributes.loaded = true);
-    this.image.src = url.toString();
-    this.image.alt = alt;
+    this.__image__ = new Image(cdnConfig.width, cdnConfig.height);
+    this.__image__.onload = () => (this.templateAttributes.loaded = true);
+    this.__image__.src = url.toString();
+    this.__image__.alt = alt;
   },
-  handleTemplateUpdate({ width, height, loaded }) {
+  handleTemplateBuild({ width, height, loaded }) {
+    console.log({ width, height, loaded });
+
     if (loaded) {
       return FrontendElement.html`<style>
           :host {
@@ -41,7 +45,7 @@ FrontendElement.Register("core-image", {
             user-select: none;
           }
         </style>
-        ${this.image}`;
+        ${this.__image__}`;
     }
 
     return FrontendElement.html`<style>

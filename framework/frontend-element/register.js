@@ -4,9 +4,10 @@ import DeepProxy from "/framework/shared/deep-proxy.js";
 export default (
   tag,
   {
-    attributes = {},
-    handleMount = () => {},
-    handleTemplateUpdate = () => html`<slot></slot>`
+    templateAttributes = {},
+    handleMount = defaultMount,
+    handleTemplateBuild = () => html`<slot></slot>`,
+    handleDismount = defaultDismount
   }
 ) => {
   if (globalThis.customElements.get(tag))
@@ -16,12 +17,14 @@ export default (
     tag,
     class extends HTMLElement {
       #handleMount;
-      #handleTemplateUpdate;
-      #abortController = new AbortController();
+      #handleTemplateBuild;
+      #handleDismount;
+      #eventController = new AbortController();
 
-      static observedAttributes = Object.keys(attributes);
+      // element data - template attributes
+      static observedAttributes = Object.keys(templateAttributes);
 
-      get attributes() {
+      get templateAttributes() {
         return new Proxy(
           {},
           {
@@ -36,29 +39,35 @@ export default (
         );
       }
 
+      // element lifecycle
+      connectedCallback() {
+        this.#handleMount = handleMount.bind(this);
+        this.#handleTemplateBuild = handleTemplateBuild.bind(this);
+        this.#handleDismount = handleDismount.bind(this);
+
+        this.#handleMount(this.templateAttributes);
+        this.UPDATE_TEMPLATE();
+      }
+
       attributeChangedCallback() {
         this.UPDATE_TEMPLATE();
       }
 
-      connectedCallback() {
-        this.template = this.attachShadow({ mode: "open" });
-        this.host = this;
-
-        this.#handleMount = handleMount.bind(this);
-        this.#handleTemplateUpdate = handleTemplateUpdate.bind(this);
-
-        this.#handleMount(this.attributes);
-        this.UPDATE_TEMPLATE();
-      }
-
       disconnectedCallback() {
-        this.#abortController.abort();
+        this.#handleDismount(this.templateAttributes, {
+          self: this,
+          eventController: this.#eventController
+        });
       }
 
+      // standard method wrappers
       addEventListener(eventType, listener, options) {
         super.addEventListener(
           eventType,
           (event) => {
+            event.stopPropagation();
+            event.preventDefault();
+
             // You can't change the target of an event by default,
             // so we have to force it
             Object.defineProperty(event, "target", {
@@ -70,15 +79,17 @@ export default (
 
             return listener(event);
           },
-          { signal: this.#abortController.signal, ...options }
+          { signal: this.#eventController.signal, ...options }
         );
       }
 
+      // system methods
       UPDATE_TEMPLATE() {
         if (!this.template) return;
 
         const templateResult =
-          this.#handleTemplateUpdate(this.attributes) ?? html`<slot></slot>`;
+          this.#handleTemplateBuild(this.templateAttributes) ??
+          html`<slot></slot>`;
         const templateWrapper = html`<template>
           <style>
             *:not(slot) {
@@ -100,7 +111,7 @@ export default (
       }
 
       #RESOLVE_ATTRIBUTE_GET(name, value) {
-        const resolver = attributes[name] ?? String;
+        const resolver = templateAttributes[name] ?? String;
 
         if (value === null) return void 0;
         if (resolver === JSON) {
@@ -118,14 +129,13 @@ export default (
             return void 0;
           }
         }
-        if (resolver === Boolean && value === "") return true;
-        if (resolver === Boolean && value === "false") return false;
+        if (resolver === Boolean) return this.#RESOLVE_BOOLEAN_ATTRIBUTE(value);
 
         return resolver(value);
       }
 
       #RESOLVE_ATTRIBUTE_SET(name, value) {
-        const resolver = attributes[name] ?? String;
+        const resolver = templateAttributes[name] ?? String;
 
         if (value === null) return void 0;
         if (resolver === JSON) {
@@ -138,13 +148,33 @@ export default (
             return void 0;
           }
         }
-        if (resolver === Boolean && value === "") return true;
-        if (resolver === Boolean && value === "false") return false;
+        if (resolver === Boolean) return this.#RESOLVE_BOOLEAN_ATTRIBUTE(value);
 
         return resolver(value);
+      }
+
+      #RESOLVE_BOOLEAN_ATTRIBUTE(value) {
+        switch (value) {
+          case "true":
+          case "": // empty string is considered true
+            return true;
+          case "false":
+            return false;
+          default:
+            return Boolean(value);
+        }
       }
     }
   );
 
   console.debug(`Registered element "<${tag}>".`);
+};
+
+const defaultMount = function () {
+  this.template = this.attachShadow({ mode: "open" });
+  this.host = this;
+};
+
+const defaultDismount = function (_, { eventController }) {
+  eventController.abort();
 };
