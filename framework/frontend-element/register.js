@@ -111,7 +111,6 @@ export default (
         );
       }
 
-      // TODO: dedupe resolution logic across get and set
       #RESOLVE_ATTRIBUTE_GET(name, value) {
         const resolver = templateAttributes[name] ?? String;
 
@@ -131,8 +130,7 @@ export default (
             return void 0;
           }
         }
-        if (resolver === Boolean && value === "") return true;
-        if (resolver === Boolean && value === "false") return false;
+        if (resolver === Boolean) return this.#RESOLVE_BOOLEAN_ATTRIBUTE(value);
 
         return resolver(value);
       }
@@ -151,10 +149,21 @@ export default (
             return void 0;
           }
         }
-        if (resolver === Boolean && value === "") return true;
-        if (resolver === Boolean && value === "false") return false;
+        if (resolver === Boolean) return this.#RESOLVE_BOOLEAN_ATTRIBUTE(value);
 
         return resolver(value);
+      }
+
+      #RESOLVE_BOOLEAN_ATTRIBUTE(value) {
+        switch (value) {
+          case "true":
+          case "": // empty string is considered true
+            return true;
+          case "false":
+            return false;
+          default:
+            return Boolean(value);
+        }
       }
     }
   );
