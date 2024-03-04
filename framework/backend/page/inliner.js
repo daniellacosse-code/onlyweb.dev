@@ -6,9 +6,16 @@ import minify from "/framework/shared/html/minify.js";
 export default async function Inliner(request) {
   const origin = request.url.origin;
 
-  const messages = await (
-    await fetch(`${origin}/app/assets/messages/${request.language}.json`)
-  ).json();
+  let messages;
+
+  try {
+    messages = await (
+      await fetch(`${origin}/app/assets/messages/${request.language}.json`)
+    ).json();
+  } catch (error) {
+    console.error(error);
+    messages = {};
+  }
 
   return {
     elements(...filePaths) {
