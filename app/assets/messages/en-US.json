@@ -1,10 +1,7 @@
 {
-  "/app/pages/index.js#title": "only web 2",
-  "/app/pages/index.js#apology": "Please pardon our dust.",
-  "/app/pages/index.js#explaination": "We're currently rebuilding literally everything.",
-  "/app/pages/index.js#call-to-action": "Follow along ↗",
-  "/#title": "only web 2",
-  "/#apology": "Please pardon our dust.",
-  "/#explaination": "We're currently rebuilding literally everything.",
-  "/#call-to-action": "Follow along ↗"
+  "only web 2": "only web 2",
+  "Please pardon our dust.": "Please pardon our dust.",
+  "We're currently rebuilding literally everything.": "We're currently rebuilding literally everything.",
+  "Follow along ↗": "Follow along ↗",
+  "only web. only web. only web. only web. only web. only web. only web. only web. only web. only web. only web. only web": "only web. only web. only web. only web. only web. only web. only web. only web. only web. only web. only web. only web"
 }

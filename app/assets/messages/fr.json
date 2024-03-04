@@ -1,10 +1,7 @@
 {
-  "/app/pages/index.js#title": "web 2 uniquement",
-  "/app/pages/index.js#apology": "Veuillez nous excuser pour le désordre.",
-  "/app/pages/index.js#explaination": "Nous sommes en train de tout reconstruire, littéralement.",
-  "/app/pages/index.js#call-to-action": "Suivre ↗",
-  "/#title": "web 2 uniquement",
-  "/#apology": "Veuillez nous excuser pour le désordre.",
-  "/#explaination": "Nous sommes en train de tout reconstruire, littéralement.",
-  "/#call-to-action": "Suivre ↗"
+  "only web 2": "web 2 uniquement",
+  "Please pardon our dust.": "Veuillez nous excuser pour le désordre.",
+  "We're currently rebuilding literally everything.": "Nous sommes en train de tout reconstruire, littéralement.",
+  "Follow along ↗": "Suivre ↗",
+  "only web. only web. only web. only web. only web. only web. only web. only web. only web. only web. only web. only web": "web uniquement. web uniquement. web uniquement. web uniquement. web uniquement. web uniquement. web uniquement. web uniquement."
 }

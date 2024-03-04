@@ -6,14 +6,14 @@ import OnlyWebTheme from "/app/pages/shared-theme.js";
 const route = "/";
 
 Backend.Page.Register(route, {
-  handleRequest: (request) => {
+  handleRequest: async (request) => {
     const logoSrc =
       (request.url.origin.match(/localhost/)
         ? request.url.origin
         : constants.KEYCDN_IMAGE_ZONE_URL) +
       "/app/assets/images/logo/black.svg";
 
-    const inliner = Backend.Page.Inliner(request);
+    const inliner = await Backend.Page.Inliner(request);
 
     return Backend.Page.Response.html`<head>
         <meta charset="utf-8" />
@@ -23,8 +23,9 @@ Backend.Page.Register(route, {
 
         ${inliner.metadata({
           title: "2",
-          description:
-            "only web. only web. only web. only web. only web. only web. only web. only web. only web. only web. only web. only web",
+          description: inliner.message(
+            "only web. only web. only web. only web. only web. only web. only web. only web. only web. only web. only web. only web"
+          ),
           previewImage: "/app/assets/images/logo/black.svg",
           url: "https://onlyweb.dev/"
         })}
@@ -33,8 +34,7 @@ Backend.Page.Register(route, {
           "/app/elements/core/loading/skeleton.js",
           "/app/elements/core/image.js",
           "/app/elements/core/link.js",
-          "/app/elements/core/text.js",
-          "/app/elements/helpers/translate.js"
+          "/app/elements/core/text.js"
         )}
 
         <meta
@@ -112,26 +112,26 @@ Backend.Page.Register(route, {
                 width="${constants.THEME_SIZE_ICON}"
               ></core-image>
             </div>
-            <core-text id="title" type="title">only web 2</core-text>
+            <core-text type="title">${inliner.message("only web 2")}</core-text>
           </header>
           <article>
             <section>
-              <core-text id="apology" type="subtitle"
-                >Please pardon our dust.</core-text
+              <core-text type="subtitle"
+                >${inliner.message("Please pardon our dust.")}</core-text
               >
             </section>
             <section>
-              <core-text id="explaination"
-                >We're currently rebuilding literally everything.</core-text
+              <core-text 
+                >${inliner.message(
+                  "We're currently rebuilding literally everything."
+                )}</core-text
               >
-              <core-link id="call-to-action" href="https://DanielLaCos.se"
-                >Follow along</core-link
+              <core-link href="https://DanielLaCos.se/"
+                >${inliner.message("Follow along")}</core-link
               >
             </section>
           </article>
         </main>
-
-        <translation-helper code="${request.language}"></translation-helper>
       </body>`;
   },
   handleServiceWorkerRequest: () => Backend.Page.Response.js`
@@ -139,9 +139,7 @@ Backend.Page.Register(route, {
       event.waitUntil(
         caches.open("${route}").then((cache) => {
           return cache.addAll([
-            "/",
-            "/app/assets/images/logo/black.svg",
-            "/app/assets/images/logo/white.png",
+            "${route}",
             "/app/assets/manifest.json"
           ]);
         })
@@ -149,16 +147,14 @@ Backend.Page.Register(route, {
     });
 
     self.addEventListener("fetch", (event) => {
-      event.respondWith(caches.open("${route}").then((cache) => {
-        return cache.match(event.request).then((cachedResponse) => {
-          const fetchedResponse = fetch(event.request).then((networkResponse) => {
-            cache.put(event.request, networkResponse.clone());
-  
-            return networkResponse;
-          });
-  
-          return cachedResponse || fetchedResponse;
-        });
+      event.respondWith(new Promise(async (resolve) => {
+        const cachedResponse = await caches.match(event.request);
+        
+        resolve(cachedResponse || fetch(event.request).then((networkResponse) => {
+          cache.put(event.request, networkResponse.clone());
+
+          return networkResponse;
+        }));
       }));  
   })`
 });

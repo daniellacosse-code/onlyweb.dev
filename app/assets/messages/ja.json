@@ -1,10 +1,7 @@
 {
-  "/app/pages/index.js#title": "ウェブ2のみ",
-  "/app/pages/index.js#apology": "すみません。",
-  "/app/pages/index.js#explaination": "私たちはは作り直す。",
-  "/app/pages/index.js#call-to-action": "↗行くがついて来る",
-  "/#title": "ウェブ2のみ",
-  "/#apology": "すみません。",
-  "/#explaination": "私たちはは作り直す。",
-  "/#call-to-action": "↗行くがついて来る"
+  "only web 2": "ウェブ2のみ",
+  "Please pardon our dust.": "すみません。",
+  "We're currently rebuilding literally everything.": "私たちはは作り直す。",
+  "Follow along ↗": "↗行くがついて来る",
+  "only web. only web. only web. only web. only web. only web. only web. only web. only web. only web. only web. only web": "ウェブのみ。ウェブのみ。ウェブのみ。ウェブのみ。ウェブのみ。ウェブのみ。ウェブのみ。ウェブのみ。ウェブのみ。ウェブのみ。ウェブのみ。ウェブのみ。ウェブのみ。ウェブのみ。ウェブのみ。"
 }

@@ -3,7 +3,13 @@ import { encode } from "https://deno.land/std@v0.56.0/encoding/base64.ts";
 import Response from "./response.js";
 import minify from "/framework/shared/html/minify.js";
 
-export default function Inliner(request) {
+export default async function Inliner(request) {
+  const messages = await (
+    await fetch(
+      `${request.url.origin}/app/assets/messages/${request.language}.json`
+    )
+  ).json();
+
   return {
     elements(...filePaths) {
       const { origin } = request.url;
@@ -21,6 +27,10 @@ export default function Inliner(request) {
       }
 
       return Response.html`${result}`;
+    },
+
+    message(key) {
+      return messages[key] ?? key;
     },
 
     metadata({
