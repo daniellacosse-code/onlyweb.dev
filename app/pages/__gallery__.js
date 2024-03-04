@@ -125,15 +125,15 @@ Backend.Page.Register("/__gallery__", {
           </section>
 
           <section>
-            <h2>[WIP] &lt;core-input&gt;</h2>
+            <h2>&lt;core-input&gt;</h2>
             <div class="resize-container">
               <core-input label="edit me"></core-input>
             </div>
           </section>
 
           <section>
-            <h2>[WIP] &lt;core-input type="password"&gt;</h2>
-            <div class="resize-container">
+            <h2>&lt;core-input type="password"&gt;</h2>
+            <div class="resize-container" style="min-height: 2.5rem;">
               <core-input label="give secrets" type="password"></core-input>
             </div>
           </section>
