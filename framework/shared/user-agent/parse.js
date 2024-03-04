@@ -1,3 +1,5 @@
+// @ts-check
+
 /**
  * @typedef Platform
  * @property {Object} renderer
@@ -8,6 +10,9 @@
  * @property {string} engine.version
  */
 
+/**
+ * @type {Object<string, RegExp>}
+ */
 const ENGINE_CHECKERS = {
   Firefox: /Firefox\/(?<version>\S+)/,
   Seamonkey: /Seamonkey\/(?<version>\S+)/,
@@ -19,6 +24,9 @@ const ENGINE_CHECKERS = {
   Opera: /OPR\/(?<version>\S+)/
 };
 
+/**
+ * @type {Object<string, RegExp>}
+ */
 const RENDERER_CHECKERS = {
   Gecko: /Gecko\/(?<version>\S+)/,
   WebKit: /WebKit\/(?<version>\S+)/,
@@ -28,9 +36,23 @@ const RENDERER_CHECKERS = {
 };
 
 /**
- * Parse a user agent string and return the platform information.
+ * @name parse
+ * @description Parse a user agent string and return the platform information.
  * @param {string} userAgent
  * @returns {Readonly<Platform>} - A frozen object with the platform information.
+ * @example const userAgent = navigator.userAgent;
+ * const platform = parse(userAgent);
+ * console.log(platform);
+ * // {
+ * //   renderer: {
+ * //     name: "Blink",
+ * //     version: "91.0.4472.124"
+ * //   },
+ * //   engine: {
+ * //     name: "Chrome",
+ * //     version: "91.0.4472.124"
+ * //   }
+ * // }
  */
 export default (userAgent) => {
   const platform = {};
