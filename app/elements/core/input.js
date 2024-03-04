@@ -50,6 +50,9 @@ const sharedStyles = Frontend.Element.html`<style>
     top: 0;
     transition: opacity var(--animation-duration-fast) var(--animation-timing-function);
     z-index: -1;
+    text-overflow: ellipsis;
+    overflow: hidden;
+    white-space: nowrap;
   }
 </style>`;
 

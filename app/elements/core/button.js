@@ -11,6 +11,7 @@ const sharedStyles = Frontend.Element.html`<style>
     display: inline-flex;
     align-items: center;
     justify-content: center;
+    text-align: center;
     font-family: inherit;
     font-size: var(--size-text-paragraph);
     padding: var(--size-narrow) var(--size-default);
@@ -34,7 +35,6 @@ const sharedStyles = Frontend.Element.html`<style>
 
     color: var(--color-background);
     pointer-events: none;
-    text-align: center;
     transition: color var(--animation-duration) var(--animation-timing-function);
   }
 </style>`;
