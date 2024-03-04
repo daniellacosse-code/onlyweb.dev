@@ -2,6 +2,8 @@ export default (...requirements) => {
   const result = {};
 
   for (const requirement of requirements) {
+    if (!requirement) continue;
+
     if (requirement.engine) {
       result.engine ??= {};
 

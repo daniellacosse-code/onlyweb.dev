@@ -1,5 +1,6 @@
 import { html } from "./response.js";
 import * as constants from "../constants.js";
+import Inliner from "./inliner.js";
 
 export default (
   route,
@@ -42,30 +43,12 @@ export default (
       return html`
         <!DOCTYPE html>
         <html lang="${request.language}">
-          ${await handleRequest(request)}
+          ${await handleRequest(request, await Inliner(request))}
           <script type="module">
             import Frontend from "/framework/frontend/module.js";
             import Shared from "/framework/shared/module.js";
 
             (function () {
-              // check browser requirements
-              if (
-                !(
-                  navigator.userAgent &&
-                  Shared.UserAgent.check(
-                    Shared.UserAgent.parse(navigator.userAgent),
-                    Shared.UserAgent.merge(
-                      Frontend.Requirements.userAgent,
-                      JSON.parse("${JSON.stringify(requirements)}").userAgent
-                    )
-                  )
-                )
-              ) {
-                alert(
-                  "Your browser is not supported. Certain things may not work as expected. Please update your browser to the latest version."
-                );
-              }
-
               // launch devtools
               if (globalThis.location.href.match(/localhost/)) {
                 const reloadSocket = new WebSocket(
@@ -78,14 +61,30 @@ export default (
                   data === "reload" && location.reload();
               }
 
+              // check browser requirements
+              if (
+                !(
+                  navigator.userAgent &&
+                  Shared.UserAgent.check(
+                    Shared.UserAgent.parse(navigator.userAgent),
+                    Shared.UserAgent.merge(
+                      Frontend.requirements.userAgent,
+                      JSON.parse("${JSON.stringify(requirements)}").userAgent
+                    )
+                  )
+                )
+              ) {
+                alert(
+                  "Your browser is not supported. Certain things may not work as expected. Please update your browser to the latest version."
+                );
+              }
+
               // register service worker
               if ("serviceWorker" in navigator) {
                 navigator.serviceWorker.register("${route}?service", {
                   scope: "${route}"
                 });
               }
-
-              // TODO: load translations, if any
             })();
           </script>
         </html>

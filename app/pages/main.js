@@ -6,14 +6,12 @@ import OnlyWebTheme from "/app/pages/shared-theme.js";
 const route = "/";
 
 Backend.Page.Register(route, {
-  handleRequest: async (request) => {
+  handleRequest: (request, inliner) => {
     const logoSrc =
       (request.url.origin.match(/localhost/)
         ? request.url.origin
         : constants.KEYCDN_IMAGE_ZONE_URL) +
       "/app/assets/images/logo/black.svg";
-
-    const inliner = await Backend.Page.Inliner(request);
 
     return Backend.Page.Response.html`<head>
         <meta charset="utf-8" />
@@ -146,15 +144,15 @@ Backend.Page.Register(route, {
       );
     });
 
-    self.addEventListener("fetch", (event) => {
-      event.respondWith(new Promise(async (resolve) => {
-        const cachedResponse = await caches.match(event.request);
-        
-        resolve(cachedResponse || fetch(event.request).then((networkResponse) => {
+    event.respondWith(caches.open("${route}").then((cache) => {
+      return cache.match(event.request).then((cachedResponse) => {
+        const fetchedResponse = fetch(event.request).then((networkResponse) => {
           cache.put(event.request, networkResponse.clone());
 
           return networkResponse;
-        }));
-      }));  
-  })`
+        });
+
+        return cachedResponse || fetchedResponse;
+      });
+    }));`
 });

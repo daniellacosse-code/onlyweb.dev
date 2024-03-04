@@ -1,9 +1,10 @@
 const DENO_LIVERELOAD_PORT = 35729;
 const DENO_LIVERELOAD_DELAY = 1000;
 
-let server, reloadInProgress, reloadServer, reloadSocket;
+let server, reloadInProgress, reloadSocket;
+
 startOrReloadAppServer();
-startOrReloadLiveReloadServer();
+startLiveReloadServer();
 
 for await (const event of Deno.watchFs([
   `${Deno.cwd()}/app`,
@@ -13,13 +14,13 @@ for await (const event of Deno.watchFs([
 
   await startOrReloadAppServer();
 
-  const intervalID = setInterval(async () => {
+  if (reloadInProgress) continue;
+
+  const intervalID = setInterval(() => {
     try {
       if (reloadSocket?.readyState === WebSocket.OPEN) {
         reloadSocket.send("reload");
         clearInterval(intervalID);
-      } else {
-        await startOrReloadLiveReloadServer();
       }
     } catch (error) {
       console.error("Error sending reload message:", error);
@@ -51,24 +52,19 @@ async function startOrReloadAppServer() {
   }
 }
 
-async function startOrReloadLiveReloadServer() {
-  reloadSocket?.close();
-  await reloadServer?.shutdown();
-
-  setTimeout(() => {
-    reloadServer = Deno.serve({
-      port: DENO_LIVERELOAD_PORT,
-      handler: (request) => {
-        if (request.headers.get("upgrade") !== "websocket") {
-          return new Response("Not a websocket upgrade request", { code: 400 });
-        }
-
-        const { socket, response } = Deno.upgradeWebSocket(request);
-
-        reloadSocket = socket;
-
-        return response;
+function startLiveReloadServer() {
+  Deno.serve({
+    port: DENO_LIVERELOAD_PORT,
+    handler: (request) => {
+      if (request.headers.get("upgrade") !== "websocket") {
+        return new Response("Not a websocket upgrade request", { code: 400 });
       }
-    });
-  }, DENO_LIVERELOAD_DELAY);
+
+      const { socket, response } = Deno.upgradeWebSocket(request);
+
+      reloadSocket = socket;
+
+      return response;
+    }
+  });
 }

@@ -4,15 +4,14 @@ import Response from "./response.js";
 import minify from "/framework/shared/html/minify.js";
 
 export default async function Inliner(request) {
+  const origin = request.url.origin;
+
   const messages = await (
-    await fetch(
-      `${request.url.origin}/app/assets/messages/${request.language}.json`
-    )
+    await fetch(`${origin}/app/assets/messages/${request.language}.json`)
   ).json();
 
   return {
     elements(...filePaths) {
-      const { origin } = request.url;
       const result = [];
 
       for (const filePath of filePaths) {

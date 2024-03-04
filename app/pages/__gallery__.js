@@ -4,14 +4,12 @@ import * as constants from "/app/constants.js";
 import OnlyWebTheme from "/app/pages/shared-theme.js";
 
 Backend.Page.Register("/__gallery__", {
-  handleRequest: (request) => {
+  handleRequest: (request, inliner) => {
     const logoSrc =
       (request.url.origin.match(/localhost/)
         ? request.url.origin
         : constants.KEYCDN_IMAGE_ZONE_URL) +
       "/app/assets/images/logo/white.png";
-
-    const inliner = Backend.Page.Inliner(request);
 
     return Backend.Page.Response.html`<head>
         <meta charset="utf-8" />
