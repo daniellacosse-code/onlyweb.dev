@@ -1,4 +1,4 @@
-export const KEYCDN_IMAGE_ZONE_URL = "https://onlywebmain-201bf.kxcdn.com";
+export const KEYCDN_IMAGE_ZONE_URL = "https://onlywebproxy-201bf.kxcdn.com";
 
 export const THEME_COLOR_BACKGROUND = "hsl(220, 5%, 13%)";
 export const THEME_COLOR_FOREGROUND = "hsl(200, 15%, 96%)";
