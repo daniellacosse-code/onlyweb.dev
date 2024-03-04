@@ -4,7 +4,7 @@
     "denoland.vscode-deno",
     "dt.ghlink",
     "esbenp.prettier-vscode",
-    "forbeslindesay.vscode-sql-template-literal",
+    "icanhasjonas.vscode-js-template-literal",
     "pflannery.vscode-versionlens"
   ]
 }

@@ -1,10 +1,7 @@
 {
-  "/app/pages/index.js#title": "solo web 2",
-  "/app/pages/index.js#apology": "Por favor, perdona nuestro polvo.",
-  "/app/pages/index.js#explaination": "Estamos reconstruyendo literalmente todo.",
-  "/app/pages/index.js#call-to-action": "Seguir a lo largo ↗",
-  "/#title": "solo web 2",
-  "/#apology": "Por favor, perdona nuestro polvo.",
-  "/#explaination": "Estamos reconstruyendo literalmente todo.",
-  "/#call-to-action": "Seguir a lo largo ↗"
+  "only web 2": "solo web 2",
+  "Please pardon our dust.": "Por favor, perdona nuestro polvo.",
+  "We're currently rebuilding literally everything.": "Estamos reconstruyendo literalmente todo.",
+  "Follow along ↗": "Seguir a lo largo ↗",
+  "only web. only web. only web. only web. only web. only web. only web. only web. only web. only web. only web. only web": "solo web. solo web. solo web. solo web. solo web. solo web. solo web. solo web. solo web. solo web. solo web. solo web"
 }

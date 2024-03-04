@@ -1,22 +1,19 @@
-import FrontendElement from "/framework/frontend-element/entry.js";
+import Frontend from "/framework/frontend/module.js";
 
 import "/app/elements/core/loading/skeleton.js";
 
-FrontendElement.Register("core-image", {
+Frontend.Element.Register("core-image", {
   templateAttributes: {
     src: String,
     alt: String,
-    origin: String,
     width: Number,
     height: Number,
     loaded: Boolean
   },
-  handleMount({ src, alt, origin, ...cdnConfig }) {
+  handleMount({ src, alt, ...cdnConfig }) {
     this.template = this.attachShadow({ mode: "open" });
+    const url = new URL(src);
 
-    const url = new URL(origin);
-
-    url.pathname = src;
     for (const [key, value] of Object.entries(cdnConfig)) {
       url.searchParams.set(key, value);
     }
@@ -27,10 +24,8 @@ FrontendElement.Register("core-image", {
     this.__image__.alt = alt;
   },
   handleTemplateBuild({ width, height, loaded }) {
-    console.log({ width, height, loaded });
-
     if (loaded) {
-      return FrontendElement.html`<style>
+      return Frontend.Element.html`<style>
           :host {
             width: ${width}px;
             height: ${height}px;
@@ -48,7 +43,7 @@ FrontendElement.Register("core-image", {
         ${this.__image__}`;
     }
 
-    return FrontendElement.html`<style>
+    return Frontend.Element.html`<style>
         :host {
           width: ${width}px;
           height: ${height}px;

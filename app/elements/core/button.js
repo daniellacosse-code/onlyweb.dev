@@ -1,6 +1,6 @@
-import FrontendElement from "/framework/frontend-element/entry.js";
+import Frontend from "/framework/frontend/module.js";
 
-const sharedStyles = FrontendElement.html`<style>
+const sharedStyles = Frontend.Element.html`<style>
   :host,
   button {
     width: 100%;
@@ -38,13 +38,13 @@ const sharedStyles = FrontendElement.html`<style>
   }
 </style>`;
 
-FrontendElement.Register("core-button", {
+Frontend.Element.Register("core-button", {
   templateAttributes: {
     disabled: Boolean
   },
   handleTemplateBuild({ disabled }) {
     if (disabled)
-      return FrontendElement.html`${sharedStyles}
+      return Frontend.Element.html`${sharedStyles}
         <style>
           button {
             cursor: not-allowed;
@@ -55,7 +55,7 @@ FrontendElement.Register("core-button", {
           <slot></slot>
         </button>`;
 
-    return FrontendElement.html`${sharedStyles}
+    return Frontend.Element.html`${sharedStyles}
       <style>
         button:hover,
         button:active,
