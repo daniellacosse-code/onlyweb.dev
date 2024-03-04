@@ -33,8 +33,9 @@ const sharedStyles = Frontend.Element.html`<style>
     --color-foreground: var(--color-background);
 
     color: var(--color-background);
-    transition: color var(--animation-duration) var(--animation-timing-function);
+    pointer-events: none;
     text-align: center;
+    transition: color var(--animation-duration) var(--animation-timing-function);
   }
 </style>`;
 

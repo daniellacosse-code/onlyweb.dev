@@ -27,7 +27,7 @@ export default async function Inliner(request) {
           .replaceAll(' from "/', ` from "${origin}/`)
           .replaceAll('import "/', `import "${origin}/`);
 
-        result.push(Response.html`<script defer type="module"
+        result.push(Response.html`<script async type="module"
           src="data:application/javascript;base64,${encode(sanitizedScript)}"
         ></script>`);
       }

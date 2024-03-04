@@ -31,6 +31,7 @@ const sharedStyles = Frontend.Element.html`<style>
   :host {
     border-radius: var(--size-narrow);
     border: var(--size-hairline) solid var(--color-foreground);
+    cursor: text;
     position: relative;
     transition: border-color var(--animation-duration-fast) var(--animation-timing-function);
   }

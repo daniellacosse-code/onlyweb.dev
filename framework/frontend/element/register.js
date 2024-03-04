@@ -1,5 +1,4 @@
 import html from "./html.js";
-import DeepProxy from "/framework/shared/deep-proxy.js";
 
 export default (
   tag,
@@ -114,21 +113,6 @@ export default (
         const resolver = templateAttributes[name] ?? String;
 
         if (value === null) return void 0;
-        if (resolver === JSON) {
-          try {
-            return DeepProxy(JSON.parse(value), {
-              set: (rootObject) => {
-                return Reflect.set(
-                  this.attributes,
-                  name,
-                  JSON.stringify(rootObject)
-                );
-              }
-            });
-          } catch {
-            return void 0;
-          }
-        }
         if (resolver === Boolean) return this.#RESOLVE_BOOLEAN_ATTRIBUTE(value);
 
         return resolver(value);
@@ -138,16 +122,6 @@ export default (
         const resolver = templateAttributes[name] ?? String;
 
         if (value === null) return void 0;
-        if (resolver === JSON) {
-          if (value === "") return void 0;
-          if (typeof value === "string") return value;
-
-          try {
-            return JSON.stringify(value);
-          } catch {
-            return void 0;
-          }
-        }
         if (resolver === Boolean) return this.#RESOLVE_BOOLEAN_ATTRIBUTE(value);
 
         return resolver(value);
