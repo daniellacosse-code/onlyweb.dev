@@ -7,7 +7,7 @@ Backend.Page.Register("/favicon.ico", {
   handleRequest: (request) => {
     return serveFile(
       request,
-      resolve(Deno.cwd(), "./app/assets/images/logo/white.png")
+      resolve(Deno.cwd(), "./app/assets/images/logo/maskable.png")
     );
   }
 });

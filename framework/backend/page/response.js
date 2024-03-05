@@ -7,13 +7,19 @@ const _Response = (mimetype = "text/html") => {
     constructor(body, init) {
       super(body, init);
       this.#content = body;
+      this.#mimetype = mimetype;
       this.headers.set("content-type", `${mimetype}; charset=UTF-8`);
     }
 
     // NO TOUCHY
     #content = "";
-    get html() {
+    get content() {
       return this.#content;
+    }
+
+    #mimetype = "";
+    get mimetype() {
+      return this.#mimetype;
     }
   }
 
@@ -24,7 +30,7 @@ const _Response = (mimetype = "text/html") => {
         insertions,
         handleInsertion: (insertion) =>
           insertion instanceof MimetypeResponse
-            ? minify(insertion.html)
+            ? minify(insertion.content)
             : escape(insertion)
       })
     );
@@ -32,5 +38,6 @@ const _Response = (mimetype = "text/html") => {
 
 export const html = _Response("text/html");
 export const js = _Response("text/javascript");
+export const text = _Response("text/plain");
 
 export default _Response;

@@ -43,6 +43,7 @@ export default async function Inliner(request) {
       title,
       description,
       previewImage,
+      splashImage,
       url = request.url.toString()
     }) {
       const tags = [];
@@ -64,6 +65,14 @@ export default async function Inliner(request) {
       if (previewImage) {
         tags.push(
           Response.html`<meta name="og:image" content="${previewImage}" />`
+        );
+      }
+
+      if (splashImage) {
+        tags.push(
+          Response.html`<meta name="apple-mobile-web-app-capable" content="yes" />`,
+          Response.html`<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />`,
+          Response.html`<link rel="apple-touch-startup-image" href="${splashImage}" />`
         );
       }
 

@@ -8,7 +8,7 @@ const sharedStyles = Frontend.Element.html`<style>
   :host,
   label,
   input,
-  [role="input"] {
+  [contenteditable="true"] {
     box-sizing: border-box;
     min-height: 100%;
     width: 100%;
@@ -16,7 +16,7 @@ const sharedStyles = Frontend.Element.html`<style>
   }
   :host,
   input,
-  [role="input"] {
+  [contenteditable="true"] {
     outline: 0;
   }
   :host,
@@ -39,7 +39,7 @@ const sharedStyles = Frontend.Element.html`<style>
   :host(:active) {
     border-color: var(--color-highlight);
   }
-  [role="input"], input {
+  [contenteditable="true"], input {
     color: var(--color-foreground);
   }
   label {
@@ -97,7 +97,7 @@ Frontend.Element.Register("core-input", {
             i { font-style: italic; }
             u { text-decoration: underline; }
           </style>
-          <div id="${this.__inputID__}" role="input" contenteditable="true"></div>`;
+          <div id="${this.__inputID__}" contenteditable="true"></div>`;
     }
 
     return Frontend.Element.html`

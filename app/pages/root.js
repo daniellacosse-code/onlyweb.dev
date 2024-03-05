@@ -15,7 +15,7 @@ Backend.Page.Register(route, {
 
     return Backend.Page.Response.html`<head>
         <meta charset="utf-8" />
-        <link rel="icon" href="/app/assets/images/logo/white.png" />
+        <link rel="icon" href="/app/assets/images/logo/maskable.png" />
         <link rel="manifest" href="/app/assets/manifest.json" />
         <meta name="viewport" content="width=device-width, initial-scale=1" />
 
@@ -24,7 +24,8 @@ Backend.Page.Register(route, {
           description: inliner.message(
             "only web. only web. only web. only web. only web. only web. only web. only web. only web. only web. only web. only web"
           ),
-          previewImage: "/app/assets/images/logo/black.svg",
+          previewImage: "/app/assets/images/root-preview.png",
+          splashImage: "/app/assets/images/logo/splash.png",
           url: "https://onlyweb.dev/"
         })}
 
@@ -67,7 +68,7 @@ Backend.Page.Register(route, {
             --color-foreground: var(--color-background);
           }
 
-          h1 {
+          core-text[type="title"] {
             font-size: var(--size-huge);
             margin: 0;
           }

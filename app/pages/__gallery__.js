@@ -9,11 +9,11 @@ Backend.Page.Register("/__gallery__", {
       (request.url.origin.match(/localhost/)
         ? request.url.origin
         : constants.KEYCDN_IMAGE_ZONE_URL) +
-      "/app/assets/images/logo/white.png";
+      "/app/assets/images/logo/maskable.png";
 
     return Backend.Page.Response.html`<head>
         <meta charset="utf-8" />
-        <link rel="icon" href="/app/assets/images/logo/white.png" />
+        <link rel="icon" href="/app/assets/images/logo/maskable.png" />
         <link rel="manifest" href="/app/assets/manifest.json" />
         <meta name="viewport" content="width=device-width, initial-scale=1" />
 
@@ -82,7 +82,7 @@ Backend.Page.Register("/__gallery__", {
         )}
       </head>
       <body>
-        <h1>OnlyWeb Component Gallery</h1>
+        <h1>the onlyweb custom element gallery</h1>
         <article>
           <section>
             <h2>&lt;core-text&gt;</h2>

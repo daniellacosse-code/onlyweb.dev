@@ -39,11 +39,15 @@ export default (
       }
     }
 
+    const response = await handleRequest(request, await Inliner(request));
+
+    if (response.mimetype !== "text/html") return response;
+
     try {
       return html`
         <!DOCTYPE html>
         <html lang="${request.language}">
-          ${await handleRequest(request, await Inliner(request))}
+          ${response}
           <script type="module">
             import Frontend from "/framework/frontend/module.js";
             import Shared from "/framework/shared/module.js";
@@ -81,9 +85,13 @@ export default (
 
               // register service worker
               if ("serviceWorker" in navigator) {
-                navigator.serviceWorker.register("${route}?service", {
-                  scope: "${route}"
-                });
+                try {
+                  navigator.serviceWorker.register("${route}?service", {
+                    scope: "${route}"
+                  });
+                } catch (error) {
+                  // nevermind
+                }
               }
             })();
           </script>
