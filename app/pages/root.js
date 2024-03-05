@@ -15,9 +15,8 @@ Backend.Page.Register(route, {
 
     return Backend.Page.Response.html`<head>
         <meta charset="utf-8" />
-        <link rel="icon" href="/app/assets/images/logo/maskable.png" />
-        <link rel="manifest" href="/app/assets/manifest.json" />
         <meta name="viewport" content="width=device-width, initial-scale=1" />
+        <link rel="manifest" href="/app/assets/manifest.json" />
 
         ${inliner.metadata({
           title: "2",
@@ -25,6 +24,7 @@ Backend.Page.Register(route, {
             "only web. only web. only web. only web. only web. only web. only web. only web. only web. only web. only web. only web"
           ),
           previewImage: "/app/assets/images/root-preview.png",
+          iconImage: "/app/assets/images/logo/maskable.png",
           splashImage: "/app/assets/images/logo/splash.png",
           url: "https://onlyweb.dev/"
         })}

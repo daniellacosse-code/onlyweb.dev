@@ -44,6 +44,7 @@ export default async function Inliner(request) {
       description,
       previewImage,
       splashImage,
+      iconImage,
       url = request.url.toString()
     }) {
       const tags = [];
@@ -62,16 +63,24 @@ export default async function Inliner(request) {
         );
       }
 
-      if (previewImage) {
+      if (iconImage) {
         tags.push(
-          Response.html`<meta name="og:image" content="${previewImage}" />`
+          Response.html`<link rel="icon" href="${iconImage}" />`,
+          Response.html`<meta name="apple-mobile-web-app-capable" content="yes" />`,
+          Response.html`<link rel="apple-touch-icon" href="${iconImage}" />`
         );
       }
 
       if (splashImage) {
         tags.push(
-          Response.html`<meta name="apple-mobile-web-app-capable" content="yes" />`,
+          // TODO iterate over all possible splash images
           Response.html`<link rel="apple-touch-startup-image" href="${splashImage}" />`
+        );
+      }
+
+      if (previewImage) {
+        tags.push(
+          Response.html`<meta name="og:image" content="${previewImage}" />`
         );
       }
 
