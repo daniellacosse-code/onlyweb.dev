@@ -71,7 +71,6 @@ export default async function Inliner(request) {
       if (splashImage) {
         tags.push(
           Response.html`<meta name="apple-mobile-web-app-capable" content="yes" />`,
-          Response.html`<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />`,
           Response.html`<link rel="apple-touch-startup-image" href="${splashImage}" />`
         );
       }
