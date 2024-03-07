@@ -67,6 +67,9 @@ export default async function Inliner(request) {
         tags.push(
           Response.html`<link rel="icon" href="${iconImage}" />`,
           Response.html`<meta name="apple-mobile-web-app-capable" content="yes" />`,
+          // it's a bit opinionated, but you really only have two options here - black and black-translucent
+          // and only the latter allows the web app to be displayed in full screen
+          Response.html`<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">`,
           Response.html`<link rel="apple-touch-icon" href="${iconImage}" />`
         );
       }
