@@ -9,8 +9,7 @@ const escapedCharacters = new Map([
 ]);
 
 /**
- * @name escape
- * @description A utility for escaping raw HTML
+ * A utility for escaping raw HTML
  * @param {string} html
  * @returns {string}
  * @example const unsafeHtml = "<div>hello</div>";

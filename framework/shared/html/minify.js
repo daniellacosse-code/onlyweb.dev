@@ -1,11 +1,10 @@
 // @ts-check
 
 /**
- * @name minify
- * @description A utility for 'good-enough' minifying HTML.
+ * A utility for 'good-enough' minifying HTML.
  * Assumes proper semi-colons and that all content-based whitespace is outsourced or done in CSS.
  * @param {string} text
- * @returns {string}
+ * @returns {string} The minified HTML
  * @example const html = `
  *  <div>
  *   <h1>Hello, world!</h1>

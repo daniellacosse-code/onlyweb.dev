@@ -1,13 +1,12 @@
 // @ts-check
 
 /**
- * @name handleTemplate
- * @description Utility for handling a javascript template literals
- * @param {object} options
- * @param {string} options.template
- * @param {Array<string | string[]>} options.insertions
- * @param {(insertion: string | string[]) => string} options.handleInsertion
- * @returns {string}
+ * Utility for handling a javascript template literals
+ * @param {object} options The options
+ * @param {string} options.template The template
+ * @param {Array<string | string[]>} options.insertions The insertions
+ * @param {(insertion: string | string[]) => string} options.handleInsertion The function to handle the insertions
+ * @returns {string} The compiled template
  * @example const unsafeHtml = handleTemplate({
  *  template: "<div>${0}</div>",
  *  insertions: ["hello"],

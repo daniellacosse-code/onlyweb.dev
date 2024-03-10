@@ -12,6 +12,10 @@ _Response.text = __Response.text;
 _Response.html = __Response.html;
 _Response.js = __Response.js;
 
+/**
+ * @module Backend
+ * @description A module containing the backend-specific aspects of the framework.
+ */
 export default {
   ...CONSTANTS,
   start,

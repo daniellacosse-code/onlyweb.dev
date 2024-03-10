@@ -1,5 +1,22 @@
 import html from "./html.js";
 
+/**
+ * Registers a custom element with the global customElements map
+ * @param {string} tag The tag of the element
+ * @param {Object} options The options setting up the element
+ * @param {Object} options.templateAttributes The attributes of the element, that, when modified, will trigger a template build
+ * @param {Function} options.handleMount Is called when the element is mounted: use it to set up the shadow DOM and register event listeners
+ * @param {Function} options.handleTemplateBuild The core of the element: use it to build the template from which the shadow DOM will be constructed
+ * @param {Function} options.handleDismount The dismount handler: use it to clean up event listeners and other resources
+ * @example Register("my-element", {
+ *  templateAttributes: {
+ *    "my-attribute": String,
+ *    "my-boolean-attribute": Boolean
+ *  },
+ *  handleTemplateBuild: attributes => html`<div>${attributes["my-attribute"]}</div>`
+ * });
+ * @returns {void} Nothing is returned: the element is registered in the global customElements map
+ */
 export default (
   tag,
   {
