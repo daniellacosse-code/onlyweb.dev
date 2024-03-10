@@ -1,3 +1,4 @@
+import { Log } from "/framework/shared/module.js";
 import html from "./html.js";
 
 export default (
@@ -10,7 +11,10 @@ export default (
   }
 ) => {
   if (globalThis.customElements.get(tag))
-    return console.warn(`Element ${tag} already registered.`);
+    return Log({
+      message: `Element ${tag} already registered.`,
+      level: "warn"
+    });
 
   globalThis.customElements.define(
     tag,
@@ -140,8 +144,6 @@ export default (
       }
     }
   );
-
-  console.debug(`Registered element "<${tag}>".`);
 };
 
 const defaultMount = function () {

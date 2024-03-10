@@ -1,7 +1,7 @@
 import { encode } from "https://deno.land/std@v0.56.0/encoding/base64.ts";
 
 import Response from "./response.js";
-import minify from "/framework/shared/html/minify.js";
+import Shared from "/framework/shared/module.js";
 
 export default async function Inliner(request) {
   const origin = request.url.origin;
@@ -12,8 +12,7 @@ export default async function Inliner(request) {
     messages = await (
       await fetch(`${origin}/app/assets/messages/${request.language}.json`)
     ).json();
-  } catch (error) {
-    console.error(error);
+  } catch (_) {
     messages = {};
   }
 
@@ -23,7 +22,7 @@ export default async function Inliner(request) {
 
       for (const filePath of filePaths) {
         const fileContents = Deno.readTextFileSync(`.${filePath}`);
-        const sanitizedScript = minify(fileContents)
+        const sanitizedScript = Shared.HTML.minify(fileContents)
           .replaceAll(' from "/', ` from "${origin}/`)
           .replaceAll('import "/', `import "${origin}/`);
 

@@ -12,8 +12,6 @@ Frontend.Element.Register("counter-demo", {
       this.state[target.getAttribute("id")] = currentState + 1;
 
       for (const [key, value] of Object.entries(this.state)) {
-        console.log({ key, value }, this.state);
-
         const target = this.host.querySelector(`#${key}`);
 
         if (target) target.textContent = value;

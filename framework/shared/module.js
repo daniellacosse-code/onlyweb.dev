@@ -5,6 +5,8 @@ import parse from "./user-agent/parse.js";
 import check from "./user-agent/check-requirements.js";
 import merge from "./user-agent/merge-requirements.js";
 
+import Log, { LogError } from "./log.js";
+
 export default {
   UserAgent: {
     parse,
@@ -14,5 +16,7 @@ export default {
   HTML: {
     escape,
     minify
-  }
+  },
+  Log,
+  LogError
 };

@@ -2,6 +2,8 @@ import { html } from "./response.js";
 import * as constants from "../constants.js";
 import Inliner from "./inliner.js";
 
+import Shared from "/framework/shared/module.js";
+
 export default (
   route,
   {
@@ -13,7 +15,10 @@ export default (
   globalThis.customPages ??= new Map();
 
   if (globalThis.customPages.has(route))
-    return console.warn(`Page "${route}" already registered.`);
+    return Shared.Log({
+      message: `Page "${route}" already registered.`,
+      level: "warn"
+    });
 
   globalThis.customPages.set(route, async (request) => {
     Object.defineProperty(request, "url", {
@@ -34,7 +39,7 @@ export default (
 
         return serviceWorker;
       } catch (error) {
-        console.error(error);
+        LogError(error);
         return new Response("Internal Server Error", { status: 500 });
       }
     }
@@ -60,7 +65,7 @@ export default (
                 );
 
                 reloadSocket.onopen = () =>
-                  console.log("LiveReload connected~");
+                  Log({ message: "LiveReload connected" });
                 reloadSocket.onmessage = ({ data }) =>
                   data === "reload" && location.reload();
               }
@@ -98,10 +103,10 @@ export default (
         </html>
       `;
     } catch (error) {
-      console.error(error);
+      Shared.LogError(error);
       return new Response("Internal Server Error", { status: 500 });
     }
   });
 
-  console.debug(`Registered page @ route "${route}".`);
+  Shared.Log({ message: `Registered page @ route "${route}".` });
 };
