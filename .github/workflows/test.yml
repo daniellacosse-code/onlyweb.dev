@@ -1,0 +1,20 @@
+name: Test
+
+on: push
+
+jobs:
+  build:
+    runs-on: ubuntu-22.04
+    steps:
+      - uses: actions/checkout@v3
+      - uses: denoland/setup-deno@v1
+        with:
+          deno-version: v1.x # Run with latest stable Deno.
+
+      - run: deno test --coverage=output/coverage/
+      - run: deno coverage --lcov output/coverage/ > output/coverage.lcov
+      - uses: codecov/codecov-action@v4.0.1
+        with:
+          file: output/coverage.lcov
+          token: ${{ secrets.CODECOV_TOKEN }}
+          slug: code.daniellacos.se/onlyweb.dev
