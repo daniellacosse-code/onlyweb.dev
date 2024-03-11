@@ -78,10 +78,11 @@ export default (
 
           if (!serviceWorker) return new Response("Not Found", { status: 404 });
 
-        return serviceWorker;
-      } catch (error) {
-        LogError(error);
-        return new Response("Internal Server Error", { status: 500 });
+          return serviceWorker;
+        } catch (error) {
+          Shared.LogError(error);
+          return new Response("Internal Server Error", { status: 500 });
+        }
       }
 
       /** @type {import("./model.js").PageResponse} */
