@@ -106,10 +106,8 @@ export default (
                     navigator.userAgent &&
                     Shared.UserAgent.check(
                       Shared.UserAgent.parse(navigator.userAgent),
-                      Shared.UserAgent.merge(
-                        Frontend.requirements.userAgent,
-                        JSON.parse("${JSON.stringify(requirements)}").userAgent
-                      )
+                      // TODO(#170): support inlining objects so that we can merge in page-specific requirements
+                      Frontend.requirements.userAgent
                     )
                   )
                 ) {
