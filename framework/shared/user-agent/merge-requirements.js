@@ -24,9 +24,10 @@ export default (...requirements) => {
     if (requirement.engine) {
       result.engine ??= {};
 
-      for (const _engineName in requirement.engine) {
-        /** @type {import("./model.js").PlatformEngine} */
-        const engineName = _engineName;
+      for (const untypedEngineName in requirement.engine) {
+        const engineName = /** @type {import("./model.js").PlatformEngine} */ (
+          untypedEngineName
+        );
 
         result.engine[engineName] = Math.max(
           result.engine[engineName] ?? 0,
@@ -38,9 +39,11 @@ export default (...requirements) => {
     if (requirement.renderer) {
       result.renderer ??= {};
 
-      for (const _rendererName in requirement.renderer) {
-        /** @type {import("./model.js").PlatformRenderer} */
-        const rendererName = _rendererName;
+      for (const untypedRendererName in requirement.renderer) {
+        const rendererName =
+          /** @type {import("./model.js").PlatformRenderer} */ (
+            untypedRendererName
+          );
 
         result.renderer[rendererName] = Math.max(
           result.renderer[rendererName] ?? 0,

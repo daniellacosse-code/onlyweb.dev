@@ -45,7 +45,11 @@ const _Response = (mimetype = "text/html") => {
         handleInsertion: (insertion) =>
           insertion instanceof MimetypeResponse
             ? minify(insertion.content)
-            : escape(Array.isArray(insertion) ? insertion.join("") : insertion)
+            : escape(
+                Array.isArray(insertion)
+                  ? insertion.join("")
+                  : String(insertion)
+              )
       })
     );
 };

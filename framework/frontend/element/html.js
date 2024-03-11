@@ -3,7 +3,7 @@ import handleTemplate from "/framework/shared/handle-template.js";
 
 /**
  * A utility for creating a templateable HTMLCollection
- * @param {string} template The template
+ * @param {TemplateStringsArray} template The template
  * @param {(string | string[])[]} insertions The insertions
  * @returns {HTMLCollection} The compiled HTMLCollection
  */
@@ -23,7 +23,9 @@ export default (template, ...insertions) => {
 
       if (insertion instanceof HTMLElement) return insertion.outerHTML;
 
-      return escape(insertion);
+      return escape(
+        Array.isArray(insertion) ? insertion.join("") : String(insertion)
+      );
     }
   });
 

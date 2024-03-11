@@ -3,9 +3,9 @@
 /**
  * Utility for handling a javascript template literals
  * @param {object} options The options
- * @param {string} options.template The template
- * @param {Array<string | string[]>} options.insertions The insertions
- * @param {(insertion: string | string[]) => string} options.handleInsertion The function to handle the insertions
+ * @param {TemplateStringsArray} options.template The template
+ * @param {Array<number | string | string[]>} options.insertions The insertions
+ * @param {(insertion: number | string | string[]) => string} options.handleInsertion The function to handle the insertions
  * @returns {string} The compiled template
  * @example const unsafeHtml = handleTemplate({
  *  template: "<div>${0}</div>",

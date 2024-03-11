@@ -47,12 +47,15 @@ export default (
     handleServiceWorkerRequest = () => {}
   }
 ) => {
-  globalThis.customPages ??= new Map();
+  /** @type {typeof globalThis & { customPages?: Map<string, import("./model.js").PageHandler> }} */
+  const typedGlobalThis = globalThis;
 
-  if (globalThis.customPages.has(route))
+  typedGlobalThis.customPages ??= new Map();
+
+  if (typedGlobalThis.customPages.has(route))
     return console.warn(`Page "${route}" already registered.`);
 
-  globalThis.customPages.set(
+  typedGlobalThis.customPages.set(
     route,
     async (/** @type import("./model.js").PageRequest */ request) => {
       Object.defineProperty(request, "url", {
