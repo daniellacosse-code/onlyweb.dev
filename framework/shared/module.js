@@ -5,6 +5,8 @@ import parse from "./user-agent/parse.js";
 import check from "./user-agent/check.js";
 import merge from "./user-agent/merge.js";
 
+import handleTemplate from "./handle-template.js";
+
 /**
  * A handful of shared utilities that can be utilized across the frontend and backend.
  * @module Shared
@@ -18,5 +20,6 @@ export default {
   HTML: {
     escape,
     minify
-  }
+  },
+  handleTemplate
 };
