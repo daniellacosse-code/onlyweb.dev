@@ -107,7 +107,7 @@ export default (
                     Shared.UserAgent.check(
                       Shared.UserAgent.parse(navigator.userAgent),
                       Shared.UserAgent.merge(
-                        Frontend.Requirements.userAgent,
+                        Frontend.requirements.userAgent,
                         JSON.parse("${JSON.stringify(requirements)}").userAgent
                       )
                     )
