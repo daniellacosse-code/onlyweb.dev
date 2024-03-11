@@ -1,9 +1,10 @@
-name: Test
+name: Code Quality
 
 on: push
 
 jobs:
-  build:
+  test:
+    name: Tests
     runs-on: ubuntu-22.04
     steps:
       - uses: actions/checkout@v3
@@ -17,4 +18,4 @@ jobs:
         with:
           file: output/coverage.lcov
           token: ${{ secrets.CODECOV_TOKEN }}
-          slug: code.daniellacos.se/onlyweb.dev
+          slug: daniellacosse-code/onlyweb.dev
