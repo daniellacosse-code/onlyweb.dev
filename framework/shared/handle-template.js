@@ -8,7 +8,7 @@
  * @param {(insertion: number | string | string[]) => string} options.handleInsertion The function to handle the insertions
  * @returns {string} The compiled template
  * @example const unsafeHtml = handleTemplate({
- *  template: "<div>${0}</div>",
+ *  template: ["<div>", "</div>"],
  *  insertions: ["hello"],
  *  handleInsertion: (insertion) => insertion
  * }) // returns "<div>hello</div>"

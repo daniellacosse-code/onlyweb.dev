@@ -48,9 +48,10 @@ export default (userAgent) => {
   const platform = {};
 
   // usually the first match is the renderer
-  for (const _rendererName in RENDERER_CHECKERS) {
-    /** @type {import("./model.js").PlatformRenderer} */
-    const rendererName = _rendererName;
+  for (const untypedRendererName in RENDERER_CHECKERS) {
+    const rendererName = /** @type {import("./model.js").PlatformRenderer} */ (
+      untypedRendererName
+    );
 
     const result = userAgent.match(RENDERER_CHECKERS[rendererName]);
 
@@ -66,9 +67,10 @@ export default (userAgent) => {
   // engines are more complicated, we need to check all of them
   /** @type {Partial<{ [engine in import("./model.js").PlatformEngine]: import("./model.js").PlatformEngineInstance}>} */
   const engines = {};
-  for (const _engineName in ENGINE_CHECKERS) {
-    /** @type {import("./model.js").PlatformEngine} */
-    const engineName = _engineName;
+  for (const untypedEngineName in ENGINE_CHECKERS) {
+    const engineName = /** @type {import("./model.js").PlatformEngine} */ (
+      untypedEngineName
+    );
 
     const result = userAgent.match(ENGINE_CHECKERS[engineName]);
 
