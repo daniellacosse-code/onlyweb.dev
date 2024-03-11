@@ -1,4 +1,4 @@
-import { Log } from "/framework/shared/module.js";
+import Shared from "/framework/shared/module.js";
 import html from "./html.js";
 
 /**
@@ -28,7 +28,7 @@ export default (
   }
 ) => {
   if (globalThis.customElements.get(tag))
-    return Log({
+    return Shared.Log({
       message: `Element ${tag} already registered.`,
       level: "warn"
     });
