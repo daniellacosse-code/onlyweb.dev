@@ -15,7 +15,7 @@ deno task start
 cpu: Apple M1 Max
 runtime: deno 1.40.5 (aarch64-apple-darwin)
 
-file:///Users/daniellacosse/code/only-web/framework/bench.js
+file:///only-web/framework/bench.js
 benchmark                     time (avg)        iter/s             (min … max)       p75       p99      p995
 ------------------------------------------------------------------------------ -----------------------------
 benchHandleSmallTemplate      24.19 ns/iter  41,347,496.2    (21.3 ns … 33.52 ns) 25.55 ns 31.17 ns 31.74 ns
