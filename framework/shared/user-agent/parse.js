@@ -1,13 +1,8 @@
-/**
- * @typedef Platform
- * @property {Object} renderer
- * @property {string} renderer.name
- * @property {string} renderer.version
- * @property {Object} engine
- * @property {string} engine.name
- * @property {string} engine.version
- */
+// @ts-check
 
+/**
+ * @type {{ [engine in import("./model.js").PlatformEngine]: RegExp }}
+ */
 const ENGINE_CHECKERS = {
   Firefox: /Firefox\/(?<version>\S+)/,
   Seamonkey: /Seamonkey\/(?<version>\S+)/,
@@ -19,6 +14,9 @@ const ENGINE_CHECKERS = {
   Opera: /OPR\/(?<version>\S+)/
 };
 
+/**
+ * @type {{ [renderer in import("./model.js").PlatformRenderer]: RegExp}}
+ */
 const RENDERER_CHECKERS = {
   Gecko: /Gecko\/(?<version>\S+)/,
   WebKit: /WebKit\/(?<version>\S+)/,
@@ -29,34 +27,55 @@ const RENDERER_CHECKERS = {
 
 /**
  * Parse a user agent string and return the platform information.
- * @param {string} userAgent
- * @returns {Readonly<Platform>} - A frozen object with the platform information.
+ * @param {string} userAgent The user agent string to parse.
+ * @returns {Readonly<import("./model.js").Platform>} A frozen object with the platform information.
+ * @example
+ * const platform = parse(navigator.userAgent);
+ * console.log(platform);
+ * // {
+ * //   renderer: {
+ * //     name: "Blink",
+ * //     version: 91
+ * //   },
+ * //   engine: {
+ * //     name: "Chrome",
+ * //     version: 91
+ * //   }
+ * // }
  */
 export default (userAgent) => {
+  /** @type {import("./model.js").Platform} */
   const platform = {};
 
   // usually the first match is the renderer
-  for (const rendererName in RENDERER_CHECKERS) {
+  for (const _rendererName in RENDERER_CHECKERS) {
+    /** @type {import("./model.js").PlatformRenderer} */
+    const rendererName = _rendererName;
+
     const result = userAgent.match(RENDERER_CHECKERS[rendererName]);
 
     if (result?.groups?.version) {
       platform.renderer = {
         name: rendererName,
-        version: result.groups.version
+        version: parseFloat(result.groups.version)
       };
       break;
     }
   }
 
   // engines are more complicated, we need to check all of them
+  /** @type {Partial<{ [engine in import("./model.js").PlatformEngine]: import("./model.js").PlatformEngineInstance}>} */
   const engines = {};
-  for (const engineName in ENGINE_CHECKERS) {
+  for (const _engineName in ENGINE_CHECKERS) {
+    /** @type {import("./model.js").PlatformEngine} */
+    const engineName = _engineName;
+
     const result = userAgent.match(ENGINE_CHECKERS[engineName]);
 
     if (result?.groups?.version) {
       engines[engineName] = {
         name: engineName,
-        version: result.groups.version
+        version: parseFloat(result.groups.version)
       };
     }
   }
