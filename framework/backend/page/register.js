@@ -5,11 +5,11 @@ import * as constants from "../constants.js";
 import Inliner from "./inliner.js";
 
 /**
+ * Registers a custom page in the global customPages map.
  * @name register
- * @description Registers a custom page in the global customPages map
  * @param {string} route The route of the page
  * @param {object} pageOptions The options for the page
- * @param {import("../../shared/user-agent/model.js").PlatformRequirements} pageOptions.requirements The platform requirements for the page
+ * @param {import("/framework/shared/user-agent/model.js").PlatformRequirements} pageOptions.requirements The platform requirements for the page
  * @param {(request: import("./model.js").PageRequest, inliner: import("./model.js").Inliner) => Response | void} pageOptions.handleRequest The request handler for the page
  * @param {(request: Request) => Response | void} pageOptions.handleServiceWorkerRequest The service worker request handler for the page
  * @example Backend.Page.Register("/test", {
@@ -17,7 +17,7 @@ import Inliner from "./inliner.js";
  *    engine: { Chrome: 91 },
  *    renderer: { Blink: 91 }
  *  },
- *  handleRequest: (request, inliner) => Backend.Page.Response.html`<!DOCTYPE html>
+ *  handleRequest: (request) => Backend.Page.Response.html`<!DOCTYPE html>
  *      <html lang="${request.language}">
  *        <head>
  *          <meta charset="UTF-8">

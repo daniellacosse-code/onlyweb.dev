@@ -3,8 +3,8 @@
 /**
  * A utility for 'good-enough' minifying HTML.
  * Assumes proper semi-colons and that all content-based whitespace is outsourced or done in CSS.
- * @param {string} text
- * @returns {string} The minified HTML
+ * @param {string} text The HTML to minify.
+ * @returns {string} The minified HTML.
  * @example const html = `
  *  <div>
  *   <h1>Hello, world!</h1>

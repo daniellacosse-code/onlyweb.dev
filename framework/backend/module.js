@@ -13,8 +13,8 @@ _Response.html = __Response.html;
 _Response.js = __Response.js;
 
 /**
+ * A module containing the backend-specific aspects of the framework.
  * @module Backend
- * @description A module containing the backend-specific aspects of the framework.
  */
 export default {
   ...CONSTANTS,

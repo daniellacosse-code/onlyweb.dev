@@ -2,11 +2,11 @@
 
 import { encode } from "https://deno.land/std@v0.56.0/encoding/base64.ts";
 
-import { html } from "./response.js";
+import { html } from "/framework/backend/page/response.js";
 import minify from "/framework/shared/html/minify.js";
 
 /**
- * @description Creates a context-aware inliner that can inline elements, messages, and metadata into an HTML document.
+ * Creates a context-aware inliner that can inline elements, messages, and metadata into an HTML document.
  * @param {import("./model.js").PageRequest} request The request object.
  * @returns {Promise<import("./model.js").Inliner>} The inliner.
  */

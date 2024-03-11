@@ -3,8 +3,8 @@ import html from "./element/html.js";
 import Register from "./element/register.js";
 
 /**
+ * A module containing the frontend-specific aspects of the framework.
  * @module Frontend
- * @description A module containing the frontend-specific aspects of the framework.
  */
 export default {
   requirements,
