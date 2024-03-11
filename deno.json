@@ -1,7 +1,4 @@
 {
-  "lint": {
-    "exclude": ["source/framework/frontend/", "source/app/components/"]
-  },
   "tasks": {
     "start": "deno run --allow-net --allow-read=. --allow-run ./.tasks/start.js",
     "commit": "bash ./.tasks/commit.sh"
