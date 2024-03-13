@@ -1,3 +1,7 @@
+//@ts-check
+/// <reference lib="dom" />
+/// <reference lib="dom.iterable" />
+
 import escape from "/framework/shared/html/escape.js";
 import handleTemplate from "/framework/shared/handle-template.js";
 
@@ -8,7 +12,7 @@ import handleTemplate from "/framework/shared/handle-template.js";
  * @returns {HTMLCollection} The compiled HTMLCollection
  */
 export default (template, ...insertions) => {
-  const wrapper = document.createElement("div");
+  const wrapper = globalThis.document.createElement("div");
 
   wrapper.innerHTML = handleTemplate({
     template,
