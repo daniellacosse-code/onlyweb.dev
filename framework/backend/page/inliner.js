@@ -6,9 +6,14 @@ import { html } from "/framework/backend/page/response.js";
 import Shared from "/framework/shared/module.js";
 
 /**
+ * @typedef {import("./model.js").PageRequest} PageRequest
+ * @typedef {import("./model.js").Inliner} Inliner
+ */
+
+/**
  * Creates a context-aware inliner that can inline elements, messages, and metadata into an HTML document.
- * @param {import("./model.js").PageRequest} request The request object.
- * @returns {Promise<import("./model.js").Inliner>} The inliner.
+ * @param {PageRequest} request The request object.
+ * @returns {Promise<Inliner>} The inliner.
  */
 export default async function Inliner(request) {
   const origin = request.url.origin;

@@ -1,7 +1,14 @@
 // @ts-check
 
 /**
- * @type {{ [engine in import("./model.js").PlatformEngine]: RegExp }}
+ * @typedef {import("./model.js").PlatformEngine} PlatformEngine
+ * @typedef {import("./model.js").PlatformRenderer} PlatformRenderer
+ * @typedef {import("./model.js").Platform} Platform
+ * @typedef {import("./model.js").PlatformEngineInstance} PlatformEngineInstance
+ */
+
+/**
+ * @type {{ [engine in PlatformEngine]: RegExp }}
  */
 const ENGINE_CHECKERS = {
   Firefox: /Firefox\/(?<version>\S+)/,
@@ -15,7 +22,7 @@ const ENGINE_CHECKERS = {
 };
 
 /**
- * @type {{ [renderer in import("./model.js").PlatformRenderer]: RegExp}}
+ * @type {{ [renderer in PlatformRenderer]: RegExp}}
  */
 const RENDERER_CHECKERS = {
   Gecko: /Gecko\/(?<version>\S+)/,
@@ -28,7 +35,7 @@ const RENDERER_CHECKERS = {
 /**
  * Parse a user agent string and return the platform information.
  * @param {string} userAgent The user agent string to parse.
- * @returns {Readonly<import("./model.js").Platform>} A frozen object with the platform information.
+ * @returns {Readonly<Platform>} A frozen object with the platform information.
  * @example
  * const platform = parse(navigator.userAgent);
  * console.log(platform);
@@ -44,14 +51,12 @@ const RENDERER_CHECKERS = {
  * // }
  */
 export default (userAgent) => {
-  /** @type {import("./model.js").Platform} */
+  /** @type {Platform} */
   const platform = {};
 
   // usually the first match is the renderer
   for (const untypedRendererName in RENDERER_CHECKERS) {
-    const rendererName = /** @type {import("./model.js").PlatformRenderer} */ (
-      untypedRendererName
-    );
+    const rendererName = /** @type {PlatformRenderer} */ (untypedRendererName);
 
     const result = userAgent.match(RENDERER_CHECKERS[rendererName]);
 
@@ -65,12 +70,10 @@ export default (userAgent) => {
   }
 
   // engines are more complicated, we need to check all of them
-  /** @type {Partial<{ [engine in import("./model.js").PlatformEngine]: import("./model.js").PlatformEngineInstance}>} */
+  /** @type {Partial<{ [engine in PlatformEngine]: PlatformEngineInstance}>} */
   const engines = {};
   for (const untypedEngineName in ENGINE_CHECKERS) {
-    const engineName = /** @type {import("./model.js").PlatformEngine} */ (
-      untypedEngineName
-    );
+    const engineName = /** @type {PlatformEngine} */ (untypedEngineName);
 
     const result = userAgent.match(ENGINE_CHECKERS[engineName]);
 

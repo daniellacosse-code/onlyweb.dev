@@ -1,9 +1,15 @@
 // @ts-check
 
 /**
+ * @typedef {import("./model.js").PlatformRequirements} PlatformRequirements
+ * @typedef {import("./model.js").PlatformEngine} PlatformEngine
+ * @typedef {import("./model.js").PlatformRenderer} PlatformRenderer
+ */
+
+/**
  * Merge multiple platform requirements into a single set of requirements.
- * @param {import("./model.js").PlatformRequirements[]} requirements The requirements to merge
- * @returns {import("./model.js").PlatformRequirements} The merged requirements
+ * @param {PlatformRequirements[]} requirements The requirements to merge
+ * @returns {PlatformRequirements} The merged requirements
  * @example const requirements = merge(
  *  { engine: { Chrome: 91 }, renderer: { Chromium: 91 } },
  * { engine: { Firefox: 91 }, renderer: { Gecko: 91 } }
@@ -25,9 +31,7 @@ export default (...requirements) => {
       result.engine ??= {};
 
       for (const untypedEngineName in requirement.engine) {
-        const engineName = /** @type {import("./model.js").PlatformEngine} */ (
-          untypedEngineName
-        );
+        const engineName = /** @type {PlatformEngine} */ (untypedEngineName);
 
         result.engine[engineName] = Math.max(
           result.engine[engineName] ?? 0,
@@ -40,10 +44,9 @@ export default (...requirements) => {
       result.renderer ??= {};
 
       for (const untypedRendererName in requirement.renderer) {
-        const rendererName =
-          /** @type {import("./model.js").PlatformRenderer} */ (
-            untypedRendererName
-          );
+        const rendererName = /** @type {PlatformRenderer} */ (
+          untypedRendererName
+        );
 
         result.renderer[rendererName] = Math.max(
           result.renderer[rendererName] ?? 0,

@@ -6,12 +6,20 @@ import Inliner from "./inliner.js";
 import Shared from "/framework/shared/module.js";
 
 /**
+ * @typedef {import("/framework/shared/user-agent/model.js").PlatformRequirements} PlatformRequirements
+ * @typedef {import("./model.js").PageRequest} PageRequest
+ * @typedef {import("./model.js").Inliner} Inliner
+ * @typedef {import("./model.js").PageResponse} PageResponse
+ * @typedef {import("./model.js").PageHandler} PageHandler
+ */
+
+/**
  * Registers a custom page in the global customPages map.
  * @name register
  * @param {string} route The route of the page
  * @param {object} pageOptions The options for the page
- * @param {import("/framework/shared/user-agent/model.js").PlatformRequirements} pageOptions.requirements The platform requirements for the page
- * @param {(request: import("./model.js").PageRequest, inliner: import("./model.js").Inliner) => Response | void} pageOptions.handleRequest The request handler for the page
+ * @param {PlatformRequirements} pageOptions.requirements The platform requirements for the page
+ * @param {(request: PageRequest, inliner: Inliner) => Response | void} pageOptions.handleRequest The request handler for the page
  * @param {(request: Request) => Response | void} pageOptions.handleServiceWorkerRequest The service worker request handler for the page
  * @example Backend.Page.Register("/test", {
  *  requirements: {
@@ -48,7 +56,7 @@ export default (
     handleServiceWorkerRequest = () => {}
   }
 ) => {
-  /** @type {typeof globalThis & { customPages?: Map<string, import("./model.js").PageHandler> }} */
+  /** @type {typeof globalThis & { customPages?: Map<string, PageHandler> }} */
   const typedGlobalThis = globalThis;
 
   typedGlobalThis.customPages ??= new Map();
