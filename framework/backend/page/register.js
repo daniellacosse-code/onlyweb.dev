@@ -3,6 +3,7 @@
 import { html } from "./response.js";
 import * as constants from "../constants.js";
 import Inliner from "./inliner.js";
+import Shared from "/framework/shared/module.js";
 
 /**
  * @typedef {import("/framework/shared/user-agent/model.js").PlatformRequirements} PlatformRequirements
@@ -61,7 +62,10 @@ export default (
   typedGlobalThis.customPages ??= new Map();
 
   if (typedGlobalThis.customPages.has(route))
-    return console.warn(`Page "${route}" already registered.`);
+    return Shared.Log({
+      message: `Page "${route}" already registered.`,
+      level: "warn"
+    });
 
   typedGlobalThis.customPages.set(
     route,
@@ -84,7 +88,7 @@ export default (
 
           return serviceWorker;
         } catch (error) {
-          console.error(error);
+          Shared.LogError(error);
           return new Response("Internal Server Error", { status: 500 });
         }
       }
@@ -110,10 +114,8 @@ export default (
                     navigator.userAgent &&
                     Shared.UserAgent.check(
                       Shared.UserAgent.parse(navigator.userAgent),
-                      Shared.UserAgent.merge(
-                        Frontend.Requirements.userAgent,
-                        JSON.parse("${JSON.stringify(requirements)}").userAgent
-                      )
+                      // TODO(#170): support inlining objects so that we can merge in page-specific requirements
+                      Frontend.requirements.userAgent
                     )
                   )
                 ) {
@@ -134,24 +136,6 @@ export default (
                     data === "reload" && location.reload();
                 }
 
-                // check browser requirements
-                if (
-                  !(
-                    navigator.userAgent &&
-                    Shared.UserAgent.check(
-                      Shared.UserAgent.parse(navigator.userAgent),
-                      Shared.UserAgent.merge(
-                        Frontend.requirements.userAgent,
-                        JSON.parse("${JSON.stringify(requirements)}").userAgent
-                      )
-                    )
-                  )
-                ) {
-                  alert(
-                    "Your browser is not supported. Certain things may not work as expected. Please update your browser to the latest version."
-                  );
-                }
-
                 // register service worker
                 if ("serviceWorker" in navigator) {
                   try {
@@ -167,11 +151,11 @@ export default (
           </html>
         `;
       } catch (error) {
-        console.error(error);
+        Shared.LogError(error);
         return new Response("Internal Server Error", { status: 500 });
       }
     }
   );
 
-  console.debug(`Registered page @ route "${route}".`);
+  Shared.Log({ message: `Registered page @ route "${route}".` });
 };

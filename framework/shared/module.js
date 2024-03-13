@@ -1,3 +1,5 @@
+import handleTemplate from "./handle-template.js";
+
 import escape from "./html/escape.js";
 import minify from "./html/minify.js";
 
@@ -5,7 +7,7 @@ import parse from "./user-agent/parse.js";
 import check from "./user-agent/check.js";
 import merge from "./user-agent/merge.js";
 
-import handleTemplate from "./handle-template.js";
+import Log, { LogError } from "./log.js";
 
 /**
  * A handful of shared utilities that can be utilized across the frontend and backend.
@@ -21,5 +23,7 @@ export default {
     escape,
     minify
   },
+  Log,
+  LogError,
   handleTemplate
 };

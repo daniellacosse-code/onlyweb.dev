@@ -2,6 +2,7 @@
 /// <reference lib="dom" />
 /// <reference lib="dom.iterable" />
 
+import Shared from "/framework/shared/module.js";
 import html from "./html.js";
 
 /**
@@ -41,7 +42,10 @@ export default (
   }
 ) => {
   if (globalThis.customElements.get(tag))
-    return console.warn(`Element ${tag} already registered.`);
+    return Shared.Log({
+      message: `Element ${tag} already registered.`,
+      level: "warn"
+    });
 
   globalThis.customElements.define(
     tag,
@@ -202,8 +206,6 @@ export default (
       }
     }
   );
-
-  console.debug(`Registered element "<${tag}>".`);
 };
 
 /**

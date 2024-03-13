@@ -6,12 +6,10 @@ let server, reloadInProgress, reloadSocket;
 startOrReloadAppServer();
 startLiveReloadServer();
 
-for await (const event of Deno.watchFs([
+for await (const _ of Deno.watchFs([
   `${Deno.cwd()}/app`,
   `${Deno.cwd()}/framework`
 ])) {
-  console.debug("Filesystem event:", event.kind, event.paths.join(", "));
-
   await startOrReloadAppServer();
 
   if (reloadInProgress) continue;
@@ -22,8 +20,8 @@ for await (const event of Deno.watchFs([
         reloadSocket.send("reload");
         clearInterval(intervalID);
       }
-    } catch (error) {
-      console.error("Error sending reload message:", error);
+    } catch (_) {
+      // do nothing
     }
   }, DENO_LIVERELOAD_DELAY);
 }
@@ -35,8 +33,8 @@ async function startOrReloadAppServer() {
   try {
     server?.kill();
     await server?.output();
-  } catch (error) {
-    console.error("Error terminating previous process:", error);
+  } catch (_) {
+    // do nothing
   }
 
   const serverCommand = new Deno.Command("deno", {
@@ -45,8 +43,8 @@ async function startOrReloadAppServer() {
 
   try {
     return (server = serverCommand.spawn());
-  } catch (error) {
-    console.error("Error spawing new process:", error);
+  } catch (_) {
+    // do nothing
   } finally {
     reloadInProgress = false;
   }
