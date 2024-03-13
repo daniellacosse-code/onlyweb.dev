@@ -1,3 +1,5 @@
+import handleTemplate from "./handle-template.js";
+
 import escape from "./html/escape.js";
 import minify from "./html/minify.js";
 
@@ -22,5 +24,6 @@ export default {
     minify
   },
   Log,
-  LogError
+  LogError,
+  handleTemplate
 };
