@@ -12,7 +12,7 @@ jobs:
         with:
           deno-version: v1.x # Run with latest stable Deno.
 
-      - run: deno test --coverage=output/coverage/
+      - run: deno test --parallel --allow-read --allow-net --coverage=output/coverage/
       - run: deno coverage --lcov output/coverage/ > output/coverage.lcov
       - uses: codecov/codecov-action@v4.0.1
         with:
