@@ -1,8 +1,6 @@
 // @ts-check
 
-import escape from "/framework/shared/html/escape.js";
-import minify from "/framework/shared/html/minify.js";
-import handleTemplate from "/framework/shared/handle-template.js";
+import Shared from "/framework/shared/module.js";
 
 /**
  * A utility for creating a templateable response with a specific mimetype
@@ -20,6 +18,12 @@ const _Response = (mimetype = "text/html") => {
      */
     constructor(body, init = undefined) {
       super(body, init);
+      Shared.Log({
+        message: `[framework/backend/response] Constructed a response with mimetype "${mimetype}"`,
+        detail: { body },
+        level: "debug"
+      });
+
       this.#content = body;
       this.#mimetype = mimetype;
       this.headers.set("content-type", `${mimetype}; charset=UTF-8`);
@@ -39,13 +43,13 @@ const _Response = (mimetype = "text/html") => {
 
   return (template, ...insertions) =>
     new MimetypeResponse(
-      handleTemplate({
+      Shared.handleTemplate({
         template,
         insertions,
         handleInsertion: (insertion) =>
           insertion instanceof MimetypeResponse
-            ? minify(insertion.content)
-            : escape(
+            ? Shared.HTML.minify(insertion.content)
+            : Shared.HTML.escape(
                 Array.isArray(insertion)
                   ? insertion.join("")
                   : String(insertion)

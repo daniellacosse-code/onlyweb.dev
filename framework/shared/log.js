@@ -1,4 +1,5 @@
 // @ts-check
+import minify from "/framework/shared/html/minify.js";
 
 const MAX_MESSAGE_LENGTH = 128;
 const MAX_DETAIL_LENGTH = 256;
@@ -29,8 +30,16 @@ const Log = ({ message, detail, level = "info", _console = console }) => {
     m: message.trim().slice(0, MAX_MESSAGE_LENGTH)
   };
 
+  if (logObject.m.length === MAX_MESSAGE_LENGTH) {
+    logObject.m += "…";
+  }
+
   if (detail) {
-    logObject.d = JSON.stringify(detail).slice(0, MAX_DETAIL_LENGTH);
+    logObject.d = minify(JSON.stringify(detail)).slice(0, MAX_DETAIL_LENGTH);
+
+    if (logObject.d.length === MAX_DETAIL_LENGTH) {
+      logObject.d += "…";
+    }
   }
 
   _console[level](JSON.stringify(logObject));

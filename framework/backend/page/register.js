@@ -62,14 +62,14 @@ export default (
   typedGlobalThis.customPages ??= new Map();
 
   if (typedGlobalThis.customPages.has(route))
-    return Shared.Log({
-      message: `Page "${route}" already registered.`,
+    Shared.Log({
+      message: `[framework/backend/register] Page "${route}" already registered.`,
       level: "warn"
     });
 
   typedGlobalThis.customPages.set(
     route,
-    async (/** @type import("./model.js").PageRequest */ request) => {
+    async (/** @type {PageRequest} */ request) => {
       Object.defineProperty(request, "url", {
         writable: true,
         value: new URL(request.url)
@@ -80,26 +80,63 @@ export default (
         request.headers.get("accept-language")?.split(",")[0] ??
         "en-US";
 
+      Shared.Log({
+        message: `[framework/backend/register] Begun handling request @ "${route}".`,
+        detail: request
+      });
+
       if (request.url.searchParams.has("service")) {
         try {
-          const serviceWorker = handleServiceWorkerRequest(request);
+          Shared.Log({
+            message: `[framework/backend/register] Constructing service worker response @ "${route}".`
+          });
+          const serviceWorkerResponse = await handleServiceWorkerRequest(
+            request
+          );
 
-          if (!serviceWorker) return new Response("Not Found", { status: 404 });
+          if (!serviceWorkerResponse) {
+            Shared.Log({
+              message: `[framework/backend/register] No service worker found @ "${route}".`,
+              level: "warn"
+            });
+            return new Response("Not Found", { status: 404 });
+          }
 
-          return serviceWorker;
+          Shared.Log({
+            message: `[framework/backend/register] Serving service worker @ "${route}".`,
+            detail: serviceWorkerResponse
+          });
+
+          return serviceWorkerResponse;
         } catch (error) {
           Shared.LogError(error);
           return new Response("Internal Server Error", { status: 500 });
         }
       }
 
-      /** @type {import("./model.js").PageResponse} */
+      Shared.Log({
+        message: `[framework/backend/register] Detected page request @ "${route}".`,
+        detail: request
+      });
+
+      /** @type {PageResponse} */
       const response = await handleRequest(request, await Inliner(request));
 
-      if (response.mimetype !== "text/html") return response;
+      if (response.mimetype !== "text/html") {
+        Shared.Log({
+          message: `Serving non-HTML response @ "${route}".`,
+          detail: response
+        });
+        return response;
+      }
 
       try {
-        return html`
+        Shared.Log({
+          message: `[framework/backend/register] Constructing HTML page @ "${route}".`,
+          detail: response
+        });
+
+        const pageResponse = html`
           <!DOCTYPE html>
           <html lang="${request.language}">
             ${response}
@@ -120,7 +157,7 @@ export default (
                   )
                 ) {
                   alert(
-                    "Your browser is not supported. Certain things may not work as expected. Please update your browser to the latest version."
+                    "Your browser is not currently supported: certain things may not work as expected. Please consider updating your browser to the latest version."
                   );
                 }
 
@@ -150,6 +187,14 @@ export default (
             </script>
           </html>
         `;
+
+        Shared.Log({
+          message: `[framework/backend/register] Serving HTML page @ "${route}".`,
+          detail: pageResponse
+        });
+
+        // TODO(#177) TypeError: Return value from serve handler must be a response or a promise resolving to a response
+        return pageResponse;
       } catch (error) {
         Shared.LogError(error);
         return new Response("Internal Server Error", { status: 500 });
@@ -157,5 +202,7 @@ export default (
     }
   );
 
-  Shared.Log({ message: `Registered page @ route "${route}".` });
+  Shared.Log({
+    message: `[framework/backend/register] Registered page @ "${route}".`
+  });
 };

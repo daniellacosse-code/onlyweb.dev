@@ -22,35 +22,79 @@ export default async function Inliner(request) {
   let messages;
 
   try {
+    Shared.Log({
+      message: `[framework/backend/inliner] Fetching messages for language "${request.language}"`,
+      level: "debug"
+    });
     messages = await (
       await fetch(`${origin}/app/assets/messages/${request.language}.json`)
     ).json();
+    Shared.Log({
+      message: `[framework/backend/inliner] Fetched messages for language "${request.language}"`,
+      level: "debug"
+    });
   } catch (_) {
+    Shared.Log({
+      message: `[framework/backend/inliner] No messages found for for language "${request.language}"`,
+      level: "debug"
+    });
     messages = {};
   }
 
   return {
     elements(...filePaths) {
       const result = [];
+      Shared.Log({
+        message: `[framework/backend/inliner#elements] inlining elements "${filePaths.join(
+          ", "
+        )}"`,
+        level: "debug"
+      });
 
       for (const filePath of filePaths) {
         const fileContents = Deno.readTextFileSync(`.${filePath}`);
+        Shared.Log({
+          message: `[framework/backend/inliner#elements] loaded element "${filePath}"`,
+          level: "debug"
+        });
+
         const sanitizedScript = Shared.HTML.minify(fileContents)
           .replaceAll(' from "/', ` from "${origin}/`)
           .replaceAll('import "/', `import "${origin}/`);
-
         result.push(html`<script
           async
           type="module"
           src="data:application/javascript;base64,${encode(sanitizedScript)}"
         ></script>`);
+        Shared.Log({
+          message: `[framework/backend/inliner#elements] inlined element "${filePath}"`,
+          level: "debug"
+        });
       }
 
+      Shared.Log({
+        message: `[framework/backend/inliner#elements] completed for "${filePaths.join(
+          ", "
+        )}"`,
+        level: "debug"
+      });
       return html`${result}`;
     },
 
     message(key) {
-      return messages[key] ?? key;
+      const message = messages[key];
+
+      if (!message) {
+        Shared.Log({
+          message: `[framework/backend/inliner#message] No message found for key "${key}"`,
+          detail: { language: request.language },
+          level: "warn"
+        });
+
+        return key;
+      }
+
+      return message;
     },
 
     metadata({
@@ -65,8 +109,25 @@ export default async function Inliner(request) {
         html`<link rel="canonical" href="${canonicalUrl}" />`,
         html`<meta name="og:url" content="${canonicalUrl}" />`
       ];
+      Shared.Log({
+        message: `[framework/backend/inliner#metadata] constructing page metadata.`,
+        detail: {
+          title,
+          description,
+          previewImagePath,
+          splashImagePath,
+          iconImagePath,
+          canonicalUrl
+        },
+        level: "debug"
+      });
 
       if (title) {
+        Shared.Log({
+          message: `[framework/backend/inliner#metadata] using title "${title}"`,
+          level: "debug"
+        });
+
         tags.push(
           html`<title>${title}</title>
             <meta name="og:title" content="${title}" />`
@@ -74,6 +135,11 @@ export default async function Inliner(request) {
       }
 
       if (description) {
+        Shared.Log({
+          message: `[framework/backend/inliner#metadata] using description "${description}"`,
+          level: "debug"
+        });
+
         tags.push(
           html`<meta name="description" content="${description}" />
             <meta name="og:description" content="${description}" />`
@@ -81,6 +147,11 @@ export default async function Inliner(request) {
       }
 
       if (iconImagePath) {
+        Shared.Log({
+          message: `[framework/backend/inliner#metadata] using icon image "${iconImagePath}"`,
+          level: "debug"
+        });
+
         tags.push(
           html`<link rel="icon" href="${iconImagePath}" />
             <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -96,6 +167,11 @@ export default async function Inliner(request) {
       }
 
       if (splashImagePath) {
+        Shared.Log({
+          message: `[framework/backend/inliner#metadata] using splash image "${splashImagePath}"`,
+          level: "debug"
+        });
+
         tags.push(
           // TODO iterate over all possible splash images
           html`<link
@@ -106,8 +182,18 @@ export default async function Inliner(request) {
       }
 
       if (previewImagePath) {
+        Shared.Log({
+          message: `[framework/backend/inliner#metadata] using preview image "${previewImagePath}"`,
+          level: "debug"
+        });
+
         tags.push(html`<meta name="og:image" content="${previewImagePath}" />`);
       }
+
+      Shared.Log({
+        message: `[framework/backend/inliner#metadata] page metadata constructed.`,
+        level: "debug"
+      });
 
       return html`${tags}`;
     }
