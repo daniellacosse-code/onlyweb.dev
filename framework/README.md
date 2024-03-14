@@ -2,6 +2,8 @@
 
 ![status](https://badgen.net/badge/status/pre-alpha/red/) [![codecov](https://codecov.io/gh/daniellacosse-code/onlyweb.dev/graph/badge.svg?token=MQP3VXXJ0A)](https://codecov.io/gh/daniellacosse-code/onlyweb.dev) [![Maintainability](https://api.codeclimate.com/v1/badges/9bc1ec955cd47c99b9ad/maintainability)](https://codeclimate.com/github/daniellacosse-code/onlyweb.dev/maintainability)
 
+![demo](https://github.com/daniellacosse-code/onlyweb.dev/assets/3759828/cd94622b-aedb-4831-bb52-9f6b3974b7cb)
+
 ## overview
 
 **the onlyweb framework** is a lightweight, server-side rendering framework for WebComponents, built on top of the [Deno](https://deno.land/) runtime. It was designed for the [onlyweb.dev](https://onlyweb.dev) application with a focus on performance and transparency. Jump to ["concepts"](#concepts) for the breakdown.
@@ -14,6 +16,7 @@ A basic understanding of native web development. MDN has a great [introduction t
 
 - server-side rendering for WebComponents, as already mentioned
 - zero dependencies, apart from deno
+- easy service worker deployment
 - css reset scoped to components by default
 - react-like rendering, without the virtual dom
 - lit-like templating, without the need for a build step
