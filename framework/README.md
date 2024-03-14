@@ -2,7 +2,7 @@
 
 ![status](https://badgen.net/badge/status/pre-alpha/red/) [![codecov](https://codecov.io/gh/daniellacosse-code/onlyweb.dev/graph/badge.svg?token=MQP3VXXJ0A)](https://codecov.io/gh/daniellacosse-code/onlyweb.dev) [![Maintainability](https://api.codeclimate.com/v1/badges/9bc1ec955cd47c99b9ad/maintainability)](https://codeclimate.com/github/daniellacosse-code/onlyweb.dev/maintainability)
 
-![demo](https://github.com/daniellacosse-code/onlyweb.dev/assets/3759828/cd94622b-aedb-4831-bb52-9f6b3974b7cb)
+https://github.com/daniellacosse-code/onlyweb.dev/assets/3759828/cd94622b-aedb-4831-bb52-9f6b3974b7cb
 
 ## overview
 
