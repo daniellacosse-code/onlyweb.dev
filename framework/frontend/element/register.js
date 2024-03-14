@@ -7,12 +7,12 @@ import html from "./html.js";
 
 /**
  * @typedef OnlyWebElement
- * @property {Function} addEventListener
- * @property {Function} attachShadow
- * @property {OnlyWebElement} host
- * @property {ShadowRoot} template
- * @property {Object} templateAttributes
- * @property {Function} UPDATE_TEMPLATE
+ * @property {Function} addEventListener The method to add an event listener to the element. Retargets the event to the source element for you.
+ * @property {Function} attachShadow The method to attach a shadow DOM to the element - same as the native method.
+ * @property {Function} UPDATE_TEMPLATE The method to update the template - call it manually only when the template fails to update automatically.
+ * @property {Object} templateAttributes The attributes of the element, that, when modified, will trigger a template build.
+ * @property {OnlyWebElement} host The element instance itself, as hosted by its parent.
+ * @property {ShadowRoot} template The shadow DOM of the element, reperesenting the element's internals.
  */
 
 /**
@@ -50,11 +50,11 @@ export default (
   globalThis.customElements.define(
     tag,
     class extends HTMLElement {
-      /** @type {Function | null} */
+      /** @type {Function} */
       #handleMount;
-      /** @type {Function | null} */
+      /** @type {Function} */
       #handleTemplateBuild;
-      /** @type {Function | null} */
+      /** @type {Function} */
       #handleDismount;
       #eventController = new AbortController();
 
@@ -67,9 +67,9 @@ export default (
         /** @type {ShadowRoot | null} */
         this.template = null;
 
-        this.#handleMount = null;
-        this.#handleTemplateBuild = null;
-        this.#handleDismount = null;
+        this.#handleMount = handleMount.bind(this);
+        this.#handleTemplateBuild = handleTemplateBuild.bind(this);
+        this.#handleDismount = handleDismount.bind(this);
       }
 
       get templateAttributes() {
@@ -98,20 +98,37 @@ export default (
 
       // element lifecycle
       connectedCallback() {
-        this.#handleMount = handleMount.bind(this);
-        this.#handleTemplateBuild = handleTemplateBuild.bind(this);
-        this.#handleDismount = handleDismount.bind(this);
+        Shared.Log({
+          message: `[framework/frontend/element] <${tag}> mounted`,
+          level: "debug"
+        });
 
-        this.#handleMount?.(this.templateAttributes, { self: this });
+        this.#handleMount(this.templateAttributes, { self: this });
         this.UPDATE_TEMPLATE();
       }
 
-      attributeChangedCallback() {
+      /**
+       * @param {string} name
+       * @param {*} oldValue
+       * @param {*} newValue
+       */
+      attributeChangedCallback(name, oldValue, newValue) {
+        Shared.Log({
+          message: `[framework/frontend/element] <${tag}> attributes changed`,
+          detail: { name, oldValue, newValue },
+          level: "debug"
+        });
+
         this.UPDATE_TEMPLATE();
       }
 
       disconnectedCallback() {
-        this.#handleDismount?.(this.templateAttributes, {
+        Shared.Log({
+          message: `[framework/frontend/element] <${tag}> dismounted`,
+          level: "debug"
+        });
+
+        this.#handleDismount(this.templateAttributes, {
           self: this,
           eventController: this.#eventController
         });
@@ -124,22 +141,35 @@ export default (
        * @param {AddEventListenerOptions} options
        */
       addEventListener(eventType, listener, options) {
+        Shared.Log({
+          message: `[framework/frontend/element] <${tag}> listener added for "${eventType}" event`,
+          level: "debug"
+        });
+
         super.addEventListener(
           eventType,
           (event) => {
             event.stopPropagation();
             event.preventDefault();
 
-            // You can't change the target of an event by default,
-            // so we have to force it
+            // You can't retarget an event, so we have to force it
             Object.defineProperty(event, "target", {
               writable: false,
               value: event
                 .composedPath()
                 .find((target) =>
-                  /** @type {HTMLElement} */ (target).getAttribute("id")
+                  /** @type {HTMLElement} */ (target).getAttribute?.("id")
                 )
             });
+
+            let message = `[framework/frontend/element] <${tag}> listener for "${eventType}"`;
+
+            const element = /** @type {HTMLElement} */ (event.target);
+
+            if (event.target)
+              message += ` triggered by internal <${element.tagName.toLocaleLowerCase()}>`;
+
+            Shared.Log({ message, detail: { event }, level: "debug" });
 
             return listener(event);
           },
@@ -149,10 +179,21 @@ export default (
 
       // system methods
       UPDATE_TEMPLATE() {
-        if (!this.template) return;
+        if (!this.template) {
+          Shared.Log({
+            message: `[framework/frontend/element#UPDATE_TEMPLATE] <${tag}> template not yet initialized, skipping update`,
+            level: "debug"
+          });
+          return;
+        }
+
+        Shared.Log({
+          message: `[framework/frontend/element#UPDATE_TEMPLATE] updating template for <${tag}>`,
+          level: "debug"
+        });
 
         const templateResult =
-          this.#handleTemplateBuild?.(this.templateAttributes) ??
+          this.#handleTemplateBuild(this.templateAttributes) ??
           html`<slot></slot>`;
         const templateWrapper = html`<template>
           <style>
@@ -172,9 +213,20 @@ export default (
 
         const newTemplateNode = this.template.querySelector("template");
 
-        if (!newTemplateNode) return;
+        if (!newTemplateNode) {
+          Shared.Log({
+            message: `[framework/frontend/element#UPDATE_TEMPLATE] <${tag}> template missing <template> tag, cannot update template`,
+            level: "warn"
+          });
+          return;
+        }
 
         this.template.append(newTemplateNode.content.cloneNode(true));
+
+        Shared.Log({
+          message: `[framework/frontend/element#UPDATE_TEMPLATE] <${tag}> template updated`,
+          level: "debug"
+        });
       }
 
       /**
