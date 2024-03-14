@@ -45,7 +45,7 @@ parseUserAgent               524.01 ns/iter   1,908,352.7 (513.68 ns … 555.03 
 
 TODO: explain that mainly there are two environments with mirrored APIs:
 
-- backend vs. frontend (globalThis)
+- backend vs. frontend (which share globalThis)
 - page vs. element
 - inliner vs. template
 
