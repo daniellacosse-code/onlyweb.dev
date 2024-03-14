@@ -17,7 +17,7 @@ A basic understanding of native web development. MDN has a great [introduction t
 - server-side rendering for WebComponents, as already mentioned
 - zero dependencies, apart from deno
 - easy service worker and PWA deployment
-- css reset scoped to components by default
+- css reset scoped to WebComponents by default
 - react-like rendering, without the virtual dom
 - lit-like templating, without the need for a build step
 - user agent checking (for when feature detection isn't enough)
