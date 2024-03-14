@@ -4,7 +4,9 @@
 
 ## TODO
 
-## bench results
+## benchmarks
+
+TODO: lighthouse scores
 
 ```
 cpu: Apple M1 Max
