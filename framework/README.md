@@ -1,12 +1,20 @@
 # the onlyweb framework ✨👁✨
 
-[![codecov](https://codecov.io/gh/daniellacosse-code/onlyweb.dev/graph/badge.svg?token=MQP3VXXJ0A)](https://codecov.io/gh/daniellacosse-code/onlyweb.dev) [![Maintainability](https://api.codeclimate.com/v1/badges/9bc1ec955cd47c99b9ad/maintainability)](https://codeclimate.com/github/daniellacosse-code/onlyweb.dev/maintainability)
+![status](https://badgen.net/badge/status/pre-alpha/red/) [![codecov](https://codecov.io/gh/daniellacosse-code/onlyweb.dev/graph/badge.svg?token=MQP3VXXJ0A)](https://codecov.io/gh/daniellacosse-code/onlyweb.dev) [![Maintainability](https://api.codeclimate.com/v1/badges/9bc1ec955cd47c99b9ad/maintainability)](https://codeclimate.com/github/daniellacosse-code/onlyweb.dev/maintainability)
 
-## TODO
+## overview
 
-## benchmarks
+TODO
 
-TODO: lighthouse scores
+## prerequisites
+
+TODO (basic understanding of native web development)
+
+## features
+
+### benchmarks
+
+![benchmarks](https://c10.patreonusercontent.com/4/patreon-media/p/post/99703883/3a76a7cd607e4d50bc1ee9c684c33b0e/e30%3D/1.png?token-time=1711670400&token-hash=Oc2E9Tq6jbzAbKSqWXWvyIE3K1FZNjnVkTBDyecyiM4%3D)
 
 ```
 cpu: Apple M1 Max
@@ -23,3 +31,15 @@ minifySmallString            320.09 ns/iter   3,124,130.2  (314.2 ns … 346.37 
 minifyLargeString            144.68 µs/iter       6,911.7 (138.29 µs … 441.88 µs) 140.12 µs 333.5 µs 340.17 µs
 parseUserAgent               524.01 ns/iter   1,908,352.7 (513.68 ns … 555.03 ns) 525.63 ns 544.58 ns 555.03 ns
 ```
+
+## concepts
+
+TODO
+
+- backend vs. frontend
+- page vs. element
+- inliner vs. template
+
+## example
+
+See the [onlyweb.dev application source](../app/) for a full example!
