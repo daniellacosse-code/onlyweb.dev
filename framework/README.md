@@ -4,13 +4,21 @@
 
 ## overview
 
-TODO
+**the onlyweb framework** is a lightweight, server-side rendering framework for WebComponents, built on top of the [Deno](https://deno.land/) runtime. It was designed for the [onlyweb.dev](https://onlyweb.dev) application with a focus on performance and transparency. Jump to ["concepts"](#concepts) for the breakdown.
 
-## prerequisites
+### prerequisites
 
-TODO (basic understanding of native web development)
+A basic understanding of native web development. MDN has a great [introduction to the web](https://developer.mozilla.org/en-US/docs/Learn/Getting_started_with_the_web) that you can follow.
 
 ## features
+
+- server-side rendering for WebComponents, as already mentioned
+- css reset scoped to components by default
+- react-like rendering, without the virtual dom
+- lit-like templating, without the need for a build step
+- user agent checking (for when feature detection isn't enough)
+- robust logging
+- lightweight i18n
 
 ### benchmarks
 
@@ -34,12 +42,12 @@ parseUserAgent               524.01 ns/iter   1,908,352.7 (513.68 ns … 555.03 
 
 ## concepts
 
-TODO
+TODO: explain that mainly there are two environments with mirrored APIs:
 
-- backend vs. frontend
+- backend vs. frontend (globalThis)
 - page vs. element
 - inliner vs. template
 
 ## example
 
-See the [onlyweb.dev application source](../app/) for a full example!
+See the [[WIP] onlyweb.dev application source](../app/) for a full example!
