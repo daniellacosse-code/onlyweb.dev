@@ -13,6 +13,7 @@ A basic understanding of native web development. MDN has a great [introduction t
 ## features
 
 - server-side rendering for WebComponents, as already mentioned
+- zero dependencies, apart from deno
 - css reset scoped to components by default
 - react-like rendering, without the virtual dom
 - lit-like templating, without the need for a build step
