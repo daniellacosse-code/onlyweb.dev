@@ -52,6 +52,127 @@ TODO: explain that mainly there are two environments with mirrored APIs:
 - page vs. element
 - inliner vs. template
 
-## example
+### basic tutorial
+
+TODO: polish this up
+
+1. create a new file for your root page
+
+```js
+import Backend from "https://github.com/daniellacosse-code/onlyweb.dev/raw/master/framework/backend/module.js";
+
+Backend.Page.Register("/", {
+  handleRequest: (request) => Backend.Page.Response.html`
+      <body>
+        <h1>The query string is: ${request.url.search}</h1>
+      </body>
+    `;
+  }
+});
+```
+
+1. inline some metadata
+
+```js
+Backend.Page.Register("/", {
+  handleRequest: (request, inliner) => Backend.Page.Response.html`
+      <head>
+        ${inliner.metadata({
+          title: "what's my query string?",
+          description: "a simple page that shows the query string",
+        })}
+      </head>
+      <body>
+        <h1>The query string is: ${request.url.search}</h1>
+      </body>
+    `;
+  });
+```
+
+1. inject some messages
+
+```js
+Backend.Page.Register("/", {
+  messagesFolder: "path/to/messages/folder/"
+  handleRequest: (request, inliner) => Backend.Page.Response.html`
+      <head>
+        ${inliner.metadata({
+          title: inliner.message("what's my query string?"),
+          description: inliner.message("a simple page that shows the query string"),
+        })}
+      </head>
+      <body>
+        <h1>${inliner.message("The query string is:")} ${request.url.search}</h1>
+      </body>
+    `;
+  }
+});
+```
+
+1. create a new file for a custom frontend element
+
+```js
+import Frontend from "https://github.com/daniellacosse-code/onlyweb.dev/raw/master/framework/frontend/module.js";
+
+Frontend.Element.Register("query-string", {
+  templateAttributes: { ["max-length"]: Number },
+  handleTemplate: ({ ["max-length"]: maxLength }) => Frontend.Element.html`
+      <style>
+        slot {
+          font-family: monospace;
+          font-size: 1rem;
+          max-width: calc(${maxLength} * 1rem);
+          overflow: hidden;
+          text-overflow: ellipsis;
+        }
+      </style>
+      <slot></slot>
+    `;
+  }
+});
+```
+
+1. inline the element registration into the page and use it
+
+```js
+Backend.Page.Register("/", {
+  messagesFolder: "/path/to/messages/folder/"
+  handleRequest: (request, inliner) => Backend.Page.Response.html`
+      <head>
+        ${inliner.metadata({
+          title: inliner.message("what's my query string?"),
+          description: inliner.message("a simple page that shows the query string"),
+        })}
+      </head>
+      <body>
+        <h1>${inliner.message("The query string is:")}</h1>
+
+        ${inliner.elements("/path/to/query-string/element")}
+        <query-string max-length="10">${request.url.search}</query-string>
+      </body>
+    `;
+  }
+});
+```
+
+1. create a new file for your app entrypoint. import your page and start the backend
+
+```js
+import Backend from "https://github.com/daniellacosse-code/onlyweb.dev/raw/master/framework/backend/module.js";
+
+import "/path/to/page";
+
+Backend.start({ port: 8080 });
+```
+
+### additional concepts
+
+TODO: explain
+
+- host vs. template
+- event listeners
+- handling data
+
+### full example
 
 See the [[WIP] onlyweb.dev application source](../app/) for a full example!

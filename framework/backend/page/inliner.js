@@ -13,9 +13,10 @@ import Shared from "/framework/shared/module.js";
 /**
  * Creates a context-aware inliner that can inline elements, messages, and metadata into an HTML document.
  * @param {PageRequest} request The request object.
+ * @param {string} messagesFolder The path to the messages folder.
  * @returns {Promise<Inliner>} The inliner.
  */
-export default async function Inliner(request) {
+export default async function Inliner(request, messagesFolder) {
   const origin = request.url.origin;
 
   /** @type {{[messageIn: string]: string}} */
@@ -27,7 +28,7 @@ export default async function Inliner(request) {
       level: "debug"
     });
     messages = await (
-      await fetch(`${origin}/app/assets/messages/${request.language}.json`)
+      await fetch(`${origin}${messagesFolder}/${request.language}.json`)
     ).json();
     Shared.Log({
       message: `[framework/backend/inliner] Fetched messages for language "${request.language}"`,
