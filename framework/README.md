@@ -46,17 +46,37 @@ parseUserAgent               524.01 ns/iter   1,908,352.7 (513.68 ns … 555.03 
 
 ## concepts
 
+```mermaid
+block-beta
+  block
+    columns 2
+    backend:2
+    page:2
+    response
+    inliner
+  end
+  block
+    columns 2
+    frontend:2
+    element:2
+    template
+    host
+  end
+```
+
 TODO: explain that mainly there are two environments with mirrored APIs:
 
 - backend vs. frontend (which share globalThis)
 - page vs. element
 - inliner vs. template
 
+TODO: mention that there are JSDocs for everything, so just look at the source
+
 ### basic tutorial
 
-TODO: polish this up
+Let's walk through how you would create a very simple app with The OnlyWeb Framework.
 
-1. create a new file for your root page
+1. Let's start by registering the page we're going to serve from the backend:
 
 ```js
 import Backend from "https://github.com/daniellacosse-code/onlyweb.dev/raw/master/framework/backend/module.js";
@@ -64,14 +84,14 @@ import Backend from "https://github.com/daniellacosse-code/onlyweb.dev/raw/maste
 Backend.Page.Register("/", {
   handleRequest: (request) => Backend.Page.Response.html`
       <body>
-        <h1>The query string is: ${request.url.search}</h1>
+        <h1>Your query string is: ${request.url.search}</h1>
       </body>
     `;
   }
 });
 ```
 
-1. inline some metadata
+2. Right now, the page has no metadata, so it won't look good on social media. Let's use the inliner, the second argument given to the request handler, to add some:
 
 ```js
 Backend.Page.Register("/", {
@@ -83,13 +103,13 @@ Backend.Page.Register("/", {
         })}
       </head>
       <body>
-        <h1>The query string is: ${request.url.search}</h1>
+        <h1>Your query string is: ${request.url.search}</h1>
       </body>
     `;
   });
 ```
 
-1. inject some messages
+3. Now our page only works in english. Let's provide our page with [a folder like this one](../app/assets//messages/) so we can inline translated messages:
 
 ```js
 Backend.Page.Register("/", {
@@ -102,37 +122,88 @@ Backend.Page.Register("/", {
         })}
       </head>
       <body>
-        <h1>${inliner.message("The query string is:")} ${request.url.search}</h1>
+        <h1>${inliner.message("Your query string is:")} ${request.url.search}</h1>
       </body>
     `;
   }
 });
 ```
 
-1. create a new file for a custom frontend element
+4. Now let's say we want to be able to easily copy our query string to the clipboard. We'll have to create a new file for a custom element to do this in the frontend:
 
 ```js
 import Frontend from "https://github.com/daniellacosse-code/onlyweb.dev/raw/master/framework/frontend/module.js";
 
-Frontend.Element.Register("query-string", {
-  templateAttributes: { ["max-length"]: Number },
-  handleTemplate: ({ ["max-length"]: maxLength }) => Frontend.Element.html`
+Frontend.Element.Register("copy-code", {
+  templateAttributes: { copied: Boolean, ["copied-message"]: String, code: String },
+  handleTemplate: ({ code, copied, ["copied-message"]: copyMessage }) => Frontend.Element.html`
       <style>
-        slot {
+        div {
+          display: relative;
+        }
+        code {
           font-family: monospace;
           font-size: 1rem;
-          max-width: calc(${maxLength} * 1rem);
-          overflow: hidden;
           text-overflow: ellipsis;
         }
+        div[popover] {
+          display: absolute;
+          top: 0;
+          left: 0;
+        }
       </style>
-      <slot></slot>
+      <div>
+        <code>${code}</code>
+        <div popover>${copyMessage}</div>
+      </div>
     `;
   }
 });
 ```
 
-1. inline the element registration into the page and use it
+5. The OnlyWeb Framework just wraps the existing Event API to handle I/O. Add a click handler in the "handleMount" lifecycle hook:
+
+```js
+import Frontend from "https://github.com/daniellacosse-code/onlyweb.dev/raw/master/framework/frontend/module.js";
+
+Frontend.Element.Register("copy-code", {
+  templateAttributes: { copied: Boolean, ["copy-message"]: String, code: String },
+  handleMount: () => {
+    this.addEventListener("click", () => {
+      if (this.templateAttributes.copied) {
+        return;
+      }
+
+      globalThis.navigator.clipboard.writeText(this.templateAttributes.code);
+      this.template.querySelector("div[popover]").togglePopover();
+      this.attributes.copied = true;
+    });
+  },
+  handleTemplate: ({ code, copied, ["copy-message"]: copyMessage }) => Frontend.Element.html`
+      <style>
+        div {
+          display: relative;
+        }
+        code {
+          font-family: monospace;
+          font-size: 1rem;
+          text-overflow: ellipsis;
+        }
+        div[popover] {
+          display: absolute;
+          top: 0;
+          left: 0;
+        }
+      </style>
+      <div>
+        <code>${code}</code>
+        <div popover>${copyMessage}</div>
+      </div>
+    `;
+});
+```
+
+6. Now, in order to actually use the element, we need to also inline it into the page. You can do that like so:
 
 ```js
 Backend.Page.Register("/", {
@@ -145,17 +216,21 @@ Backend.Page.Register("/", {
         })}
       </head>
       <body>
-        <h1>${inliner.message("The query string is:")}</h1>
+        <h1>${inliner.message("Your query string is:")}</h1>
 
-        ${inliner.elements("/path/to/query-string/element")}
-        <query-string max-length="10">${request.url.search}</query-string>
+        ${inliner.elements("/path/to/element/copy-code/")}
+        <copy-code code="${request.url,search}" copy-message="${inliner.message("Copied!")}"></copy-code>
       </body>
     `;
   }
 });
 ```
 
-1. create a new file for your app entrypoint. import your page and start the backend
+7. The popover isn't super supported yet, so let's indicate that in our pages' requirements:
+
+TODO
+
+8. Finally, create a new file for your app's main entrypoint. Import your page and start the backend!
 
 ```js
 import Backend from "https://github.com/daniellacosse-code/onlyweb.dev/raw/master/framework/backend/module.js";
