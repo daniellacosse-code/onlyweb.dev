@@ -57,52 +57,58 @@ const sharedStyles = Frontend.Element.html`<style>
 </style>`;
 
 Frontend.Element.Register("core-input", {
-  templateAttributes: {
-    label: String,
-    type: String
-  },
-  handleMount({ label }) {
-    this.setAttribute("tabIndex", 0);
-    this.setAttribute("role", "input");
+  host: {
+    handleMount() {
+      this.setAttribute("tabIndex", 0);
+      this.setAttribute("role", "input");
 
-    this.addEventListener("focus", () =>
-      this.template.getElementById(this.__inputID__).focus()
-    );
+      this.addEventListener("focus", () =>
+        this.template.getElementById(this.__inputID__).focus()
+      );
 
-    this.addEventListener("input", ({ target }) => {
-      const hasValue =
-        target.localName === "input" ? target.value : target.textContent;
+      this.addEventListener("input", ({ target }) => {
+        const hasValue =
+          target.localName === "input" ? target.value : target.textContent;
 
-      this.template.querySelector("label").classList.toggle("hidden", hasValue);
-    });
-
-    this.template = this.attachShadow({ mode: "open" });
-    this.__inputID__ = label.toLowerCase().replace(/\s/g, "-");
-  },
-  handleTemplateBuild({ label = "", type = "content" }) {
-    let inputElement;
-    switch (type) {
-      case "text":
-      case "password":
-      case "email":
-        inputElement = Frontend.Element
-          .html`<input id="${this.__inputID__}" type="${type}">`;
-        break;
-      case "content":
-      default:
-        inputElement = Frontend.Element.html`
-          <style>
-            b, i, u { color: var(--color-foreground); }
-            b { font-weight: bold; }
-            i { font-style: italic; }
-            u { text-decoration: underline; }
-          </style>
-          <div id="${this.__inputID__}" contenteditable="true"></div>`;
+        this.template
+          .querySelector("label")
+          .classList.toggle("hidden", hasValue);
+      });
     }
+  },
+  template: {
+    attributes: {
+      label: String,
+      type: String
+    },
+    handleUpdate({ label = "", type = "content" }) {
+      const __inputID__ = label.toLowerCase().replace(/\s/g, "-");
 
-    return Frontend.Element.html`
-      ${sharedStyles}
-      <label for="${this.__inputID__}">${label}</label>
-      ${inputElement}`;
+      let inputElement;
+
+      switch (type) {
+        case "text":
+        case "password":
+        case "email":
+          inputElement = Frontend.Element
+            .html`<input id="${__inputID__}" type="${type}">`;
+          break;
+        case "content":
+        default:
+          inputElement = Frontend.Element.html`
+            <style>
+              b, i, u { color: var(--color-foreground); }
+              b { font-weight: bold; }
+              i { font-style: italic; }
+              u { text-decoration: underline; }
+            </style>
+            <div id="${__inputID__}" contenteditable="true"></div>`;
+      }
+
+      return Frontend.Element.html`
+        ${sharedStyles}
+        <label for="${__inputID__}">${label}</label>
+        ${inputElement}`;
+    }
   }
 });

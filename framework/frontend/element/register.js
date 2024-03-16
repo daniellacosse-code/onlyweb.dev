@@ -19,10 +19,12 @@ import html from "./html.js";
  * Registers a custom element with the global customElements map
  * @param {string} tag The tag of the element
  * @param {Object} options The options setting up the element
- * @param {{ [name: string]: Function }} options.templateAttributes The attributes of the element, that, when modified, will trigger a template build
- * @param {Function} options.handleMount Is called when the element is mounted: use it to set up the shadow DOM and register event listeners
- * @param {Function} options.handleTemplateBuild The core of the element: use it to build the template from which the shadow DOM will be constructed
- * @param {Function} options.handleDismount The dismount handler: use it to clean up event listeners and other resources
+ * @param {Object} options.host The host options
+ * @param {Function} options.host.handleMount Is called when the element is mounted: use it to set up the shadow DOM and register event listeners
+ * @param {Function} options.host.handleDismount The dismount handler: use it to clean up event listeners and other resources
+ * @param {Object} options.template The template options
+ * @param {{ [name: string]: Function }} options.template.attributes The attributes of the element, that, when modified, will trigger a template build
+ * @param {Function} options.template.handleUpdate The core of the element: use it to build the template from which the shadow DOM will be constructed
  * @example Register("my-element", {
  *  templateAttributes: {
  *    "my-attribute": String,
@@ -35,10 +37,8 @@ import html from "./html.js";
 export default (
   tag,
   {
-    templateAttributes = {},
-    handleMount = defaultMount,
-    handleTemplateBuild = () => html`<slot></slot>`,
-    handleDismount = defaultDismount
+    host: { handleMount = defaultMount, handleDismount = defaultDismount },
+    template: { attributes = {}, handleUpdate = () => html`<slot></slot>` }
   }
 ) => {
   if (globalThis.customElements.get(tag))
@@ -56,44 +56,49 @@ export default (
       #handleTemplateBuild;
       /** @type {Function} */
       #handleDismount;
+
+      /** @type {ShadowRoot} */
+      #template;
       #eventController = new AbortController();
 
       // element data - template attributes
-      static observedAttributes = Object.keys(templateAttributes);
+      static observedAttributes = Object.keys(attributes);
 
       constructor() {
         super();
 
-        /** @type {ShadowRoot | null} */
-        this.template = null;
-
         this.#handleMount = handleMount.bind(this);
-        this.#handleTemplateBuild = handleTemplateBuild.bind(this);
+        this.#handleTemplateBuild = handleUpdate.bind(this);
         this.#handleDismount = handleDismount.bind(this);
+
+        this.#template = this.attachShadow({ mode: "open" });
       }
 
-      get templateAttributes() {
-        return new Proxy(
-          {},
-          {
-            deleteProperty: (_, name) => {
-              this.removeAttribute(String(name));
-              return true;
-            },
-            get: (_, name) =>
-              this.#RESOLVE_ATTRIBUTE(
-                String(name),
-                this.getAttribute(String(name))
-              ),
-            set: (_, name, value) => {
-              this.setAttribute(
-                String(name),
-                this.#RESOLVE_ATTRIBUTE(String(name), value)
-              );
-              return true;
+      get template() {
+        return {
+          ...this.#template,
+          attributes: new Proxy(
+            {},
+            {
+              deleteProperty: (_, name) => {
+                this.removeAttribute(String(name));
+                return true;
+              },
+              get: (_, name) =>
+                this.#RESOLVE_ATTRIBUTE(
+                  String(name),
+                  this.getAttribute(String(name))
+                ),
+              set: (_, name, value) => {
+                this.setAttribute(
+                  String(name),
+                  this.#RESOLVE_ATTRIBUTE(String(name), value)
+                );
+                return true;
+              }
             }
-          }
-        );
+          )
+        };
       }
 
       // element lifecycle
@@ -103,7 +108,7 @@ export default (
           level: "debug"
         });
 
-        this.#handleMount(this.templateAttributes, { self: this });
+        this.#handleMount(this.template.attributes, { self: this });
         this.UPDATE_TEMPLATE();
       }
 
@@ -128,7 +133,7 @@ export default (
           level: "debug"
         });
 
-        this.#handleDismount(this.templateAttributes, {
+        this.#handleDismount(this.template.attributes, {
           self: this,
           eventController: this.#eventController
         });
@@ -193,7 +198,7 @@ export default (
         });
 
         const templateResult =
-          this.#handleTemplateBuild(this.templateAttributes) ??
+          this.#handleTemplateBuild(this.template.attributes) ??
           html`<slot></slot>`;
         const templateWrapper = html`<template>
           <style>
@@ -234,7 +239,7 @@ export default (
        * @param {any} value
        */
       #RESOLVE_ATTRIBUTE(name, value) {
-        const resolver = templateAttributes[name] ?? String;
+        const resolver = attributes[name] ?? String;
 
         if (value === null) return void 0;
         if (resolver === Boolean) return this.#RESOLVE_BOOLEAN_ATTRIBUTE(value);
