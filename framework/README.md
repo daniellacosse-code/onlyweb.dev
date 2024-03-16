@@ -74,7 +74,7 @@ TODO: mention that there are JSDocs for everything, so just look at the source
 
 ### basic tutorial
 
-Let's walk through how you would create a very simple app with The OnlyWeb Framework.
+Let's walk through how you might create a very simple app with The OnlyWeb Framework.
 
 1. Let's start by registering the page we're going to serve from the backend:
 
@@ -109,11 +109,11 @@ Backend.Page.Register("/", {
   });
 ```
 
-3. Now our page only works in english. Let's provide our page with [a folder like this one](../app/assets//messages/) so we can inline translated messages:
+3. Our page only works in english. Let's provide our page with [a folder like this one](../app/assets/messages/) so we can inline translated messages:
 
 ```js
 Backend.Page.Register("/", {
-  messagesFolder: "path/to/messages/folder/"
+  messagesFolder: "<path/to/messages/folder>"
   handleRequest: (request, inliner) => Backend.Page.Response.html`
       <head>
         ${inliner.metadata({
@@ -129,14 +129,15 @@ Backend.Page.Register("/", {
 });
 ```
 
-4. Now let's say we want to be able to easily copy our query string to the clipboard. We'll have to create a new file for a custom element to do this in the frontend:
+4. Now let's say we want to be able to easily copy our query string to the clipboard. We'll have to create a new file for a custom element to do this in the frontend. Here's that initial file:
 
 ```js
 import Frontend from "https://github.com/daniellacosse-code/onlyweb.dev/raw/master/framework/frontend/module.js";
 
 Frontend.Element.Register("copy-code", {
-  templateAttributes: { copied: Boolean, ["copied-message"]: String, code: String },
-  handleTemplate: ({ code, copied, ["copied-message"]: copyMessage }) => Frontend.Element.html`
+  templateAttributes: { copied: Boolean, ["copy-message"]: String, code: String },
+  // Note that the html template tag here is different than the Backends'
+  handleTemplate: ({ code, copied, ["copy-message"]: copyMessage }) => Frontend.Element.html`
       <style>
         div {
           display: relative;
@@ -161,7 +162,9 @@ Frontend.Element.Register("copy-code", {
 });
 ```
 
-5. The OnlyWeb Framework just wraps the existing Event API to handle I/O. Add a click handler in the "handleMount" lifecycle hook:
+5. The OnlyWeb Framework simply wraps the existing Event API to handle I/O. To do the copy, add a click handler in our "handleMount" lifecycle hook:
+
+> HEADS UP: [I'm thinking about scoping all the template-specific stuff to a `this.template` object, including the templateAttributes.](https://github.com/daniellacosse-code/onlyweb.dev/issues/183)
 
 ```js
 import Frontend from "https://github.com/daniellacosse-code/onlyweb.dev/raw/master/framework/frontend/module.js";
@@ -175,8 +178,9 @@ Frontend.Element.Register("copy-code", {
       }
 
       globalThis.navigator.clipboard.writeText(this.templateAttributes.code);
+
       this.template.querySelector("div[popover]").togglePopover();
-      this.attributes.copied = true;
+      this.templateAttributes.copied = true;
     });
   },
   handleTemplate: ({ code, copied, ["copy-message"]: copyMessage }) => Frontend.Element.html`
@@ -203,7 +207,7 @@ Frontend.Element.Register("copy-code", {
 });
 ```
 
-6. Now, in order to actually use the element, we need to also inline it into the page. You can do that like so:
+6. Now, in order to actually use the element, we need to inline it into the page. You can do that like so:
 
 ```js
 Backend.Page.Register("/", {
@@ -218,7 +222,7 @@ Backend.Page.Register("/", {
       <body>
         <h1>${inliner.message("Your query string is:")}</h1>
 
-        ${inliner.elements("/path/to/element/copy-code/")}
+        ${inliner.elements("<path/to/element/copy-code>")}
         <copy-code code="${request.url,search}" copy-message="${inliner.message("Copied!")}"></copy-code>
       </body>
     `;
@@ -228,7 +232,7 @@ Backend.Page.Register("/", {
 
 7. The popover isn't super supported yet, so let's indicate that in our pages' requirements:
 
-TODO
+TODO: this doesn't work yet.
 
 8. Finally, create a new file for your app's main entrypoint. Import your page and start the backend!
 
