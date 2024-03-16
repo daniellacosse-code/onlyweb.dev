@@ -12,7 +12,7 @@ Frontend.Element.Register("core-image", {
       }
 
       this.__image__ = new Image(cdnConfig.width, cdnConfig.height);
-      this.__image__.onload = () => (this.templateAttributes.loaded = true);
+      this.__image__.onload = () => (this.template.attributes.loaded = true);
       this.__image__.src = url.toString();
       this.__image__.alt = alt;
     }
