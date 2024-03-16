@@ -6,39 +6,31 @@ import Shared from "/framework/shared/module.js";
 import html from "./html.js";
 
 /**
- * @typedef OnlyWebElement
- * @property {Function} addEventListener The method to add an event listener to the element. Retargets the event to the source element for you.
- * @property {Function} attachShadow The method to attach a shadow DOM to the element - same as the native method.
- * @property {Function} UPDATE_TEMPLATE The method to update the template - call it manually only when the template fails to update automatically.
- * @property {Object} templateAttributes The attributes of the element, that, when modified, will trigger a template build.
- * @property {OnlyWebElement} host The element instance itself, as hosted by its parent.
- * @property {ShadowRoot} template The shadow DOM of the element, reperesenting the element's internals.
- */
-
-/**
  * Registers a custom element with the global customElements map
  * @param {string} tag The tag of the element
  * @param {Object} options The options setting up the element
- * @param {{ [name: string]: Function }} options.templateAttributes The attributes of the element, that, when modified, will trigger a template build
- * @param {Function} options.handleMount Is called when the element is mounted: use it to set up the shadow DOM and register event listeners
- * @param {Function} options.handleTemplateBuild The core of the element: use it to build the template from which the shadow DOM will be constructed
- * @param {Function} options.handleDismount The dismount handler: use it to clean up event listeners and other resources
+ * @param {Object} options.host The host options
+ * @param {Function} [options.host.handleMount] Is called when the element is mounted: use it to set up the shadow DOM and register event listeners
+ * @param {Function} [options.host.handleDismount] The dismount handler: use it to clean up event listeners and other resources
+ * @param {Object} options.template The template options
+ * @param {{ [name: string]: Function }} [options.template.attributes] The attributes of the element, that, when modified, will trigger a template build
+ * @param {Function} [options.template.handleBuild] The core of the element: use it to build the template from which the shadow DOM will be constructed
  * @example Register("my-element", {
- *  templateAttributes: {
- *    "my-attribute": String,
- *    "my-boolean-attribute": Boolean
+ *  template: {
+ *    attributes: {
+ *      "my-attribute": String,
+ *      "my-boolean-attribute": Boolean
+ *    },
+ *    handleBuild: attributes => html`<div>${attributes["my-attribute"]}</div>`
  *  },
- *  handleTemplateBuild: attributes => html`<div>${attributes["my-attribute"]}</div>`
  * });
  * @returns {void} Nothing is returned: the element is registered in the global customElements map
  */
 export default (
   tag,
   {
-    templateAttributes = {},
-    handleMount = defaultMount,
-    handleTemplateBuild = () => html`<slot></slot>`,
-    handleDismount = defaultDismount
+    host: { handleMount = () => {}, handleDismount = () => {} } = {},
+    template: { attributes = {}, handleBuild = () => html`<slot></slot>` } = {}
   }
 ) => {
   if (globalThis.customElements.get(tag))
@@ -56,24 +48,22 @@ export default (
       #handleTemplateBuild;
       /** @type {Function} */
       #handleDismount;
+
       #eventController = new AbortController();
 
       // element data - template attributes
-      static observedAttributes = Object.keys(templateAttributes);
+      static observedAttributes = Object.keys(attributes);
 
       constructor() {
         super();
 
-        /** @type {ShadowRoot | null} */
-        this.template = null;
-
         this.#handleMount = handleMount.bind(this);
-        this.#handleTemplateBuild = handleTemplateBuild.bind(this);
+        this.#handleTemplateBuild = handleBuild.bind(this);
         this.#handleDismount = handleDismount.bind(this);
-      }
 
-      get templateAttributes() {
-        return new Proxy(
+        /** @type {ShadowRoot & { attributes?: {} }} */
+        this.template = this.attachShadow({ mode: "open" });
+        this.template.attributes = new Proxy(
           {},
           {
             deleteProperty: (_, name) => {
@@ -103,7 +93,7 @@ export default (
           level: "debug"
         });
 
-        this.#handleMount(this.templateAttributes, { self: this });
+        this.#handleMount(this.template.attributes, { self: this });
         this.UPDATE_TEMPLATE();
       }
 
@@ -128,10 +118,12 @@ export default (
           level: "debug"
         });
 
-        this.#handleDismount(this.templateAttributes, {
+        this.#handleDismount(this.template.attributes, {
           self: this,
           eventController: this.#eventController
         });
+
+        this.#eventController.abort();
       }
 
       // standard method wrappers
@@ -193,7 +185,7 @@ export default (
         });
 
         const templateResult =
-          this.#handleTemplateBuild(this.templateAttributes) ??
+          this.#handleTemplateBuild(this.template.attributes) ??
           html`<slot></slot>`;
         const templateWrapper = html`<template>
           <style>
@@ -234,7 +226,7 @@ export default (
        * @param {any} value
        */
       #RESOLVE_ATTRIBUTE(name, value) {
-        const resolver = templateAttributes[name] ?? String;
+        const resolver = attributes[name] ?? String;
 
         if (value === null) return void 0;
         if (resolver === Boolean) return this.#RESOLVE_BOOLEAN_ATTRIBUTE(value);
@@ -258,23 +250,4 @@ export default (
       }
     }
   );
-};
-
-/**
- * @param {Object} _
- * @param {Object} options
- * @param {OnlyWebElement} options.self
- */
-const defaultMount = function (_, { self }) {
-  self.template = self.attachShadow({ mode: "open" });
-  self.host = self;
-};
-
-/**
- * @param {Object} _
- * @param {Object} options
- * @param {AbortController} options.eventController
- */
-const defaultDismount = function (_, { eventController }) {
-  eventController.abort();
 };

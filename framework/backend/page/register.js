@@ -18,9 +18,12 @@ import Shared from "/framework/shared/module.js";
  * @name register
  * @param {string} route The route of the page
  * @param {object} pageOptions The options for the page
- * @param {PlatformRequirements} pageOptions.requirements The platform requirements for the page
- * @param {(request: PageRequest, inliner: Inliner) => Response | void} pageOptions.handleRequest The request handler for the page
- * @param {(request: Request) => Response | void} pageOptions.handleServiceWorkerRequest The service worker request handler for the page
+ * @param {object} [pageOptions.inliner] The page inliner configuration
+ * @param {PlatformRequirements} [pageOptions.inliner.requirements] The platform requirements for the inliner
+ * @param {string} [pageOptions.inliner.messages] The messages for the inliner
+ * @param {object} pageOptions.responses The response handlers for the page
+ * @param {(request: PageRequest, inliner: Inliner) => Response | void} [pageOptions.responses.handleDefault] The request handler for the page
+ * @param {(request: Request) => Response | void} [pageOptions.responses.handleServiceWorker] The service worker request handler for the page
  * @example Backend.Page.Register("/test", {
  *  requirements: {
  *    engine: { Chrome: 91 },
@@ -51,9 +54,8 @@ import Shared from "/framework/shared/module.js";
 export default (
   route,
   {
-    requirements = { renderer: {}, engine: {} },
-    handleRequest = () => {},
-    handleServiceWorkerRequest = () => {}
+    inliner: { requirements = { renderer: {}, engine: {} }, messages } = {},
+    responses: { handleDefault = () => {}, handleServiceWorker = () => {} } = {}
   }
 ) => {
   /** @type {typeof globalThis & { customPages?: Map<string, PageHandler> }} */
@@ -90,9 +92,7 @@ export default (
           Shared.Log({
             message: `[framework/backend/register] Constructing service worker response @ "${route}".`
           });
-          const serviceWorkerResponse = await handleServiceWorkerRequest(
-            request
-          );
+          const serviceWorkerResponse = await handleServiceWorker(request);
 
           if (!serviceWorkerResponse) {
             Shared.Log({
@@ -120,7 +120,7 @@ export default (
       });
 
       /** @type {PageResponse} */
-      const response = await handleRequest(request, await Inliner(request));
+      const response = await handleDefault(request, await Inliner(request));
 
       if (response.mimetype !== "text/html") {
         Shared.Log({

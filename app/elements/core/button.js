@@ -40,37 +40,39 @@ const sharedStyles = Frontend.Element.html`<style>
 </style>`;
 
 Frontend.Element.Register("core-button", {
-  templateAttributes: {
-    disabled: Boolean
-  },
-  handleTemplateBuild({ disabled }) {
-    if (disabled)
+  template: {
+    attributes: {
+      disabled: Boolean
+    },
+    handleBuild({ disabled }) {
+      if (disabled)
+        return Frontend.Element.html`${sharedStyles}
+          <style>
+            button {
+              cursor: not-allowed;
+              opacity: 0.5;
+            }
+          </style>
+          <button disabled>
+            <slot></slot>
+          </button>`;
+
       return Frontend.Element.html`${sharedStyles}
         <style>
-          button {
-            cursor: not-allowed;
-            opacity: 0.5;
+          button:hover,
+          button:active,
+          button:focus {
+            background-position: 0 100%;
+          }
+          button:focus,
+          button:active {
+            outline: var(--size-hairline) solid var(--color-highlight);
+            outline-offset: var(--size-hairline);
           }
         </style>
-        <button disabled>
+        <button>
           <slot></slot>
         </button>`;
-
-    return Frontend.Element.html`${sharedStyles}
-      <style>
-        button:hover,
-        button:active,
-        button:focus {
-          background-position: 0 100%;
-        }
-        button:focus,
-        button:active {
-          outline: var(--size-hairline) solid var(--color-highlight);
-          outline-offset: var(--size-hairline);
-        }
-      </style>
-      <button>
-        <slot></slot>
-      </button>`;
+    }
   }
 });

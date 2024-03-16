@@ -1,8 +1,9 @@
 import Frontend from "/framework/frontend/module.js";
 
 Frontend.Element.Register("core-loading-skeleton", {
-  handleTemplateBuild() {
-    return Frontend.Element.html`<style>
+  template: {
+    handleBuild() {
+      return Frontend.Element.html`<style>
         :host {
           display: block;
           width: 100%;
@@ -27,5 +28,6 @@ Frontend.Element.Register("core-loading-skeleton", {
           }
         }
       </style>`;
+    }
   }
 });
