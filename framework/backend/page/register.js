@@ -120,7 +120,10 @@ export default (
       });
 
       /** @type {PageResponse} */
-      const response = await handleDefault(request, await Inliner(request));
+      const response = await handleDefault(
+        request,
+        await Inliner(request, messages ?? "")
+      );
 
       if (response.mimetype !== "text/html") {
         Shared.Log({
