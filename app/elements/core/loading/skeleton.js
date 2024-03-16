@@ -2,7 +2,7 @@ import Frontend from "/framework/frontend/module.js";
 
 Frontend.Element.Register("core-loading-skeleton", {
   template: {
-    handleUpdate() {
+    handleBuild() {
       return Frontend.Element.html`<style>
         :host {
           display: block;

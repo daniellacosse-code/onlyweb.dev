@@ -24,7 +24,7 @@ import html from "./html.js";
  * @param {Function} options.host.handleDismount The dismount handler: use it to clean up event listeners and other resources
  * @param {Object} options.template The template options
  * @param {{ [name: string]: Function }} options.template.attributes The attributes of the element, that, when modified, will trigger a template build
- * @param {Function} options.template.handleUpdate The core of the element: use it to build the template from which the shadow DOM will be constructed
+ * @param {Function} options.template.handleBuild The core of the element: use it to build the template from which the shadow DOM will be constructed
  * @example Register("my-element", {
  *  templateAttributes: {
  *    "my-attribute": String,
@@ -38,7 +38,7 @@ export default (
   tag,
   {
     host: { handleMount = defaultMount, handleDismount = defaultDismount },
-    template: { attributes = {}, handleUpdate = () => html`<slot></slot>` }
+    template: { attributes = {}, handleBuild = () => html`<slot></slot>` }
   }
 ) => {
   if (globalThis.customElements.get(tag))
@@ -68,7 +68,7 @@ export default (
         super();
 
         this.#handleMount = handleMount.bind(this);
-        this.#handleTemplateBuild = handleUpdate.bind(this);
+        this.#handleTemplateBuild = handleBuild.bind(this);
         this.#handleDismount = handleDismount.bind(this);
 
         this.#template = this.attachShadow({ mode: "open" });

@@ -5,7 +5,7 @@ Frontend.Element.Register("core-text", {
     attributes: {
       type: String
     },
-    handleUpdate({ type = "paragraph" }) {
+    handleBuild({ type = "paragraph" }) {
       return Frontend.Element.html`<style>
           :host {
             cursor: inherit;

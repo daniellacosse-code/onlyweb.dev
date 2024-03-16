@@ -6,12 +6,13 @@ Frontend.Element.Register("counter-demo", {
       this.state ??= {};
 
       this.addEventListener("click", ({ target }) => {
-        const currentState = this.state[target.getAttribute("id")] || 0;
+        const targetID = target.getAttribute("id");
+        const currentState = this.state[targetID] || 0;
 
-        this.state[target.getAttribute("id")] = currentState + 1;
+        this.state[targetID] = currentState + 1;
 
         for (const [key, value] of Object.entries(this.state)) {
-          const target = this.host.querySelector(`#${key}`);
+          const target = this.querySelector(`#${key}`);
 
           if (target) target.textContent = value;
         }

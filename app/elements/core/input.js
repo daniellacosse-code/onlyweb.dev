@@ -81,7 +81,7 @@ Frontend.Element.Register("core-input", {
       label: String,
       type: String
     },
-    handleUpdate({ label = "", type = "content" }) {
+    handleBuild({ label = "", type = "content" }) {
       const __inputID__ = label.toLowerCase().replace(/\s/g, "-");
 
       let inputElement;

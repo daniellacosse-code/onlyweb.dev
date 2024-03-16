@@ -25,7 +25,7 @@ Frontend.Element.Register("core-image", {
       height: Number,
       loaded: Boolean
     },
-    handleUpdate({ width, height, loaded }) {
+    handleBuild({ width, height, loaded }) {
       if (loaded) {
         return Frontend.Element.html`<style>
             :host {
