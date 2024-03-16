@@ -1,29 +1,28 @@
 // @ts-check
 
-import { html } from "./response.js";
+import PageResponse from "./response.js";
 import * as constants from "../constants.js";
 import Inliner from "./inliner.js";
 import Shared from "/framework/shared/module.js";
 
 /**
  * @typedef {import("/framework/shared/user-agent/model.js").PlatformRequirements} PlatformRequirements
- * @typedef {import("./model.js").PageRequest} PageRequest
  * @typedef {import("./model.js").Inliner} Inliner
- * @typedef {import("./model.js").PageResponse} PageResponse
  * @typedef {import("./model.js").PageHandler} PageHandler
+ * @typedef {import("./model.js").PageRequest} PageRequest
+ * @typedef {import("./model.js").PageResponse} PageResponse
  */
 
 /**
  * Registers a custom page in the global customPages map.
- * @name register
  * @param {string} route The route of the page
  * @param {object} pageOptions The options for the page
  * @param {object} [pageOptions.inliner] The page inliner configuration
  * @param {PlatformRequirements} [pageOptions.inliner.requirements] The platform requirements for the inliner
  * @param {string} [pageOptions.inliner.messages] The messages for the inliner
  * @param {object} pageOptions.responses The response handlers for the page
- * @param {(request: PageRequest, inliner: Inliner) => Response | void} [pageOptions.responses.handleDefault] The request handler for the page
- * @param {(request: Request) => Response | void} [pageOptions.responses.handleServiceWorker] The service worker request handler for the page
+ * @param {PageHandler} pageOptions.responses.handleDefault The request handler for the page
+ * @param {PageHandler} [pageOptions.responses.handleServiceWorker] The service worker request handler for the page
  * @example Backend.Page.Register("/test", {
  *  requirements: {
  *    engine: { Chrome: 91 },
@@ -55,7 +54,10 @@ export default (
   route,
   {
     inliner: { requirements = { renderer: {}, engine: {} }, messages } = {},
-    responses: { handleDefault = () => {}, handleServiceWorker = () => {} } = {}
+    responses: {
+      handleDefault,
+      handleServiceWorker = () => PageResponse.html``
+    }
   }
 ) => {
   /** @type {typeof globalThis & { customPages?: Map<string, PageHandler> }} */
@@ -82,6 +84,8 @@ export default (
         request.headers.get("accept-language")?.split(",")[0] ??
         "en-US";
 
+      const inliner = await Inliner(request, messages ?? "");
+
       Shared.Log({
         message: `[framework/backend/register] Begun handling request @ "${route}".`,
         detail: request
@@ -92,7 +96,10 @@ export default (
           Shared.Log({
             message: `[framework/backend/register] Constructing service worker response @ "${route}".`
           });
-          const serviceWorkerResponse = await handleServiceWorker(request);
+          const serviceWorkerResponse = await handleServiceWorker(
+            request,
+            inliner
+          );
 
           if (!serviceWorkerResponse) {
             Shared.Log({
@@ -120,10 +127,7 @@ export default (
       });
 
       /** @type {PageResponse} */
-      const response = await handleDefault(
-        request,
-        await Inliner(request, messages ?? "")
-      );
+      const response = await handleDefault(request, inliner);
 
       if (response.mimetype !== "text/html") {
         Shared.Log({
@@ -139,7 +143,7 @@ export default (
           detail: response
         });
 
-        const pageResponse = html`
+        const pageResponse = PageResponse.html`
           <!DOCTYPE html>
           <html lang="${request.language}">
             ${response}

@@ -4,7 +4,7 @@ import Shared from "/framework/shared/module.js";
 
 /**
  * A utility for creating a templateable response with a specific mimetype
- * @param {string} mimetype The mimetype
+ * @param {string} [mimetype] The mimetype
  * @returns {import("./model.js").PageTemplate} The response templater
  */
 const _Response = (mimetype = "text/html") => {
@@ -58,8 +58,8 @@ const _Response = (mimetype = "text/html") => {
     );
 };
 
-export default _Response;
+_Response.html = _Response("text/html");
+_Response.js = _Response("text/javascript");
+_Response.text = _Response("text/plain");
 
-export const html = _Response("text/html");
-export const js = _Response("text/javascript");
-export const text = _Response("text/plain");
+export default _Response;
