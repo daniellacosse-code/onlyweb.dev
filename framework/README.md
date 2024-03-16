@@ -64,13 +64,9 @@ block-beta
   end
 ```
 
-TODO: explain that mainly there are two environments with mirrored APIs:
+TODO: explain that mainly there are two environments with mirrored APIs and the concepts within them.
 
-- backend vs. frontend (which share globalThis)
-- page vs. element
-- inliner vs. template
-
-TODO: mention that there are JSDocs for everything, so just look at the source
+**When in doubt, everything in the framework has JSDoc annotations - just look at the source!**
 
 ### basic tutorial
 
@@ -82,11 +78,13 @@ Let's walk through how you might create a very simple app with The OnlyWeb Frame
 import Backend from "https://github.com/daniellacosse-code/onlyweb.dev/raw/master/framework/backend/module.js";
 
 Backend.Page.Register("/", {
-  handleRequest: (request) => Backend.Page.Response.html`
-      <body>
-        <h1>Your query string is: ${request.url.search}</h1>
-      </body>
-    `;
+  responses: {
+    handleDefault: (request) => Backend.Page.Response.html`
+        <body>
+          <h1>Your query string is: ${request.url.search}</h1>
+        </body>
+      `;
+    }
   }
 });
 ```
@@ -95,7 +93,8 @@ Backend.Page.Register("/", {
 
 ```js
 Backend.Page.Register("/", {
-  handleRequest: (request, inliner) => Backend.Page.Response.html`
+  responses: {
+    handleDefault: (request, inliner) => Backend.Page.Response.html`
       <head>
         ${inliner.metadata({
           title: "what's my query string?",
@@ -106,15 +105,19 @@ Backend.Page.Register("/", {
         <h1>Your query string is: ${request.url.search}</h1>
       </body>
     `;
-  });
+  }
+});
 ```
 
 3. Our page only works in english. Let's provide our page with [a folder like this one](../app/assets/messages/) so we can inline translated messages:
 
 ```js
 Backend.Page.Register("/", {
-  messagesFolder: "<path/to/messages/folder>"
-  handleRequest: (request, inliner) => Backend.Page.Response.html`
+  inliner: {
+    messages: "%path/to/messages/folder%"
+  },
+  responses: {
+    handleDefault: (request, inliner) => Backend.Page.Response.html`
       <head>
         ${inliner.metadata({
           title: inliner.message("what's my query string?"),
@@ -135,9 +138,10 @@ Backend.Page.Register("/", {
 import Frontend from "https://github.com/daniellacosse-code/onlyweb.dev/raw/master/framework/frontend/module.js";
 
 Frontend.Element.Register("copy-code", {
-  templateAttributes: { copied: Boolean, ["copy-message"]: String, code: String },
-  // Note that the html template tag here is different than the Backends'
-  handleTemplate: ({ code, copied, ["copy-message"]: copyMessage }) => Frontend.Element.html`
+  template: {
+    attributes: { copied: Boolean, ["copy-message"]: String, code: String },
+    // Note that the html template tag here is different than the Backends'
+    handleBuild: ({ code, copied, ["copy-message"]: copyMessage }) => Frontend.Element.html`
       <style>
         div {
           display: relative;
@@ -162,28 +166,28 @@ Frontend.Element.Register("copy-code", {
 });
 ```
 
-5. The OnlyWeb Framework simply wraps the existing Event API to handle I/O. To do the copy, add a click handler in our "handleMount" lifecycle hook:
-
-> HEADS UP: [I'm thinking about scoping all the template-specific stuff to a `this.template` object, including the templateAttributes.](https://github.com/daniellacosse-code/onlyweb.dev/issues/183)
+5. The OnlyWeb Framework simply wraps the existing Event API to handle I/O. To do the copy, add a click handler to the host in our "handleMount" lifecycle hook:
 
 ```js
-import Frontend from "https://github.com/daniellacosse-code/onlyweb.dev/raw/master/framework/frontend/module.js";
-
 Frontend.Element.Register("copy-code", {
-  templateAttributes: { copied: Boolean, ["copy-message"]: String, code: String },
-  handleMount: () => {
-    this.addEventListener("click", () => {
-      if (this.templateAttributes.copied) {
-        return;
-      }
+  host: {
+    handleMount: () => {
+      this.addEventListener("click", () => {
+        if (this.template.attributes.copied) {
+          return;
+        }
 
-      globalThis.navigator.clipboard.writeText(this.templateAttributes.code);
+        globalThis.navigator.clipboard.writeText(this.templateAttributes.code);
 
-      this.template.querySelector("div[popover]").togglePopover();
-      this.templateAttributes.copied = true;
-    });
+        this.template.querySelector("div[popover]").togglePopover();
+        this.templateAttributes.copied = true;
+      });
+    }
   },
-  handleTemplate: ({ code, copied, ["copy-message"]: copyMessage }) => Frontend.Element.html`
+  template: {
+    attributes: { copied: Boolean, ["copy-message"]: String, code: String },
+    // Note that the html template tag here is different than the Backends'
+    handleBuild: ({ code, copied, ["copy-message"]: copyMessage }) => Frontend.Element.html`
       <style>
         div {
           display: relative;
@@ -204,6 +208,7 @@ Frontend.Element.Register("copy-code", {
         <div popover>${copyMessage}</div>
       </div>
     `;
+  }
 });
 ```
 
@@ -211,8 +216,11 @@ Frontend.Element.Register("copy-code", {
 
 ```js
 Backend.Page.Register("/", {
-  messagesFolder: "/path/to/messages/folder/"
-  handleRequest: (request, inliner) => Backend.Page.Response.html`
+  inliner: {
+    messages: "%path/to/messages/folder%"
+  },
+  responses: {
+    handleDefault: (request, inliner) => Backend.Page.Response.html`
       <head>
         ${inliner.metadata({
           title: inliner.message("what's my query string?"),
@@ -220,9 +228,9 @@ Backend.Page.Register("/", {
         })}
       </head>
       <body>
-        <h1>${inliner.message("Your query string is:")}</h1>
+        <h1>${inliner.message("Your query string is:")} ${request.url.search}</h1>
 
-        ${inliner.elements("<path/to/element/copy-code>")}
+        ${inliner.elements("%path/to/element/copy-code.js%")}
         <copy-code code="${request.url,search}" copy-message="${inliner.message("Copied!")}"></copy-code>
       </body>
     `;
@@ -239,18 +247,10 @@ TODO: this doesn't work yet.
 ```js
 import Backend from "https://github.com/daniellacosse-code/onlyweb.dev/raw/master/framework/backend/module.js";
 
-import "/path/to/page";
+import "%path/to/page.js%";
 
 Backend.start({ port: 8080 });
 ```
-
-### additional concepts
-
-TODO: explain
-
-- host vs. template
-- event listeners
-- handling data
 
 ### full example
 
