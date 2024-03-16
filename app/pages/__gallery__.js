@@ -4,14 +4,15 @@ import * as constants from "/app/constants.js";
 import OnlyWebTheme from "/app/pages/shared-theme.js";
 
 Backend.Page.Register("/__gallery__", {
-  handleRequest: (request, inliner) => {
-    const logoSrc =
-      (request.url.origin.match(/localhost/)
-        ? request.url.origin
-        : constants.KEYCDN_IMAGE_ZONE_URL) +
-      "/app/assets/images/logo/maskable.png";
+  responses: {
+    handleDefault: (request, inliner) => {
+      const logoSrc =
+        (request.url.origin.match(/localhost/)
+          ? request.url.origin
+          : constants.KEYCDN_IMAGE_ZONE_URL) +
+        "/app/assets/images/logo/maskable.png";
 
-    return Backend.Page.Response.html`<head>
+      return Backend.Page.Response.html`<head>
         <meta charset="utf-8" />
         <link rel="icon" href="/app/assets/images/logo/maskable.png" />
         <link rel="manifest" href="/app/assets/manifest.json" />
@@ -157,5 +158,6 @@ Backend.Page.Register("/__gallery__", {
           </section>
         </article>
       </body>`;
+    }
   }
 });
