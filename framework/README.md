@@ -64,13 +64,13 @@ block-beta
   end
 ```
 
-The **onlyweb framework** is split into two main environments: the backend and the frontend. These environments have mirrored APIs that are designed to work together. _(You can infer which environment you're in based on the properties present on `globalThis`.)_
+The **onlyweb framework** is split into two main environments: the backend and the frontend. These environments have similar, complementary APIs that are designed to work together.
 
 ### backend
 
 The backend server serves content via Deno. Key concepts:
 
-1. **Page**: encapsulates a set of possible responses to an endpoint and chooses which response to use when. The **Page** also manages the **Inliner**.
+1. **Page**: encapsulates a set of possible responses to an endpoint and selects one based on context. The **Page** also manages the **Inliner**.
 2. **Response**: an object that represents how the Deno HTTP web server will respond to a given Request. [Learn more about HTTP here.](https://developer.mozilla.org/en-US/docs/Web/HTTP)
 3. **Inliner**: _inlines_ content into a **Response**, building the static content you wish to respond with just in time.
 
@@ -78,14 +78,15 @@ The backend server serves content via Deno. Key concepts:
 
 The frontend renders content in the browser via WebComponnents. Key concepts:
 
-1. **Element**: an HTML tag representing some meaningful section or component of your application. [Learn more about HTML Elements here](https://developer.mozilla.org/en-US/docs/Web/HTML/Element).
-2. **Host**: an in-memory object representing the current **Element** instance. Through its host you access an **Element**'s lifecycle, events, and current child elements. Think of it as the _"face"_ of the **Element**.
-3. **Template**: the blueprint for the **Element**'s internals, driven by a set of data attributes you select. Think of it as the _"guts"_ of the **Element**.
+1. **Element**: an HTML tag representing some meaningful section or component of your application. Each custom **Element** is basically like a little, nested website. [Learn more about HTML Elements here](https://developer.mozilla.org/en-US/docs/Web/HTML/Element).
+2. **Host**: an in-memory object representing the current **Element** instance. Through its **Host** you access an **Element**'s lifecycle, events, and parent context. Think of it as the _"face"_ of the **Element**.
+3. **Template**: the blueprint for the **Element**'s internals, driven by a set of data attributes you select. It's a bit of a departure from the norm, but think of it as the _"guts"_ of the **Element**.
 
-I know this is a bit abstract, so let's walk through a simple example to make things more concrete.
+This is abstract, so let's walk through a simple example to make things more concrete.
 
 > [!TIP]
-> **When in doubt, everything in the framework has JSDoc annotations - just look at the source!**
+
+> When in doubt, everything in the framework has JSDoc annotations - just look at the source!
 
 ### basic tutorial
 
@@ -184,7 +185,7 @@ Frontend.Element.Register("copy-code", {
 });
 ```
 
-5. The onlyweb framework simply wraps the existing Event API to handle I/O. To do the copy, listen for the click event in the **Host**:
+5. The onlyweb framework simply wraps the existing Event API to handle I/O. To do the copy, listen for a click event on the **Host**:
 
 ```js
 Frontend.Element.Register("copy-code", {
