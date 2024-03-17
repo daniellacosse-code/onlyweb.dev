@@ -240,7 +240,7 @@ Backend.Page.Register("/", {
 
 7. The popover isn't super supported yet, so let's indicate that in our pages' requirements:
 
-TODO: this doesn't work yet.
+> TODO(#170): this doesn't quite work yet.
 
 8. Finally, create a new file for your app's main entrypoint. Import your page and start the backend!
 
