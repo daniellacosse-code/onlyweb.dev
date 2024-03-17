@@ -43,10 +43,10 @@
 /**
  * Metadata that can be inlined into an HTML document.
  * @typedef InlineHTMLMetadata
- * @property {?string} [description] The description of the page.
- * @property {?string} [iconImagePath] The path to the icon image of the page.
- * @property {?string} [previewImagePath] The path to the preview image of the page.
- * @property {?string} [splashImagePath] The path to the splash image of the page.
- * @property {?string} [title] The title of the page.
- * @property {string} [canonicalUrl] The canonical URL of the page.
+ * @property {string} [description] The description of the page.
+ * @property {string} [iconImagePath] The path to the icon image of the page.
+ * @property {string} [previewImagePath] The path to the preview image of the page.
+ * @property {string} [splashImagePath] The path to the splash image of the page.
+ * @property {string} [title] The title of the page.
+ * @property {string} canonicalUrl The canonical URL of the page.
  */
