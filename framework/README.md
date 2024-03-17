@@ -6,7 +6,7 @@ https://github.com/daniellacosse-code/onlyweb.dev/assets/3759828/cd94622b-aedb-4
 
 ## overview
 
-**the onlyweb framework** is a lightweight, server-side rendering framework for [WebComponents](https://), built on top of the [Deno](https://deno.land/) runtime. It was designed for the [onlyweb.dev](https://onlyweb.dev) application with a focus on performance and transparency. Jump to ["concepts"](#concepts) for the breakdown.
+**the onlyweb framework** is a lightweight, server-side rendering framework for [WebComponents](https://developer.mozilla.org/en-US/docs/Web/API/Web_Components), built on top of the [Deno](https://deno.land/) runtime. It was designed for the [onlyweb.dev](https://onlyweb.dev) application with a focus on performance and transparency. Jump to ["concepts"](#concepts) for the breakdown.
 
 ### prerequisites
 
@@ -72,17 +72,19 @@ The backend server serves content via Deno. Key concepts:
 
 1. **Page**: encapsulates a set of possible responses to an endpoint and chooses which response to use when. The **Page** also manages the **Inliner**.
 2. **Response**: an object that represents how the Deno HTTP web server will respond to a given Request. [Learn more about HTTP here.](https://developer.mozilla.org/en-US/docs/Web/HTTP)
-3. **Inliner**: _inlines_ content into a Response, building the static content you wish to respond with just in time.
+3. **Inliner**: _inlines_ content into a **Response**, building the static content you wish to respond with just in time.
 
 ### frontend
 
 The frontend renders content in the browser via WebComponnents. Key concepts:
 
 1. **Element**: an HTML tag representing some meaningful section or component of your application. [Learn more about HTML Elements here](https://developer.mozilla.org/en-US/docs/Web/HTML/Element).
-2. **Host**: an in-memory object representing the current Element instance. Through its host you access an Element's lifecycle, events, and current child elements. Think of it as the _"face"_ of the Element.
-3. **Template**: the blueprint for the Element's internals, driven by a set of data attributes you select. Think of it as the _"guts"_ of the Element.
+2. **Host**: an in-memory object representing the current **Element** instance. Through its host you access an **Element**'s lifecycle, events, and current child elements. Think of it as the _"face"_ of the **Element**.
+3. **Template**: the blueprint for the **Element**'s internals, driven by a set of data attributes you select. Think of it as the _"guts"_ of the **Element**.
 
-I know this is a bit abstract, so let's walk through a simple example to make things more concrete. **When in doubt, everything in the framework has JSDoc annotations - just look at the source!**
+I know this is a bit abstract, so let's walk through a simple example to make things more concrete.
+
+> [!TIP] > **When in doubt, everything in the framework has JSDoc annotations - just look at the source!**
 
 ### basic tutorial
 
