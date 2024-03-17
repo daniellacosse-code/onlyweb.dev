@@ -122,8 +122,6 @@ export default (
       /** @type {PageResponse} */
       const response = await handleDefault(request, await Inliner(request));
 
-      console.log(response, "responze");
-
       if (response.mimetype !== "text/html") {
         Shared.Log({
           message: `Serving non-HTML response @ "${route}".`,
