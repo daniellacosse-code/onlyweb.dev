@@ -52,27 +52,43 @@ block-beta
     columns 2
     backend:2
     page:2
-    response
+    responses
     inliner
   end
   block
     columns 2
     frontend:2
     element:2
-    template
     host
+    template
   end
 ```
 
-TODO: explain that mainly there are two environments with mirrored APIs and the concepts within them.
+The OnlyWeb Framework is split into two main environments: the backend and the frontend. These environments have mirrored APIs that are designed to work together. The backend is responsible for serving pages, while the frontend is responsible for rendering them.
 
-**When in doubt, everything in the framework has JSDoc annotations - just look at the source!**
+### backend
+
+The backend is responsible for serving content via Deno. The backend section of the framework has the following key concepts:
+
+1. **Page**: a page is a set of responses to an endpoint. The page is responsible for choosing which response to use at a given time. The page is also responsible for providing the **Inliner** with the information it needs.
+2. **Response**: a Response object indicates how the HTTP web server will respond to a request. [Learn about HTTP here.](https://developer.mozilla.org/en-US/docs/Web/HTTP)
+3. **Inliner**: the Inliner _inlines_ content into the response, enabling you to build the static content you desire, just in time.
+
+### frontend
+
+The frontend is responsible for rendering the content and user interface in the browser via WebComponnents. The frontend section of the framework has the following key concepts:
+
+1. **Element**: an Element is an HTML tag representing some section or component of your application. [Learn more about HTML Elements here](https://developer.mozilla.org/en-US/docs/Web/HTML/Element).
+2. **Host**: the Host is an in-memory object that represents the current Element instance. Through its host, you can access the Element's lifecycle, events, and child elements. Think of it as the "face" of the Element.
+3. **Template**: the Template acts as the blueprint for the Element's internals, driven by a set of attributes you select. Think of it as the "guts" of the Element.
+
+I know this is a bit abstract at this point, so let's walk through a simple example to make things more concrete. **When in doubt, everything in the framework has JSDoc annotations - just look at the source!**
 
 ### basic tutorial
 
 Let's walk through how you might create a very simple app with The OnlyWeb Framework.
 
-1. Let's start by registering the page we're going to serve from the backend:
+1. Start by registering the page we're going to serve from the backend:
 
 ```js
 import Backend from "https://github.com/daniellacosse-code/onlyweb.dev/raw/master/framework/backend/module.js";
@@ -113,9 +129,6 @@ Backend.Page.Register("/", {
 
 ```js
 Backend.Page.Register("/", {
-  inliner: {
-    messages: "%path/to/messages/folder%"
-  },
   responses: {
     handleDefault: (request, inliner) => Backend.Page.Response.html`
       <head>
@@ -128,6 +141,9 @@ Backend.Page.Register("/", {
         <h1>${inliner.message("Your query string is:")} ${request.url.search}</h1>
       </body>
     `;
+  },
+  inliner: {
+    messages: "%path/to/messages/folder%"
   }
 });
 ```
@@ -216,9 +232,6 @@ Frontend.Element.Register("copy-code", {
 
 ```js
 Backend.Page.Register("/", {
-  inliner: {
-    messages: "%path/to/messages/folder%"
-  },
   responses: {
     handleDefault: (request, inliner) => Backend.Page.Response.html`
       <head>
@@ -234,13 +247,16 @@ Backend.Page.Register("/", {
         <copy-code code="${request.url,search}" copy-message="${inliner.message("Copied!")}"></copy-code>
       </body>
     `;
+  },
+  inliner: {
+    messages: "%path/to/messages/folder%"
   }
 });
 ```
 
 7. The popover isn't super supported yet, so let's indicate that in our pages' requirements:
 
-> TODO(#170): this doesn't quite work yet.
+> TODO([#170](https://github.com/daniellacosse-code/onlyweb.dev/issues/170)): this doesn't quite work yet
 
 8. Finally, create a new file for your app's main entrypoint. Import your page and start the backend!
 
