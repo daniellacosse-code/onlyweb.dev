@@ -6,7 +6,7 @@ https://github.com/daniellacosse-code/onlyweb.dev/assets/3759828/cd94622b-aedb-4
 
 ## overview
 
-**the onlyweb framework** is a lightweight, server-side rendering framework for WebComponents, built on top of the [Deno](https://deno.land/) runtime. It was designed for the [onlyweb.dev](https://onlyweb.dev) application with a focus on performance and transparency. Jump to ["concepts"](#concepts) for the breakdown.
+**the onlyweb framework** is a lightweight, server-side rendering framework for [WebComponents](https://developer.mozilla.org/en-US/docs/Web/API/Web_Components), built on top of the [Deno](https://deno.land/) runtime. It was designed for the [onlyweb.dev](https://onlyweb.dev) application with a focus on performance and transparency. Jump to ["concepts"](#concepts) for the breakdown.
 
 ### prerequisites
 
@@ -15,14 +15,14 @@ A basic understanding of native web development. MDN has a great [introduction t
 ## features
 
 - server-side rendering for WebComponents, as already mentioned
-- zero dependencies, apart from deno
-- easy service worker and PWA deployment
+- zero dependencies, apart from Deno
 - css reset scoped to WebComponents by default
 - react-like rendering, without the virtual dom
 - lit-like templating, without the need for a build step
-- user agent checking (for when feature detection isn't enough)
 - robust logging
 - lightweight i18n
+- streamlined service worker and PWA deployment
+- user agent checking (for when feature detection isn't enough)
 
 ### benchmarks
 
@@ -46,12 +46,230 @@ parseUserAgent               524.01 ns/iter   1,908,352.7 (513.68 ns … 555.03 
 
 ## concepts
 
-TODO: explain that mainly there are two environments with mirrored APIs:
+```mermaid
+block-beta
+  block
+    columns 2
+    backend:2
+    page:2
+    responses
+    inliner
+  end
+  block
+    columns 2
+    frontend:2
+    element:2
+    host
+    template
+  end
+```
 
-- backend vs. frontend (which share globalThis)
-- page vs. element
-- inliner vs. template
+The **onlyweb framework** is split into two main environments: the backend and the frontend. These environments have mirrored APIs that are designed to work together. _(You can infer which environment you're in based on the properties present on `globalThis`.)_
 
-## example
+### backend
 
-See the [[WIP] onlyweb.dev application source](../app/) for a full example!
+The backend server serves content via Deno. Key concepts:
+
+1. **Page**: encapsulates a set of possible responses to an endpoint and chooses which response to use when. The **Page** also manages the **Inliner**.
+2. **Response**: an object that represents how the Deno HTTP web server will respond to a given Request. [Learn more about HTTP here.](https://developer.mozilla.org/en-US/docs/Web/HTTP)
+3. **Inliner**: _inlines_ content into a **Response**, building the static content you wish to respond with just in time.
+
+### frontend
+
+The frontend renders content in the browser via WebComponnents. Key concepts:
+
+1. **Element**: an HTML tag representing some meaningful section or component of your application. [Learn more about HTML Elements here](https://developer.mozilla.org/en-US/docs/Web/HTML/Element).
+2. **Host**: an in-memory object representing the current **Element** instance. Through its host you access an **Element**'s lifecycle, events, and current child elements. Think of it as the _"face"_ of the **Element**.
+3. **Template**: the blueprint for the **Element**'s internals, driven by a set of data attributes you select. Think of it as the _"guts"_ of the **Element**.
+
+I know this is a bit abstract, so let's walk through a simple example to make things more concrete.
+
+> [!TIP]
+> **When in doubt, everything in the framework has JSDoc annotations - just look at the source!**
+
+### basic tutorial
+
+1. Start by registering the main **Page** we're going to serve from the backend:
+
+```js
+import Backend from "https://github.com/daniellacosse-code/onlyweb.dev/raw/master/framework/backend/module.js";
+
+Backend.Page.Register("/", {
+  responses: {
+    handleDefault: (request) => Backend.Page.Response.html`
+        <body>
+          <h1>Your search is: ${request.url.search}</h1>
+        </body>
+      `;
+    }
+  }
+});
+```
+
+2. The default response has no metadata, so external sites won't know how to display it.
+   Use the **Inliner** to add some:
+
+```js
+Backend.Page.Register("/", {
+  responses: {
+    handleDefault: (request, inliner) => Backend.Page.Response.html`
+      <head>
+        ${inliner.metadata({
+          title: "what's my search?",
+          description: "a simple page that shows the search query",
+        })}
+      </head>
+      <body>
+        <h1>Your search is: ${request.url.search}</h1>
+      </body>
+    `;
+  }
+});
+```
+
+3. Our page only works in English. Provide the **Inliner** with [a folder of translations like this one](../app/assets/messages/) so we can support those languages:
+
+```js
+Backend.Page.Register("/", {
+  responses: {
+    handleDefault: (request, inliner) => Backend.Page.Response.html`
+      <head>
+        ${inliner.metadata({
+          title: inliner.message("what's my search?"),
+          description: inliner.message("a simple page that shows the search query"),
+        })}
+      </head>
+      <body>
+        <h1>${inliner.message("Your search is:")} ${request.url.search}</h1>
+      </body>
+    `;
+  },
+  inliner: {
+    messages: "%path/to/messages/folder%"
+  }
+});
+```
+
+4. We want to be able to easily copy our search string to the clipboard. We'll have to create a new frontend **Element** to do this. Here's that initial file:
+
+```js
+import Frontend from "https://github.com/daniellacosse-code/onlyweb.dev/raw/master/framework/frontend/module.js";
+
+Frontend.Element.Register("copy-code", {
+  template: {
+    attributes: { copied: Boolean, ["copy-message"]: String, code: String },
+    // Note that the html template tag here is different than the Backends'
+    handleBuild: ({ code, copied, ["copy-message"]: copyMessage }) => Frontend.Element.html`
+      <style>
+        div {
+          display: relative;
+        }
+        code {
+          font-family: monospace;
+          font-size: 1rem;
+          text-overflow: ellipsis;
+        }
+        div[popover] {
+          display: absolute;
+          top: 0;
+          left: 0;
+        }
+      </style>
+      <div>
+        <code>${code}</code>
+        <div popover>${copyMessage}</div>
+      </div>
+    `;
+  }
+});
+```
+
+5. The onlyweb framework simply wraps the existing Event API to handle I/O. To do the copy, listen for the click event in the **Host**:
+
+```js
+Frontend.Element.Register("copy-code", {
+  host: {
+    handleMount: () => {
+      this.addEventListener("click", () => {
+        if (this.template.attributes.copied) {
+          return;
+        }
+
+        globalThis.navigator.clipboard.writeText(this.templateAttributes.code);
+
+        this.template.querySelector("div[popover]").togglePopover();
+        this.template.attributes.copied = true;
+      });
+    }
+  },
+  template: {
+    attributes: { copied: Boolean, ["copy-message"]: String, code: String },
+    // Note that the html template tag here is different than the Backends'
+    handleBuild: ({ code, copied, ["copy-message"]: copyMessage }) => Frontend.Element.html`
+      <style>
+        div {
+          display: relative;
+        }
+        code {
+          font-family: monospace;
+          font-size: 1rem;
+          text-overflow: ellipsis;
+        }
+        div[popover] {
+          display: absolute;
+          top: 0;
+          left: 0;
+        }
+      </style>
+      <div>
+        <code>${code}</code>
+        <div popover>${copyMessage}</div>
+      </div>
+    `;
+  }
+});
+```
+
+6. Now to actually use our `<copy-code>` **Element** we must inline it into the **Page**. You do that like so:
+
+```js
+Backend.Page.Register("/", {
+  responses: {
+    handleDefault: (request, inliner) => Backend.Page.Response.html`
+      <head>
+        ${inliner.metadata({
+          title: inliner.message("what's my search?"),
+          description: inliner.message("a simple page that shows the search query"),
+        })}
+      </head>
+      <body>
+        <h1>${inliner.message("Your search is:")} ${request.url.search}</h1>
+
+        ${inliner.elements("%path/to/element/copy-code.js%")}
+        <copy-code code="${request.url,search}" copy-message="${inliner.message("Copied!")}"></copy-code>
+      </body>
+    `;
+  },
+  inliner: {
+    messages: "%path/to/messages/folder%"
+  }
+});
+```
+
+7. HTML popovers aren't super supported yet, so let's indicate that in our pages' requirements:
+
+> TODO([#170](https://github.com/daniellacosse-code/onlyweb.dev/issues/170)): this doesn't quite work yet
+
+8. Finally, create a new file for your app's main entrypoint. Import your page and start the backend!
+
+```js
+import Backend from "https://github.com/daniellacosse-code/onlyweb.dev/raw/master/framework/backend/module.js";
+
+import "%path/to/page.js%";
+
+Backend.start({ port: 8080 });
+```
+
+### \[WIP\] full example
+
+See the [onlyweb.dev application source](../app/) for a full example!

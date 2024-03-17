@@ -2,7 +2,7 @@
 
 import { encode } from "https://deno.land/std@v0.56.0/encoding/base64.ts";
 
-import { html } from "/framework/backend/page/response.js";
+import Response from "/framework/backend/page/response.js";
 import Shared from "/framework/shared/module.js";
 
 /**
@@ -13,9 +13,10 @@ import Shared from "/framework/shared/module.js";
 /**
  * Creates a context-aware inliner that can inline elements, messages, and metadata into an HTML document.
  * @param {PageRequest} request The request object.
+ * @param {string} [messagesFolder] The path to the messages folder.
  * @returns {Promise<Inliner>} The inliner.
  */
-export default async function Inliner(request) {
+export default async function Inliner(request, messagesFolder) {
   const origin = request.url.origin;
 
   /** @type {{[messageIn: string]: string}} */
@@ -27,7 +28,7 @@ export default async function Inliner(request) {
       level: "debug"
     });
     messages = await (
-      await fetch(`${origin}/app/assets/messages/${request.language}.json`)
+      await fetch(`${origin}${messagesFolder}/${request.language}.json`)
     ).json();
     Shared.Log({
       message: `[framework/backend/inliner] Fetched messages for language "${request.language}"`,
@@ -61,7 +62,7 @@ export default async function Inliner(request) {
         const sanitizedScript = Shared.HTML.minify(fileContents)
           .replaceAll(' from "/', ` from "${origin}/`)
           .replaceAll('import "/', `import "${origin}/`);
-        result.push(html`<script
+        result.push(Response.html`<script
           async
           type="module"
           src="data:application/javascript;base64,${encode(sanitizedScript)}"
@@ -78,7 +79,7 @@ export default async function Inliner(request) {
         )}"`,
         level: "debug"
       });
-      return html`${result}`;
+      return Response.html`${result}`;
     },
 
     message(key) {
@@ -106,8 +107,8 @@ export default async function Inliner(request) {
       canonicalUrl = request.url.toString()
     }) {
       const tags = [
-        html`<link rel="canonical" href="${canonicalUrl}" />`,
-        html`<meta name="og:url" content="${canonicalUrl}" />`
+        Response.html`<link rel="canonical" href="${canonicalUrl}" />`,
+        Response.html`<meta name="og:url" content="${canonicalUrl}" />`
       ];
       Shared.Log({
         message: `[framework/backend/inliner#metadata] constructing page metadata.`,
@@ -129,7 +130,7 @@ export default async function Inliner(request) {
         });
 
         tags.push(
-          html`<title>${title}</title>
+          Response.html`<title>${title}</title>
             <meta name="og:title" content="${title}" />`
         );
       }
@@ -141,7 +142,7 @@ export default async function Inliner(request) {
         });
 
         tags.push(
-          html`<meta name="description" content="${description}" />
+          Response.html`<meta name="description" content="${description}" />
             <meta name="og:description" content="${description}" />`
         );
       }
@@ -153,13 +154,13 @@ export default async function Inliner(request) {
         });
 
         tags.push(
-          html`<link rel="icon" href="${iconImagePath}" />
+          Response.html`<link rel="icon" href="${iconImagePath}" />
             <meta name="apple-mobile-web-app-capable" content="yes" />
             <link rel="apple-touch-icon" href="${iconImagePath}" />`,
 
           // it's a bit opinionated, but you really only have two options here - black and black-translucent
           // and only the latter allows the web app to be displayed in full screen
-          html`<meta
+          Response.html`<meta
             name="apple-mobile-web-app-status-bar-style"
             content="black-translucent"
           />`
@@ -174,7 +175,7 @@ export default async function Inliner(request) {
 
         tags.push(
           // TODO iterate over all possible splash images
-          html`<link
+          Response.html`<link
             rel="apple-touch-startup-image"
             href="${splashImagePath}"
           />`
@@ -187,7 +188,9 @@ export default async function Inliner(request) {
           level: "debug"
         });
 
-        tags.push(html`<meta name="og:image" content="${previewImagePath}" />`);
+        tags.push(
+          Response.html`<meta name="og:image" content="${previewImagePath}" />`
+        );
       }
 
       Shared.Log({
@@ -195,7 +198,7 @@ export default async function Inliner(request) {
         level: "debug"
       });
 
-      return html`${tags}`;
+      return Response.html`${tags}`;
     }
   };
 }

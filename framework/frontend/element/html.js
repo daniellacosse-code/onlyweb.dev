@@ -8,7 +8,7 @@ import handleTemplate from "/framework/shared/handle-template.js";
 /**
  * A utility for creating a templateable HTMLCollection
  * @param {TemplateStringsArray} template The template
- * @param {(string | string[])[]} insertions The insertions
+ * @param {(string | string[] | HTMLCollection)[]} insertions The insertions
  * @returns {HTMLCollection} The compiled HTMLCollection
  */
 export default (template, ...insertions) => {
