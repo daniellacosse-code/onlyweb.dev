@@ -84,7 +84,8 @@ The frontend renders content in the browser via WebComponnents. Key concepts:
 
 I know this is a bit abstract, so let's walk through a simple example to make things more concrete.
 
-> [!TIP] > **When in doubt, everything in the framework has JSDoc annotations - just look at the source!**
+> [!TIP]
+> **When in doubt, everything in the framework has JSDoc annotations - just look at the source!**
 
 ### basic tutorial
 
