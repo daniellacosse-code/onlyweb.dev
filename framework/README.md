@@ -64,31 +64,31 @@ block-beta
   end
 ```
 
-The OnlyWeb Framework is split into two main environments: the backend and the frontend. These environments have mirrored APIs that are designed to work together. The backend is responsible for serving pages, while the frontend is responsible for rendering them.
+The **OnlyWeb Framework** is split into two main environments: the backend and the frontend. These environments have mirrored APIs that are designed to work together. The backend is responsible for serving pages, while the frontend is responsible for rendering them.
 
 ### backend
 
-The backend is responsible for serving content via Deno. The backend section of the framework has the following key concepts:
+The backend server serves content via Deno. Key concepts:
 
-1. **Page**: a page is a set of responses to an endpoint. The page is responsible for choosing which response to use at a given time. The page is also responsible for providing the **Inliner** with the information it needs.
-2. **Response**: a Response object indicates how the HTTP web server will respond to a request. [Learn about HTTP here.](https://developer.mozilla.org/en-US/docs/Web/HTTP)
-3. **Inliner**: the Inliner _inlines_ content into the response, enabling you to build the static content you desire, just in time.
+1. **Page**: a Page encapsulates a set of possible responses to an endpoint, and chooses which response to use when. The Page also manages the **Inliner**.
+2. **Response**: a Response object representing how the Deno HTTP web server will respond to a given Request. [Learn about HTTP here.](https://developer.mozilla.org/en-US/docs/Web/HTTP)
+3. **Inliner**: the Inliner _inlines_ content into a Response, enabling you to build the static content you wish to respond with just in time.
 
 ### frontend
 
-The frontend is responsible for rendering the content and user interface in the browser via WebComponnents. The frontend section of the framework has the following key concepts:
+The frontend renders content in the browser via WebComponnents. Key concepts:
 
-1. **Element**: an Element is an HTML tag representing some section or component of your application. [Learn more about HTML Elements here](https://developer.mozilla.org/en-US/docs/Web/HTML/Element).
-2. **Host**: the Host is an in-memory object that represents the current Element instance. Through its host, you can access the Element's lifecycle, events, and child elements. Think of it as the "face" of the Element.
-3. **Template**: the Template acts as the blueprint for the Element's internals, driven by a set of attributes you select. Think of it as the "guts" of the Element.
+1. **Element**: an Element is an HTML tag representing some meaningful section or component of your application. [Learn more about HTML Elements here](https://developer.mozilla.org/en-US/docs/Web/HTML/Element).
+2. **Host**: the Host is an in-memory object representing an Element instance. Through its host, you can access the Element's lifecycle, events, and current child elements. Think of it as the _"face"_ of the Element.
+3. **Template**: the Template acts as the blueprint for the Element's internals, driven by a set of data attributes you select. Think of it as the _"guts"_ of the Element.
 
 I know this is a bit abstract at this point, so let's walk through a simple example to make things more concrete. **When in doubt, everything in the framework has JSDoc annotations - just look at the source!**
 
 ### basic tutorial
 
-Let's walk through how you might create a very simple app with The OnlyWeb Framework.
+This basic tutorial will walk you through creating a very simple app.
 
-1. Start by registering the page we're going to serve from the backend:
+1. Start by registering the main **Page** we're going to serve from the backend:
 
 ```js
 import Backend from "https://github.com/daniellacosse-code/onlyweb.dev/raw/master/framework/backend/module.js";
@@ -105,7 +105,7 @@ Backend.Page.Register("/", {
 });
 ```
 
-2. Right now, the page has no metadata, so it won't look good on social media. Let's use the inliner, the second argument given to the request handler, to add some:
+2. Right now, the default response has no metadata, so it won't look good on social media. Let's use the **Inliner**, the second argument given to the response handler, to add some:
 
 ```js
 Backend.Page.Register("/", {
@@ -125,7 +125,7 @@ Backend.Page.Register("/", {
 });
 ```
 
-3. Our page only works in english. Let's provide our page with [a folder like this one](../app/assets/messages/) so we can inline translated messages:
+3. Our page only works in English. Let's provide our page with [a folder of translations like this one](../app/assets/messages/) so we can inline these messages:
 
 ```js
 Backend.Page.Register("/", {
@@ -148,7 +148,7 @@ Backend.Page.Register("/", {
 });
 ```
 
-4. Now let's say we want to be able to easily copy our query string to the clipboard. We'll have to create a new file for a custom element to do this in the frontend. Here's that initial file:
+4. Now let's say we want to be able to easily copy our query string to the clipboard. We'll have to create a new frontend **Element** to do this. Here's that initial file:
 
 ```js
 import Frontend from "https://github.com/daniellacosse-code/onlyweb.dev/raw/master/framework/frontend/module.js";
@@ -228,7 +228,7 @@ Frontend.Element.Register("copy-code", {
 });
 ```
 
-6. Now, in order to actually use the element, we need to inline it into the page. You can do that like so:
+6. Now, to actually use the **Element** we need to inline it into the page. You can do that like so:
 
 ```js
 Backend.Page.Register("/", {
@@ -254,7 +254,7 @@ Backend.Page.Register("/", {
 });
 ```
 
-7. The popover isn't super supported yet, so let's indicate that in our pages' requirements:
+7. HTML popovers aren't super supported yet, so let's indicate that in our pages' requirements:
 
 > TODO([#170](https://github.com/daniellacosse-code/onlyweb.dev/issues/170)): this doesn't quite work yet
 
@@ -268,6 +268,6 @@ import "%path/to/page.js%";
 Backend.start({ port: 8080 });
 ```
 
-### full example
+### \[WIP\] full example
 
-See the [[WIP] onlyweb.dev application source](../app/) for a full example!
+See the [onlyweb.dev application source](../app/) for a full example!
