@@ -6,7 +6,7 @@ https://github.com/daniellacosse-code/onlyweb.dev/assets/3759828/cd94622b-aedb-4
 
 ## overview
 
-**the onlyweb framework** is a lightweight, server-side rendering framework for WebComponents, built on top of the [Deno](https://deno.land/) runtime. It was designed for the [onlyweb.dev](https://onlyweb.dev) application with a focus on performance and transparency. Jump to ["concepts"](#concepts) for the breakdown.
+**the onlyweb framework** is a lightweight, server-side rendering framework for [WebComponents](https://), built on top of the [Deno](https://deno.land/) runtime. It was designed for the [onlyweb.dev](https://onlyweb.dev) application with a focus on performance and transparency. Jump to ["concepts"](#concepts) for the breakdown.
 
 ### prerequisites
 
@@ -15,14 +15,14 @@ A basic understanding of native web development. MDN has a great [introduction t
 ## features
 
 - server-side rendering for WebComponents, as already mentioned
-- zero dependencies, apart from deno
-- easy service worker and PWA deployment
+- zero dependencies, apart from Deno
 - css reset scoped to WebComponents by default
 - react-like rendering, without the virtual dom
 - lit-like templating, without the need for a build step
-- user agent checking (for when feature detection isn't enough)
 - robust logging
 - lightweight i18n
+- streamlined service worker and PWA deployment
+- user agent checking (for when feature detection isn't enough)
 
 ### benchmarks
 
@@ -64,29 +64,27 @@ block-beta
   end
 ```
 
-The **OnlyWeb Framework** is split into two main environments: the backend and the frontend. These environments have mirrored APIs that are designed to work together. The backend is responsible for serving pages, while the frontend is responsible for rendering them.
+The **onlyweb framework** is split into two main environments: the backend and the frontend. These environments have mirrored APIs that are designed to work together. _(You can infer which environment you're in based on the properties present on `globalThis`.)_
 
 ### backend
 
 The backend server serves content via Deno. Key concepts:
 
-1. **Page**: a Page encapsulates a set of possible responses to an endpoint, and chooses which response to use when. The Page also manages the **Inliner**.
-2. **Response**: a Response object representing how the Deno HTTP web server will respond to a given Request. [Learn about HTTP here.](https://developer.mozilla.org/en-US/docs/Web/HTTP)
-3. **Inliner**: the Inliner _inlines_ content into a Response, enabling you to build the static content you wish to respond with just in time.
+1. **Page**: encapsulates a set of possible responses to an endpoint and chooses which response to use when. The **Page** also manages the **Inliner**.
+2. **Response**: an object that represents how the Deno HTTP web server will respond to a given Request. [Learn more about HTTP here.](https://developer.mozilla.org/en-US/docs/Web/HTTP)
+3. **Inliner**: _inlines_ content into a Response, building the static content you wish to respond with just in time.
 
 ### frontend
 
 The frontend renders content in the browser via WebComponnents. Key concepts:
 
-1. **Element**: an Element is an HTML tag representing some meaningful section or component of your application. [Learn more about HTML Elements here](https://developer.mozilla.org/en-US/docs/Web/HTML/Element).
-2. **Host**: the Host is an in-memory object representing an Element instance. Through its host, you can access the Element's lifecycle, events, and current child elements. Think of it as the _"face"_ of the Element.
-3. **Template**: the Template acts as the blueprint for the Element's internals, driven by a set of data attributes you select. Think of it as the _"guts"_ of the Element.
+1. **Element**: an HTML tag representing some meaningful section or component of your application. [Learn more about HTML Elements here](https://developer.mozilla.org/en-US/docs/Web/HTML/Element).
+2. **Host**: an in-memory object representing the current Element instance. Through its host you access an Element's lifecycle, events, and current child elements. Think of it as the _"face"_ of the Element.
+3. **Template**: the blueprint for the Element's internals, driven by a set of data attributes you select. Think of it as the _"guts"_ of the Element.
 
-I know this is a bit abstract at this point, so let's walk through a simple example to make things more concrete. **When in doubt, everything in the framework has JSDoc annotations - just look at the source!**
+I know this is a bit abstract, so let's walk through a simple example to make things more concrete. **When in doubt, everything in the framework has JSDoc annotations - just look at the source!**
 
 ### basic tutorial
-
-This basic tutorial will walk you through creating a very simple app.
 
 1. Start by registering the main **Page** we're going to serve from the backend:
 
@@ -97,7 +95,7 @@ Backend.Page.Register("/", {
   responses: {
     handleDefault: (request) => Backend.Page.Response.html`
         <body>
-          <h1>Your query string is: ${request.url.search}</h1>
+          <h1>Your search is: ${request.url.search}</h1>
         </body>
       `;
     }
@@ -105,7 +103,8 @@ Backend.Page.Register("/", {
 });
 ```
 
-2. Right now, the default response has no metadata, so it won't look good on social media. Let's use the **Inliner**, the second argument given to the response handler, to add some:
+2. The default response has no metadata, so external sites won't know how to display it.
+   Use the **Inliner** to add some:
 
 ```js
 Backend.Page.Register("/", {
@@ -113,19 +112,19 @@ Backend.Page.Register("/", {
     handleDefault: (request, inliner) => Backend.Page.Response.html`
       <head>
         ${inliner.metadata({
-          title: "what's my query string?",
-          description: "a simple page that shows the query string",
+          title: "what's my search?",
+          description: "a simple page that shows the search query",
         })}
       </head>
       <body>
-        <h1>Your query string is: ${request.url.search}</h1>
+        <h1>Your search is: ${request.url.search}</h1>
       </body>
     `;
   }
 });
 ```
 
-3. Our page only works in English. Let's provide our page with [a folder of translations like this one](../app/assets/messages/) so we can inline these messages:
+3. Our page only works in English. Provide the **Inliner** with [a folder of translations like this one](../app/assets/messages/) so we can support those languages:
 
 ```js
 Backend.Page.Register("/", {
@@ -133,12 +132,12 @@ Backend.Page.Register("/", {
     handleDefault: (request, inliner) => Backend.Page.Response.html`
       <head>
         ${inliner.metadata({
-          title: inliner.message("what's my query string?"),
-          description: inliner.message("a simple page that shows the query string"),
+          title: inliner.message("what's my search?"),
+          description: inliner.message("a simple page that shows the search query"),
         })}
       </head>
       <body>
-        <h1>${inliner.message("Your query string is:")} ${request.url.search}</h1>
+        <h1>${inliner.message("Your search is:")} ${request.url.search}</h1>
       </body>
     `;
   },
@@ -148,7 +147,7 @@ Backend.Page.Register("/", {
 });
 ```
 
-4. Now let's say we want to be able to easily copy our query string to the clipboard. We'll have to create a new frontend **Element** to do this. Here's that initial file:
+4. We want to be able to easily copy our search string to the clipboard. We'll have to create a new frontend **Element** to do this. Here's that initial file:
 
 ```js
 import Frontend from "https://github.com/daniellacosse-code/onlyweb.dev/raw/master/framework/frontend/module.js";
@@ -182,7 +181,7 @@ Frontend.Element.Register("copy-code", {
 });
 ```
 
-5. The OnlyWeb Framework simply wraps the existing Event API to handle I/O. To do the copy, add a click handler to the host in our "handleMount" lifecycle hook:
+5. The onlyweb framework simply wraps the existing Event API to handle I/O. To do the copy, listen for the click event in the **Host**:
 
 ```js
 Frontend.Element.Register("copy-code", {
@@ -196,7 +195,7 @@ Frontend.Element.Register("copy-code", {
         globalThis.navigator.clipboard.writeText(this.templateAttributes.code);
 
         this.template.querySelector("div[popover]").togglePopover();
-        this.templateAttributes.copied = true;
+        this.template.attributes.copied = true;
       });
     }
   },
@@ -228,7 +227,7 @@ Frontend.Element.Register("copy-code", {
 });
 ```
 
-6. Now, to actually use the **Element** we need to inline it into the page. You can do that like so:
+6. Now to actually use our `<copy-code>` **Element** we must inline it into the **Page**. You do that like so:
 
 ```js
 Backend.Page.Register("/", {
@@ -236,12 +235,12 @@ Backend.Page.Register("/", {
     handleDefault: (request, inliner) => Backend.Page.Response.html`
       <head>
         ${inliner.metadata({
-          title: inliner.message("what's my query string?"),
-          description: inliner.message("a simple page that shows the query string"),
+          title: inliner.message("what's my search?"),
+          description: inliner.message("a simple page that shows the search query"),
         })}
       </head>
       <body>
-        <h1>${inliner.message("Your query string is:")} ${request.url.search}</h1>
+        <h1>${inliner.message("Your search is:")} ${request.url.search}</h1>
 
         ${inliner.elements("%path/to/element/copy-code.js%")}
         <copy-code code="${request.url,search}" copy-message="${inliner.message("Copied!")}"></copy-code>
