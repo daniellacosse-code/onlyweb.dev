@@ -4,7 +4,7 @@ Frontend.Element.Register("core-loading-skeleton", {
   template: {
     handleBuild() {
       return Frontend.Element.html`<style>
-        :host {
+        div {
           display: block;
           width: 100%;
           height: 100%;
@@ -27,7 +27,8 @@ Frontend.Element.Register("core-loading-skeleton", {
             background-position: -400% 50%;
           }
         }
-      </style>`;
+      </style>
+      <div></div>`;
     }
   }
 });
