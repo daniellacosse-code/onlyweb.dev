@@ -186,7 +186,7 @@ export default (
         const templateWrapper = html`<template>
           <style>
             *:not(slot) {
-              all: initial;
+              /* all: initial; */
               box-sizing: border-box;
             }
             style,

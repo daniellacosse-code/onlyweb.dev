@@ -37,7 +37,8 @@ Backend.Page.Register(route, {
             "/app/elements/core/loading/skeleton.js",
             "/app/elements/core/image.js",
             "/app/elements/core/link.js",
-            "/app/elements/core/text.js"
+            "/app/elements/core/text.js",
+            "/app/elements/core/input.js"
           )}
   
           <meta
@@ -50,33 +51,33 @@ Backend.Page.Register(route, {
             main {
               align-items: center;
               display: flex;
-              flex-direction: column;
+              flex-direction: row;
               min-height: 100svh;
               width: 100vw;
             }
-  
-            header {
-              align-items: center;
-              background: var(--color-foreground);
-              box-sizing: border-box;
-              color: var(--color-background);
-              display: flex;
-              flex-direction: column;
+
+            nav {
+              height: 100svh;
+              max-width: min-content;
+              display: block;
               flex-shrink: 0;
-              justify-content: center;
-              padding: var(--size-huge) 0;
-              width: 100vw;
+              background: var(--color-foreground);
+              text-align: center;
+              padding: var(--size-narrow);
             }
-  
-            header * {
+
+            nav header core-text {
+              color: var(--color-background);
+              white-space: nowrap;
+              --size-text-title: 2rem;
+            }
+
+            nav core-input {
               --color-foreground: var(--color-background);
+              text-align: left;
+              height: 2rem;
             }
-  
-            core-text[type="title"] {
-              font-size: var(--size-huge);
-              margin: 0;
-            }
-  
+
             article {
               box-sizing: border-box;
               color: var(--color-background);
@@ -91,34 +92,22 @@ Backend.Page.Register(route, {
               flex-direction: column;
               gap: var(--size-narrow);
             }
-  
-            .logo {
-              display: block;
-              min-height: var(--size-icon);
-            }
           </style>
         </head>
         <body>
           <main>
+          <nav>
             <header>
-              <div class="logo">
-                <core-image
-                  alt="logo"
-                  height="${constants.THEME_SIZE_ICON}"
-                  src="${logoSrc}"
-                  width="${constants.THEME_SIZE_ICON}"
-                ></core-image>
-                <core-image
-                  alt="logo"
-                  height="${constants.THEME_SIZE_ICON}"
-                  src="${logoSrc}"
-                  width="${constants.THEME_SIZE_ICON}"
-                ></core-image>
-              </div>
-              <core-text type="title">${inliner.message(
-                "only web 2"
-              )}</core-text>
+              <core-image src="${logoSrc}" alt="logo" width="80" height="80"></core-image>
+              <core-text type="title">only web</core-text>
             </header>
+            <core-input type="search" label="Search..."></core-input>
+            <ul>
+              <li>Section #1</li>
+              <li>Section #2</li>
+              <li>Section #3</li>
+            </ul>
+          </nav>
             <article>
               <section>
                 <core-text type="subtitle"
