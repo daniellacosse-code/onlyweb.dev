@@ -64,10 +64,11 @@ Backend.Page.Register(route, {
               flex-shrink: 0;
               background: var(--color-foreground);
               text-align: center;
-              padding: var(--size-narrow);
+              /* padding: var(--size-narrow); */
               box-sizing: border-box;
               isolation: isolate;
             }
+
             nav header {
               margin: var(--size-default);
             }
@@ -82,8 +83,10 @@ Backend.Page.Register(route, {
             nav core-input {
               --color-foreground: var(--color-background);
               text-align: left;
-              flex-shrink: 0;
+            }
 
+            .input-wrapper {
+              padding: 0 var(--size-narrow);
             }
 
             nav ul {
@@ -95,6 +98,14 @@ Backend.Page.Register(route, {
             nav ul li {
               list-style-type: none;
               padding: var(--size-narrow);
+              text-align: right;
+              cursor: pointer;
+              user-select: none;
+            }
+
+            li.active {
+              background-color: var(--color-highlight);
+              color: var(--color-background);
             }
 
             article {
@@ -120,11 +131,13 @@ Backend.Page.Register(route, {
               <core-image src="${logoSrc}" alt="logo" width="64" height="64"></core-image>
               <core-text type="title">only web</core-text>
             </header>
-            <core-input type="search" label="Search..."></core-input>
-            <ul>
-              <li>Section #1</li>
+            <div class="input-wrapper">
+              <core-input id="search" type="search" label="Search..."></core-input>
+            </div>
+            <ul id="sidebar-options">
+              <li class="active">Part #1</li>
               <li>Section #2</li>
-              <li>Section #3</li>
+              <li>Appendix #3</li>
             </ul>
           </nav>
             <article>
@@ -145,6 +158,16 @@ Backend.Page.Register(route, {
               </section>
             </article>
           </main>
+          <script>
+            const searchBar = document.getElementById("search");
+            const sidebarOptions = document.getElementById("sidebar-options");
+            searchBar.addEventListener("input", (event) => {
+              const searchTerm = searchBar.template.getElementById("search...").textContent.toLowerCase();
+              const newNodes = Array.from(sidebarOptions.childNodes).filter((child) => child.textContent.toLowerCase().startsWith(searchTerm));
+
+              sidebarOptions.replaceChildren(...newNodes);
+            });
+          </script>
         </body>`;
     },
     handleServiceWorker: () => Backend.Page.Response.js`
