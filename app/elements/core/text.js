@@ -7,7 +7,7 @@ Frontend.Element.Register("core-text", {
     },
     handleBuild({ type = "paragraph" }) {
       return Frontend.Element.html`<style>
-          :host {
+          slot {
             cursor: inherit;
             user-select: inherit;
             font-family: system-ui;

@@ -5,7 +5,6 @@ const sharedStyles = Frontend.Element.html`<style>
     background-color: var(--color-highlight);
     color: var(--color-background);
   }
-  :host,
   label,
   input,
   [contenteditable="true"] {
@@ -14,29 +13,27 @@ const sharedStyles = Frontend.Element.html`<style>
     width: 100%;
     word-wrap: break-word;
   }
-  :host,
   input,
   [contenteditable="true"] {
     outline: 0;
   }
-  :host,
   label {
     display: inline-block;
     padding: var(--size-narrow);
   }
   label.hidden,
-  :host(:focus) > label {
+  .wrapper:focus > label {
     opacity: 0;
   }
-  :host {
+  div {
     border-radius: var(--size-narrow);
     border: var(--size-hairline) solid var(--color-foreground);
     cursor: text;
     position: relative;
     transition: border-color var(--animation-duration-fast) var(--animation-timing-function);
   }
-  :host(:focus-within),
-  :host(:active) {
+  .wrapper:focus-within,
+  .wrapper:active {
     border-color: var(--color-highlight);
   }
   [contenteditable="true"], input {
@@ -56,14 +53,18 @@ const sharedStyles = Frontend.Element.html`<style>
   }
 </style>`;
 
+const makeLabelID = (label) => label.toLowerCase().replace(/\s/g, "-");
+
 Frontend.Element.Register("core-input", {
   host: {
-    handleMount() {
+    handleMount({ label = "" }) {
       this.setAttribute("tabIndex", 0);
       this.setAttribute("role", "input");
 
+      const __inputID__ = makeLabelID(label);
+
       this.addEventListener("focus", () =>
-        this.template.getElementById(this.__inputID__).focus()
+        this.template.getElementById(__inputID__).focus()
       );
 
       this.addEventListener("input", ({ target }) => {
@@ -82,7 +83,7 @@ Frontend.Element.Register("core-input", {
       type: String
     },
     handleBuild({ label = "", type = "content" }) {
-      const __inputID__ = label.toLowerCase().replace(/\s/g, "-");
+      const __inputID__ = makeLabelID(label);
 
       let inputElement;
 
@@ -90,6 +91,7 @@ Frontend.Element.Register("core-input", {
         case "text":
         case "password":
         case "email":
+        case "search":
           inputElement = Frontend.Element
             .html`<input id="${__inputID__}" type="${type}">`;
           break;
@@ -107,8 +109,10 @@ Frontend.Element.Register("core-input", {
 
       return Frontend.Element.html`
         ${sharedStyles}
-        <label for="${__inputID__}">${label}</label>
-        ${inputElement}`;
+        <div class="wrapper">
+          <label for="${__inputID__}">${label}</label>
+          ${inputElement}
+        </div>`;
     }
   }
 });

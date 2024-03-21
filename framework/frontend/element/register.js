@@ -188,6 +188,7 @@ export default (
             *:not(slot) {
               all: initial;
               box-sizing: border-box;
+              isolation: isolate;
             }
             style,
             script {

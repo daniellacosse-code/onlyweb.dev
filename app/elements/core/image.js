@@ -29,8 +29,8 @@ Frontend.Element.Register("core-image", {
       if (loaded) {
         return Frontend.Element.html`<style>
             :host {
-              width: ${width}px;
-              height: ${height}px;
+              width: ${width};
+              height: ${height};
               display: inline-block;
             }
             img {
@@ -47,8 +47,8 @@ Frontend.Element.Register("core-image", {
 
       return Frontend.Element.html`<style>
           :host {
-            width: ${width}px;
-            height: ${height}px;
+            width: ${width};
+            height: ${height};
             display: inline-block;
           }
         </style>
