@@ -188,6 +188,9 @@ export default (
             *:not(slot) {
               /* all: initial; */
               box-sizing: border-box;
+              isolation: isolate;
+              touch-action: none;
+              user-select: none;
             }
             style,
             script {
