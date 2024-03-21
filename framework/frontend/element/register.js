@@ -190,6 +190,7 @@ export default (
               box-sizing: border-box;
               isolation: isolate;
               touch-action: none;
+              user-select: none;
             }
             style,
             script {

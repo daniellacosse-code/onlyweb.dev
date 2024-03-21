@@ -9,7 +9,6 @@ Frontend.Element.Register("core-text", {
       return Frontend.Element.html`<style>
           slot {
             cursor: inherit;
-            user-select: inherit;
             font-family: system-ui;
             font-weight: ${type === "title" ? "bold" : "normal"};
             font-size: var(--size-text-${type});
@@ -17,6 +16,7 @@ Frontend.Element.Register("core-text", {
               type === "subtitle" ? "neutral" : "foreground"
             });
             line-height: 1;
+            user-select: text;
           }
         </style>
         <slot></slot>`;
