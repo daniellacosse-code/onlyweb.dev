@@ -185,8 +185,7 @@ Frontend.Element.Register("copy-code", {
 ```
 
 > [!TIP]
-> Think of each onlyweb element as a little website that's hosted by the parent website. This means that if you style the `:host` in the template, those styles are modifiable by the host. Be aware of what that host might be! Each onlyweb element resets its styles for cross-browser consistency, so that will happen when you host an element inside another element. If you have styles you want to be consistent across all instances of an element, often it makes sense to style the `<slot>` or a wrapper.
-> TODO: guide on when and when not to use `:host`
+> Think of each onlyweb element as a little website that's hosted by the parent website. This means that if you style the `:host` in the template, those styles are modifiable by the host. Be aware of what that host might be! Each onlyweb element resets its styles for cross-browser consistency, so that will happen when you host an element inside another element. If you have styles you want to be consistent across all instances of an element, often it makes sense to style the `<slot>` or a wrapper. **TODO([#193](https://github.com/daniellacosse-code/onlyweb.dev/issues/193)): small on when to use `:host` selector**
 
 5. The onlyweb framework simply wraps the existing Event API to handle I/O. To do the copy, listen for a click event on the **Host**:
 
