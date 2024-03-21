@@ -184,6 +184,10 @@ Frontend.Element.Register("copy-code", {
 });
 ```
 
+> [!TIP]
+> Think of each onlyweb element as a little website that's hosted by the parent website. This means that if you style the `:host` in the template, those styles are modifiable by the host. Be aware of what that host might be! Each onlyweb element resets its styles for cross-browser consistency, so that will happen when you host an element inside another element.
+> TODO: guide on when and when not to use `:host`
+
 5. The onlyweb framework simply wraps the existing Event API to handle I/O. To do the copy, listen for a click event on the **Host**:
 
 ```js
