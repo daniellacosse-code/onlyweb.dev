@@ -164,7 +164,7 @@ Backend.Page.Register(route, {
 
             const renderSidebarMenuContents = (contents) => {
               sidebarOptionsListElement.replaceChildren(
-                contents.map((content) => Frontend.Element.html("<li>" + content + "</li>")
+                contents.map((content) => Frontend.Element.html("<li>" + content + "</li>"))
               );
             };
 
