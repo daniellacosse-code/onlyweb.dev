@@ -59,23 +59,42 @@ Backend.Page.Register(route, {
             nav {
               height: 100svh;
               max-width: min-content;
-              display: block;
+              display: flex;
+              flex-direction: column;
               flex-shrink: 0;
               background: var(--color-foreground);
               text-align: center;
               padding: var(--size-narrow);
+              box-sizing: border-box;
+              isolation: isolate;
+            }
+            nav header {
+              margin: var(--size-default);
             }
 
             nav header core-text {
               color: var(--color-background);
               white-space: nowrap;
-              --size-text-title: 2rem;
+              --size-text-title: 1.5rem;
+              flex-shrink: 0;
             }
 
             nav core-input {
               --color-foreground: var(--color-background);
               text-align: left;
-              height: 2rem;
+              flex-shrink: 0;
+
+            }
+
+            nav ul {
+              flex-grow: 1;
+              all: initial;
+              margin-top: var(--size-default);
+            }
+
+            nav ul li {
+              list-style-type: none;
+              padding: var(--size-narrow);
             }
 
             article {
@@ -98,7 +117,7 @@ Backend.Page.Register(route, {
           <main>
           <nav>
             <header>
-              <core-image src="${logoSrc}" alt="logo" width="80" height="80"></core-image>
+              <core-image src="${logoSrc}" alt="logo" width="64" height="64"></core-image>
               <core-text type="title">only web</core-text>
             </header>
             <core-input type="search" label="Search..."></core-input>

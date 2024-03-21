@@ -10,7 +10,6 @@ const sharedStyles = Frontend.Element.html`<style>
   input,
   [contenteditable="true"] {
     box-sizing: border-box;
-    min-height: 100%;
     width: 100%;
     word-wrap: break-word;
   }
@@ -58,12 +57,14 @@ const sharedStyles = Frontend.Element.html`<style>
 
 Frontend.Element.Register("core-input", {
   host: {
-    handleMount() {
+    handleMount({ label = "" }) {
+      const __inputID__ = label.toLowerCase().replaceAll(/\s/g, "-");
+
       this.setAttribute("tabIndex", 0);
       this.setAttribute("role", "input");
 
       this.addEventListener("focus", () =>
-        this.template.getElementById(this.__inputID__).focus()
+        this.template.getElementById(__inputID__).focus()
       );
 
       this.addEventListener("input", ({ target }) => {
@@ -82,7 +83,7 @@ Frontend.Element.Register("core-input", {
       type: String
     },
     handleBuild({ label = "", type = "content" }) {
-      const __inputID__ = label.toLowerCase().replace(/\s/g, "-");
+      const __inputID__ = label.toLowerCase().replaceAll(/\s/g, "-");
 
       let inputElement;
 
