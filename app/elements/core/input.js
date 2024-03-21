@@ -67,12 +67,14 @@ Frontend.Element.Register("core-input", {
       );
 
       this.addEventListener("input", ({ target }) => {
-        const hasValue =
+        const value =
           target.localName === "input" ? target.value : target.textContent;
+
+        this.value = value;
 
         this.template
           .querySelector("label")
-          .classList.toggle("hidden", hasValue);
+          .classList.toggle("hidden", Boolean(value));
       });
     }
   },

@@ -134,11 +134,7 @@ Backend.Page.Register(route, {
             <div class="input-wrapper">
               <core-input id="search" type="search" label="Search..."></core-input>
             </div>
-            <ul id="sidebar-options">
-              <li class="active">Part #1</li>
-              <li>Section #2</li>
-              <li>Appendix #3</li>
-            </ul>
+            <ul id="sidebar-options"></ul>
           </nav>
             <article>
               <section>
@@ -158,14 +154,29 @@ Backend.Page.Register(route, {
               </section>
             </article>
           </main>
-          <script>
-            const searchBar = document.getElementById("search");
-            const sidebarOptions = document.getElementById("sidebar-options");
-            searchBar.addEventListener("input", (event) => {
-              const searchTerm = searchBar.template.getElementById("search...").textContent.toLowerCase();
-              const newNodes = Array.from(sidebarOptions.childNodes).filter((child) => child.textContent.toLowerCase().startsWith(searchTerm));
+          <script type="module">
+            import Frontend from "/framework/frontend/module.js";
 
-              sidebarOptions.replaceChildren(...newNodes);
+            const sidebarMenuContents = ["Part #1", "Section #2", "Appendix #3"];
+
+            const sidebarSearchElement = globalThis.document.getElementById("search");
+            const sidebarOptionsListElement = globalThis.document.getElementById("sidebar-options");
+
+            const renderSidebarMenuContents = (contents) => {
+              sidebarOptionsListElement.replaceChildren(
+                contents.map((content) => Frontend.Element.html("<li>" + content + "</li>")
+              );
+            };
+
+            renderSidebarMenuContents(sidebarMenuContents);
+
+            sidebarSearchElement.addEventListener("input", (event) => {
+              const searchValue = sidebarSearchElement.value.toLowerCase();
+              const filteredContents = sidebarMenuContents.filter((content) =>
+                content.toLowerCase().includes(searchValue)
+              );
+
+              renderSidebarMenuContents(filteredContents);
             });
           </script>
         </body>`;
