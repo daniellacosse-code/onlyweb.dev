@@ -1,69 +1,69 @@
 import Frontend from "/framework/frontend/module.js";
 
 const sharedStyles = Frontend.Element.html`<style>
+  :host,
+  .wrapper,
+  input,
+  [contenteditable="true"],
+  label {
+    display: inline-block;
+    min-height: 100%;
+    width: 100%;
+    outline: 0;
+  }
   ::selection {
     background-color: var(--color-highlight);
     color: var(--color-background);
   }
-  :host,
-  label,
-  input,
-  [contenteditable="true"] {
-    box-sizing: border-box;
-    min-height: 100%;
-    width: 100%;
-    word-wrap: break-word;
-  }
-  :host,
-  input,
-  [contenteditable="true"] {
-    outline: 0;
-  }
-  :host,
-  label {
-    display: inline-block;
-    padding: var(--size-narrow);
-  }
-  label.hidden,
-  :host(:focus) > label {
-    opacity: 0;
-  }
-  :host {
+  .wrapper {
     border-radius: var(--size-narrow);
     border: var(--size-hairline) solid var(--color-foreground);
+    padding: var(--size-narrow);
     cursor: text;
     position: relative;
     transition: border-color var(--animation-duration-fast) var(--animation-timing-function);
   }
-  :host(:focus-within),
-  :host(:active) {
+  .wrapper:focus-within,
+  .wrapper:active {
     border-color: var(--color-highlight);
-  }
-  [contenteditable="true"], input {
-    color: var(--color-foreground);
   }
   label {
     color: var(--color-neutral);
+    display: inline-block;
     left: 0;
     opacity: 1;
+    overflow: hidden;
+    padding: var(--size-narrow);
     position: absolute;
+    text-overflow: ellipsis;
     top: 0;
     transition: opacity var(--animation-duration-fast) var(--animation-timing-function);
-    z-index: -1;
-    text-overflow: ellipsis;
-    overflow: hidden;
     white-space: nowrap;
+    z-index: -1;
+  }
+  label.hidden,
+  .wrapper:focus-within > label {
+    opacity: 0;
+  }
+  input,
+  [contenteditable="true"] {
+    word-wrap: break-word;
+    color: var(--color-foreground);
   }
 </style>`;
 
+const makeLabelID = (label) => label.toLowerCase().replace(/\s/g, "-");
+
 Frontend.Element.Register("core-input", {
   host: {
-    handleMount() {
+    handleMount({ label = "" }) {
       this.setAttribute("tabIndex", 0);
       this.setAttribute("role", "input");
 
+      const __inputID__ = makeLabelID(label);
+
       this.addEventListener("focus", () =>
-        this.template.getElementById(this.__inputID__).focus()
+        this.template.getElementById(__inputID__).focus()
       );
 
       this.addEventListener("input", ({ target }) => {
@@ -82,7 +82,7 @@ Frontend.Element.Register("core-input", {
       type: String
     },
     handleBuild({ label = "", type = "content" }) {
-      const __inputID__ = label.toLowerCase().replace(/\s/g, "-");
+      const __inputID__ = makeLabelID(label);
 
       let inputElement;
 
@@ -90,6 +90,7 @@ Frontend.Element.Register("core-input", {
         case "text":
         case "password":
         case "email":
+        case "search":
           inputElement = Frontend.Element
             .html`<input id="${__inputID__}" type="${type}">`;
           break;
@@ -107,8 +108,10 @@ Frontend.Element.Register("core-input", {
 
       return Frontend.Element.html`
         ${sharedStyles}
-        <label for="${__inputID__}">${label}</label>
-        ${inputElement}`;
+        <div class="wrapper">
+          <label for="${__inputID__}">${label}</label>
+          ${inputElement}
+        </div>`;
     }
   }
 });

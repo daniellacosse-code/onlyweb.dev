@@ -25,7 +25,6 @@ const sharedStyles = Frontend.Element.html`<style>
     );
     background-size: 400% 200%;
     background-position: 100% 0;
-    user-select: none;
     transition: background var(--animation-duration)
       var(--animation-timing-function);
   }

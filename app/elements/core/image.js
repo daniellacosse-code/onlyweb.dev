@@ -21,16 +21,16 @@ Frontend.Element.Register("core-image", {
     attributes: {
       src: String,
       alt: String,
-      width: Number,
-      height: Number,
+      width: String,
+      height: String,
       loaded: Boolean
     },
     handleBuild({ width, height, loaded }) {
       if (loaded) {
         return Frontend.Element.html`<style>
             :host {
-              width: ${width}px;
-              height: ${height}px;
+              width: ${width};
+              height: ${height};
               display: inline-block;
             }
             img {
@@ -39,7 +39,6 @@ Frontend.Element.Register("core-image", {
               object-fit: contain;
               overflow: hidden;
               pointer-events: none;
-              user-select: none;
             }
           </style>
           ${this.__image__}`;
@@ -47,8 +46,8 @@ Frontend.Element.Register("core-image", {
 
       return Frontend.Element.html`<style>
           :host {
-            width: ${width}px;
-            height: ${height}px;
+            width: ${width};
+            height: ${height};
             display: inline-block;
           }
         </style>

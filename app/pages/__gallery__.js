@@ -151,9 +151,9 @@ Backend.Page.Register("/__gallery__", {
             <core-image
               alt="logo"
               format="webp"
-              height="80"
+              height="80px"
               src="${logoSrc}"
-              width="80"
+              width="80px"
             ></core-image>
           </section>
         </article>
