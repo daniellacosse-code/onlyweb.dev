@@ -15,7 +15,7 @@ export const THEME_SIZE_DEFAULT = "1rem";
 export const THEME_SIZE_LARGE = "2rem";
 export const THEME_SIZE_HUGE = "3rem";
 
-export const THEME_SIZE_ICON = "80";
+export const THEME_SIZE_ICON = "80px";
 
 export const THEME_ANIMATION_DURATION = "350ms";
 export const THEME_ANIMATION_DURATION_FAST = "140ms";
