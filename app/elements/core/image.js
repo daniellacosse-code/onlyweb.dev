@@ -39,7 +39,6 @@ Frontend.Element.Register("core-image", {
               object-fit: contain;
               overflow: hidden;
               pointer-events: none;
-              /* user-select: none; */
             }
           </style>
           ${this.__image__}`;
