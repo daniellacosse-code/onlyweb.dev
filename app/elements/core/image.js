@@ -21,8 +21,8 @@ Frontend.Element.Register("core-image", {
     attributes: {
       src: String,
       alt: String,
-      width: Number,
-      height: Number,
+      width: String,
+      height: String,
       loaded: Boolean
     },
     handleBuild({ width, height, loaded }) {

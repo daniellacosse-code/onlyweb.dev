@@ -1,33 +1,24 @@
 import Frontend from "/framework/frontend/module.js";
 
 const sharedStyles = Frontend.Element.html`<style>
+  :host,
+  .wrapper,
+  input,
+  [contenteditable="true"],
+  label {
+    display: inline-block;
+    min-height: 100%;
+    width: 100%;
+    outline: 0;
+  }
   ::selection {
     background-color: var(--color-highlight);
     color: var(--color-background);
   }
-  label,
-  input,
-  [contenteditable="true"] {
-    box-sizing: border-box;
-    min-height: 100%;
-    width: 100%;
-    word-wrap: break-word;
-  }
-  input,
-  [contenteditable="true"] {
-    outline: 0;
-  }
-  label {
-    display: inline-block;
-    padding: var(--size-narrow);
-  }
-  label.hidden,
-  .wrapper:focus > label {
-    opacity: 0;
-  }
-  div {
+  .wrapper {
     border-radius: var(--size-narrow);
     border: var(--size-hairline) solid var(--color-foreground);
+    padding: var(--size-narrow);
     cursor: text;
     position: relative;
     transition: border-color var(--animation-duration-fast) var(--animation-timing-function);
@@ -36,20 +27,28 @@ const sharedStyles = Frontend.Element.html`<style>
   .wrapper:active {
     border-color: var(--color-highlight);
   }
-  [contenteditable="true"], input {
-    color: var(--color-foreground);
-  }
   label {
     color: var(--color-neutral);
+    display: inline-block;
     left: 0;
     opacity: 1;
+    overflow: hidden;
+    padding: var(--size-narrow);
     position: absolute;
+    text-overflow: ellipsis;
     top: 0;
     transition: opacity var(--animation-duration-fast) var(--animation-timing-function);
-    z-index: -1;
-    text-overflow: ellipsis;
-    overflow: hidden;
     white-space: nowrap;
+    z-index: -1;
+  }
+  label.hidden,
+  .wrapper:focus-within > label {
+    opacity: 0;
+  }
+  input,
+  [contenteditable="true"] {
+    word-wrap: break-word;
+    color: var(--color-foreground);
   }
 </style>`;
 

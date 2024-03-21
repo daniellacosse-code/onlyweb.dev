@@ -189,6 +189,7 @@ export default (
               all: initial;
               box-sizing: border-box;
               isolation: isolate;
+              touch-action: none;
             }
             style,
             script {
