@@ -57,13 +57,16 @@ Backend.Page.Register(route, {
             }
 
             nav {
-              height: 100svh;
-              max-width: min-content;
+              background: var(--color-foreground);
               display: flex;
               flex-direction: column;
               flex-shrink: 0;
-              background: var(--color-foreground);
+              height: 100svh;
+              max-width: min-content;
               text-align: center;
+              transform: translateX(0%);
+              transition: transform var(--animation-duration) var(--animation-timing-function);
+              will-change: transform;
             }
 
             nav header {
@@ -72,9 +75,9 @@ Backend.Page.Register(route, {
 
             nav header core-text {
               --color-foreground: var(--color-background);
-              white-space: nowrap;
               --size-text-title: 1.5rem;
               flex-shrink: 0;
+              white-space: nowrap;
             }
 
             nav core-input {
@@ -87,8 +90,8 @@ Backend.Page.Register(route, {
             }
 
             nav ul {
-              flex-grow: 1;
               all: initial;
+              flex-grow: 1;
               margin-top: var(--size-default);
             }
 
@@ -99,12 +102,12 @@ Backend.Page.Register(route, {
             nav ul li a {
               all: initial;
               cursor: pointer;
+              cursor: pointer;
               display: block;
               padding: var(--size-narrow);
               text-align: right;
-              cursor: pointer;
-              user-select: none;
               transition: background-color var(--animation-duration-fast) var(--animation-timing-function);
+              user-select: none;
             }
 
             nav ul li a:hover {
@@ -116,15 +119,28 @@ Backend.Page.Register(route, {
               box-sizing: border-box;
               color: var(--color-background);
               flex-grow: 1;
-              text-align: center;
               padding: var(--size-large);
+              text-align: center;
+              will-change: width;
             }
   
             section {
-              margin: var(--size-huge) 0;
               display: flex;
               flex-direction: column;
               gap: var(--size-narrow);
+              margin: var(--size-huge) 0;
+            }
+
+            @media screen and (max-width: 768px) {
+              nav {
+                transform: translateX(calc(var(--size-narrow) - 100%));
+                position: fixed;
+                top: 0;
+              }
+
+              nav:hover, nav:focus-within, nav:active {
+                transform: translateX(0%);
+              }
             }
           </style>
         </head>
