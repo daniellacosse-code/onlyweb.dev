@@ -94,13 +94,20 @@ Backend.Page.Register(route, {
 
             nav ul li {
               list-style-type: none;
+            }
+
+            nav ul li a {
+              all: initial;
+              cursor: pointer;
+              display: block;
               padding: var(--size-narrow);
               text-align: right;
               cursor: pointer;
               user-select: none;
+              transition: background-color var(--animation-duration-fast) var(--animation-timing-function);
             }
 
-            li.active {
+            nav ul li a:hover {
               background-color: var(--color-highlight);
               color: var(--color-background);
             }
@@ -154,15 +161,19 @@ Backend.Page.Register(route, {
           <script type="module">
             import Frontend from "/framework/frontend/module.js";
 
-            const sidebarMenuContents = ["Part #1", "Section #2", "Appendix #3"];
+            const sidebarMenuContents = [
+              { content: "Part #1", href: "#part-1" },
+              { content: "Section #2", href: "#section-2" },
+              { content: "Appendix #3", href: "#appendix-3" }
+            ];
 
             const sidebarSearchElement = globalThis.document.getElementById("search");
             const sidebarOptionsListElement = globalThis.document.getElementById("sidebar-options");
 
             const renderSidebarMenuContents = (contents) => {
               sidebarOptionsListElement.replaceChildren(
-                // TODO: how do I/can I/should I nest templates?
-                ...contents.flatMap((content) => Array.from(Frontend.Element.html(["<li>", "</li>"], content)))
+                // TODO(#195): how do I/can I/should I nest templates?
+                ...contents.flatMap(({href, content}) => Array.from(Frontend.Element.html(["<li><a href='", "'>", "</a></li>"], href, content)))
               );
             };
 
@@ -171,7 +182,7 @@ Backend.Page.Register(route, {
             sidebarSearchElement.addEventListener("input", (event) => {
               requestAnimationFrame(() => {
                 const searchValue = sidebarSearchElement.value.toLowerCase();
-                const filteredContents = sidebarMenuContents.filter((content) =>
+                const filteredContents = sidebarMenuContents.filter(({content}) =>
                   content.toLowerCase().startsWith(searchValue)
                 );
   
