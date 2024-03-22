@@ -64,9 +64,6 @@ Backend.Page.Register(route, {
               flex-shrink: 0;
               background: var(--color-foreground);
               text-align: center;
-              /* padding: var(--size-narrow); */
-              box-sizing: border-box;
-              isolation: isolate;
             }
 
             nav header {
@@ -74,7 +71,7 @@ Backend.Page.Register(route, {
             }
 
             nav header core-text {
-              color: var(--color-background);
+              --color-foreground: var(--color-background);
               white-space: nowrap;
               --size-text-title: 1.5rem;
               flex-shrink: 0;
@@ -164,19 +161,22 @@ Backend.Page.Register(route, {
 
             const renderSidebarMenuContents = (contents) => {
               sidebarOptionsListElement.replaceChildren(
-                contents.map((content) => Frontend.Element.html("<li>" + content + "</li>"))
+                // TODO: how do I/can I/should I nest templates?
+                ...contents.flatMap((content) => Array.from(Frontend.Element.html(["<li>", "</li>"], content)))
               );
             };
 
             renderSidebarMenuContents(sidebarMenuContents);
 
             sidebarSearchElement.addEventListener("input", (event) => {
-              const searchValue = sidebarSearchElement.value.toLowerCase();
-              const filteredContents = sidebarMenuContents.filter((content) =>
-                content.toLowerCase().includes(searchValue)
-              );
-
-              renderSidebarMenuContents(filteredContents);
+              requestAnimationFrame(() => {
+                const searchValue = sidebarSearchElement.value.toLowerCase();
+                const filteredContents = sidebarMenuContents.filter((content) =>
+                  content.toLowerCase().startsWith(searchValue)
+                );
+  
+                renderSidebarMenuContents(filteredContents);
+              })
             });
           </script>
         </body>`;
