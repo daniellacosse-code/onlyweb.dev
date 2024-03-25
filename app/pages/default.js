@@ -178,9 +178,9 @@ Backend.Page.Register(route, {
             import Frontend from "/framework/frontend/module.js";
 
             const sidebarMenuContents = [
-              { content: "Part #1", href: "#part-1" },
-              { content: "Section #2", href: "#section-2" },
-              { content: "Appendix #3", href: "#appendix-3" }
+              // { content: "Part #1", href: "#part-1" },
+              // { content: "Section #2", href: "#section-2" },
+              // { content: "Appendix #3", href: "#appendix-3" }
             ];
 
             const sidebarSearchElement = globalThis.document.getElementById("search");
