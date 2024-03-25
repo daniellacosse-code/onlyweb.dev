@@ -188,6 +188,7 @@ export default (
             *:not(slot) {
               all: initial;
               box-sizing: border-box;
+              /* content-visibility: auto; */
               isolation: isolate;
               touch-action: none;
               user-select: none;

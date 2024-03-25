@@ -21,7 +21,7 @@ export default Backend.Page.Response.html`<style>
     --size-text-subtitle: ${constants.THEME_SIZE_LARGE};
     --size-text-title: ${constants.THEME_SIZE_HUGE};
 
-    --size-icon: ${constants.THEME_SIZE_ICON}px;
+    --size-icon: ${constants.THEME_SIZE_ICON};
 
     --animation-duration: ${constants.THEME_ANIMATION_DURATION};
     --animation-duration-fast: ${constants.THEME_ANIMATION_DURATION_FAST};
