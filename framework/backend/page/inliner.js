@@ -35,10 +35,11 @@ export default async function Inliner(request, messagesFolder) {
       message: `[framework/backend/inliner] Fetched messages for language "${request.language}"`,
       level: "debug"
     });
-  } catch (_) {
+  } catch (error) {
     Shared.Log({
-      message: `[framework/backend/inliner] No messages found for for language "${request.language}"`,
-      level: "debug"
+      message: `[framework/backend/inliner] Failed to fetch messages for language "${request.language}"`,
+      level: "debug",
+      detail: { error }
     });
     messages = {};
   }
