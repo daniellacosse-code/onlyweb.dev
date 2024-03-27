@@ -25,7 +25,8 @@ export default async function Inliner(request, messagesFolder) {
   try {
     Shared.Log({
       message: `[framework/backend/inliner] Fetching messages for language "${request.language}"`,
-      level: "debug"
+      level: "debug",
+      detail: { url: `${origin}${messagesFolder}/${request.language}.json` }
     });
     messages = await (
       await fetch(`${origin}${messagesFolder}/${request.language}.json`)
