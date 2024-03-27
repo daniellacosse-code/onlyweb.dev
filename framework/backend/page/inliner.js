@@ -28,6 +28,12 @@ export default async function Inliner(request, messagesFolder) {
       level: "debug",
       detail: { url: `${origin}${messagesFolder}/${request.language}.json` }
     });
+    const response = await fetch(
+      `${origin}${messagesFolder}/${request.language}.json`
+    );
+
+    console.log(await response.text());
+
     messages = await (
       await fetch(`${origin}${messagesFolder}/${request.language}.json`)
     ).json();
@@ -38,9 +44,9 @@ export default async function Inliner(request, messagesFolder) {
   } catch (error) {
     Shared.Log({
       message: `[framework/backend/inliner] Failed to fetch messages for language "${request.language}"`,
-      level: "debug"
+      level: "warn",
+      detail: { error: error.message }
     });
-    Shared.LogError(error);
     messages = {};
   }
 
