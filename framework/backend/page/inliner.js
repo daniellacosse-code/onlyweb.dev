@@ -38,9 +38,9 @@ export default async function Inliner(request, messagesFolder) {
   } catch (error) {
     Shared.Log({
       message: `[framework/backend/inliner] Failed to fetch messages for language "${request.language}"`,
-      level: "debug",
-      detail: { error }
+      level: "debug"
     });
+    Shared.LogError(error);
     messages = {};
   }
 
