@@ -91,6 +91,7 @@ Backend.Page.Register(route, {
 
             nav ul {
               all: initial;
+              font-family: system-ui;
               flex-grow: 1;
               margin-top: var(--size-default);
             }
@@ -149,7 +150,9 @@ Backend.Page.Register(route, {
           <nav>
             <header>
               <core-image src="${logoSrc}" alt="logo" width="64" height="64"></core-image>
-              <core-text type="title">only web</core-text>
+              <core-text type="title">${inliner.message(
+                "only web 2"
+              )}</core-text>
             </header>
             <div class="input-wrapper">
               <core-input id="search" type="search" label="Search..."></core-input>

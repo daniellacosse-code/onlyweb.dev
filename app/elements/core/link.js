@@ -12,6 +12,7 @@ Frontend.Element.Register("core-link", {
             cursor: ne-resize;
             color: var(--color-foreground);
             text-decoration: underline dotted;
+            font-family: system-ui;
           }
   
           a:hover {

@@ -7,6 +7,7 @@ const sharedStyles = Frontend.Element.html`<style>
   [contenteditable="true"],
   label {
     display: inline-block;
+    font-family: system-ui;
     min-height: 100%;
     width: 100%;
     outline: 0;
