@@ -27,15 +27,15 @@ export default async function Inliner(request, messagesFolder) {
       message: `[framework/backend/inliner] Fetching messages for language "${request.language}"`,
       level: "debug",
       detail: {
-        url: `${messagesFolder}/${request.language}.json`,
-        messagesFolder
+        url: `${origin}${messagesFolder}/${request.language}.json`,
+        origin,
+        messagesFolder,
+        language: request.language
       }
     });
-    const response = await fetch(`${messagesFolder}/${request.language}.json`);
-
-    console.log(await response.text());
-
-    messages = await response.json();
+    messages = await (
+      await fetch(`${origin}${messagesFolder}/${request.language}.json`)
+    ).json();
     Shared.Log({
       message: `[framework/backend/inliner] Fetched messages for language "${request.language}"`,
       level: "debug"
