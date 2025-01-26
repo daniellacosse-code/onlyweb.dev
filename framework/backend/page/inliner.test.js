@@ -5,7 +5,9 @@ import Inliner from "/framework/backend/page/inliner.js";
 Deno.test("Inliner", async () => {
   const inliner = await Inliner({
     url: new URL("https://example.com"),
-    language: "en"
+    language: "en",
+  }, {
+    messagesFolder: ""
   });
 
   assertEquals(
