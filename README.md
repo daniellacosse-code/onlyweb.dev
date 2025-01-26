@@ -4,6 +4,7 @@
 
 ```bash
 brew bundle
+deno task setup
 deno task start
 ```
 

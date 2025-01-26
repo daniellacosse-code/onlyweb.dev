@@ -3,8 +3,6 @@
     "bierner.lit-html",
     "denoland.vscode-deno",
     "dt.ghlink",
-    "esbenp.prettier-vscode",
     "icanhasjonas.vscode-js-template-literal",
-    "pflannery.vscode-versionlens"
   ]
 }
