@@ -11,8 +11,7 @@ globalThis.$Frontend = {
   Element: {
     Register,
     html
-  },
-  test: true
+  }
 };
 
 export default globalThis.$Frontend;
