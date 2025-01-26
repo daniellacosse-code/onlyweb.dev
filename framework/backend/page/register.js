@@ -148,7 +148,7 @@ export default (route, options) => {
           detail: response
         });
 
-        const inliner = await Inliner(request, "", options.frameworkBranch);
+        const inliner = await Inliner(request, { messagesFolder: "", frameworkBranch: options.frameworkBranch });
         const pageResponse = PageResponse.html`
           <!DOCTYPE html>
           <html lang="${request.language}">
