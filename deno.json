@@ -1,8 +1,9 @@
 {
   "tasks": {
-    "start": "deno run --allow-net --allow-read=. --allow-run ./.tasks/start.js",
+    "bundle": "deno run --allow-read --allow-run --allow-write=bundles --allow-env ./.tasks/bundle.js",
     "commit": "bash ./.tasks/commit.sh",
-    "bundle": "deno run --allow-read=. --allow-run ./.tasks/bundle.js"
+    "setup": "deno run --allow-read --allow-write=.git/hooks ./.tasks/setup.js",
+    "start": "deno run --allow-net --allow-read=. --allow-run ./.tasks/start.js"
   },
   "imports": {
     "/": "./",
