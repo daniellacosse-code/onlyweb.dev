@@ -9,7 +9,7 @@ $Backend.Page.Register(route, {
   handleRequest: async (request) => {
     const inliner = await $Backend.Page.Inliner(
       request,
-      "/app/assets/messages"
+      { messagesFolder: "/app/assets/messages" }
     );
 
     const logoSrc =

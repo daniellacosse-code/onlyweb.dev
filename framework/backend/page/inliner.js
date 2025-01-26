@@ -15,14 +15,17 @@ import Shared from "../../shared/bundle.js";
 /**
  * Creates a context-aware inliner that can inline elements, messages, and metadata into an HTML document.
  * @param {PageRequest} request The request object.
- * @param {string} [messagesFolder] The path to the messages folder.
- * @param {string} [branch] The production branch to load framework bundles from.
+ * @param {object} config The inliner configuration.
+ * @param {string} config.messagesFolder The path to the messages folder.
+ * @param {string} [config.frameworkBranch] The production branch to load framework bundles from.
  * @returns {Promise<Inliner>} The inliner.
  */
 export default async function Inliner(
   request,
-  messagesFolder,
-  branch = "main"
+  { 
+    messagesFolder,
+    frameworkBranch = "main"
+  }
 ) {
   const origin = request.url.origin;
 
@@ -263,7 +266,7 @@ export default async function Inliner(
         } catch (e) {
           code = await (
             await fetch(
-              `https://raw.githubusercontent.com/daniellacosse-code/onlyweb.dev/refs/heads/${branch}/bundles/${encodeURIComponent(
+              `https://raw.githubusercontent.com/daniellacosse-code/onlyweb.dev/refs/heads/${frameworkBranch}/bundles/${encodeURIComponent(
                 bundleName
               )}.js`
             )
