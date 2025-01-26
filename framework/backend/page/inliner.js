@@ -251,7 +251,7 @@ export default async function Inliner(
       for (const bundleName of bundleNames) {
         let code;
         try {
-          code = $Shared.HTML.minify(
+          code = Shared.HTML.minify(
             (
               await bundle(
                 path.join(
