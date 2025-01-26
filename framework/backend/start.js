@@ -13,7 +13,7 @@ const resolveConfiguration = (configName) =>
  * @returns {void} Nothing is returned: the server is started.
  */
 export default ({ port = resolveConfiguration("ONLY_WEB_SERVER_PORT") } = {}) =>
-  Deno.serve({ port }, async (request) => {
+  Deno.serve({ hostname: "localhost", port }, async (request) => {
     const requestURL = new URL(request.url);
     const requestPath = requestURL.pathname.startsWith("/")
       ? requestURL.pathname
