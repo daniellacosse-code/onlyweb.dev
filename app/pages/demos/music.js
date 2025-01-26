@@ -1,4 +1,4 @@
-import "../../../framework/backend/bundle.js";
+import "../../../bundles/$Backend.js";
 
 $Backend.Page.Register("/demos/music", {
   handleRequest: () => {
@@ -459,7 +459,8 @@ $Backend.Page.Register("/demos/music", {
       </body>
     `;
   },
-  handleServiceWorker: () => $Backend.Page.Response.js`
+  handleServiceWorker: () =>
+    $Backend.Page.Response.js`
   self.addEventListener("install", (event) => {
     event.waitUntil(
       caches.open("/demos/music").then((cache) => {
@@ -482,5 +483,5 @@ $Backend.Page.Register("/demos/music", {
         return cachedResponse || fetchedResponse;
       });
     }));
-  });`
+  });`,
 });

@@ -1,4 +1,4 @@
-import "../framework/backend/bundle.js";
+import "../bundles/$Backend.js";
 
 import "/app/pages/favicon.js";
 import "/app/pages/robots.js";

@@ -7,10 +7,12 @@ let server, reloadInProgress, reloadSocket;
 startOrReloadAppServer();
 startLiveReloadServer();
 
-for await (const _ of Deno.watchFs([
-  `${Deno.cwd()}/app`,
-  `${Deno.cwd()}/framework`
-])) {
+for await (
+  const _ of Deno.watchFs([
+    `${Deno.cwd()}/app`,
+    `${Deno.cwd()}/framework`,
+  ])
+) {
   await startOrReloadAppServer();
 
   if (reloadInProgress) continue;
@@ -39,7 +41,7 @@ async function startOrReloadAppServer() {
   }
 
   const serverCommand = new Deno.Command("deno", {
-    args: ["run", "--allow-all", "app/default.js"]
+    args: ["run", "--allow-all", "app/default.js"],
   });
 
   try {
@@ -53,6 +55,7 @@ async function startOrReloadAppServer() {
 
 function startLiveReloadServer() {
   Deno.serve({
+    pathname: "localhost",
     port: LIVERELOAD_PORT,
     handler: (request) => {
       if (request.headers.get("upgrade") !== "websocket") {
@@ -64,6 +67,6 @@ function startLiveReloadServer() {
       reloadSocket = socket;
 
       return response;
-    }
+    },
   });
 }

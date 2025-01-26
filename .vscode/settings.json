@@ -1,7 +1,5 @@
 {
   "deno.enable": true,
-  "editor.defaultFormatter": "denoland.vscode-deno",
-  "editor.formatOnSave": true,
   "files.autoSave": "onFocusChange",
   "files.refactoring.autoSave": true,
   "search.exclude": {
@@ -11,5 +9,9 @@
   "workbench.colorCustomizations": {
     "statusBar.background": "#313335",
     "statusBar.foreground": "#FFFFFF"
+  },
+  "[javascript]": {
+    "editor.defaultFormatter": "denoland.vscode-deno",
+    "editor.formatOnSave": true
   }
 }

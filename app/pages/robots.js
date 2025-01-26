@@ -1,8 +1,9 @@
-import "../../framework/backend/bundle.js";
+import "../../bundles/$Backend.js";
 
 $Backend.Page.Register(
   "/robots.txt",
-  () => $Backend.Page.Response.text`
+  () =>
+    $Backend.Page.Response.text`
   User-agent: *
-  Allow: /`
+  Allow: /`,
 );

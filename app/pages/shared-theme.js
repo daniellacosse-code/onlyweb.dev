@@ -1,4 +1,4 @@
-import "../../framework/backend/bundle.js";
+import "../../bundles/$Backend.js";
 
 import * as constants from "/app/constants.js";
 
