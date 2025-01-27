@@ -2823,9 +2823,8 @@ const __default = ({ port = resolveConfiguration("ONLY_WEB_SERVER_PORT") } = {})
                 return globalThis.customPages.get(route)(request);
             }
         }
-        const absolutePath = resolve2(Deno.cwd(), `.${requestPath}`);
         try {
-            return serveFile(request, absolutePath);
+            return serveFile(request, resolve2(Deno.cwd(), `.${requestPath}`));
         } catch  {
             return new Response("Not Found", {
                 status: 404

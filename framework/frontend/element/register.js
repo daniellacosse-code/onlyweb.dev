@@ -4,6 +4,14 @@
 
 import html from "./html.js";
 
+// We refrain from importing the Shared library directly as that would
+// include it in the frontend bundle twice.
+/** @typedef {typeof import('../../shared/bundle.js').default} Shared */
+
+const $Shared =
+  /** @type {{ $Shared: Shared }} */ (/** @type {unknown} */ (globalThis))
+    .$Shared;
+
 /**
  * Registers a custom element with the global customElements map
  * @param {string} tag The tag of the element
