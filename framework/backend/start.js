@@ -27,23 +27,23 @@ export default ({ port = resolveConfiguration("ONLY_WEB_SERVER_PORT") } = {}) =>
 
     const absolutePath = resolve(Deno.cwd(), `.${requestPath}`);
 
-    if (requestPath.startsWith("/framework") && !existsSync(absolutePath)) {
-      const proxiedResponse = await fetch(
-        resolveConfiguration("ONLY_WEB_SOURCE") +
-          "/" +
-          resolveConfiguration("ONLY_WEB_SOURCE_BRANCH") +
-          requestPath
-      );
+    // if (requestPath.startsWith("/framework") && !existsSync(absolutePath)) {
+    //   const proxiedResponse = await fetch(
+    //     resolveConfiguration("ONLY_WEB_SOURCE") +
+    //       "/" +
+    //       resolveConfiguration("ONLY_WEB_SOURCE_BRANCH") +
+    //       requestPath
+    //   );
 
-      const headers = new Headers(proxiedResponse.headers);
+    //   const headers = new Headers(proxiedResponse.headers);
 
-      headers.set("content-type", "text/javascript; charset=utf-8");
+    //   headers.set("content-type", "text/javascript; charset=utf-8");
 
-      return new Response(proxiedResponse.body, {
-        status: proxiedResponse.status,
-        headers
-      });
-    }
+    //   return new Response(proxiedResponse.body, {
+    //     status: proxiedResponse.status,
+    //     headers
+    //   });
+    // }
 
     try {
       return serveFile(request, absolutePath);

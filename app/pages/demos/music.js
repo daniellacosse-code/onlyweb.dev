@@ -1,4 +1,4 @@
-import "../../../bundles/$Backend.js";
+import "https://raw.githubusercontent.com/daniellacosse-code/onlyweb.dev/bundles-cleanup/inject-globals/bundles/$Backend.js";
 
 $Backend.Page.Register("/demos/music", {
   handleRequest: () => {

@@ -96,10 +96,10 @@ This is abstract, so let's walk through a simple example to make things more con
 1. Start by registering the main **Page** we're going to serve from the backend:
 
 ```js
-import Backend from "https://raw.githubusercontent.com/daniellacosse-code/onlyweb.dev/main/framework/backend/module.js";
+import "https://raw.githubusercontent.com/daniellacosse-code/onlyweb.dev/main/bundles/$Backend.js";
 
-Backend.Page.Register("/", {
-  handleRequest: async (request) => Backend.Page.Response.html`
+$Backend.Page.Register("/", {
+  handleRequest: async (request) => $Backend.Page.Response.html`
     <body>
       <h1>Your search is: ${request.url.search}</h1>
     </body>
@@ -112,11 +112,11 @@ Backend.Page.Register("/", {
    Create an **Inliner** to add some:
 
 ```js
-Backend.Page.Register("/", {
+$Backend.Page.Register("/", {
   handleRequest: async (request) => {
-    const inliner = await Backend.Page.Inliner(request);
+    const inliner = await Backend.Page.Inliner(request, { messagesFolder: "" });
 
-    return Backend.Page.Response.html`
+    return $Backend.Page.Response.html`
       <head>
         ${inliner.metadata({
           title: "what's my search?",
@@ -134,14 +134,14 @@ Backend.Page.Register("/", {
 3. Our page only works in English. Provide the **Inliner** with [a folder of translations like this one](../app/assets/messages/) so we can support those languages:
 
 ```js
-Backend.Page.Register("/", {
+$Backend.Page.Register("/", {
   handleRequest: async (request) => {
     const inliner = await Backend.Page.Inliner(
       request,
-      "%path/to/messages/folder%"
+      { messagesFolder: "%path/to/messages/folder%" }
     );
 
-    return Backend.Page.Response.html`
+    return $Backend.Page.Response.html`
       <head>
         ${inliner.metadata({
           title: inliner.message("what's my search?"),
@@ -161,12 +161,10 @@ Backend.Page.Register("/", {
 4. We want to be able to easily copy our search string to the clipboard. We'll have to create a new frontend **Element** to do this. Here's that initial file. Note how we're now importing via the root path:
 
 ```js
-import Frontend from "/framework/frontend/module.js";
-
-Frontend.Element.Register("copy-code", {
+$Frontend.Element.Register("copy-code", {
   buildAttributes: { copied: Boolean, ["copy-message"]: String, code: String },
   // Note that the html template tag here is different than the Backends'
-  handleBuild: ({ code, copied, ["copy-message"]: copyMessage }) => Frontend
+  handleBuild: ({ code, copied, ["copy-message"]: copyMessage }) => $Frontend
     .Element.html`
     <style>
       div {
@@ -194,7 +192,7 @@ Frontend.Element.Register("copy-code", {
 5. The onlyweb framework simply wraps the existing Event API to handle I/O. To do the copy, listen for a click event on mount:
 
 ```js
-Frontend.Element.Register("copy-code", {
+$Frontend.Element.Register("copy-code", {
   buildAttributes: { copied: Boolean, ["copy-message"]: String, code: String },
   handleMount: () => {
     this.addEventListener("click", () => {
@@ -208,7 +206,7 @@ Frontend.Element.Register("copy-code", {
       this.buildAttributes.copied = true;
     });
   },
-  handleBuild: ({ code, copied, ["copy-message"]: copyMessage }) => Frontend
+  handleBuild: ({ code, copied, ["copy-message"]: copyMessage }) => $Frontend
     .Element.html`
     <style>
       div {
@@ -236,14 +234,14 @@ Frontend.Element.Register("copy-code", {
 6. Now to actually use our `<copy-code>` **Element** we must inline it into the **Page**. You do that like so:
 
 ```js
-Backend.Page.Register("/", {
+$Backend.Page.Register("/", {
   handleRequest: async (request) => {
     const inliner = await Backend.Page.Inliner(
       request,
-      "%path/to/messages/folder%"
+      { messagesFolder: "%path/to/messages/folder%" }
     );
 
-    return Backend.Page.Response.html`
+    return $Backend.Page.Response.html`
       <head>
         ${inliner.metadata({
           title: inliner.message("what's my search?"),
@@ -268,7 +266,7 @@ Backend.Page.Register("/", {
 7. HTML popovers aren't super supported yet, so let's indicate that in our pages' requirements:
 
 ```js
-Backend.Page.Register("/", {
+$Backend.Page.Register("/", {
   requirements: {
     engine: {
       Firefox: "125",
@@ -278,7 +276,7 @@ Backend.Page.Register("/", {
   handleRequest: async (request) => {
     const inliner = await Backend.Page.Inliner(
       request,
-      "%path/to/messages/folder%"
+      { messagesFolder: "%path/to/messages/folder%" }
     );
 
     return Backend.Page.Response.html`
@@ -306,11 +304,11 @@ Backend.Page.Register("/", {
 8. Finally, create a new file for your app's main entrypoint. Import your page and start the backend!
 
 ```js
-import Backend from "https://raw.githubusercontent.com/daniellacosse-code/onlyweb.dev/main/framework/backend/module.js";
+import "https://raw.githubusercontent.com/daniellacosse-code/onlyweb.dev/main/bundles/$Backend.js";
 
 import "%path/to/page.js%";
 
-Backend.start({ port: 8080 });
+$Backend.start();
 ```
 
 ### \[WIP\] full example
