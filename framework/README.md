@@ -154,7 +154,7 @@ $Backend.Page.Register("/", {
 });
 ```
 
-4. We want to be able to easily copy our search string to the clipboard. We'll have to create a new frontend **Element** to do this. Here's that initial file. Note how we're now importing via the root path:
+4. We want to be able to easily copy our search string to the clipboard. We'll have to create a new frontend **Element** to do this. Here's that initial file.
 
 ```js
 $Frontend.Element.Register("copy-code", {
