@@ -283,6 +283,7 @@
     "https://deno.land/x/emit@0.40.0/_utils.ts": "98412edc7aa29e77d592b54fbad00bdec1b05d0c25eb772a5f8edc9813e08d88",
     "https://deno.land/x/emit@0.40.0/emit.generated.js": "65621c730ae9e4e818a3f83913562101dc9a371befbdb44d81e09a1532af5089",
     "https://deno.land/x/emit@0.40.0/mod.ts": "04b1818a60d6f85ca991bc4369634ea55d51388c4154b0100dfbe3c9684e2318",
-    "https://raw.githubusercontent.com/daniellacosse-code/onlyweb.dev/bundles-cleanup/inject-globals/bundles/$Backend.js": "970fe81b2b696e5c1b33bda4bcc93a736b03dcf52649d9902330516cd41f587f"
+    "https://raw.githubusercontent.com/daniellacosse-code/onlyweb.dev/bundles-cleanup/inject-globals/bundles/$Backend.js": "970fe81b2b696e5c1b33bda4bcc93a736b03dcf52649d9902330516cd41f587f",
+    "https://raw.githubusercontent.com/daniellacosse-code/onlyweb.dev/main/bundles/$Backend.js": "75a3f2502c821e8d3945f4e2dc4a377098f0149220d86cee7ff0edf79b6544f5"
   }
 }
