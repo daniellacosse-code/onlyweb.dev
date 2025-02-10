@@ -1,4 +1,4 @@
-import "../../framework/backend/bundle.js";
+import "https://raw.githubusercontent.com/daniellacosse-code/onlyweb.dev/bundles-cleanup/inject-globals/bundles/$Backend.js";
 
 import * as constants from "/app/constants.js";
 import OnlyWebTheme from "/app/pages/shared-theme.js";
@@ -9,19 +9,17 @@ $Backend.Page.Register(route, {
   handleRequest: async (request) => {
     const inliner = await $Backend.Page.Inliner(
       request,
-      { messagesFolder: "/app/assets/messages" }
+      { messagesFolder: "/app/assets/messages" },
     );
 
-    const logoSrc =
-      (request.url.origin.match(/localhost/)
-        ? request.url.origin
-        : constants.KEYCDN_IMAGE_ZONE_URL) +
+    const logoSrc = (request.url.origin.match(/localhost/)
+      ? request.url.origin
+      : constants.KEYCDN_IMAGE_ZONE_URL) +
       "/app/assets/images/logo/black.svg";
 
-    const inverseLogoSrc =
-      (request.url.origin.match(/localhost/)
-        ? request.url.origin
-        : constants.KEYCDN_IMAGE_ZONE_URL) +
+    const inverseLogoSrc = (request.url.origin.match(/localhost/)
+      ? request.url.origin
+      : constants.KEYCDN_IMAGE_ZONE_URL) +
       "/app/assets/images/logo/white.svg";
 
     return $Backend.Page.Response.html`<head>
@@ -29,26 +27,30 @@ $Backend.Page.Register(route, {
       <meta name="viewport" content="width=device-width, initial-scale=1" />
       <link rel="manifest" href="/app/assets/manifest.json" />
 
-      ${inliner.metadata({
+      ${
+      inliner.metadata({
         title: "2",
         description: inliner.message(
-          "only web. only web. only web. only web. only web. only web. only web. only web. only web. only web. only web. only web"
+          "only web. only web. only web. only web. only web. only web. only web. only web. only web. only web. only web. only web",
         ),
         previewImage: "/app/assets/images/root-preview.png",
         iconImage: "/app/assets/images/logo/maskable.png",
         splashImage: "/app/assets/images/logo/splash.png",
-        url: "https://onlyweb.dev/"
-      })}
+        url: "https://onlyweb.dev/",
+      })
+    }
 
-      ${inliner.elements(
+      ${
+      inliner.elements(
         "/app/elements/core/loading/skeleton.js",
         "/app/elements/core/image.js",
         "/app/elements/core/link.js",
         "/app/elements/core/text.js",
         "/app/elements/core/input.js",
         "/app/elements/demo/frame.js",
-        "/app/elements/demo/link.js"
-      )}
+        "/app/elements/demo/link.js",
+      )
+    }
 
       <meta
         name="theme-color"
@@ -173,9 +175,11 @@ $Backend.Page.Register(route, {
       <nav id="sidebar">
         <header>
           <core-image class="__bootstrap-cls__" src="${logoSrc}" alt="logo" width="64px" height="64px"></core-image>
-          <core-text class="__bootstrap-cls__" type="title" style="font-weight: bold; font-size: 1.5rem;">${inliner.message(
-            "only web 2"
-          )}</core-text>
+          <core-text class="__bootstrap-cls__" type="title" style="font-weight: bold; font-size: 1.5rem;">${
+      inliner.message(
+        "only web 2",
+      )
+    }</core-text>
         </header>
         <div class="input-wrapper">
           <core-input id="search" type="search" label="Search..."></core-input>
@@ -305,7 +309,8 @@ $Backend.Page.Register(route, {
       </script>
     </body>`;
   },
-  handleServiceWorker: () => $Backend.Page.Response.js`
+  handleServiceWorker: () =>
+    $Backend.Page.Response.js`
       self.addEventListener("install", (event) => {
         event.waitUntil(
           caches.open("${route}").then((cache) => {
@@ -329,5 +334,5 @@ $Backend.Page.Register(route, {
             return cachedResponse || fetchedResponse;
           });
         }));
-      });`
+      });`,
 });

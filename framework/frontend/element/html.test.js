@@ -1,4 +1,4 @@
-import "../../shared/bundle.js";
+import Shared from "../../shared/bundle.js";
 
 import { assertEquals } from "https://deno.land/std@0.219.0/assert/assert_equals.ts";
 import html from "/framework/frontend/element/html.js";
@@ -6,7 +6,7 @@ import html from "/framework/frontend/element/html.js";
 globalThis.document = {
   createElement() {
     return new globalThis.HTMLElement();
-  }
+  },
 };
 
 globalThis.HTMLElement = class HTMLElement {
@@ -21,6 +21,8 @@ globalThis.HTMLElement = class HTMLElement {
 };
 
 globalThis.HTMLCollection = [];
+
+globalThis.$Shared = Shared;
 
 Deno.test("register", () => {
   assertEquals(html`<p>test</p>`.outerHTML, "<p>test</p>");

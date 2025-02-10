@@ -1,4 +1,4 @@
-import "../../shared/bundle.js";
+import Shared from "../../shared/bundle.js";
 
 import { assertEquals } from "https://deno.land/std@0.219.0/assert/assert_equals.ts";
 import register from "/framework/frontend/element/register.js";
@@ -10,7 +10,7 @@ globalThis.customElements = {
   },
   get(tag) {
     return globalThis.customElements[tag];
-  }
+  },
 };
 
 globalThis.HTMLElement = class HTMLElement {
@@ -24,8 +24,10 @@ globalThis.HTMLElement = class HTMLElement {
 globalThis.document = {
   createElement() {
     return new globalThis.HTMLElement();
-  }
+  },
 };
+
+globalThis.$Shared = Shared;
 
 Deno.test("element - register", async () => {
   await register("my-element", { handleBuild: () => {} });
@@ -33,7 +35,7 @@ Deno.test("element - register", async () => {
   assertEquals(Boolean(globalThis.customElements.get("my-element")), true);
   assertEquals(
     new globalThis.customElements["my-element"]() instanceof HTMLElement,
-    true
+    true,
   );
 });
 
@@ -43,7 +45,7 @@ Deno.test("element - function register", async () => {
   assertEquals(Boolean(globalThis.customElements.get("my-element")), true);
   assertEquals(
     new globalThis.customElements["my-element"]() instanceof HTMLElement,
-    true
+    true,
   );
 });
 
@@ -54,6 +56,6 @@ Deno.test("element - addEventListener", async () => {
 
   assertEquals(
     element.addEventListener("click", () => {}),
-    undefined
+    undefined,
   );
 });

@@ -1,4 +1,4 @@
-import "../../framework/backend/bundle.js";
+import "https://raw.githubusercontent.com/daniellacosse-code/onlyweb.dev/bundles-cleanup/inject-globals/bundles/$Backend.js";
 
 import * as constants from "/app/constants.js";
 

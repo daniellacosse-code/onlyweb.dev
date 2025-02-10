@@ -24,15 +24,24 @@ import html from "./html.js";
  * @returns {void} Nothing is returned: the element is registered in the global customElements map
  */
 export default (tag, options) => {
-  if (globalThis.customElements.get(tag))
+  // We refrain from importing the Shared library directly as that would
+  // include it in the frontend bundle twice.
+  /** @typedef {typeof import('../../shared/bundle.js').default} Shared */
+
+  const $Shared =
+    /** @type {{ $Shared: Shared }} */ (/** @type {unknown} */ (globalThis))
+      .$Shared;
+
+  if (globalThis.customElements.get(tag)) {
     return $Shared.Log({
       message: `Element ${tag} already registered.`,
-      level: "warn"
+      level: "warn",
     });
+  }
 
   if (typeof options === "function") {
     options = {
-      handleBuild: options
+      handleBuild: options,
     };
   }
 
@@ -40,7 +49,7 @@ export default (tag, options) => {
     buildAttributes = {},
     handleBuild,
     handleMount = () => {},
-    handleDismount = () => {}
+    handleDismount = () => {},
   } = options;
 
   globalThis.customElements.define(
@@ -77,23 +86,23 @@ export default (tag, options) => {
             get: (_, name) =>
               this.#RESOLVE_ATTRIBUTE(
                 String(name),
-                this.getAttribute(String(name))
+                this.getAttribute(String(name)),
               ),
             set: (_, name, value) => {
               this.setAttribute(
                 String(name),
-                this.#RESOLVE_ATTRIBUTE(String(name), value)
+                this.#RESOLVE_ATTRIBUTE(String(name), value),
               );
               return true;
-            }
-          }
+            },
+          },
         );
       }
 
       connectedCallback() {
         $Shared.Log({
           message: `[framework/frontend/element] <${tag}> mounted`,
-          level: "debug"
+          level: "debug",
         });
 
         this.#buildTemplate();
@@ -111,7 +120,7 @@ export default (tag, options) => {
         $Shared.Log({
           message: `[framework/frontend/element] <${tag}> attributes changed`,
           detail: { name, oldValue, newValue },
-          level: "debug"
+          level: "debug",
         });
 
         this.#buildTemplate();
@@ -120,7 +129,7 @@ export default (tag, options) => {
       disconnectedCallback() {
         $Shared.Log({
           message: `[framework/frontend/element] <${tag}> dismounted`,
-          level: "debug"
+          level: "debug",
         });
 
         this.#handleDismount(this.buildAttributes ?? {});
@@ -130,14 +139,23 @@ export default (tag, options) => {
 
       /**
        * @override
-       * @param {keyof ElementEventMap} eventType
-       * @param {(event: Event) => void} listener
-       * @param {AddEventListenerOptions} options
+       * @param {string | keyof HTMLElementEventMap} [eventType]
+       * @param {EventListenerOrEventListenerObject} [listener]
+       * @param {AddEventListenerOptions} [options]
        */
       addEventListener(eventType, listener, options) {
+        if (!eventType) {
+          return;
+        }
+
+        if (!listener || typeof listener !== "function") {
+          return;
+        }
+
         $Shared.Log({
-          message: `[framework/frontend/element] <${tag}> listener added for "${eventType}" event`,
-          level: "debug"
+          message:
+            `[framework/frontend/element] <${tag}> listener added for "${eventType}" event`,
+          level: "debug",
         });
 
         super.addEventListener(
@@ -153,21 +171,24 @@ export default (tag, options) => {
                 .composedPath()
                 .find((target) =>
                   /** @type {HTMLElement} */ (target).getAttribute?.("id")
-                )
+                ),
             });
 
-            let message = `[framework/frontend/element] <${tag}> listener for "${eventType}"`;
+            let message =
+              `[framework/frontend/element] <${tag}> listener for "${eventType}"`;
 
             const element = /** @type {HTMLElement} */ (event.target);
 
-            if (event.target)
-              message += ` triggered by internal <${element.tagName.toLocaleLowerCase()}>`;
+            if (event.target) {
+              message +=
+                ` triggered by internal <${element.tagName.toLocaleLowerCase()}>`;
+            }
 
             $Shared.Log({ message, detail: { event }, level: "debug" });
 
             return listener(event);
           },
-          { signal: this.#eventController.signal, ...options }
+          { signal: this.#eventController.signal, ...options },
         );
       }
 
@@ -187,20 +208,22 @@ export default (tag, options) => {
       #buildTemplate() {
         if (!this.template) {
           $Shared.Log({
-            message: `[framework/frontend/element#UPDATE_TEMPLATE] <${tag}> template not yet initialized, skipping update`,
-            level: "debug"
+            message:
+              `[framework/frontend/element#UPDATE_TEMPLATE] <${tag}> template not yet initialized, skipping update`,
+            level: "debug",
           });
           return;
         }
 
         $Shared.Log({
-          message: `[framework/frontend/element#UPDATE_TEMPLATE] updating template for <${tag}>`,
-          level: "debug"
+          message:
+            `[framework/frontend/element#UPDATE_TEMPLATE] updating template for <${tag}>`,
+          level: "debug",
         });
 
         const templateResult =
           this.#handleTemplateBuild(this.buildAttributes ?? {}) ??
-          html`<slot></slot>`;
+            html`<slot></slot>`;
         const templateWrapper = html`<template>
           <style>
             *:not(slot) {
@@ -225,8 +248,9 @@ export default (tag, options) => {
 
         if (!newTemplateNode) {
           $Shared.Log({
-            message: `[framework/frontend/element#UPDATE_TEMPLATE] <${tag}> template missing <template> tag, cannot update template`,
-            level: "warn"
+            message:
+              `[framework/frontend/element#UPDATE_TEMPLATE] <${tag}> template missing <template> tag, cannot update template`,
+            level: "warn",
           });
           return;
         }
@@ -234,8 +258,9 @@ export default (tag, options) => {
         this.template.append(newTemplateNode.content.cloneNode(true));
 
         $Shared.Log({
-          message: `[framework/frontend/element#UPDATE_TEMPLATE] <${tag}> template updated`,
-          level: "debug"
+          message:
+            `[framework/frontend/element#UPDATE_TEMPLATE] <${tag}> template updated`,
+          level: "debug",
         });
       }
 
@@ -266,6 +291,6 @@ export default (tag, options) => {
             return Boolean(value);
         }
       }
-    }
+    },
   );
 };

@@ -6,7 +6,11 @@ import Inliner from "./page/inliner.js";
 import Register from "./page/register.js";
 import Response from "./page/response.js";
 
-globalThis.$Backend = {
+/**
+ * A module containing the backend-specific aspects of the framework.
+ * @module Backend
+ */
+export default {
   ...CONSTANTS,
   start,
   Page: {
@@ -15,9 +19,3 @@ globalThis.$Backend = {
     Response
   }
 };
-
-/**
- * A module containing the backend-specific aspects of the framework.
- * @module Backend
- */
-export default globalThis.$Backend;

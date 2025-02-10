@@ -1,4 +1,3 @@
-import { existsSync } from "https://deno.land/std@0.224.0/fs/exists.ts";
 import { resolve } from "https://deno.land/std@0.216.0/path/mod.ts";
 import { serveFile } from "https://deno.land/std@0.140.0/http/file_server.ts";
 
@@ -25,28 +24,8 @@ export default ({ port = resolveConfiguration("ONLY_WEB_SERVER_PORT") } = {}) =>
       }
     }
 
-    const absolutePath = resolve(Deno.cwd(), `.${requestPath}`);
-
-    if (requestPath.startsWith("/framework") && !existsSync(absolutePath)) {
-      const proxiedResponse = await fetch(
-        resolveConfiguration("ONLY_WEB_SOURCE") +
-          "/" +
-          resolveConfiguration("ONLY_WEB_SOURCE_BRANCH") +
-          requestPath
-      );
-
-      const headers = new Headers(proxiedResponse.headers);
-
-      headers.set("content-type", "text/javascript; charset=utf-8");
-
-      return new Response(proxiedResponse.body, {
-        status: proxiedResponse.status,
-        headers
-      });
-    }
-
     try {
-      return serveFile(request, absolutePath);
+      return serveFile(request, resolve(Deno.cwd(), `.${requestPath}`));
     } catch {
       return new Response("Not Found", { status: 404 });
     }

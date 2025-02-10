@@ -1,15 +1,16 @@
-import "../../framework/backend/bundle.js";
+import "https://raw.githubusercontent.com/daniellacosse-code/onlyweb.dev/bundles-cleanup/inject-globals/bundles/$Backend.js";
 
 import * as constants from "/app/constants.js";
 import OnlyWebTheme from "/app/pages/shared-theme.js";
 
 $Backend.Page.Register("/__gallery__", async (request) => {
-  const inliner = await $Backend.Page.Inliner(request, { messagesFolder: "/app/assets/messages" });
+  const inliner = await $Backend.Page.Inliner(request, {
+    messagesFolder: "/app/assets/messages",
+  });
 
-  const logoSrc =
-    (request.url.origin.match(/localhost/)
-      ? request.url.origin
-      : constants.KEYCDN_IMAGE_ZONE_URL) +
+  const logoSrc = (request.url.origin.match(/localhost/)
+    ? request.url.origin
+    : constants.KEYCDN_IMAGE_ZONE_URL) +
     "/app/assets/images/logo/maskable.png";
 
   return $Backend.Page.Response.html`<head>
@@ -18,10 +19,12 @@ $Backend.Page.Register("/__gallery__", async (request) => {
     <link rel="manifest" href="/app/assets/manifest.json" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
 
-    ${inliner.metadata({
+    ${
+    inliner.metadata({
       title: "OnlyWeb Component Gallery",
-      description: "A gallery of the onlyweb components"
-    })}
+      description: "A gallery of the onlyweb components",
+    })
+  }
 
     <meta
       name="theme-color"
@@ -72,15 +75,17 @@ $Backend.Page.Register("/__gallery__", async (request) => {
       }
     </style>
 
-    ${inliner.elements(
+    ${
+    inliner.elements(
       "/app/elements/core/loading/skeleton.js",
       "/app/elements/core/button.js",
       "/app/elements/core/image.js",
       "/app/elements/core/input.js",
       "/app/elements/core/link.js",
       "/app/elements/core/text.js",
-      "/app/elements/gallery/counter-demo.js"
-    )}
+      "/app/elements/gallery/counter-demo.js",
+    )
+  }
   </head>
   <body>
     <h1>the onlyweb custom element gallery</h1>
