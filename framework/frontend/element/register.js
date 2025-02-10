@@ -139,11 +139,19 @@ export default (tag, options) => {
 
       /**
        * @override
-       * @param {keyof ElementEventMap} eventType
-       * @param {(event: Event) => void} listener
-       * @param {AddEventListenerOptions} options
+       * @param {string | keyof HTMLElementEventMap} [eventType]
+       * @param {EventListenerOrEventListenerObject} [listener]
+       * @param {AddEventListenerOptions} [options]
        */
       addEventListener(eventType, listener, options) {
+        if (!eventType) {
+          return;
+        }
+
+        if (!listener || typeof listener !== "function") {
+          return;
+        }
+
         $Shared.Log({
           message:
             `[framework/frontend/element] <${tag}> listener added for "${eventType}" event`,
