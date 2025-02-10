@@ -2,14 +2,6 @@
 /// <reference lib="dom" />
 /// <reference lib="dom.iterable" />
 
-// We refrain from importing the Shared library directly as that would
-// include it in the frontend bundle twice.
-/** @typedef {typeof import('../../shared/bundle.js').default} Shared */
-
-const $Shared =
-  /** @type {{ $Shared: Shared }} */ (/** @type {unknown} */ (globalThis))
-    .$Shared;
-
 /**
  * A utility for creating a templateable HTMLCollection
  * @param {TemplateStringsArray} template The template
@@ -17,6 +9,14 @@ const $Shared =
  * @returns {HTMLCollection} The compiled HTMLCollection
  */
 export default (template, ...insertions) => {
+  // We refrain from importing the Shared library directly as that would
+  // include it in the frontend bundle twice.
+  /** @typedef {typeof import('../../shared/bundle.js').default} Shared */
+
+  const $Shared =
+    /** @type {{ $Shared: Shared }} */ (/** @type {unknown} */ (globalThis))
+      .$Shared;
+
   const wrapper = globalThis.document.createElement("div");
 
   wrapper.innerHTML = $Shared.handleTemplate({

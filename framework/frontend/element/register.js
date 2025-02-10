@@ -4,14 +4,6 @@
 
 import html from "./html.js";
 
-// We refrain from importing the Shared library directly as that would
-// include it in the frontend bundle twice.
-/** @typedef {typeof import('../../shared/bundle.js').default} Shared */
-
-const $Shared =
-  /** @type {{ $Shared: Shared }} */ (/** @type {unknown} */ (globalThis))
-    .$Shared;
-
 /**
  * Registers a custom element with the global customElements map
  * @param {string} tag The tag of the element
@@ -32,6 +24,14 @@ const $Shared =
  * @returns {void} Nothing is returned: the element is registered in the global customElements map
  */
 export default (tag, options) => {
+  // We refrain from importing the Shared library directly as that would
+  // include it in the frontend bundle twice.
+  /** @typedef {typeof import('../../shared/bundle.js').default} Shared */
+
+  const $Shared =
+    /** @type {{ $Shared: Shared }} */ (/** @type {unknown} */ (globalThis))
+      .$Shared;
+
   if (globalThis.customElements.get(tag)) {
     return $Shared.Log({
       message: `Element ${tag} already registered.`,
