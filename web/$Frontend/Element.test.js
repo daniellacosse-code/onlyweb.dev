@@ -1,7 +1,7 @@
-import Shared from "../../shared/module.js";
+import Shared from "../$Shared/module.js";
 
 import { assertEquals } from "https://deno.land/std@0.219.0/assert/assert_equals.ts";
-import register from "./register.js";
+import register from "./Element.js";
 
 // HTML Element mocks
 globalThis.customElements = {
@@ -58,4 +58,29 @@ Deno.test("element - addEventListener", async () => {
     element.addEventListener("click", () => {}),
     undefined,
   );
+});
+
+globalThis.document = {
+  createElement() {
+    return new globalThis.HTMLElement();
+  },
+};
+
+globalThis.HTMLElement = class HTMLElement {
+  constructor() {
+    this.outerHTML = "";
+    this.children = this;
+  }
+
+  set innerHTML(innerHTML) {
+    this.outerHTML = innerHTML;
+  }
+};
+
+globalThis.HTMLCollection = [];
+
+globalThis.$Shared = Shared;
+
+Deno.test("register", () => {
+  assertEquals(html`<p>test</p>`.outerHTML, "<p>test</p>");
 });

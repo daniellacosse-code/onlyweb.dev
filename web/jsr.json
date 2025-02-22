@@ -1,0 +1,6 @@
+{
+  "exports": "./main.js",
+  "license": "MIT",
+  "name": "@lonly/web",
+  "version": "0.0.1-alpha.0"
+}

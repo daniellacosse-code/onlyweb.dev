@@ -1,6 +1,45 @@
 import { assertEquals } from "https://deno.land/std@0.219.0/assert/assert_equals.ts";
+import register from "./Page.js";
 
-import Inliner from "./inliner.js";
+Deno.test("register", async () => {
+  await register("/", {
+    handleRequest: () => new Response(),
+    handleServiceWorker: () => new Response(),
+  });
+
+  assertEquals(Boolean(globalThis.customPages.get("/")), true);
+  assertEquals(
+    Boolean(globalThis.customPages.get("/")(new Request("localhost:8000"))),
+    true,
+  );
+  assertEquals(
+    Boolean(
+      globalThis.customPages.get("/")(new Request("localhost:8000/?service")),
+    ),
+    true,
+  );
+});
+
+Deno.test("function register", async () => {
+  await register("/", () => new Response());
+
+  assertEquals(Boolean(globalThis.customPages.get("/")), true);
+  assertEquals(
+    Boolean(globalThis.customPages.get("/")(new Request("localhost:8000"))),
+    true,
+  );
+  assertEquals(
+    Boolean(
+      globalThis.customPages.get("/")(new Request("localhost:8000/?service")),
+    ),
+    true,
+  );
+});
+
+Deno.test("Response", () => {
+  assertEquals(Response.html`<p>test</p>`.content, "<p>test</p>");
+  assertEquals(Response.js`console.log("test")`.content, 'console.log("test")');
+});
 
 Deno.test("Inliner", async () => {
   const inliner = await Inliner({

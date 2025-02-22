@@ -1,8 +1,6 @@
-# @lonly/web ✨👁✨
+# lonly
 
-![status](https://badgen.net/badge/status/pre-alpha/red/) [![codecov](https://codecov.io/gh/daniellacosse-code/onlyweb.dev/graph/badge.svg?token=MQP3VXXJ0A)](https://codecov.io/gh/daniellacosse-code/onlyweb.dev) [![Maintainability](https://api.codeclimate.com/v1/badges/9bc1ec955cd47c99b9ad/maintainability)](https://codeclimate.com/github/daniellacosse-code/onlyweb.dev/maintainability)
-
-https://github.com/daniellacosse-code/onlyweb.dev/assets/3759828/cd94622b-aedb-4831-bb52-9f6b3974b7cb
+![status](https://badgen.net/badge/status/alpha/red/) [![codecov](https://codecov.io/gh/daniellacosse-code/lonly/graph/badge.svg?token=MQP3VXXJ0A)](https://codecov.io/gh/daniellacosse-code/lonly) [![Maintainability](https://api.codeclimate.com/v1/badges/9bc1ec955cd47c99b9ad/maintainability)](https://codeclimate.com/github/daniellacosse-code/lonly/maintainability)
 
 ## overview
 
@@ -44,269 +42,204 @@ minifyLargeString            144.68 µs/iter       6,911.7 (138.29 µs … 441.8
 parseUserAgent               524.01 ns/iter   1,908,352.7 (513.68 ns … 555.03 ns) 525.63 ns 544.58 ns 555.03 ns
 ```
 
-## concepts
-
-```mermaid
-block-beta
-  block
-    columns 2
-    backend:2
-    page:2
-    responses
-    inliner
-  end
-  block
-    columns 2
-    frontend:2
-    element:2
-    attributes
-    build
-  end
-```
-
-The **onlyweb framework** is split into two main environments: the backend and the frontend. These environments have similar, complementary APIs that are designed to work together.
-
-### backend
-
-The backend server serves content via Deno. Key concepts:
-
-1. **Page**: encapsulates a set of possible responses to an endpoint and selects one based on context. The **Page** also manages the **Inliner**.
-2. **Response**: an object that represents how the Deno HTTP web server will respond to a given Request. [Learn more about HTTP here.](https://developer.mozilla.org/en-US/docs/Web/HTTP)
-3. **Inliner**: _inlines_ content into a **Response**, building the static content you wish to respond with just in time.
-
-### frontend
-
-The frontend renders content in the browser via WebComponents. Key concepts:
-
-1. **Element**: an HTML tag representing some meaningful section or component of your application. Each custom **Element** is basically like a little, nested website. [Learn more about HTML Elements here](https://developer.mozilla.org/en-US/docs/Web/HTML/Element).
-2. **Attribute**: a property of an **Element** that can be set and read. Attributes are used to pass data to **Elements**. [Learn more about HTML Attributes here](https://developer.mozilla.org/en-US/docs/Web/HTML/Attributes).
-3. **Build**: the process of creating an **Element** from a set of **Attributes**. This is where you define the structure of your **Element**.
-
-This is abstract, so let's walk through a simple example to make things more concrete.
-
-> [!TIP]
-> When in doubt, everything in the framework has JSDoc annotations - just look at the source!
-
-### basic tutorial
-
-1. Start by registering the main **Page** we're going to serve from the backend:
+### tutorial outline
 
 ```js
-import "https://raw.githubusercontent.com/daniellacosse-code/onlyweb.dev/main/bundles/$Backend.js";
+import "jsr:@lonly/web";
 
-$Backend.Page.Register("/", {
-  handleRequest: async (request) => $Backend.Page.Response.html`
-    <body>
-      <h1>Your search is: ${request.url.search}</h1>
-    </body>
-  `;
+class MainPage extends $Backend.Page {
+  path = "/"
+  render({ request: { url } }) {
+    return this.html`<h1>Your search is: ${url.search}</h1>`;
   }
-);
+}
 ```
 
-2. The default response has no metadata, so external sites won't know how to display it.
-   Create an **Inliner** to add some:
-
 ```js
-$Backend.Page.Register("/", {
-  handleRequest: async (request) => {
-    const inliner = await Backend.Page.Inliner(request, { messagesFolder: "" });
+import "jsr:@lonly/web";
 
-    return $Backend.Page.Response.html`
+class MainPage extends $Backend.Page {
+  path = "/"
+  render({ request: { url }, _: { meta } }) {
+    return this.html`
       <head>
-        ${inliner.metadata({
+        ${meta({
           title: "what's my search?",
           description: "a simple page that shows the search query"
         })}
       </head>
       <body>
-        <h1>Your search is: ${request.url.search}</h1>
+        <h1>Your search is: ${url.search}</h1>
       </body>
     `;
   }
-});
+}
 ```
 
-3. Our page only works in English. Provide the **Inliner** with [a folder of translations like this one](../app/assets/messages/) so we can support those languages:
-
 ```js
-$Backend.Page.Register("/", {
-  handleRequest: async (request) => {
-    const inliner = await Backend.Page.Inliner(
-      request,
-      { messagesFolder: "%path/to/messages/folder%" }
-    );
+import "jsr:@lonly/web";
 
-    return $Backend.Page.Response.html`
+import messages from "%path/to/messages%" with { type: "json" };
+
+class MainPage extends $Backend.Page {
+  path = "/"
+  resources = { messages }
+  render({ request: { url }, _: { meta, msg } }) {
+    return this.html`
       <head>
-        ${inliner.metadata({
-          title: inliner.message("what's my search?"),
-          description: inliner.message(
+        ${meta({
+          title: msg("what's my search?"),
+          description: msg(
             "a simple page that shows the search query"
           )
         })}
       </head>
       <body>
-        <h1>${inliner.message("Your search is:")} ${request.url.search}</h1>
+        <h1>${msg("Your search is:")} ${url.search}</h1>
       </body>
     `;
   }
-});
+}
 ```
 
-4. We want to be able to easily copy our search string to the clipboard. We'll have to create a new frontend **Element** to do this. Here's that initial file.
-
 ```js
-$Frontend.Element.Register("copy-code", {
-  buildAttributes: { copied: Boolean, ["copy-message"]: String, code: String },
-  // Note that the html template tag here is different than the Backends'
-  handleBuild: ({ code, copied, ["copy-message"]: copyMessage }) => $Frontend
-    .Element.html`
-    <style>
-      div {
-        display: relative;
-      }
-      code {
-        font-family: monospace;
-        font-size: 1rem;
-        text-overflow: ellipsis;
-      }
-      div[popover] {
-        display: absolute;
-        top: 0;
-        left: 0;
-      }
-    </style>
-    <div>
-      <code>${code}</code>
-      <div popover>${copyMessage}</div>
-    </div>
-  `
-});
-```
+class CopyElement extends $Frontend.Element {
+  tag = "copy-code"
+  attributes = {
+    code: String,
+    ["copy-message"]: String
+  }
 
-5. The onlyweb framework simply wraps the existing Event API to handle I/O. To do the copy, listen for a click event on mount:
-
-```js
-$Frontend.Element.Register("copy-code", {
-  buildAttributes: { copied: Boolean, ["copy-message"]: String, code: String },
-  handleMount: () => {
-    this.addEventListener("click", () => {
-      if (this.buildAttributes.copied) {
-        return;
-      }
-
-      globalThis.navigator.clipboard.writeText(this.buildAttributes.code);
-
-      this.querySelector("div[popover]").togglePopover();
-      this.buildAttributes.copied = true;
-    });
-  },
-  handleBuild: ({ code, copied, ["copy-message"]: copyMessage }) => $Frontend
-    .Element.html`
-    <style>
-      div {
-        display: relative;
-      }
-      code {
-        font-family: monospace;
-        font-size: 1rem;
-        text-overflow: ellipsis;
-      }
-      div[popover] {
-        display: absolute;
-        top: 0;
-        left: 0;
-      }
-    </style>
-    <div>
-      <code>${code}</code>
-      <div popover>${copyMessage}</div>
-    </div>
-  `
-});
-```
-
-6. Now to actually use our `<copy-code>` **Element** we must inline it into the **Page**. You do that like so:
-
-```js
-$Backend.Page.Register("/", {
-  handleRequest: async (request) => {
-    const inliner = await Backend.Page.Inliner(
-      request,
-      { messagesFolder: "%path/to/messages/folder%" }
-    );
-
-    return $Backend.Page.Response.html`
-      <head>
-        ${inliner.metadata({
-          title: inliner.message("what's my search?"),
-          description: inliner.message(
-            "a simple page that shows the search query"
-          )
-        })}
-        ${inliner.elements("%path/to/element/copy-code.js%")}
-      </head>
-      <body>
-        <h1>${inliner.message("Your search is:")} ${request.url.search}</h1>
-
-        <copy-code code="${request.url.search}" copy-message="${inliner.message(
-      "Copied!"
-    )}"></copy-code>
-      </body>
+  render({ attributes: { code, ["copy-message"]: message } }) {
+    return this.html`
+      <style>
+        div {
+          display: relative;
+        }
+        code {
+          font-family: monospace;
+          font-size: 1rem;
+          text-overflow: ellipsis;
+        }
+        div[popover] {
+          display: absolute;
+          top: 0;
+          left: 0;
+        }
+      </style>
+      <div>
+        <code>${code}</code>
+        <div popover>${message}</div>
+      </div>
     `;
   }
-});
+}
 ```
 
-7. HTML popovers aren't super supported yet, so let's indicate that in our pages' requirements:
-
 ```js
-$Backend.Page.Register("/", {
-  requirements: {
+class CopyElement extends $Frontend.Element {
+  tag = "copy-code"
+  attributes = {
+    code: String,
+    copied: Boolean,
+    ["copy-message"]: String
+  }
+
+  elements = {
+    popover: "div[popover]"
+  }
+
+  requirements = {
     engine: {
       Firefox: "125",
       Safari: "17.0"
     }
-  },
-  handleRequest: async (request) => {
-    const inliner = await Backend.Page.Inliner(
-      request,
-      { messagesFolder: "%path/to/messages/folder%" }
-    );
+  }
 
-    return Backend.Page.Response.html`
-      <head>
-        ${inliner.metadata({
-          title: inliner.message("what's my search?"),
-          description: inliner.message(
+  click({
+    attributes: { code, copied },
+    elements: { popover }
+  }) {
+    if (copied) return;
+
+    navigator.clipboard.writeText(code);
+
+    popover.togglePopover();
+
+    return { attributes: { copied: true } };
+  }
+
+  render({ attributes: { code, ['copy-message']: message } }) {
+    return this.html`
+      <style>
+        div {
+          display: relative;
+        }
+        code {
+          font-family: monospace;
+          font-size: 1rem;
+          text-overflow: ellipsis;
+        }
+        div[popover] {
+          display: absolute;
+          top: 0;
+          left: 0;
+        }
+      </style>
+      <div>
+        <code>${code}</code>
+        <div popover>${message}</div>
+      </div>
+    `;
+  }
+}
+```
+
+```js
+import "jsr:@lonly/web";
+
+import messages from "%path/to/messages%" with { type: "json" };
+
+import { CopyElement } from "%path/to/copy-code%";
+
+class MainPage extends $Backend.Page {
+  path = "/"
+  resources = {
+    messages,
+    elements: { CopyElement }
+  }
+  render({ request: { url }, _: { meta, msg } }) {
+    return this.html`
+       <head>
+        ${meta({
+          title: msg("what's my search?"),
+          description: msg(
             "a simple page that shows the search query"
           )
         })}
-        ${inliner.elements("%path/to/element/copy-code.js%")}
       </head>
       <body>
-        <h1>${inliner.message("Your search is:")} ${request.url.search}</h1>
-
-        <copy-code code="${request.url.search}" copy-message="${inliner.message(
-      "Copied!"
-    )}"></copy-code>
+        <h1>${msg("Your search is:")} ${url.search}</h1>
+        <copy-code
+          code="${url.search}"
+          copy-message="${msg("Copied!")}">
+        </copy-code>
       </body>
     `;
   }
-});
+}
 ```
-
-8. Finally, create a new file for your app's main entrypoint. Import your page and start the backend!
 
 ```js
-import "https://raw.githubusercontent.com/daniellacosse-code/onlyweb.dev/main/bundles/$Backend.js";
+import { start } from "jsr:@lonly/web";
 
-import "%path/to/page.js%";
+class MainPage extends $Backend.Page {
+  /* ... */
+}
 
-$Backend.start();
+start({ MainPage });
 ```
 
-### \[WIP\] full example
+### \[WIP\] examples
 
-See the [onlyweb.dev application source](../app/) for a full example!
+See the [.examples](./.examples) folder.

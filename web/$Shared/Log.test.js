@@ -1,6 +1,6 @@
 import { assertEquals } from "https://deno.land/std@0.219.0/assert/assert_equals.ts";
 
-import Log, { LogError } from "./log.js";
+import Log, { LogError } from "./Log.js";
 
 Deno.test("Log", () => {
   const _console = {
@@ -10,10 +10,10 @@ Deno.test("Log", () => {
         JSON.stringify({
           o: new Date().toISOString(),
           l: 1,
-          m: "Hello, world!"
-        })
+          m: "Hello, world!",
+        }),
       );
-    }
+    },
   };
   Log({ message: "Hello, world!", _console });
 });
@@ -27,10 +27,10 @@ Deno.test("LogError", () => {
           o: new Date().toISOString(),
           l: 4,
           m: "Something went wrong",
-          d: "{}"
-        })
+          d: "{}",
+        }),
       );
-    }
+    },
   };
   LogError(new Error("Something went wrong"), _console);
 });

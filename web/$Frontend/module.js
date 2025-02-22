@@ -1,15 +1,11 @@
 import requirements from "./requirements.js";
-import html from "./element/html.js";
-import Register from "./element/register.js";
+import Element from "./Element.js";
 
 /**
  * A module containing the frontend-specific aspects of the framework.
  * @module Frontend
  */
 export default {
+  Element,
   requirements,
-  Element: {
-    Register,
-    html
-  }
 };
