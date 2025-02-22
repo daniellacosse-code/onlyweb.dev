@@ -1,5 +1,5 @@
 // @ts-check
-import Shared from "../../shared/bundle.js";
+import Shared from "../../shared/module.js";
 /**
  * A utility for creating a templateable response with a specific mimetype
  * @param {string} [mimetype] The mimetype
@@ -17,9 +17,10 @@ const _Response = (mimetype = "text/html") => {
     constructor(body, init = undefined) {
       super(body, init);
       Shared.Log({
-        message: `[framework/backend/response] Constructed a response with mimetype "${mimetype}"`,
+        message:
+          `[framework/backend/response] Constructed a response with mimetype "${mimetype}"`,
         detail: { body },
-        level: "debug"
+        level: "debug",
       });
 
       this.#content = body;
@@ -78,8 +79,8 @@ const _Response = (mimetype = "text/html") => {
           }
 
           return result.join("");
-        }
-      })
+        },
+      }),
     );
 };
 

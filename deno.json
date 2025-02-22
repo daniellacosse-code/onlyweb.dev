@@ -1,12 +1,12 @@
 {
+  "imports": {
+    "./": "./",
+    "/": "./"
+  },
   "tasks": {
     "bundle": "deno run --allow-read --allow-run --allow-write=bundles --allow-write=output --allow-env ./.tasks/bundle.js",
     "commit": "bash ./.tasks/commit.sh",
     "setup": "deno run --allow-read --allow-write=.git/hooks ./.tasks/setup.js",
     "start": "deno run --allow-net --allow-read=. --allow-run ./.tasks/start.js"
-  },
-  "imports": {
-    "/": "./",
-    "./": "./"
   }
 }

@@ -1,7 +1,7 @@
 import "https://raw.githubusercontent.com/daniellacosse-code/onlyweb.dev/main/bundles/$Backend.js";
 
-import * as constants from "/app/constants.js";
-import OnlyWebTheme from "/app/pages/shared-theme.js";
+import * as constants from "../constants.js";
+import OnlyWebTheme from "./shared-theme.js";
 
 $Backend.Page.Register("/__gallery__", async (request) => {
   const inliner = await $Backend.Page.Inliner(request, {

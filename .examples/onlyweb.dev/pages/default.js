@@ -1,7 +1,7 @@
 import "https://raw.githubusercontent.com/daniellacosse-code/onlyweb.dev/main/bundles/$Backend.js";
 
-import * as constants from "/app/constants.js";
-import OnlyWebTheme from "/app/pages/shared-theme.js";
+import * as constants from "../constants.js";
+import OnlyWebTheme from "./shared-theme.js";
 
 const route = "/";
 

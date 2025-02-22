@@ -5,7 +5,7 @@ import { encodeBase64 } from "https://deno.land/std@v0.224.0/encoding/base64.ts"
 import * as path from "https://deno.land/std@0.221.0/path/mod.ts";
 
 import Response from "./response.js";
-import Shared from "../../shared/bundle.js";
+import Shared from "../../shared/module.js";
 
 /**
  * @typedef {import("./model.js").PageRequest} PageRequest

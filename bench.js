@@ -1,10 +1,10 @@
-import Shared from "./shared/bundle.js";
+import Shared from "./shared/module.js";
 
 Deno.bench(function benchHandleSmallTemplate() {
   Shared.handleTemplate({
     template: ["Hello, ", "!"],
     insertions: ["world"],
-    handleInsertion: (insertion) => insertion
+    handleInsertion: (insertion) => insertion,
   });
 });
 
@@ -12,7 +12,7 @@ Deno.bench(function benchHandleLargeTemplate() {
   Shared.handleTemplate({
     template: Array(1000).fill("Hello, "),
     insertions: Array(1000).fill("world"),
-    handleInsertion: (insertion) => insertion
+    handleInsertion: (insertion) => insertion,
   });
 });
 
@@ -34,6 +34,6 @@ Deno.bench(function minifyLargeString() {
 
 Deno.bench(function parseUserAgent() {
   Shared.UserAgent.parse(
-    "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.36"
+    "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.36",
   );
 });

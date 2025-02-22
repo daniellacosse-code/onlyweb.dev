@@ -16,6 +16,6 @@ export default {
   Page: {
     Inliner,
     Register,
-    Response
-  }
+    Response,
+  },
 };

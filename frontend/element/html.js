@@ -11,7 +11,7 @@
 export default (template, ...insertions) => {
   // We refrain from importing the Shared library directly as that would
   // include it in the frontend bundle twice.
-  /** @typedef {typeof import('../../shared/bundle.js').default} Shared */
+  /** @typedef {typeof import('../../shared/module.js').default} Shared */
 
   const $Shared =
     /** @type {{ $Shared: Shared }} */ (/** @type {unknown} */ (globalThis))
