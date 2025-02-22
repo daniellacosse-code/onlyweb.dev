@@ -111,7 +111,10 @@ class CopyElement extends $Frontend.Element {
     ["copy-message"]: String
   }
 
-  render({ attributes: { code, ["copy-message"]: message }, _: { html } }) {
+  render({
+    attributes: { code, ["copy-message"]: message },
+    _: { html }
+  }) {
     return html`
       <style>
         div {
@@ -168,7 +171,10 @@ class CopyElement extends $Frontend.Element {
     return { attributes: { copied: true } };
   }
 
-  render({ attributes: { code, ['copy-message']: message }, _: { html } }) {
+  render({
+    attributes: { code, ['copy-message']: message },
+    _: { html }
+  }) {
     return html`
       <style>
         div {
@@ -207,14 +213,14 @@ class MainPage extends $Backend.Page {
   elements = { CopyElement }
   messages = { en, sp }
   render({ request: { url }, _: { meta, msg } }) {
-    return this.html`
+    return html`
        <head>
-        ${meta({
-          title: msg("what's my search?"),
-          description: msg(
-            "a simple page that shows the search query"
-          )
-        })}
+         ${meta({
+           title: msg("what's my search?"),
+           description: msg(
+             "a simple page that shows the search query"
+           )
+         })}
       </head>
       <body>
         <h1>${msg("Your search is:")} ${url.search}</h1>
