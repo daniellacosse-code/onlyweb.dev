@@ -108,10 +108,10 @@ export class MainPage extends $Backend.Page {
 ```js
 export class MainPage extends $Backend.Page {
   path = "/"
-  render({ url, inliner }) {
+  render({ url, inliner: { meta } }) {
     return this.html`
       <head>
-        ${inliner.metadata({
+        ${meta({
           title: "what's my search?",
           description: "a simple page that shows the search query"
         })}
@@ -132,18 +132,18 @@ import messages from "%path/to/messages%" with { type: "json" };
 export class MainPage extends $Backend.Page {
   path = "/"
   resources = { messages }
-  render({ url, inliner }) {
+  render({ url, inliner: { meta, msg } }) {
     return this.html`
        <head>
-        ${inliner.metadata({
-          title: inliner.message("what's my search?"),
-          description: inliner.message(
+        ${meta({
+          title: msg("what's my search?"),
+          description: msg(
             "a simple page that shows the search query"
           )
         })}
       </head>
       <body>
-        <h1>${inliner.message("Your search is:")} ${url.search}</h1>
+        <h1>${msg("Your search is:")} ${url.search}</h1>
       </body>
     `;
   }
@@ -198,6 +198,12 @@ export class CopyElement extends $Frontend.Element {
   elements = {
     popover: "div[popover]"
   }
+  requirements = {
+    engine: {
+      Firefox: "125",
+      Safari: "17.0"
+    }
+  }
   click({ code, copied, popover }) {
     if (copied) return;
 
@@ -205,7 +211,7 @@ export class CopyElement extends $Frontend.Element {
 
     popover.togglePopover();
 
-    return { copied: true );
+    return { copied: true };
   }
   render({ code, message }) {
     return this.html`
@@ -236,41 +242,6 @@ export class CopyElement extends $Frontend.Element {
 6. Now to actually use our `<copy-code>` **Element** we must inline it into the **Page**. You do that like so:
 
 ```js
-
-
-export class MainPage extends $Backend.Page {
-  path = "/"
-  resources = {
-    messages,
-    elements: {
-      ["copy-code"]: "%path/to/copy-code/file%"
-    }
-  }
-  render({ url, inliner }) {
-    return this.html`
-       <head>
-        ${inliner.metadata({
-          title: inliner.message("what's my search?"),
-          description: inliner.message(
-            "a simple page that shows the search query"
-          )
-        })}
-      </head>
-      <body>
-        <h1>${inliner.message("Your search is:")} ${url.search}</h1>
-        <copy-code
-          code="${url.search}"
-          copy-message="${inliner.message("Copied!")}">
-        </copy-code>
-      </body>
-    `;
-  }
-}
-```
-
-7. HTML popovers aren't super supported yet, so let's indicate that in our pages' requirements:
-
-```js
 import messages from "%path/to/messages%" with { type: "json" };
 
 import { CopyElement } from "%path/to/copy-code%";
@@ -279,31 +250,23 @@ export class MainPage extends $Backend.Page {
   path = "/"
   resources = {
     messages,
-    elements: {
-      CopyElement
-    }
+    elements: { CopyElement }
   }
-  requirements = {
-    engine: {
-      Firefox: "125",
-      Safari: "17.0"
-    }
-  }
-  render({ url, inliner }) {
+  render({ url, inliner: { meta, msg } }) {
     return this.html`
        <head>
-        ${inliner.metadata({
-          title: inliner.message("what's my search?"),
-          description: inliner.message(
+        ${meta({
+          title: msg("what's my search?"),
+          description: msg(
             "a simple page that shows the search query"
           )
         })}
       </head>
       <body>
-        <h1>${inliner.message("Your search is:")} ${url.search}</h1>
+        <h1>${msg("Your search is:")} ${url.search}</h1>
         <copy-code
           code="${url.search}"
-          copy-message="${inliner.message("Copied!")}">
+          copy-message="${msg("Copied!")}">
         </copy-code>
       </body>
     `;
