@@ -98,8 +98,7 @@ $Backend.Page.Register("/", {
   render: async (request) => $Backend.Page.Response.html`
     <body>
       <h1>Your search is: ${request.url.search}</h1>
-    </body>
-  `;
+    </body>`;
   }
 );
 ```
@@ -121,8 +120,7 @@ $Backend.Page.Register("/", {
       </head>
       <body>
         <h1>Your search is: ${request.url.search}</h1>
-      </body>
-    `;
+      </body>`;
   }
 });
 ```
@@ -148,8 +146,7 @@ $Backend.Page.Register("/", {
       </head>
       <body>
         <h1>${inliner.message("Your search is:")} ${request.url.search}</h1>
-      </body>
-    `;
+      </body>`;
   }
 });
 ```
@@ -160,28 +157,27 @@ $Backend.Page.Register("/", {
 $Frontend.Element.Register("copy-code", {
   attributes: { copied: Boolean, ["copy-message"]: String, code: String },
   // Note that the html template tag here is different than the Backends'
-  render: ({ code, copied, ["copy-message"]: copyMessage }) => $Frontend
-    .Element.html`
-    <style>
-      div {
-        display: relative;
-      }
-      code {
-        font-family: monospace;
-        font-size: 1rem;
-        text-overflow: ellipsis;
-      }
-      div[popover] {
-        display: absolute;
-        top: 0;
-        left: 0;
-      }
-    </style>
-    <div>
-      <code>${code}</code>
-      <div popover>${copyMessage}</div>
-    </div>
-  `
+  render: ({ code, copied, ["copy-message"]: copyMessage }) =>
+    $Frontend.Element.html`
+      <style>
+        div {
+          display: relative;
+        }
+        code {
+          font-family: monospace;
+          font-size: 1rem;
+          text-overflow: ellipsis;
+        }
+        div[popover] {
+          display: absolute;
+          top: 0;
+          left: 0;
+        }
+      </style>
+      <div>
+        <code>${code}</code>
+        <div popover>${copyMessage}</div>
+      </div>`
 });
 ```
 
@@ -202,28 +198,27 @@ $Frontend.Element.Register("copy-code", {
       this.attributes.copied = true;
     });
   },
-  render: ({ code, copied, ["copy-message"]: copyMessage }) => $Frontend
-    .Element.html`
-    <style>
-      div {
-        display: relative;
-      }
-      code {
-        font-family: monospace;
-        font-size: 1rem;
-        text-overflow: ellipsis;
-      }
-      div[popover] {
-        display: absolute;
-        top: 0;
-        left: 0;
-      }
-    </style>
-    <div>
-      <code>${code}</code>
-      <div popover>${copyMessage}</div>
-    </div>
-  `
+  render: ({ code, copied, ["copy-message"]: copyMessage }) =>
+    $Frontend.Element.html`
+      <style>
+        div {
+          display: relative;
+        }
+        code {
+          font-family: monospace;
+          font-size: 1rem;
+          text-overflow: ellipsis;
+        }
+        div[popover] {
+          display: absolute;
+          top: 0;
+          left: 0;
+        }
+      </style>
+      <div>
+        <code>${code}</code>
+        <div popover>${copyMessage}</div>
+      </div>`
 });
 ```
 
@@ -249,12 +244,11 @@ $Backend.Page.Register("/", {
       </head>
       <body>
         <h1>${inliner.message("Your search is:")} ${request.url.search}</h1>
-
-        <copy-code code="${request.url.search}" copy-message="${inliner.message(
-      "Copied!"
-    )}"></copy-code>
-      </body>
-    `;
+        <copy-code
+          code="${request.url.search}"
+          copy-message="${inliner.message("Copied!")}">
+        </copy-code>
+      </body>`;
   }
 });
 ```
@@ -287,12 +281,11 @@ $Backend.Page.Register("/", {
       </head>
       <body>
         <h1>${inliner.message("Your search is:")} ${request.url.search}</h1>
-
-        <copy-code code="${request.url.search}" copy-message="${inliner.message(
-      "Copied!"
-    )}"></copy-code>
-      </body>
-    `;
+        <copy-code
+          code="${request.url.search}"
+          copy-message="${inliner.message("Copied!")}">
+        </copy-code>
+      </body>`;
   }
 });
 ```
