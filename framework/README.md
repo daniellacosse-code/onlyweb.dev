@@ -110,7 +110,7 @@ $Backend.Page.Register("/", {
 ```js
 $Backend.Page.Register("/", {
   render: async (request) => {
-    const inliner = await Backend.Page.Inliner(request, { messagesFolder: "" });
+    const inliner = await $Backend.Page.Inliner(request, { messagesFolder: "" });
 
     return $Backend.Page.Response.html`
       <head>
@@ -132,7 +132,7 @@ $Backend.Page.Register("/", {
 ```js
 $Backend.Page.Register("/", {
   render: async (request) => {
-    const inliner = await Backend.Page.Inliner(
+    const inliner = await $Backend.Page.Inliner(
       request,
       { messagesFolder: "%path/to/messages/folder%" }
     );
@@ -192,14 +192,14 @@ $Frontend.Element.Register("copy-code", {
   attributes: { copied: Boolean, ["copy-message"]: String, code: String },
   mount: () => {
     this.addEventListener("click", () => {
-      if (this.buildAttributes.copied) {
+      if (this.attributes.copied) {
         return;
       }
 
       globalThis.navigator.clipboard.writeText(this.buildAttributes.code);
 
       this.querySelector("div[popover]").togglePopover();
-      this.buildAttributes.copied = true;
+      this.attributes.copied = true;
     });
   },
   render: ({ code, copied, ["copy-message"]: copyMessage }) => $Frontend
@@ -232,7 +232,7 @@ $Frontend.Element.Register("copy-code", {
 ```js
 $Backend.Page.Register("/", {
   render: async (request) => {
-    const inliner = await Backend.Page.Inliner(
+    const inliner = await $Backend.Page.Inliner(
       request,
       { messagesFolder: "%path/to/messages/folder%" }
     );
@@ -270,12 +270,12 @@ $Backend.Page.Register("/", {
     }
   },
   render: async (request) => {
-    const inliner = await Backend.Page.Inliner(
+    const inliner = await $Backend.Page.Inliner(
       request,
       { messagesFolder: "%path/to/messages/folder%" }
     );
 
-    return Backend.Page.Response.html`
+    return $Backend.Page.Response.html`
       <head>
         ${inliner.metadata({
           title: inliner.message("what's my search?"),
