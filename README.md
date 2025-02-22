@@ -149,6 +149,7 @@ class CopyElement extends $Frontend.Element {
     ["copy-message"]: String
   }
   // TODO: $Shared.Requirements.PopoverAPI? So people don't have to look this up.
+  // Can also have a requirements function for feature detection.
   requirements = {
     engine: {
       Firefox: "125",
