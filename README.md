@@ -49,8 +49,8 @@ import "jsr:@lonly/web";
 
 class MainPage extends $Backend.Page {
   path = "/"
-  render({ request: { url } }) {
-    return this.html`<h1>Your search is: ${url.search}</h1>`;
+  render({ request: { url }, _: { html } }) {
+    return html`<h1>Your search is: ${url.search}</h1>`;
   }
 }
 ```
@@ -60,8 +60,8 @@ import "jsr:@lonly/web";
 
 class MainPage extends $Backend.Page {
   path = "/"
-  render({ request: { url }, _: { meta } }) {
-    return this.html`
+  render({ request: { url }, _: { meta, html } }) {
+    return html`
       <head>
         ${meta({
           title: "what's my search?",
@@ -79,13 +79,14 @@ class MainPage extends $Backend.Page {
 ```js
 import "jsr:@lonly/web";
 
-import messages from "%path/to/messages%" with { type: "json" };
+import en from "%path/to/en%" with { type: "json" };
+import sp from "%path/to/sp%" with { type: "json" };
 
 class MainPage extends $Backend.Page {
   path = "/"
-  resources = { messages }
-  render({ request: { url }, _: { meta, msg } }) {
-    return this.html`
+  messages = { en, sp }
+  render({ request: { url }, _: { html, meta, msg } }) {
+    return html`
       <head>
         ${meta({
           title: msg("what's my search?"),
@@ -110,8 +111,8 @@ class CopyElement extends $Frontend.Element {
     ["copy-message"]: String
   }
 
-  render({ attributes: { code, ["copy-message"]: message } }) {
-    return this.html`
+  render({ attributes: { code, ["copy-message"]: message }, _: { html } }) {
+    return html`
       <style>
         div {
           display: relative;
@@ -144,21 +145,19 @@ class CopyElement extends $Frontend.Element {
     copied: Boolean,
     ["copy-message"]: String
   }
-
-  elements = {
-    popover: "div[popover]"
-  }
-
+  // TODO: $Shared.Requirements.PopoverAPI? So people don't have to look this up.
   requirements = {
     engine: {
       Firefox: "125",
       Safari: "17.0"
     }
   }
-
+  selectors = {
+    popover: "div[popover]"
+  }
   click({
     attributes: { code, copied },
-    elements: { popover }
+    selectors: { popover }
   }) {
     if (copied) return;
 
@@ -169,8 +168,8 @@ class CopyElement extends $Frontend.Element {
     return { attributes: { copied: true } };
   }
 
-  render({ attributes: { code, ['copy-message']: message } }) {
-    return this.html`
+  render({ attributes: { code, ['copy-message']: message }, _: { html } }) {
+    return html`
       <style>
         div {
           display: relative;
@@ -198,16 +197,15 @@ class CopyElement extends $Frontend.Element {
 ```js
 import "jsr:@lonly/web";
 
-import messages from "%path/to/messages%" with { type: "json" };
+import en from "%path/to/en%" with { type: "json" };
+import sp from "%path/to/sp%" with { type: "json" };
 
 import { CopyElement } from "%path/to/copy-code%";
 
 class MainPage extends $Backend.Page {
   path = "/"
-  resources = {
-    messages,
-    elements: { CopyElement }
-  }
+  elements = { CopyElement }
+  messages = { en, sp }
   render({ request: { url }, _: { meta, msg } }) {
     return this.html`
        <head>
