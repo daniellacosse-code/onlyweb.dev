@@ -95,7 +95,7 @@ This is abstract, so let's walk through a simple example to make things more con
 import "https://raw.githubusercontent.com/daniellacosse-code/onlyweb.dev/main/bundles/$Backend.js";
 
 $Backend.Page.Register("/", {
-  handleRequest: async (request) => $Backend.Page.Response.html`
+  render: async (request) => $Backend.Page.Response.html`
     <body>
       <h1>Your search is: ${request.url.search}</h1>
     </body>
@@ -109,7 +109,7 @@ $Backend.Page.Register("/", {
 
 ```js
 $Backend.Page.Register("/", {
-  handleRequest: async (request) => {
+  render: async (request) => {
     const inliner = await Backend.Page.Inliner(request, { messagesFolder: "" });
 
     return $Backend.Page.Response.html`
@@ -131,7 +131,7 @@ $Backend.Page.Register("/", {
 
 ```js
 $Backend.Page.Register("/", {
-  handleRequest: async (request) => {
+  render: async (request) => {
     const inliner = await Backend.Page.Inliner(
       request,
       { messagesFolder: "%path/to/messages/folder%" }
@@ -158,9 +158,9 @@ $Backend.Page.Register("/", {
 
 ```js
 $Frontend.Element.Register("copy-code", {
-  buildAttributes: { copied: Boolean, ["copy-message"]: String, code: String },
+  attributes: { copied: Boolean, ["copy-message"]: String, code: String },
   // Note that the html template tag here is different than the Backends'
-  handleBuild: ({ code, copied, ["copy-message"]: copyMessage }) => $Frontend
+  render: ({ code, copied, ["copy-message"]: copyMessage }) => $Frontend
     .Element.html`
     <style>
       div {
@@ -189,8 +189,8 @@ $Frontend.Element.Register("copy-code", {
 
 ```js
 $Frontend.Element.Register("copy-code", {
-  buildAttributes: { copied: Boolean, ["copy-message"]: String, code: String },
-  handleMount: () => {
+  attributes: { copied: Boolean, ["copy-message"]: String, code: String },
+  mount: () => {
     this.addEventListener("click", () => {
       if (this.buildAttributes.copied) {
         return;
@@ -202,7 +202,7 @@ $Frontend.Element.Register("copy-code", {
       this.buildAttributes.copied = true;
     });
   },
-  handleBuild: ({ code, copied, ["copy-message"]: copyMessage }) => $Frontend
+  render: ({ code, copied, ["copy-message"]: copyMessage }) => $Frontend
     .Element.html`
     <style>
       div {
@@ -231,7 +231,7 @@ $Frontend.Element.Register("copy-code", {
 
 ```js
 $Backend.Page.Register("/", {
-  handleRequest: async (request) => {
+  render: async (request) => {
     const inliner = await Backend.Page.Inliner(
       request,
       { messagesFolder: "%path/to/messages/folder%" }
@@ -269,7 +269,7 @@ $Backend.Page.Register("/", {
       Safari: "17.0"
     }
   },
-  handleRequest: async (request) => {
+  render: async (request) => {
     const inliner = await Backend.Page.Inliner(
       request,
       { messagesFolder: "%path/to/messages/folder%" }
