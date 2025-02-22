@@ -94,24 +94,22 @@ This is abstract, so let's walk through a simple example to make things more con
 ```js
 import "https://raw.githubusercontent.com/daniellacosse-code/onlyweb.dev/main/bundles/$Backend.js";
 
-$Backend.Page.Register("/", {
-  render: async (request) => $Backend.Page.Response.html`
-    <body>
-      <h1>Your search is: ${request.url.search}</h1>
-    </body>`;
+export class MainPage extends $Backend.Page {
+  path = "/"
+  render({ url }) {
+    return this.html`<h1>Your search is: ${url.search}</h1>`;
   }
-);
+}
 ```
 
 2. The default response has no metadata, so external sites won't know how to display it.
    Create an **Inliner** to add some:
 
 ```js
-$Backend.Page.Register("/", {
-  render: async (request) => {
-    const inliner = await $Backend.Page.Inliner(request, { messagesFolder: "" });
-
-    return $Backend.Page.Response.html`
+export class MainPage extends $Backend.Page {
+  path = "/"
+  render({ url, inliner }) {
+    return this.html`
       <head>
         ${inliner.metadata({
           title: "what's my search?",
@@ -119,24 +117,24 @@ $Backend.Page.Register("/", {
         })}
       </head>
       <body>
-        <h1>Your search is: ${request.url.search}</h1>
-      </body>`;
+        <h1>Your search is: ${url.search}</h1>
+      </body>
+    `;
   }
-});
+}
 ```
 
 3. Our page only works in English. Provide the **Inliner** with [a folder of translations like this one](../app/assets/messages/) so we can support those languages:
 
 ```js
-$Backend.Page.Register("/", {
-  render: async (request) => {
-    const inliner = await $Backend.Page.Inliner(
-      request,
-      { messagesFolder: "%path/to/messages/folder%" }
-    );
+import messages from "%path/to/messages%" with { type: "json" };
 
-    return $Backend.Page.Response.html`
-      <head>
+export class MainPage extends $Backend.Page {
+  path = "/"
+  resources = { messages }
+  render({ url, inliner }) {
+    return this.html`
+       <head>
         ${inliner.metadata({
           title: inliner.message("what's my search?"),
           description: inliner.message(
@@ -145,20 +143,24 @@ $Backend.Page.Register("/", {
         })}
       </head>
       <body>
-        <h1>${inliner.message("Your search is:")} ${request.url.search}</h1>
-      </body>`;
+        <h1>${inliner.message("Your search is:")} ${url.search}</h1>
+      </body>
+    `;
   }
-});
+}
 ```
 
 4. We want to be able to easily copy our search string to the clipboard. We'll have to create a new frontend **Element** to do this. Here's that initial file.
 
 ```js
-$Frontend.Element.Register("copy-code", {
-  attributes: { copied: Boolean, ["copy-message"]: String, code: String },
-  // Note that the html template tag here is different than the Backends'
-  render: ({ code, copied, ["copy-message"]: copyMessage }) =>
-    $Frontend.Element.html`
+export class CopyElement extends $Frontend.Element {
+  tag = "copy-code"
+  attributes = {
+    code: String,
+    ["copy-message"]: String
+  }
+  render({ code, ["copy-message"]: message }) {
+    return this.html`
       <style>
         div {
           display: relative;
@@ -176,30 +178,37 @@ $Frontend.Element.Register("copy-code", {
       </style>
       <div>
         <code>${code}</code>
-        <div popover>${copyMessage}</div>
-      </div>`
-});
+        <div popover>${message}</div>
+      </div>
+    `;
+  }
+}
 ```
 
 5. The onlyweb framework simply wraps the existing Event API to handle I/O. To do the copy, listen for a click event on mount:
 
 ```js
-$Frontend.Element.Register("copy-code", {
-  attributes: { copied: Boolean, ["copy-message"]: String, code: String },
-  mount: () => {
-    this.addEventListener("click", () => {
-      if (this.attributes.copied) {
-        return;
-      }
+export class CopyElement extends $Frontend.Element {
+  tag = "copy-code"
+  attributes = {
+    code: String,
+    copied: Boolean,
+    ["copy-message"]: String
+  }
+  elements = {
+    popover: "div[popover]"
+  }
+  click({ code, copied, popover }) {
+    if (copied) return;
 
-      globalThis.navigator.clipboard.writeText(this.buildAttributes.code);
+    navigator.clipboard.writeText(code);
 
-      this.querySelector("div[popover]").togglePopover();
-      this.attributes.copied = true;
-    });
-  },
-  render: ({ code, copied, ["copy-message"]: copyMessage }) =>
-    $Frontend.Element.html`
+    popover.togglePopover();
+
+    return { copied: true );
+  }
+  render({ code, message }) {
+    return this.html`
       <style>
         div {
           display: relative;
@@ -217,77 +226,89 @@ $Frontend.Element.Register("copy-code", {
       </style>
       <div>
         <code>${code}</code>
-        <div popover>${copyMessage}</div>
-      </div>`
-});
+        <div popover>${message}</div>
+      </div>
+    `;
+  }
+}
 ```
 
 6. Now to actually use our `<copy-code>` **Element** we must inline it into the **Page**. You do that like so:
 
 ```js
-$Backend.Page.Register("/", {
-  render: async (request) => {
-    const inliner = await $Backend.Page.Inliner(
-      request,
-      { messagesFolder: "%path/to/messages/folder%" }
-    );
 
-    return $Backend.Page.Response.html`
-      <head>
+
+export class MainPage extends $Backend.Page {
+  path = "/"
+  resources = {
+    messages,
+    elements: {
+      ["copy-code"]: "%path/to/copy-code/file%"
+    }
+  }
+  render({ url, inliner }) {
+    return this.html`
+       <head>
         ${inliner.metadata({
           title: inliner.message("what's my search?"),
           description: inliner.message(
             "a simple page that shows the search query"
           )
         })}
-        ${inliner.elements("%path/to/element/copy-code.js%")}
       </head>
       <body>
-        <h1>${inliner.message("Your search is:")} ${request.url.search}</h1>
+        <h1>${inliner.message("Your search is:")} ${url.search}</h1>
         <copy-code
-          code="${request.url.search}"
+          code="${url.search}"
           copy-message="${inliner.message("Copied!")}">
         </copy-code>
-      </body>`;
+      </body>
+    `;
   }
-});
+}
 ```
 
 7. HTML popovers aren't super supported yet, so let's indicate that in our pages' requirements:
 
 ```js
-$Backend.Page.Register("/", {
-  requirements: {
+import messages from "%path/to/messages%" with { type: "json" };
+
+import { CopyElement } from "%path/to/copy-code%";
+
+export class MainPage extends $Backend.Page {
+  path = "/"
+  resources = {
+    messages,
+    elements: {
+      CopyElement
+    }
+  }
+  requirements = {
     engine: {
       Firefox: "125",
       Safari: "17.0"
     }
-  },
-  render: async (request) => {
-    const inliner = await $Backend.Page.Inliner(
-      request,
-      { messagesFolder: "%path/to/messages/folder%" }
-    );
-
-    return $Backend.Page.Response.html`
-      <head>
+  }
+  render({ url, inliner }) {
+    return this.html`
+       <head>
         ${inliner.metadata({
           title: inliner.message("what's my search?"),
           description: inliner.message(
             "a simple page that shows the search query"
           )
         })}
-        ${inliner.elements("%path/to/element/copy-code.js%")}
       </head>
       <body>
-        <h1>${inliner.message("Your search is:")} ${request.url.search}</h1>
+        <h1>${inliner.message("Your search is:")} ${url.search}</h1>
         <copy-code
-          code="${request.url.search}"
+          code="${url.search}"
           copy-message="${inliner.message("Copied!")}">
         </copy-code>
-      </body>`;
+      </body>
+    `;
   }
-});
+}
 ```
 
 8. Finally, create a new file for your app's main entrypoint. Import your page and start the backend!
@@ -295,9 +316,9 @@ $Backend.Page.Register("/", {
 ```js
 import "https://raw.githubusercontent.com/daniellacosse-code/onlyweb.dev/main/bundles/$Backend.js";
 
-import "%path/to/page.js%";
+import { MainPage } from "%path/to/main-page.js%";
 
-$Backend.start();
+$Backend.start({ MainPage });
 ```
 
 ### \[WIP\] full example
