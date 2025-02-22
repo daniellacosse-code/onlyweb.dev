@@ -96,7 +96,7 @@ import "https://raw.githubusercontent.com/daniellacosse-code/onlyweb.dev/main/bu
 
 export class MainPage extends $Backend.Page {
   path = "/"
-  render({ url }) {
+  render({ request: { url } }) {
     return this.html`<h1>Your search is: ${url.search}</h1>`;
   }
 }
@@ -108,7 +108,7 @@ export class MainPage extends $Backend.Page {
 ```js
 export class MainPage extends $Backend.Page {
   path = "/"
-  render({ url, inliner: { meta } }) {
+  render({ request: { url }, inliner: { meta } }) {
     return this.html`
       <head>
         ${meta({
@@ -132,7 +132,7 @@ import messages from "%path/to/messages%" with { type: "json" };
 export class MainPage extends $Backend.Page {
   path = "/"
   resources = { messages }
-  render({ url, inliner: { meta, msg } }) {
+  render({ request: { url }, inliner: { meta, msg } }) {
     return this.html`
        <head>
         ${meta({
@@ -159,7 +159,7 @@ export class CopyElement extends $Frontend.Element {
     code: String,
     ["copy-message"]: String
   }
-  render({ code, ["copy-message"]: message }) {
+  render({ attributes: { code, ["copy-message"]: message } }) {
     return this.html`
       <style>
         div {
@@ -204,7 +204,10 @@ export class CopyElement extends $Frontend.Element {
       Safari: "17.0"
     }
   }
-  click({ code, copied, popover }) {
+  click({
+    attributes: { code, copied },
+    elements: { popover }
+  }) {
     if (copied) return;
 
     navigator.clipboard.writeText(code);
@@ -213,7 +216,7 @@ export class CopyElement extends $Frontend.Element {
 
     return { copied: true };
   }
-  render({ code, message }) {
+  render({ attributes: { code, ['copy-message']: message } }) {
     return this.html`
       <style>
         div {
@@ -252,7 +255,7 @@ export class MainPage extends $Backend.Page {
     messages,
     elements: { CopyElement }
   }
-  render({ url, inliner: { meta, msg } }) {
+  render({ request: { url }, inliner: { meta, msg } }) {
     return this.html`
        <head>
         ${meta({
