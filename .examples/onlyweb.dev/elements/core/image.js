@@ -1,27 +1,39 @@
-$Frontend.Element.Register("core-image", {
-  buildAttributes: {
+import { CoreLoadingSkeleton } from "./loading/skeleton.js";
+
+export class CoreImage extends $Frontend.Element {
+  attributes = {
     alt: String,
     height: String,
     loaded: Boolean,
     src: String,
-    width: String
-  },
-  handleBuild({ height, loaded, width }) {
-    if (loaded) {
-      return $Frontend.Element.html`<style>
-            img {
-              display: inline-block;
-              width: ${width};
-              height: ${height};
-              object-fit: contain;
-              overflow: hidden;
-              pointer-events: none;
-            }
-          </style>
-          ${this.__image__}`;
+    width: String,
+  };
+
+  elements = {
+    CoreLoadingSkeleton,
+  };
+
+  get #image() {
+    const url = new URL(this.attributes.src);
+
+    for (const [key, value] of Object.entries(this.attributes)) {
+      url.searchParams.set(key, value);
     }
 
-    return $Frontend.Element.html`
+    const image = new Image(this.attributes.width, this.attributes.height);
+
+    image.src = url.toString();
+
+    return image;
+  }
+
+  load() {
+    return { attributes: { loaded: true } };
+  }
+
+  render({ attributes: { loaded, width, height }, _: { html } }) {
+    if (!loaded) {
+      return html`
         <style>
           core-loading-skeleton {
             display: inline-block;
@@ -29,18 +41,22 @@ $Frontend.Element.Register("core-image", {
             height: ${height};
           }
         </style>
-        <core-loading-skeleton></core-loading-skeleton>`;
-  },
-  handleMount({ alt, src, ...srcParams }) {
-    const url = new URL(src);
-
-    for (const [key, value] of Object.entries(srcParams)) {
-      url.searchParams.set(key, value);
+        <core-loading-skeleton></core-loading-skeleton>
+      `;
     }
 
-    this.__image__ = new Image(srcParams.width, srcParams.height);
-    this.__image__.onload = () => (this.buildAttributes.loaded = true);
-    this.__image__.src = url.toString();
-    this.__image__.alt = alt;
+    return html`
+      <style>
+        img {
+          display: inline-block;
+          width: ${width};
+          height: ${height};
+          object-fit: contain;
+          overflow: hidden;
+          pointer-events: none;
+        }
+      </style>
+      ${this.#image}
+    `;
   }
-});
+}

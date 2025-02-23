@@ -1,20 +1,16 @@
-$Frontend.Element.Register("counter-demo", {
-  host: {
-    handleMount() {
-      this.state ??= {};
+export class CounterDemo extends $Frontend.Element {
+  attributes = {
+    state: Object,
+  };
 
-      this.addEventListener("click", ({ target }) => {
-        const targetID = target.getAttribute("id");
-        const currentState = this.state[targetID] || 0;
+  click({ attributes: { state }, event: { target } }) {
+    const key = target.getAttribute("id");
 
-        this.state[targetID] = currentState + 1;
+    state[key] ??= 0;
+    state[key]++;
 
-        for (const [key, value] of Object.entries(this.state)) {
-          const target = this.querySelector(`#${key}`);
+    target.textContent = state[key];
 
-          if (target) target.textContent = value;
-        }
-      });
-    }
+    return { attributes: { ...state } };
   }
-});
+}

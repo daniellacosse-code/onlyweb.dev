@@ -1,9 +1,13 @@
-$Frontend.Element.Register("core-text", {
-  buildAttributes: {
-    type: String
-  },
-  handleBuild({ type = "paragraph" }) {
-    return $Frontend.Element.html`<style>
+export class CoreText extends $Frontend.Element {
+  tag = "core-text";
+
+  attributes = {
+    type: String,
+  };
+
+  render({ attributes: { type = "paragraph" }, _: { html } }) {
+    return html`
+      <style>
         slot {
           cursor: inherit;
           font-family: system-ui;
@@ -14,6 +18,7 @@ $Frontend.Element.Register("core-text", {
           user-select: text;
         }
       </style>
-      <slot></slot>`;
+      <slot></slot>
+  `;
   }
-});
+}

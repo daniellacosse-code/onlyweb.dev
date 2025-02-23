@@ -1,10 +1,19 @@
-$Frontend.Element.Register("demo-link", {
-  buildAttributes: {
+import { CoreText } from "../core/text.js";
+import { CoreLink } from "../core/link.js";
+
+export class DemoLink extends $Frontend.Element {
+  attributes = {
     src: String,
-    title: String
-  },
-  handleBuild({ src, title }) {
-    return $Frontend.Element.html`
+    title: String,
+  };
+
+  elements = {
+    CoreText,
+    CoreLink,
+  };
+
+  render({ attributes: { src, title } }) {
+    return html`
       <style>
         core-link {
           --core-link-color: var(--color-neutral);
@@ -20,6 +29,7 @@ $Frontend.Element.Register("demo-link", {
         <core-text type="subtitle">${title}</core-text>
       </core-link>
       <br />
-      <slot></slot>`;
+      <slot></slot>
+    `;
   }
-});
+}

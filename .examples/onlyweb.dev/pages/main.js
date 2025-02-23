@@ -1,64 +1,134 @@
-import "https://raw.githubusercontent.com/daniellacosse-code/onlyweb.dev/main/bundles/$Backend.js";
+import "jsr:@lonly/web";
+
+import en from "../messages/en-US.json" with { type: "json" };
+import sp from "../messages/sp.json" with { type: "json" };
+import fr from "../messages/fr.json" with { type: "json" };
+import ja from "../messages/ja.json" with { type: "json" };
 
 import * as constants from "../constants.js";
 import OnlyWebTheme from "./shared-theme.js";
 
-const route = "/";
+import { CoreImage } from "../elements/core/image.js";
+import { CoreText } from "../elements/core/text.js";
+import { CoreInput } from "../elements/core/input.js";
+import { DemoFrame } from "../elements/demo/frame.js";
+import { DemoLink } from "../elements/demo/link.js";
 
-$Backend.Page.Register(route, {
-  handleRequest: async (request) => {
-    const inliner = await $Backend.Page.Inliner(
-      request,
-      { messagesFolder: "/app/assets/messages" },
-    );
+const SIDEBAR_MENU_OPTIONS = [
+  { content: "Audio: Synthesizer", href: "#synthesizer" },
+  { content: "Audio: Chord Reader", href: "#chord-reader" },
+  { content: "Web Assembly: Diablo", href: "#diablo" },
+  { content: "Web Assembly: SQL", href: "#sql" },
+  { content: "WebGPU: Frustrum Culling", href: "#frustrum-culling" },
+];
 
-    const logoSrc = (request.url.origin.match(/localhost/)
-      ? request.url.origin
-      : constants.KEYCDN_IMAGE_ZONE_URL) +
-      "/app/assets/images/logo/black.svg";
+export class MainPage extends $Backend.Page {
+  path = "/";
+  messages = { en, sp, fr, ja };
+  environment = { dev: Deno.env.DEV };
+  elements = {
+    CoreImage,
+    CoreText,
+    CoreInput,
+    DemoFrame,
+    DemoLink,
+  };
+  attributes = {
+    menuOptions: Array,
+    searchValue: String,
+    sidebarOpen: Boolean,
+    swipeStart: Number,
+    swipeDistance: Number,
+  };
 
-    const inverseLogoSrc = (request.url.origin.match(/localhost/)
-      ? request.url.origin
-      : constants.KEYCDN_IMAGE_ZONE_URL) +
-      "/app/assets/images/logo/white.svg";
+  touchstart({ event: { touches: [{ clientX }] } }) {
+    return { attributes: { swipeStart: clientX } };
+  }
 
-    return $Backend.Page.Response.html`<head>
-      <meta charset="utf-8" />
-      <meta name="viewport" content="width=device-width, initial-scale=1" />
-      <link rel="manifest" href="/app/assets/manifest.json" />
+  touchmove(
+    {
+      attributes: { swipeStart, swipeDistance = 100 },
+      event: { changedTouches: [{ clientX }] },
+    },
+  ) {
+    if (clientX - swipeStart > swipeDistance) {
+      return { attributes: { sidebar: true } };
+    }
 
-      ${
-      inliner.metadata({
+    return { attributes: { sidebar: false } };
+  }
+
+  input({ event: { target: { value } } }) {
+    return { attributes: { searchValue: value.toLowerCase() } };
+  }
+
+  async install({ event }) {
+    const cache = await globalThis.caches.open(this.path);
+
+    cache.addAll([this.path, "/manifest.json"]);
+
+    event.waitUntil(cache);
+  }
+
+  async fetch({ event }) {
+    const cache = await globalThis.caches.open(this.path);
+
+    let response = await event.request;
+
+    if (!response) {
+      response = await fetch(event.request);
+
+      cache.put(event.request, response.clone());
+
+      return event.respondWith(response);
+    }
+
+    event.respondWith(response);
+  }
+
+  render(
+    {
+      attributes: {
+        menuOptions = SIDEBAR_MENU_OPTIONS,
+        sidebarOpen,
+        searchValue = "",
+      },
+      environment: { dev },
+      _: { html, meta, msg },
+    },
+  ) {
+    const logoSrc = dev ? "http://localhost" : constants.KEYCDN_IMAGE_ZONE_URL +
+      "/images/logo/black.svg";
+
+    const inverseLogoSrc = dev
+      ? "http://localhost"
+      : constants.KEYCDN_IMAGE_ZONE_URL +
+        "/images/logo/white.svg";
+
+    return html`
+      <head>
+        <meta charset="utf-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1" />
+        <link rel="manifest" href="/manifest.json" />
+
+        ${
+      meta({
         title: "2",
-        description: inliner.message(
+        description: msg(
           "only web. only web. only web. only web. only web. only web. only web. only web. only web. only web. only web. only web",
         ),
-        previewImage: "/app/assets/images/root-preview.png",
-        iconImage: "/app/assets/images/logo/maskable.png",
-        splashImage: "/app/assets/images/logo/splash.png",
+        previewImage: "/images/root-preview.png",
+        iconImage: "/images/logo/maskable.png",
+        splashImage: "/images/logo/splash.png",
         url: "https://onlyweb.dev/",
       })
     }
 
-      ${
-      inliner.elements(
-        "/app/elements/core/loading/skeleton.js",
-        "/app/elements/core/image.js",
-        "/app/elements/core/link.js",
-        "/app/elements/core/text.js",
-        "/app/elements/core/input.js",
-        "/app/elements/demo/frame.js",
-        "/app/elements/demo/link.js",
-      )
-    }
-
-      <meta
-        name="theme-color"
-        content="${constants.THEME_COLOR_BACKGROUND}"
-      />
+<meta name="theme-color" content="${constants.THEME_COLOR_BACKGROUND}" />
       ${OnlyWebTheme}
 
-      <style>
+  </head>
+  <style>
         main {
           display: flex;
           flex-direction: row;
@@ -172,28 +242,38 @@ $Backend.Page.Register(route, {
     </head>
     <body>
       <main>
-      <nav id="sidebar">
+      <nav id="sidebar" class="${sidebarOpen ? "open" : ""}">
         <header>
-          <core-image class="__bootstrap-cls__" src="${logoSrc}" alt="logo" width="64px" height="64px"></core-image>
-          <core-text class="__bootstrap-cls__" type="title" style="font-weight: bold; font-size: 1.5rem;">${
-      inliner.message(
-        "only web 2",
-      )
+          <core-image src="${logoSrc}" alt="logo" width="64px" height="64px"></core-image>
+          <core-text type="title" style="font-weight: bold; font-size: 1.5rem;">${
+      msg("only web 2")
     }</core-text>
         </header>
         <div class="input-wrapper">
           <core-input id="search" type="search" label="Search..."></core-input>
         </div>
-        <ul id="sidebar-options"></ul>
+        <ul id="sidebar-options">
+          ${
+      menuOptions
+        .filter(({ content }) => content.toLowerCase().match(searchValue))
+        .map(({ content, href }) =>
+          html`
+                <li>
+                  <a href="${href}">${content}</a>
+                </li>
+              `
+        )
+    }
+        </ul>
       </nav>
         <article>
           <section>
             <header>
-              <core-image class="__bootstrap-cls__" src="${inverseLogoSrc}" alt="logo" width="96px" height="96px"></core-image>
-              <core-text class="__bootstrap-cls__" type="title">nly web</core-text>
+              <core-image src="${inverseLogoSrc}" alt="logo" width="96px" height="96px"></core-image>
+              <core-text type="title">nly web</core-text>
             </header>
             <core-text type="paragraph">
-              <i>[pre-alpha]</i><br/><br/>
+              <i>[alpha]</i><br/><br/>
               <b>Discover the potential of only web.</b>
               Explore cutting-edge capabilities, challenging the need for a native app for every experience.
               <i>Get ready to rethink what's possible online.</i>
@@ -256,83 +336,10 @@ $Backend.Page.Register(route, {
                 <b>Explore a complex 3D scene containing thousands of objects,</b> optimized with frustum culling: watch the visible objects dynamically change as you navigate.
               </core-text>
             </demo-frame>
+          </section>
         </article>
       </main>
-      <script type="module">
-        const sidebarMenuContents = [
-          { content: "Audio: Synthesizer", href: "#synthesizer" },
-          { content: "Audio: Chord Reader", href: "#chord-reader" },
-          { content: "Web Assembly: Diablo", href: "#diablo" },
-          { content: "Web Assembly: SQL", href: "#sql" },
-          { content: "WebGPU: Frustrum Culling", href: "#frustrum-culling" }
-        ];
-
-        const sidebarElement = globalThis.document.getElementById("sidebar");
-        const sidebarSearchElement = globalThis.document.getElementById("search");
-        const sidebarOptionsListElement = globalThis.document.getElementById("sidebar-options");
-
-        const renderSidebarMenuContents = (contents) => {
-          sidebarOptionsListElement.replaceChildren(
-            // TODO(#195): how do I/can I/should I nest templates?
-            ...contents.flatMap(({href, content}) => Array.from($Frontend.Element.html(["<li><a href='", "'>", "</a></li>"], href, content)))
-          );
-        };
-
-        renderSidebarMenuContents(sidebarMenuContents);
-
-        sidebarSearchElement.addEventListener("input", (event) => {
-          requestAnimationFrame(() => {
-            const searchValue = sidebarSearchElement.value.toLowerCase();
-            const filteredContents = sidebarMenuContents.filter(({content}) =>
-              content.toLowerCase().startsWith(searchValue)
-            );
-
-            renderSidebarMenuContents(filteredContents);
-          })
-        });
-
-        // Swipe detection
-        let startX, endX;
-        globalThis.addEventListener('touchstart', ({ touches: [{ clientX }] }) => {
-          startX = clientX;
-        });
-
-        globalThis.addEventListener('touchmove', ({ changedTouches: [{ clientX }]}) => {
-          endX = clientX;
-
-          if (endX - startX > 100) {
-            sidebar.classList.add("open");
-          } else if (startX - endX > 100) {
-            sidebar.classList.remove("open");
-          }
-        });
-      </script>
-    </body>`;
-  },
-  handleServiceWorker: () =>
-    $Backend.Page.Response.js`
-      self.addEventListener("install", (event) => {
-        event.waitUntil(
-          caches.open("${route}").then((cache) => {
-            return cache.addAll([
-              "${route}",
-              "/app/assets/manifest.json"
-            ]);
-          })
-        );
-      });
-  
-      self.addEventListener("fetch", (event) => {
-        event.respondWith(caches.open("${route}").then((cache) => {
-          return cache.match(event.request).then((cachedResponse) => {
-            const fetchedResponse = fetch(event.request).then((networkResponse) => {
-              cache.put(event.request, networkResponse.clone());
-  
-              return networkResponse;
-            });
-  
-            return cachedResponse || fetchedResponse;
-          });
-        }));
-      });`,
-});
+    </body>
+  `;
+  }
+}
