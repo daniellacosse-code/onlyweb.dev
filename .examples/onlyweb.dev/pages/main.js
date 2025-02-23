@@ -8,59 +8,12 @@ import ja from "../messages/ja.json" with { type: "json" };
 import * as constants from "../constants.js";
 import OnlyWebTheme from "./shared-theme.js";
 
-import { CoreImage } from "../elements/core/image.js";
-import { CoreText } from "../elements/core/text.js";
-import { CoreInput } from "../elements/core/input.js";
-import { DemoFrame } from "../elements/demo/frame.js";
-import { DemoLink } from "../elements/demo/link.js";
-
-const SIDEBAR_MENU_OPTIONS = [
-  { content: "Audio: Synthesizer", href: "#synthesizer" },
-  { content: "Audio: Chord Reader", href: "#chord-reader" },
-  { content: "Web Assembly: Diablo", href: "#diablo" },
-  { content: "Web Assembly: SQL", href: "#sql" },
-  { content: "WebGPU: Frustrum Culling", href: "#frustrum-culling" },
-];
-
 export class MainPage extends $Backend.Page {
   path = "/";
   messages = { en, sp, fr, ja };
-  environment = { dev: Deno.env.DEV };
   elements = {
-    CoreImage,
-    CoreText,
-    CoreInput,
-    DemoFrame,
-    DemoLink,
+    MainPageElement,
   };
-  attributes = {
-    menuOptions: Array,
-    searchValue: String,
-    sidebarOpen: Boolean,
-    swipeStart: Number,
-    swipeDistance: Number,
-  };
-
-  touchstart({ event: { touches: [{ clientX }] } }) {
-    return { attributes: { swipeStart: clientX } };
-  }
-
-  touchmove(
-    {
-      attributes: { swipeStart, swipeDistance = 100 },
-      event: { changedTouches: [{ clientX }] },
-    },
-  ) {
-    if (clientX - swipeStart > swipeDistance) {
-      return { attributes: { sidebar: true } };
-    }
-
-    return { attributes: { sidebar: false } };
-  }
-
-  input({ event: { target: { value } } }) {
-    return { attributes: { searchValue: value.toLowerCase() } };
-  }
 
   async install({ event }) {
     const cache = await globalThis.caches.open(this.path);
@@ -86,29 +39,9 @@ export class MainPage extends $Backend.Page {
     event.respondWith(response);
   }
 
-  render(
-    {
-      attributes: {
-        menuOptions = SIDEBAR_MENU_OPTIONS,
-        sidebarOpen,
-        searchValue = "",
-      },
-      environment: { dev },
-      _: { html, meta, msg },
-    },
-  ) {
-    const logoSrc = dev ? "http://localhost" : constants.KEYCDN_IMAGE_ZONE_URL +
-      "/images/logo/black.svg";
-
-    const inverseLogoSrc = dev
-      ? "http://localhost"
-      : constants.KEYCDN_IMAGE_ZONE_URL +
-        "/images/logo/white.svg";
-
+  render({ _: { html, meta, msg } }) {
     return html`
       <head>
-        <meta charset="utf-8" />
-        <meta name="viewport" content="width=device-width, initial-scale=1" />
         <link rel="manifest" href="/manifest.json" />
 
         ${
@@ -120,15 +53,106 @@ export class MainPage extends $Backend.Page {
         previewImage: "/images/root-preview.png",
         iconImage: "/images/logo/maskable.png",
         splashImage: "/images/logo/splash.png",
+        charset: "utf-8",
+        viewport: {
+          width: "device-width",
+          initialScale: 1,
+        },
+        themeColor: constants.THEME_COLOR_BACKGROUND,
+        backgroundColor: constants.THEME_COLOR_BACKGROUND,
         url: "https://onlyweb.dev/",
       })
     }
 
-<meta name="theme-color" content="${constants.THEME_COLOR_BACKGROUND}" />
       ${OnlyWebTheme}
+    </head>
+    <body>
+      <main-page
+        logo-src="${this.#resolveImageOrigin()}/images/logo/black.svg"
+        inverse-logo-src="${this.#resolveImageOrigin()}/images/logo/white.svg"
+      ></main-page>
+    </body>
+  `;
+  }
 
-  </head>
-  <style>
+  #resolveImageOrigin() {
+    return Deno.env.DEV
+      ? "http://127.0.0.1:8000"
+      : constants.KEYCDN_IMAGE_ZONE_URL;
+  }
+}
+
+/* MainPageElement */
+
+import { CoreImage } from "../elements/core/image.js";
+import { CoreText } from "../elements/core/text.js";
+import { CoreInput } from "../elements/core/input.js";
+import { DemoFrame } from "../elements/demo/frame.js";
+import { DemoLink } from "../elements/demo/link.js";
+
+const SIDEBAR_MENU_OPTIONS = [
+  { content: "Audio: Synthesizer", href: "#synthesizer" },
+  { content: "Audio: Chord Reader", href: "#chord-reader" },
+  { content: "Web Assembly: Diablo", href: "#diablo" },
+  { content: "Web Assembly: SQL", href: "#sql" },
+  { content: "WebGPU: Frustrum Culling", href: "#frustrum-culling" },
+];
+
+class MainPageElement extends $Frontend.Element {
+  tag = "main-page";
+  elements = {
+    CoreImage,
+    CoreText,
+    CoreInput,
+    DemoFrame,
+    DemoLink,
+  };
+
+  attributes = {
+    menuOptions: Array,
+    searchValue: String,
+    sidebarOpen: Boolean,
+    swipeStart: Number,
+    swipeDistance: Number,
+    ["logo-src"]: String,
+    ["inverse-logo-src"]: String,
+  };
+
+  touchstart({ event: { touches: [{ clientX }] } }) {
+    return { attributes: { swipeStart: clientX } };
+  }
+
+  touchmove(
+    {
+      attributes: { swipeStart, swipeDistance = 100 },
+      event: { changedTouches: [{ clientX }] },
+    },
+  ) {
+    if (clientX - swipeStart > swipeDistance) {
+      return { attributes: { sidebar: true } };
+    }
+
+    return { attributes: { sidebar: false } };
+  }
+
+  input({ event: { target: { value } } }) {
+    return { attributes: { searchValue: value.toLowerCase() } };
+  }
+
+  render(
+    {
+      attributes: {
+        menuOptions = SIDEBAR_MENU_OPTIONS,
+        searchValue,
+        sidebarOpen,
+        ["logo-src"]: logoSrc,
+        ["inverse-logo-src"]: inverseLogoSrc,
+      },
+      _: { html, msg },
+    },
+  ) {
+    return html`
+      <style>
         main {
           display: flex;
           flex-direction: row;
@@ -239,8 +263,6 @@ export class MainPage extends $Backend.Page {
           }
         }
       </style>
-    </head>
-    <body>
       <main>
       <nav id="sidebar" class="${sidebarOpen ? "open" : ""}">
         <header>
@@ -339,7 +361,6 @@ export class MainPage extends $Backend.Page {
           </section>
         </article>
       </main>
-    </body>
-  `;
+    `;
   }
 }
