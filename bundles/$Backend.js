@@ -3600,10 +3600,12 @@ const __default8 = (route, options)=>{
         });
         return;
     }
-    if (typedGlobalThis.customPages.has(route)) __default7.Log({
-        message: `[framework/backend/register] Page "${route}" already registered.`,
-        level: "warn"
-    });
+    if (typedGlobalThis.customPages.has(route)) {
+        __default7.Log({
+            message: `[framework/backend/register] Page "${route}" already registered.`,
+            level: "warn"
+        });
+    }
     if (typeof options === "function") {
         options = {
             handleRequest: options

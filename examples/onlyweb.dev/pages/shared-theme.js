@@ -1,6 +1,6 @@
 import "https://raw.githubusercontent.com/daniellacosse-code/onlyweb.dev/main/bundles/$Backend.js";
 
-import * as constants from "/app/constants.js";
+import * as constants from "/constants.js";
 
 export default $Backend.Page.Response.html`<style>
   :root {

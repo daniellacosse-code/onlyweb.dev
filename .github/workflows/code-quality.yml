@@ -18,4 +18,4 @@ jobs:
         with:
           file: output/coverage.lcov
           token: ${{ secrets.CODECOV_TOKEN }}
-          slug: daniellacosse-code/onlyweb.dev
+          slug: daniellacosse-code/onlyweb

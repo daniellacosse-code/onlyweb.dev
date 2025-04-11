@@ -7,7 +7,7 @@ import Shared from "../../shared/bundle.js";
 const LIVERELOAD_PORT = 35729;
 
 /**
- * @typedef {import("/framework/shared/user-agent/model.js").PlatformRequirements} PlatformRequirements
+ * @typedef {import("../../shared/user-agent/model.js").PlatformRequirements} PlatformRequirements
  * @typedef {import("./model.js").Inliner} Inliner
  * @typedef {import("./model.js").PageHandler} PageHandler
  * @typedef {import("./model.js").PageRequest} PageRequest
@@ -57,28 +57,31 @@ export default (route, options) => {
 
   if (route.startsWith("/framework")) {
     Shared.Log({
-      message: `[framework/backend/register] Page "${route}" cannot be registered: it is a framework route.`,
-      level: "error"
+      message:
+        `[framework/backend/register] Page "${route}" cannot be registered: it is a framework route.`,
+      level: "error",
     });
     return;
   }
 
-  if (typedGlobalThis.customPages.has(route))
+  if (typedGlobalThis.customPages.has(route)) {
     Shared.Log({
-      message: `[framework/backend/register] Page "${route}" already registered.`,
-      level: "warn"
+      message:
+        `[framework/backend/register] Page "${route}" already registered.`,
+      level: "warn",
     });
+  }
 
   if (typeof options === "function") {
     options = {
-      handleRequest: options
+      handleRequest: options,
     };
   }
 
   const {
     requirements = {},
     handleRequest,
-    handleServiceWorker = () => {}
+    handleServiceWorker = () => {},
   } = options;
 
   typedGlobalThis.customPages.set(
@@ -86,37 +89,40 @@ export default (route, options) => {
     async (/** @type {PageRequest} */ request) => {
       Object.defineProperty(request, "url", {
         writable: true,
-        value: new URL(request.url)
+        value: new URL(request.url),
       });
 
-      request.language =
-        request.url.searchParams.get("lang") ??
+      request.language = request.url.searchParams.get("lang") ??
         request.headers.get("accept-language")?.split(",")[0] ??
         "en-US";
 
       Shared.Log({
-        message: `[framework/backend/register] Begun handling request @ "${route}".`,
-        detail: request
+        message:
+          `[framework/backend/register] Begun handling request @ "${route}".`,
+        detail: request,
       });
 
       if (request.url.searchParams.has("sw")) {
         try {
           Shared.Log({
-            message: `[framework/backend/register] Constructing service worker response @ "${route}".`
+            message:
+              `[framework/backend/register] Constructing service worker response @ "${route}".`,
           });
           const serviceWorker = await handleServiceWorker(request);
 
           if (!serviceWorker) {
             Shared.Log({
-              message: `[framework/backend/register] No service worker found @ "${route}".`,
-              level: "warn"
+              message:
+                `[framework/backend/register] No service worker found @ "${route}".`,
+              level: "warn",
             });
             return new Response("Not Found", { status: 404 });
           }
 
           Shared.Log({
-            message: `[framework/backend/register] Serving service worker @ "${route}".`,
-            detail: serviceWorker
+            message:
+              `[framework/backend/register] Serving service worker @ "${route}".`,
+            detail: serviceWorker,
           });
 
           return serviceWorker;
@@ -127,8 +133,9 @@ export default (route, options) => {
       }
 
       Shared.Log({
-        message: `[framework/backend/register] Detected page request @ "${route}".`,
-        detail: request
+        message:
+          `[framework/backend/register] Detected page request @ "${route}".`,
+        detail: request,
       });
 
       /** @type {PageResponse} */
@@ -137,18 +144,22 @@ export default (route, options) => {
       if (response.mimetype !== "text/html") {
         Shared.Log({
           message: `Serving non-HTML response @ "${route}".`,
-          detail: response
+          detail: response,
         });
         return response;
       }
 
       try {
         Shared.Log({
-          message: `[framework/backend/register] Constructing HTML page @ "${route}".`,
-          detail: response
+          message:
+            `[framework/backend/register] Constructing HTML page @ "${route}".`,
+          detail: response,
         });
 
-        const inliner = await Inliner(request, { messagesFolder: "", frameworkBranch: options.frameworkBranch });
+        const inliner = await Inliner(request, {
+          messagesFolder: "",
+          frameworkBranch: options.frameworkBranch,
+        });
         const pageResponse = PageResponse.html`
           <!DOCTYPE html>
           <html lang="${request.language}">
@@ -208,8 +219,9 @@ export default (route, options) => {
         `;
 
         Shared.Log({
-          message: `[framework/backend/register] Serving HTML page @ "${route}".`,
-          detail: pageResponse
+          message:
+            `[framework/backend/register] Serving HTML page @ "${route}".`,
+          detail: pageResponse,
         });
 
         // TODO(#177) TypeError: Return value from serve handler must be a response or a promise resolving to a response
@@ -218,10 +230,10 @@ export default (route, options) => {
         Shared.LogError(/** @type {Error} */ (error));
         return new Response("Internal Server Error", { status: 500 });
       }
-    }
+    },
   );
 
   Shared.Log({
-    message: `[framework/backend/register] Registered page @ "${route}".`
+    message: `[framework/backend/register] Registered page @ "${route}".`,
   });
 };

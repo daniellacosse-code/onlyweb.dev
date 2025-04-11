@@ -9,8 +9,9 @@ startLiveReloadServer();
 
 for await (
   const _ of Deno.watchFs([
-    `${Deno.cwd()}/app`,
-    `${Deno.cwd()}/framework`,
+    `${Deno.cwd()}/assets`,
+    `${Deno.cwd()}/elements`,
+    `${Deno.cwd()}/pages`,
   ])
 ) {
   await startOrReloadAppServer();
@@ -41,7 +42,7 @@ async function startOrReloadAppServer() {
   }
 
   const serverCommand = new Deno.Command("deno", {
-    args: ["run", "--allow-all", "app/default.js"],
+    args: ["run", "--allow-all", "./default.js"],
   });
 
   try {
@@ -55,7 +56,7 @@ async function startOrReloadAppServer() {
 
 function startLiveReloadServer() {
   Deno.serve({
-    pathname: "localhost",
+    hostname: "localhost",
     port: LIVERELOAD_PORT,
     handler: (request) => {
       if (request.headers.get("upgrade") !== "websocket") {
