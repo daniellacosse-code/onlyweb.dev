@@ -1,0 +1,10 @@
+{
+  "name": "@onlyweb/dev",
+  "imports": {
+    "./": "./",
+    "/": "./"
+  },
+  "tasks": {
+    "start": "deno run --allow-net --allow-read=. --allow-run ./.tasks/start.js"
+  }
+}

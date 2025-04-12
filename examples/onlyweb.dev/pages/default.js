@@ -1,7 +1,7 @@
 import "https://raw.githubusercontent.com/daniellacosse-code/onlyweb.dev/main/bundles/$Backend.js";
 
-import * as constants from "/app/constants.js";
-import OnlyWebTheme from "/app/pages/shared-theme.js";
+import * as constants from "/constants.js";
+import OnlyWebTheme from "/pages/shared-theme.js";
 
 const route = "/";
 
@@ -9,23 +9,23 @@ $Backend.Page.Register(route, {
   handleRequest: async (request) => {
     const inliner = await $Backend.Page.Inliner(
       request,
-      { messagesFolder: "/app/assets/messages" },
+      { messagesFolder: "/assets/messages" },
     );
 
     const logoSrc = (request.url.origin.match(/localhost/)
       ? request.url.origin
       : constants.KEYCDN_IMAGE_ZONE_URL) +
-      "/app/assets/images/logo/black.svg";
+      "/assets/images/logo/black.svg";
 
     const inverseLogoSrc = (request.url.origin.match(/localhost/)
       ? request.url.origin
       : constants.KEYCDN_IMAGE_ZONE_URL) +
-      "/app/assets/images/logo/white.svg";
+      "/assets/images/logo/white.svg";
 
     return $Backend.Page.Response.html`<head>
       <meta charset="utf-8" />
       <meta name="viewport" content="width=device-width, initial-scale=1" />
-      <link rel="manifest" href="/app/assets/manifest.json" />
+      <link rel="manifest" href="/assets/manifest.json" />
 
       ${
       inliner.metadata({
@@ -33,22 +33,22 @@ $Backend.Page.Register(route, {
         description: inliner.message(
           "only web. only web. only web. only web. only web. only web. only web. only web. only web. only web. only web. only web",
         ),
-        previewImage: "/app/assets/images/root-preview.png",
-        iconImage: "/app/assets/images/logo/maskable.png",
-        splashImage: "/app/assets/images/logo/splash.png",
+        previewImage: "/assets/images/root-preview.png",
+        iconImage: "/assets/images/logo/maskable.png",
+        splashImage: "/assets/images/logo/splash.png",
         url: "https://onlyweb.dev/",
       })
     }
 
       ${
       inliner.elements(
-        "/app/elements/core/loading/skeleton.js",
-        "/app/elements/core/image.js",
-        "/app/elements/core/link.js",
-        "/app/elements/core/text.js",
-        "/app/elements/core/input.js",
-        "/app/elements/demo/frame.js",
-        "/app/elements/demo/link.js",
+        "/elements/core/loading/skeleton.js",
+        "/elements/core/image.js",
+        "/elements/core/link.js",
+        "/elements/core/text.js",
+        "/elements/core/input.js",
+        "/elements/demo/frame.js",
+        "/elements/demo/link.js",
       )
     }
 
@@ -316,7 +316,7 @@ $Backend.Page.Register(route, {
           caches.open("${route}").then((cache) => {
             return cache.addAll([
               "${route}",
-              "/app/assets/manifest.json"
+              "/assets/manifest.json"
             ]);
           })
         );

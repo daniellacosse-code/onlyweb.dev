@@ -1,6 +1,6 @@
 import { assertEquals } from "https://deno.land/std@0.219.0/assert/assert_equals.ts";
 
-import check from "/framework/shared/user-agent/check.js";
+import check from "./check.js";
 
 Deno.test("check", () => {
   assertEquals(
@@ -8,22 +8,22 @@ Deno.test("check", () => {
       {
         engine: {
           name: "Chrome",
-          version: 88
+          version: 88,
         },
         renderer: {
           name: "WebKit",
-          version: 537.36
-        }
+          version: 537.36,
+        },
       },
       {
         engine: {
-          Chrome: 88
+          Chrome: 88,
         },
         renderer: {
-          WebKit: 537.36
-        }
-      }
+          WebKit: 537.36,
+        },
+      },
     ),
-    true
+    true,
   );
 });
