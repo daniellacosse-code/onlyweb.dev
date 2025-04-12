@@ -1,19 +1,11 @@
-name: Deploy
-on:
-  push:
-    branches: main
-  pull_request:
-    branches: main
-
+---
 jobs:
-  deploy:
-    name: Deploy
+  deploy_onlyweb:
+    name: Deploy @onlyweb/dev
     runs-on: ubuntu-latest
-
     permissions:
       id-token: write
       contents: read
-
     steps:
       - name: Clone repository
         uses: actions/checkout@v4
@@ -26,6 +18,16 @@ jobs:
       - name: Upload to Deno Deploy
         uses: denoland/deployctl@v1
         with:
-          project: "onlyweb"
-          entrypoint: "main.js"
-          root: "examples/onlyweb.dev"
+          project: onlyweb
+          entrypoint: main.js
+          root: examples/onlyweb.dev
+
+name: Deployments
+on:
+  pull_request:
+    types:
+      - opened
+      - synchronize
+  push:
+    branches:
+      - main

@@ -3,6 +3,7 @@ jobs:
   size_label:
     env:
       GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
     name: Change Size Label
     runs-on: ubuntu-latest
     steps:
@@ -12,15 +13,15 @@ jobs:
           sizes: >
             {
               "0": "XS",
-              "64": "S",
-              "128": "M",
-              "256": "L",
-              "512": "XL",
-              "1024": "XXL"
+              "128": "S",
+              "256": "M",
+              "512": "L",
+              "1024": "XL",
+              "2048": "XXL"
             }
 
 name: PR Checks
-"on":
+on:
   pull_request:
     types:
       - opened

@@ -1,7 +1,4 @@
-name: Code Quality
-
-on: push
-
+---
 jobs:
   test:
     name: Tests
@@ -19,3 +16,6 @@ jobs:
           file: output/coverage.lcov
           token: ${{ secrets.CODECOV_TOKEN }}
           slug: daniellacosse-code/onlyweb
+
+name: Code Quality
+on: push
