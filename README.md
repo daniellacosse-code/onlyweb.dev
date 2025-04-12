@@ -102,7 +102,7 @@ $Backend.Page.Register("/", {
     <body>
       <h1>Your search is: ${request.url.search}</h1>
     </body>
-  `;
+  `,
   }
 );
 ```
