@@ -9,9 +9,7 @@ startLiveReloadServer();
 
 for await (
   const _ of Deno.watchFs([
-    `${Deno.cwd()}/assets`,
-    `${Deno.cwd()}/elements`,
-    `${Deno.cwd()}/pages`,
+    Deno.cwd(),
   ])
 ) {
   await startOrReloadAppServer();
@@ -42,7 +40,7 @@ async function startOrReloadAppServer() {
   }
 
   const serverCommand = new Deno.Command("deno", {
-    args: ["run", "--allow-all", "./default.js"],
+    args: ["run", "--allow-all", "./main.js"],
   });
 
   try {
