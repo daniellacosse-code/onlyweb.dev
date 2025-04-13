@@ -1,8 +1,12 @@
 {
   "name": "@onlyweb/frontend",
-  "version": "0.0.0-alpha.2",
+  "version": "0.0.0-alpha.3",
   "license": "MIT",
-  "exports": "./main.js",
+  "exports": {
+    "./element/html": "./element/html.js",
+    "./element/register": "./element/register.js",
+    "./requirements": "./requiremnets.js"
+  },
   "compilerOptions": {
     "lib": [
       "es2022",

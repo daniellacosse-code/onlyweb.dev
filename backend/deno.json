@@ -1,6 +1,12 @@
 {
   "name": "@onlyweb/backend",
-  "version": "0.0.0-alpha.2",
+  "version": "0.0.0-alpha.3",
   "license": "MIT",
-  "exports": "./main.js"
+  "exports": {
+    "./constants": "./constants.js",
+    "./page/inliner": "./page/inliner.js",
+    "./page/register": "./page/register.js",
+    "./page/response": "./page/response.js",
+    "./start": "./start.js"
+  }
 }
