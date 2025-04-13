@@ -1,5 +1,5 @@
 //@ts-check
-import * as Shared from "@onlyweb/shared";
+import * as Shared from "../../shared/main.js";
 
 import html from "./html.js";
 

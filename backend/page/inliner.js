@@ -2,7 +2,7 @@
 
 import { encodeBase64 } from "jsr:@std/encoding@1/base64";
 import * as path from "jsr:@std/path@1";
-import * as Shared from "@onlyweb/shared";
+import * as Shared from "../../shared/main.js";
 
 import Response from "./response.js";
 

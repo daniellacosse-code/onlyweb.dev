@@ -1,4 +1,4 @@
-import Backend from "@onlyweb/backend";
+import Backend from "../../backend/main.js";
 
 import "/pages/favicon.js";
 import "/pages/robots.js";

@@ -1,4 +1,4 @@
-import Backend from "@onlyweb/backend";
+import Backend from "../../../backend/main.js";
 
 import * as constants from "/constants.js";
 import OnlyWebTheme from "/pages/shared-theme.js";

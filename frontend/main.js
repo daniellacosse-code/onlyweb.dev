@@ -7,7 +7,7 @@ import Register from "./element/register.js";
  */
 export const Element = {
   Register,
-  html
+  html,
 };
 
 export { default as requirements } from "./requirements.js";

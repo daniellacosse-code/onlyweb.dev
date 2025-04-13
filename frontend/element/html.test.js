@@ -1,4 +1,4 @@
-import Shared from "../../shared/main.js";
+import * as Shared from "../../shared/main.js";
 
 import { assertEquals } from "https://deno.land/std@0.219.0/assert/assert_equals.ts";
 import html from "./html.js";

@@ -7,7 +7,7 @@ import minify from "./html/minify.js";
  */
 export const HTML = {
   escape,
-  minify
+  minify,
 };
 
 import parse from "./user-agent/parse.js";
@@ -24,5 +24,5 @@ export const UserAgent = {
   merge,
 };
 
-export {default as Log, LogError} from "./log.js";
-export {default as handleTemplate} from "./handle-template.js";
+export { default as Log, LogError } from "./log.js";
+export { default as handleTemplate } from "./handle-template.js";

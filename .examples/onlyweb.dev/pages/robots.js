@@ -1,4 +1,4 @@
-import Backend from "@onlyweb/backend";
+import Backend from "../../../backend/main.js";
 
 Backend.Page.Register(
   "/robots.txt",
