@@ -35,6 +35,8 @@ jobs:
   #       uses: denoland/setup-deno@v2
   #       with:
   #         deno-version: v2.x
+
+  #     - name: TODO - update versions? then publish?
     
 name: Deployments
 on:

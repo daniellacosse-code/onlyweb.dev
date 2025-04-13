@@ -8,7 +8,7 @@
 
 ### prerequisites
 
-```bash
+```sh
 brew bundle
 ```
 
@@ -27,6 +27,10 @@ A basic understanding of native web development. MDN has a great [introduction t
 - user agent checking (for when feature detection isn't enough)
 
 ### benchmarks
+
+```sh
+deno bench
+```
 
 <img width="500" alt="Lighthouse performance report" src="https://github.com/user-attachments/assets/b647a602-3254-4c8a-a732-a7f1686fb5bd">
 

@@ -2,9 +2,7 @@
   "name": "@onlyweb/frontend",
   "version": "0.0.0-alpha.1",
   "license": "MIT",
-  "exports": {
-    ".": "./main.js"
-  },
+  "exports": "./main.js",
   "compilerOptions": {
     "lib": [
       "es2022",

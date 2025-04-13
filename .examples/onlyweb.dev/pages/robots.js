@@ -1,6 +1,6 @@
-import "https://raw.githubusercontent.com/daniellacosse-code/onlyweb.dev/main/bundles/$Backend.js";
+import Backend from "@onlyweb/backend";
 
-$Backend.Page.Register(
+Backend.Page.Register(
   "/robots.txt",
   () =>
     $Backend.Page.Response.text`

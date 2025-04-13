@@ -1,13 +1,13 @@
-import "https://raw.githubusercontent.com/daniellacosse-code/onlyweb.dev/main/bundles/$Backend.js";
+import Backend from "@onlyweb/backend";
 
 import * as constants from "/constants.js";
 import OnlyWebTheme from "/pages/shared-theme.js";
 
 const route = "/";
 
-$Backend.Page.Register(route, {
+Backend.Page.Register(route, {
   handleRequest: async (request) => {
-    const inliner = await $Backend.Page.Inliner(
+    const inliner = await Backend.Page.Inliner(
       request,
       { messagesFolder: "/assets/messages" },
     );
@@ -22,7 +22,7 @@ $Backend.Page.Register(route, {
       : constants.KEYCDN_IMAGE_ZONE_URL) +
       "/assets/images/logo/white.svg";
 
-    return $Backend.Page.Response.html`<head>
+    return Backend.Page.Response.html`<head>
       <meta charset="utf-8" />
       <meta name="viewport" content="width=device-width, initial-scale=1" />
       <link rel="manifest" href="/assets/manifest.json" />
@@ -310,7 +310,7 @@ $Backend.Page.Register(route, {
     </body>`;
   },
   handleServiceWorker: () =>
-    $Backend.Page.Response.js`
+    Backend.Page.Response.js`
       self.addEventListener("install", (event) => {
         event.waitUntil(
           caches.open("${route}").then((cache) => {
