@@ -1,6 +1,6 @@
 //@ts-check
 
-import Shared from "@onlyweb/shared";
+import * as Shared from "@onlyweb/shared";
 
 /**
  * A utility for creating a templateable HTMLCollection

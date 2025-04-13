@@ -1,5 +1,6 @@
 // @ts-check
-import Shared from "@onlyweb/shared";
+import * as Shared from "@onlyweb/shared";
+
 /**
  * A utility for creating a templateable response with a specific mimetype
  * @param {string} [mimetype] The mimetype
