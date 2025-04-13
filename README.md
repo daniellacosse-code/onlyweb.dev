@@ -1,6 +1,7 @@
 # `@onlyweb` ✨👁✨
 
 ![status](https://badgen.net/badge/status/pre-alpha/red/) [![codecov](https://codecov.io/gh/daniellacosse-code/onlyweb/graph/badge.svg?token=MQP3VXXJ0A)](https://codecov.io/gh/daniellacosse-code/onlyweb) [![Maintainability](https://api.codeclimate.com/v1/badges/9bc1ec955cd47c99b9ad/maintainability)](https://codeclimate.com/github/daniellacosse-code/onlyweb/maintainability)
+[![JSR Scope](https://jsr.io/badges/@onlyweb)](https://jsr.io/@onlyweb)
 
 ## overview
 
