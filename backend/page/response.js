@@ -1,5 +1,8 @@
 // @ts-check
-import * as Shared from "../../shared/main.js";
+import Log from "@onlyweb/shared/log";
+import handleTemplate from "@onlyweb/shared/handleTemplate";
+import minify from "@onlyweb/shared/html/minify";
+import escape from "@onlyweb/shared/html/escape";
 
 /**
  * A utility for creating a templateable response with a specific mimetype
@@ -17,7 +20,7 @@ const _Response = (mimetype = "text/html") => {
      */
     constructor(body, init = undefined) {
       super(body, init);
-      Shared.Log({
+      Log({
         message:
           `[framework/backend/response] Constructed a response with mimetype "${mimetype}"`,
         detail: { body },
@@ -43,12 +46,12 @@ const _Response = (mimetype = "text/html") => {
 
   return (template, ...insertions) =>
     new MimetypeResponse(
-      Shared.handleTemplate({
+      handleTemplate({
         template,
         insertions,
         handleInsertion: (insertion) => {
           if (insertion instanceof MimetypeResponse) {
-            return Shared.HTML.minify(insertion.content);
+            return minify(insertion.content);
           }
 
           const subinsertions = Array.isArray(insertion)
@@ -73,7 +76,7 @@ const _Response = (mimetype = "text/html") => {
 
               // handle string, number
             } else if (typeof subinsertion === "string") {
-              result.push(Shared.HTML.escape(String(subinsertion)));
+              result.push(escape(String(subinsertion)));
             } else if (typeof subinsertion === "number") {
               result.push(subinsertion);
             }

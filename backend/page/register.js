@@ -1,5 +1,6 @@
 // @ts-check
-import * as Shared from "../../shared/main.js";
+import Log, { LogError } from "@onlyweb/shared/log";
+
 import PageResponse from "./response.js";
 import Inliner from "./inliner.js";
 
@@ -56,7 +57,7 @@ export default (route, options) => {
   typedGlobalThis.customPages ??= new Map();
 
   if (route.startsWith("/framework")) {
-    Shared.Log({
+    Log({
       message:
         `[framework/backend/register] Page "${route}" cannot be registered: it is a framework route.`,
       level: "error",
@@ -65,7 +66,7 @@ export default (route, options) => {
   }
 
   if (typedGlobalThis.customPages.has(route)) {
-    Shared.Log({
+    Log({
       message:
         `[framework/backend/register] Page "${route}" already registered.`,
       level: "warn",
@@ -96,7 +97,7 @@ export default (route, options) => {
         request.headers.get("accept-language")?.split(",")[0] ??
         "en-US";
 
-      Shared.Log({
+      Log({
         message:
           `[framework/backend/register] Begun handling request @ "${route}".`,
         detail: request,
@@ -104,14 +105,14 @@ export default (route, options) => {
 
       if (request.url.searchParams.has("sw")) {
         try {
-          Shared.Log({
+          Log({
             message:
               `[framework/backend/register] Constructing service worker response @ "${route}".`,
           });
           const serviceWorker = await handleServiceWorker(request);
 
           if (!serviceWorker) {
-            Shared.Log({
+            Log({
               message:
                 `[framework/backend/register] No service worker found @ "${route}".`,
               level: "warn",
@@ -119,7 +120,7 @@ export default (route, options) => {
             return new Response("Not Found", { status: 404 });
           }
 
-          Shared.Log({
+          Log({
             message:
               `[framework/backend/register] Serving service worker @ "${route}".`,
             detail: serviceWorker,
@@ -127,12 +128,12 @@ export default (route, options) => {
 
           return serviceWorker;
         } catch (error) {
-          Shared.LogError(/** @type {Error} */ (error));
+          LogError(/** @type {Error} */ (error));
           return new Response("Internal Server Error", { status: 500 });
         }
       }
 
-      Shared.Log({
+      Log({
         message:
           `[framework/backend/register] Detected page request @ "${route}".`,
         detail: request,
@@ -142,7 +143,7 @@ export default (route, options) => {
       const response = await handleRequest(request);
 
       if (response.mimetype !== "text/html") {
-        Shared.Log({
+        Log({
           message: `Serving non-HTML response @ "${route}".`,
           detail: response,
         });
@@ -150,7 +151,7 @@ export default (route, options) => {
       }
 
       try {
-        Shared.Log({
+        Log({
           message:
             `[framework/backend/register] Constructing HTML page @ "${route}".`,
           detail: response,
@@ -218,7 +219,7 @@ export default (route, options) => {
           </html>
         `;
 
-        Shared.Log({
+        Log({
           message:
             `[framework/backend/register] Serving HTML page @ "${route}".`,
           detail: pageResponse,
@@ -227,13 +228,13 @@ export default (route, options) => {
         // TODO(#177) TypeError: Return value from serve handler must be a response or a promise resolving to a response
         return pageResponse;
       } catch (error) {
-        Shared.LogError(/** @type {Error} */ (error));
+        LogError(/** @type {Error} */ (error));
         return new Response("Internal Server Error", { status: 500 });
       }
     },
   );
 
-  Shared.Log({
+  Log({
     message: `[framework/backend/register] Registered page @ "${route}".`,
   });
 };

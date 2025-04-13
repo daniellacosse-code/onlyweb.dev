@@ -1,8 +1,9 @@
 // @ts-check
-
 import { encodeBase64 } from "jsr:@std/encoding@1/base64";
 import * as path from "jsr:@std/path@1";
-import * as Shared from "../../shared/main.js";
+
+import Log from "@onlyweb/shared/log";
+import minify from "@onlyweb/shared/html/minify";
 
 import Response from "./response.js";
 
@@ -39,7 +40,7 @@ export default async function Inliner(
         `${request.language}.json`,
       );
 
-      Shared.Log({
+      Log({
         message:
           `[framework/backend/inliner] Loading messages for language "${request.language}"`,
         level: "debug",
@@ -51,7 +52,7 @@ export default async function Inliner(
       const file = await Deno.readFile(filePath);
       const fileContents = decoder.decode(file);
 
-      Shared.Log({
+      Log({
         message:
           `[framework/backend/inliner] Loaded messages for language "${request.language}"`,
         level: "debug",
@@ -59,14 +60,14 @@ export default async function Inliner(
       });
 
       messages = JSON.parse(fileContents);
-      Shared.Log({
+      Log({
         message:
           `[framework/backend/inliner] Parsed messages for language "${request.language}"`,
         level: "debug",
         detail: { messages },
       });
     } catch (error) {
-      Shared.Log({
+      Log({
         message:
           `[framework/backend/inliner] Failed to load messages for language "${request.language}"`,
         level: "warn",
@@ -78,7 +79,7 @@ export default async function Inliner(
   return {
     elements(...elementFunctionsOrFilePaths) {
       const result = [];
-      Shared.Log({
+      Log({
         message: `[framework/backend/inliner#elements] inlining elements "${
           elementFunctionsOrFilePaths.join(
             ", ",
@@ -96,13 +97,13 @@ export default async function Inliner(
           fileContents = Deno.readTextFileSync(`.${functionOrFilePath}`);
         }
 
-        Shared.Log({
+        Log({
           message:
             `[framework/backend/inliner#elements] loaded element "${functionOrFilePath}"`,
           level: "debug",
         });
 
-        const sanitizedScript = Shared.HTML.minify(fileContents)
+        const sanitizedScript = minify(fileContents)
           .replaceAll(' from "/', ` from "${origin}/`)
           .replaceAll('import "/', `import "${origin}/`);
         result.push(Response.html`<script
@@ -112,14 +113,14 @@ export default async function Inliner(
             sanitizedScript,
           )
         }"></script>`);
-        Shared.Log({
+        Log({
           message:
             `[framework/backend/inliner#elements] inlined element "${functionOrFilePath}"`,
           level: "debug",
         });
       }
 
-      Shared.Log({
+      Log({
         message: `[framework/backend/inliner#elements] completed for "${
           elementFunctionsOrFilePaths.join(
             ", ",
@@ -134,7 +135,7 @@ export default async function Inliner(
       const message = messages[key];
 
       if (!message) {
-        Shared.Log({
+        Log({
           message:
             `[framework/backend/inliner#message] No message found for key "${key}"`,
           detail: { language: request.language },
@@ -159,7 +160,7 @@ export default async function Inliner(
         Response.html`<link rel="canonical" href="${canonicalUrl}" />`,
         Response.html`<meta name="og:url" content="${canonicalUrl}" />`,
       ];
-      Shared.Log({
+      Log({
         message:
           `[framework/backend/inliner#metadata] constructing page metadata.`,
         detail: {
@@ -174,7 +175,7 @@ export default async function Inliner(
       });
 
       if (title) {
-        Shared.Log({
+        Log({
           message:
             `[framework/backend/inliner#metadata] using title "${title}"`,
           level: "debug",
@@ -187,7 +188,7 @@ export default async function Inliner(
       }
 
       if (description) {
-        Shared.Log({
+        Log({
           message:
             `[framework/backend/inliner#metadata] using description "${description}"`,
           level: "debug",
@@ -200,7 +201,7 @@ export default async function Inliner(
       }
 
       if (iconImagePath) {
-        Shared.Log({
+        Log({
           message:
             `[framework/backend/inliner#metadata] using icon image "${iconImagePath}"`,
           level: "debug",
@@ -220,7 +221,7 @@ export default async function Inliner(
       }
 
       if (splashImagePath) {
-        Shared.Log({
+        Log({
           message:
             `[framework/backend/inliner#metadata] using splash image "${splashImagePath}"`,
           level: "debug",
@@ -236,7 +237,7 @@ export default async function Inliner(
       }
 
       if (previewImagePath) {
-        Shared.Log({
+        Log({
           message:
             `[framework/backend/inliner#metadata] using preview image "${previewImagePath}"`,
           level: "debug",
@@ -247,7 +248,7 @@ export default async function Inliner(
         );
       }
 
-      Shared.Log({
+      Log({
         message:
           `[framework/backend/inliner#metadata] page metadata constructed.`,
         level: "debug",
@@ -257,7 +258,7 @@ export default async function Inliner(
     },
 
     async frameworkBundles(...bundleNames) {
-      Shared.Log({
+      Log({
         message:
           `[framework/backend/inliner#frameworkBundles] inlining sources "${
             bundleNames.join(
@@ -294,14 +295,14 @@ export default async function Inliner(
           ></script>`,
         );
 
-        Shared.Log({
+        Log({
           message:
             `[framework/backend/inliner#frameworkBundles] inlined bundle "${code}"`,
           level: "debug",
         });
       }
 
-      Shared.Log({
+      Log({
         message: `[framework/backend/inliner#frameworkBundles] completed for "${
           bundleNames.join(
             ", ",

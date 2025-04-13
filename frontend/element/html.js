@@ -1,6 +1,7 @@
 //@ts-check
 
-import * as Shared from "../../shared/main.js";
+import handleTemplate from "@onlyweb/shared/handleTemplate";
+import escape from "@onlyweb/shared/html/escape";
 
 /**
  * A utility for creating a templateable HTMLCollection
@@ -11,7 +12,7 @@ import * as Shared from "../../shared/main.js";
 export default (template, ...insertions) => {
   const wrapper = globalThis.document.createElement("div");
 
-  wrapper.innerHTML = Shared.handleTemplate({
+  wrapper.innerHTML = handleTemplate({
     template,
     insertions,
     handleInsertion: (
@@ -26,7 +27,7 @@ export default (template, ...insertions) => {
 
       if (insertion instanceof HTMLElement) return insertion.outerHTML;
 
-      return Shared.HTML.escape(
+      return escape(
         Array.isArray(insertion) ? insertion.join("") : String(insertion),
       );
     },

@@ -3,7 +3,7 @@
   "version": "0.0.0-alpha.3",
   "license": "MIT",
   "exports": {
-    "./handle-template": "./handle-template.js",
+    "./handleTemplate": "./handle-template.js",
     "./html/escape": "./html/escape.js",
     "./html/minify": "./html/minify.js",
     "./log": "./log.js",
