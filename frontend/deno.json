@@ -5,7 +5,7 @@
   "exports": {
     "./element/html": "./element/html.js",
     "./element/register": "./element/register.js",
-    "./requirements": "./requiremnets.js"
+    "./requirements": "./requirements.js"
   },
   "compilerOptions": {
     "lib": [

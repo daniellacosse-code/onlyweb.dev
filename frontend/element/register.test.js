@@ -1,5 +1,3 @@
-import Shared from "../../shared/main.js";
-
 import { assertEquals } from "https://deno.land/std@0.219.0/assert/assert_equals.ts";
 import register from "./register.js";
 
@@ -26,8 +24,6 @@ globalThis.document = {
     return new globalThis.HTMLElement();
   },
 };
-
-globalThis.$Shared = Shared;
 
 Deno.test("element - register", async () => {
   await register("my-element", { handleBuild: () => {} });
