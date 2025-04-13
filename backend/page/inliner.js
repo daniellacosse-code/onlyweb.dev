@@ -1,11 +1,10 @@
 // @ts-check
 
-import { bundle } from "https://deno.land/x/emit@0.40.0/mod.ts";
-import { encodeBase64 } from "https://deno.land/std@v0.224.0/encoding/base64.ts";
-import * as path from "https://deno.land/std@0.221.0/path/mod.ts";
+import { encodeBase64 } from "jsr:@std/encoding@1/base64";
+import * as path from "jsr:@std/path@1";
+import Shared from "@onlyweb/shared";
 
 import Response from "./response.js";
-import Shared from "../../shared/bundle.js";
 
 /**
  * @typedef {import("./model.js").PageRequest} PageRequest

@@ -1,5 +1,5 @@
-import { resolve } from "https://deno.land/std@0.216.0/path/mod.ts";
-import { serveFile } from "https://deno.land/std@0.140.0/http/file_server.ts";
+import { resolve } from "jsr:@std/path@1";
+import { serveFile } from "jsr:@std/http@1/file-server";
 
 import * as constants from "./constants.js";
 
@@ -12,7 +12,7 @@ const resolveConfiguration = (configName) =>
  * @returns {void} Nothing is returned: the server is started.
  */
 export default ({ port = resolveConfiguration("ONLY_WEB_SERVER_PORT") } = {}) =>
-  Deno.serve({ hostname: "localhost", port }, async (request) => {
+  Deno.serve({ hostname: "localhost", port }, (request) => {
     const requestURL = new URL(request.url);
     const requestPath = requestURL.pathname.startsWith("/")
       ? requestURL.pathname

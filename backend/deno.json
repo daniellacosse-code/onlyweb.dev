@@ -1,0 +1,8 @@
+{
+  "name": "@onlyweb/backend",
+  "version": "0.0.0-alpha.1",
+  "license": "MIT",
+  "exports": {
+    ".": "./main.js"
+  }
+}

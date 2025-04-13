@@ -20,8 +20,22 @@ jobs:
         with:
           project: onlyweb
           entrypoint: main.js
-          root: examples/onlyweb.dev
+          root: .examples/onlyweb.dev
+  # publish_framework:
+  #   name: Publish @onlyweb/framework
+  #   runs-on: ubuntu-latest
+  #   permissions:
+  #     id-token: write
+  #     contents: read
+  #   steps:
+  #     - name: Clone repository
+  #       uses: actions/checkout@v4
 
+  #     - name: Install Deno
+  #       uses: denoland/setup-deno@v2
+  #       with:
+  #         deno-version: v2.x
+    
 name: Deployments
 on:
   pull_request:

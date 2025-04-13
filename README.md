@@ -10,7 +10,6 @@
 
 ```bash
 brew bundle
-deno task setup
 ```
 
 A basic understanding of native web development. MDN has a great [introduction to the web](https://developer.mozilla.org/en-US/docs/Learn/Getting_started_with_the_web) that you can follow.

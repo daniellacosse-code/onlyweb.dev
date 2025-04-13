@@ -1,6 +1,6 @@
 //@ts-check
-/// <reference lib="dom" />
-/// <reference lib="dom.iterable" />
+
+import Shared from "@onlyweb/shared";
 
 /**
  * A utility for creating a templateable HTMLCollection
@@ -9,17 +9,9 @@
  * @returns {HTMLCollection} The compiled HTMLCollection
  */
 export default (template, ...insertions) => {
-  // We refrain from importing the Shared library directly as that would
-  // include it in the frontend bundle twice.
-  /** @typedef {typeof import('../../shared/bundle.js').default} Shared */
-
-  const $Shared =
-    /** @type {{ $Shared: Shared }} */ (/** @type {unknown} */ (globalThis))
-      .$Shared;
-
   const wrapper = globalThis.document.createElement("div");
 
-  wrapper.innerHTML = $Shared.handleTemplate({
+  wrapper.innerHTML = Shared.handleTemplate({
     template,
     insertions,
     handleInsertion: (
@@ -34,7 +26,7 @@ export default (template, ...insertions) => {
 
       if (insertion instanceof HTMLElement) return insertion.outerHTML;
 
-      return $Shared.HTML.escape(
+      return Shared.HTML.escape(
         Array.isArray(insertion) ? insertion.join("") : String(insertion),
       );
     },

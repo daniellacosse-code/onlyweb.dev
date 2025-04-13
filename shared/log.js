@@ -10,8 +10,27 @@ const LOG_LEVELS = {
   data: 2,
   warn: 3,
   error: 4,
-  critical: 5
+  critical: 5,
 };
+
+/**
+ * @typedef {object} ConsoleLike A minimal console interface for logging.
+ * @property {(...data: any[]) => void} debug Logs a debug message.
+ * @property {(...data: any[]) => void} info Logs an info message.
+ * @property {(...data: any[]) => void} warn Logs a warning message.
+ * @property {(...data: any[]) => void} error Logs an error message.
+ */
+
+/**
+ * @typedef {object} GlobalWithConsole Defines globalThis with a console property.
+ * @property {ConsoleLike} console The console object.
+ */
+
+/**
+ * To avoid type headaches - this is just for testing anyway.
+ * @type {any}
+ */
+const _globalThis = globalThis;
 
 /**
  * Log a message to the console
@@ -19,15 +38,17 @@ const LOG_LEVELS = {
  * @param {string} options.message the message to log
  * @param {object} [options.detail] additional data to log
  * @param {("debug" | "info" | "warn" | "error")} [options.level] one of "debug", "info", "warn", "error"
- * @param {typeof console} [options._console] for testing
+ * @param {ConsoleLike} [options._console] for testing
  * @returns {void} Nothing: logs to console
  */
-const Log = ({ message, detail, level = "info", _console = console }) => {
+const Log = (
+  { message, detail, level = "info", _console = _globalThis.console },
+) => {
   /** @type {{ o: string, l: number, m: string, d?: string }} */
   const logObject = {
     o: new Date().toISOString(),
     l: LOG_LEVELS[level],
-    m: message.trim().slice(0, MAX_MESSAGE_LENGTH)
+    m: message.trim().slice(0, MAX_MESSAGE_LENGTH),
   };
 
   if (logObject.m.length === MAX_MESSAGE_LENGTH) {

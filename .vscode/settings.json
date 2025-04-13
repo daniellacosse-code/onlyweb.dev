@@ -2,10 +2,6 @@
   "deno.enable": true,
   "files.autoSave": "onFocusChange",
   "files.refactoring.autoSave": true,
-  "search.exclude": {
-    "**/.pnp.*": true,
-    "**/.yarn": true
-  },
   "workbench.colorCustomizations": {
     "statusBar.background": "#313335",
     "statusBar.foreground": "#FFFFFF"

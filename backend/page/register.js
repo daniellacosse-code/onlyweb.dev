@@ -1,7 +1,7 @@
 // @ts-check
+import Shared from "@onlyweb/shared";
 import PageResponse from "./response.js";
 import Inliner from "./inliner.js";
-import Shared from "../../shared/bundle.js";
 
 // TODO: move livereload to repo-agnotic code
 const LIVERELOAD_PORT = 35729;

@@ -17,13 +17,13 @@ export default {
   UserAgent: {
     parse,
     check,
-    merge
+    merge,
   },
   HTML: {
     escape,
-    minify
+    minify,
   },
   Log,
   LogError,
-  handleTemplate
+  handleTemplate,
 };
