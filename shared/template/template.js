@@ -7,13 +7,17 @@
  * @param {Array<any>} options.insertions The items to insert into the template
  * @param {(insertion: any) => string} options.handleInsertion The function to handle the insertions
  * @returns {string} The compiled template
- * @example const unsafeHtml = handleTemplate({
+ * @example
+ *
+ * ```js
+ * const unsafeHtml = handle({
  *  template: ["<div>", "</div>"],
  *  insertions: ["hello"],
  *  handleInsertion: (insertion) => insertion
  * }) // returns "<div>hello</div>"
+ * ```
  */
-export default ({ template, insertions, handleInsertion }) =>
+export const handle = ({ template, insertions, handleInsertion }) =>
   insertions.reduce((result, insertion, index) => {
     let handledInsertion = "";
 

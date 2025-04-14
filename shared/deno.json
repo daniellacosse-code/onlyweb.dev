@@ -1,15 +1,12 @@
 {
   "name": "@onlyweb/shared",
-  "version": "0.0.0-alpha.3",
+  "version": "0.0.0-alpha.4",
   "license": "MIT",
   "exports": {
-    "./handleTemplate": "./handle-template.js",
-    "./html/escape": "./html/escape.js",
-    "./html/minify": "./html/minify.js",
-    "./log": "./log.js",
-    "./user-agent/check": "./user-agent/check.js",
-    "./user-agent/merge": "./user-agent/merge.js",
-    "./user-agent/parse": "./user-agent/parse.js"
+    "./template": "./template/template.js",
+    "./html": "./html/html.js",
+    "./log": "./log/log.js",
+    "./userAgent": "./userAgent/userAgent.js"
   },
   "compilerOptions": {
     "lib": ["es2022"]

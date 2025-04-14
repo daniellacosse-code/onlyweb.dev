@@ -1,7 +1,41 @@
 //@ts-check
-import Log from "@onlyweb/shared/log";
 
-import html from "./html.js";
+import { log } from "@onlyweb/shared/log";
+import { handle } from "@onlyweb/shared/template";
+import { escape } from "@onlyweb/shared/html";
+
+/**
+ * A utility for creating a templateable HTMLCollection
+ * @param {TemplateStringsArray} template The template
+ * @param {(string | string[] | HTMLCollection)[]} insertions The insertions
+ * @returns {HTMLCollection} The compiled HTMLCollection
+ */
+export const html = (template, ...insertions) => {
+  const wrapper = globalThis.document.createElement("div");
+
+  wrapper.innerHTML = handle({
+    template,
+    insertions,
+    handleInsertion: (
+      /** @type {string | string[] | HTMLCollection} */ insertion,
+    ) => {
+      if (insertion instanceof HTMLCollection) {
+        let collectionHTML = "";
+        for (const element of insertion) collectionHTML += element.outerHTML;
+
+        return collectionHTML;
+      }
+
+      if (insertion instanceof HTMLElement) return insertion.outerHTML;
+
+      return escape(
+        Array.isArray(insertion) ? insertion.join("") : String(insertion),
+      );
+    },
+  });
+
+  return wrapper.children;
+};
 
 /**
  * Registers a custom element with the global customElements map
@@ -22,9 +56,9 @@ import html from "./html.js";
  * });
  * @returns {void} Nothing is returned: the element is registered in the global customElements map
  */
-export default (tag, options) => {
+export const register = (tag, options) => {
   if (globalThis.customElements.get(tag)) {
-    return Log({
+    return log({
       message: `Element ${tag} already registered.`,
       level: "warn",
     });
@@ -91,7 +125,7 @@ export default (tag, options) => {
       }
 
       connectedCallback() {
-        Log({
+        log({
           message: `[framework/frontend/element] <${tag}> mounted`,
           level: "debug",
         });
@@ -108,7 +142,7 @@ export default (tag, options) => {
        * @param {*} newValue
        */
       attributeChangedCallback(name, oldValue, newValue) {
-        Log({
+        log({
           message: `[framework/frontend/element] <${tag}> attributes changed`,
           detail: { name, oldValue, newValue },
           level: "debug",
@@ -118,7 +152,7 @@ export default (tag, options) => {
       }
 
       disconnectedCallback() {
-        Log({
+        log({
           message: `[framework/frontend/element] <${tag}> dismounted`,
           level: "debug",
         });
@@ -143,7 +177,7 @@ export default (tag, options) => {
           return;
         }
 
-        Log({
+        log({
           message:
             `[framework/frontend/element] <${tag}> listener added for "${eventType}" event`,
           level: "debug",
@@ -175,7 +209,7 @@ export default (tag, options) => {
                 ` triggered by internal <${element.tagName.toLocaleLowerCase()}>`;
             }
 
-            Log({ message, detail: { event }, level: "debug" });
+            log({ message, detail: { event }, level: "debug" });
 
             return listener(event);
           },
@@ -198,7 +232,7 @@ export default (tag, options) => {
 
       #buildTemplate() {
         if (!this.template) {
-          Log({
+          log({
             message:
               `[framework/frontend/element#UPDATE_TEMPLATE] <${tag}> template not yet initialized, skipping update`,
             level: "debug",
@@ -206,7 +240,7 @@ export default (tag, options) => {
           return;
         }
 
-        Log({
+        log({
           message:
             `[framework/frontend/element#UPDATE_TEMPLATE] updating template for <${tag}>`,
           level: "debug",
@@ -238,7 +272,7 @@ export default (tag, options) => {
         const newTemplateNode = this.template.querySelector("template");
 
         if (!newTemplateNode) {
-          Log({
+          log({
             message:
               `[framework/frontend/element#UPDATE_TEMPLATE] <${tag}> template missing <template> tag, cannot update template`,
             level: "warn",
@@ -248,7 +282,7 @@ export default (tag, options) => {
 
         this.template.append(newTemplateNode.content.cloneNode(true));
 
-        Log({
+        log({
           message:
             `[framework/frontend/element#UPDATE_TEMPLATE] <${tag}> template updated`,
           level: "debug",

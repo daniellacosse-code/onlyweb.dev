@@ -1,10 +1,9 @@
 {
   "name": "@onlyweb/frontend",
-  "version": "0.0.0-alpha.3",
+  "version": "0.0.0-alpha.4",
   "license": "MIT",
   "exports": {
-    "./element/html": "./element/html.js",
-    "./element/register": "./element/register.js",
+    "./element": "./element/element.js",
     "./requirements": "./requirements.js"
   },
   "compilerOptions": {

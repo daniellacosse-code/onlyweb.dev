@@ -1,8 +1,6 @@
 import { resolve } from "jsr:@std/path@1";
 import { serveFile } from "jsr:@std/http@1/file-server";
 
-import * as constants from "./constants.js";
-
 const resolveConfiguration = (configName) =>
   Deno.env.get(configName) ?? constants[configName];
 
@@ -11,7 +9,9 @@ const resolveConfiguration = (configName) =>
  * @param {number} [port] The port to listen on.
  * @returns {void} Nothing is returned: the server is started.
  */
-export default ({ port = resolveConfiguration("ONLY_WEB_SERVER_PORT") } = {}) =>
+export const start = (
+  { port = resolveConfiguration("OWF_SERVER_PORT") } = {},
+) =>
   Deno.serve({ hostname: "localhost", port }, (request) => {
     const requestURL = new URL(request.url);
     const requestPath = requestURL.pathname.startsWith("/")

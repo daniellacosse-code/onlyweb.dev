@@ -1,5 +1,5 @@
 // @ts-check
-import minify from "./html/minify.js";
+import { minify } from "../html/html.js";
 
 const MAX_MESSAGE_LENGTH = 128;
 const MAX_DETAIL_LENGTH = 256;
@@ -41,7 +41,7 @@ const _globalThis = globalThis;
  * @param {ConsoleLike} [options._console] for testing
  * @returns {void} Nothing: logs to console
  */
-const Log = (
+export const log = (
   { message, detail, level = "info", _console = _globalThis.console },
 ) => {
   /** @type {{ o: string, l: number, m: string, d?: string }} */
@@ -71,9 +71,11 @@ const Log = (
  * @param {Error} error the error to log
  * @returns {void} Nothing: logs to console
  * @example
+ *
+ * ```js
  * LogError(new Error("Something went wrong"));
  * // {"o":"2020-01-01T00:00:00.000Z","l":4,"m":"Something went wrong"}
+ * ```
  */
-export const LogError = (error) =>
-  Log({ message: error.message, detail: error, level: "error" });
-export default Log;
+export const logError = (error) =>
+  log({ message: error.message, detail: error, level: "error" });
