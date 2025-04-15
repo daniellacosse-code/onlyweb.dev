@@ -1,24 +1,5 @@
 import { assertEquals } from "https://deno.land/std@0.219.0/assert/assert_equals.ts";
-import { html, register } from "./element.js";
-
-globalThis.document = {
-  createElement() {
-    return new globalThis.HTMLElement();
-  },
-};
-
-globalThis.HTMLElement = class HTMLElement {
-  constructor() {
-    this.outerHTML = "";
-    this.children = this;
-  }
-
-  set innerHTML(innerHTML) {
-    this.outerHTML = innerHTML;
-  }
-};
-
-globalThis.HTMLCollection = [];
+import { register } from "./register.ts";
 
 globalThis.customElements = {
   define(tag, element) {
@@ -42,10 +23,6 @@ globalThis.document = {
     return new globalThis.HTMLElement();
   },
 };
-
-Deno.test("html", () => {
-  assertEquals(html`<p>test</p>`.outerHTML, "<p>test</p>");
-});
 
 Deno.test("register", async () => {
   await register("my-element", { handleBuild: () => {} });

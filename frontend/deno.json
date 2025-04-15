@@ -1,11 +1,9 @@
 {
   "name": "@onlyweb/frontend",
-  "version": "0.0.0-alpha.6",
+  "version": "0.0.0-alpha.7",
   "license": "MIT",
   "exports": {
-    ".": "./main.ts",
-    "./element": "./element/element.ts",
-    "./requirements": "./requirements.ts"
+    ".": "./main.ts"
   },
   "compilerOptions": {
     "lib": [

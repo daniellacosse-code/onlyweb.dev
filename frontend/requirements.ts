@@ -1,4 +1,4 @@
-export default {
+export const requirements = {
   userAgent: {
     // These requirements largely come from the use of private fields during element registration.
     engine: {
