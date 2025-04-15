@@ -1,7 +1,7 @@
 ---
 jobs:
   deploy_onlyweb:
-    name: Deploy @onlyweb/dev
+    name: Deploy onlyweb.dev
     runs-on: ubuntu-latest
     permissions:
       id-token: write
@@ -22,7 +22,7 @@ jobs:
           entrypoint: main.js
           root: .examples/onlyweb.dev
   publish_framework:
-    name: Publish @onlyweb
+    name: Publish @onlyweb/*
     runs-on: ubuntu-latest
     permissions:
       id-token: write
