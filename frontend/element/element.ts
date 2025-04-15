@@ -65,7 +65,7 @@ export const register = (tag: string, options: {
   handleBuild: (buildAttributes: object) => HTMLCollection,
   handleMount?: (buildAttributes: object) => void,
   handleDismount?: (buildAttributes: object) => void
-}) => {
+}): void => {
   if (globalThis.customElements.get(tag)) {
     return log({
       message: `Element ${tag} already registered.`,
