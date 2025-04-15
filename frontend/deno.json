@@ -3,8 +3,8 @@
   "version": "0.0.0-alpha.5",
   "license": "MIT",
   "exports": {
-    "./element": "./element/element.js",
-    "./requirements": "./requirements.js"
+    "./element": "./element/element.ts",
+    "./requirements": "./requirements.ts"
   },
   "compilerOptions": {
     "lib": [
