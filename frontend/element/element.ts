@@ -10,7 +10,7 @@ import { escape } from "@onlyweb/shared/html";
  * @param {(string | string[] | HTMLCollection)[]} insertions The insertions
  * @returns {HTMLCollection} The compiled HTMLCollection
  */
-export const html = (template, ...insertions) => {
+export const html = (template: TemplateStringsArray, ...insertions: (string | string[] | HTMLCollection)[]): HTMLCollection => {
   const wrapper = globalThis.document.createElement("div");
 
   wrapper.innerHTML = handle({
@@ -45,7 +45,10 @@ export const html = (template, ...insertions) => {
  * @param {(buildAttributes: object) => HTMLCollection} options.handleBuild The core of the element: use it to build the template from which the shadow DOM will be constructed
  * @param {(buildAttributes: object) => void} [options.handleMount] Is called when the element is mounted: use it to set up the shadow DOM and register event listeners
  * @param {(buildAttributes: object) => void} [options.handleDismount] The dismount handler: use it to clean up event listeners and other resources
- * @example Register("my-element", {
+ * @example 
+ * 
+ * ```js
+ * Register("my-element", {
  *  template: {
  *    buildAttributes: {
  *      "my-attribute": String,
@@ -54,9 +57,15 @@ export const html = (template, ...insertions) => {
  *    handleBuild: attributes => html`<div>${attributes["my-attribute"]}</div>`
  *  },
  * });
+ * ```
  * @returns {void} Nothing is returned: the element is registered in the global customElements map
  */
-export const register = (tag, options) => {
+export const register = (tag: string, options: {
+  buildAttributes?: { [name: string]: Function },
+  handleBuild: (buildAttributes: object) => HTMLCollection,
+  handleMount?: (buildAttributes: object) => void,
+  handleDismount?: (buildAttributes: object) => void
+}) => {
   if (globalThis.customElements.get(tag)) {
     return log({
       message: `Element ${tag} already registered.`,
@@ -73,8 +82,8 @@ export const register = (tag, options) => {
   const {
     buildAttributes = {},
     handleBuild,
-    handleMount = () => {},
-    handleDismount = () => {},
+    handleMount = () => { },
+    handleDismount = () => { },
   } = options;
 
   globalThis.customElements.define(
@@ -82,6 +91,9 @@ export const register = (tag, options) => {
     class extends HTMLElement {
       // element data - template attributes
       static observedAttributes = Object.keys(buildAttributes);
+
+      buildAttributes: object;
+      template: ShadowRoot;
 
       #eventController = new AbortController();
 
@@ -141,7 +153,7 @@ export const register = (tag, options) => {
        * @param {*} oldValue
        * @param {*} newValue
        */
-      attributeChangedCallback(name, oldValue, newValue) {
+      attributeChangedCallback(name: string, oldValue: any, newValue: any) {
         log({
           message: `[framework/frontend/element] <${tag}> attributes changed`,
           detail: { name, oldValue, newValue },
@@ -168,7 +180,7 @@ export const register = (tag, options) => {
        * @param {EventListenerOrEventListenerObject} [listener]
        * @param {AddEventListenerOptions} [options]
        */
-      addEventListener(eventType, listener, options) {
+      override addEventListener(eventType: string | keyof HTMLElementEventMap, listener: EventListenerOrEventListenerObject, options: AddEventListenerOptions) {
         if (!eventType) {
           return;
         }
@@ -195,14 +207,14 @@ export const register = (tag, options) => {
               value: event
                 .composedPath()
                 .find((target) =>
-                  /** @type {HTMLElement} */ (target).getAttribute?.("id")
+                  /** @type {HTMLElement} */(target as HTMLElement).getAttribute?.("id")
                 ),
             });
 
             let message =
               `[framework/frontend/element] <${tag}> listener for "${eventType}"`;
 
-            const element = /** @type {HTMLElement} */ (event.target);
+            const element = /** @type {HTMLElement} */ (event.target as HTMLElement);
 
             if (event.target) {
               message +=
@@ -223,10 +235,13 @@ export const register = (tag, options) => {
        * @returns {HTMLElement | null}
        * @throws {Error} Throws an error if the selector is invalid
        * @example
+       * 
+       * ```js
        * const myElement = document.querySelector("my-element");
        * myElement.querySelector("div");
+       * ```
        */
-      querySelector(selector) {
+      override querySelector(selector: string): HTMLElement | null {
         return this.template.querySelector(selector);
       }
 
@@ -248,7 +263,7 @@ export const register = (tag, options) => {
 
         const templateResult =
           this.#handleTemplateBuild(this.buildAttributes ?? {}) ??
-            html`<slot></slot>`;
+          html`<slot></slot>`;
         const templateWrapper = html`<template>
           <style>
             *:not(slot) {
@@ -293,7 +308,7 @@ export const register = (tag, options) => {
        * @param {string} name
        * @param {*} value
        */
-      #RESOLVE_ATTRIBUTE(name, value) {
+      #RESOLVE_ATTRIBUTE(name: string, value: any) {
         const resolver = buildAttributes[name] ?? String;
 
         if (value === null) return void 0;
@@ -305,7 +320,7 @@ export const register = (tag, options) => {
       /**
        * @param {string} value
        */
-      #RESOLVE_BOOLEAN_ATTRIBUTE(value) {
+      #RESOLVE_BOOLEAN_ATTRIBUTE(value: string) {
         switch (value) {
           case "true":
           case "": // empty string is considered true
