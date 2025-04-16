@@ -1,5 +1,5 @@
 import { assertEquals } from "https://deno.land/std@0.219.0/assert/assert_equals.ts";
-import { register } from "./register.ts";
+import { registerElement } from "./register.ts";
 
 globalThis.customElements = {
   define(tag, element) {
@@ -25,7 +25,7 @@ globalThis.document = {
 };
 
 Deno.test("register", async () => {
-  await register("my-element", { handleBuild: () => {} });
+  await registerElement("my-element", { handleBuild: () => {} });
 
   assertEquals(Boolean(globalThis.customElements.get("my-element")), true);
   assertEquals(
@@ -35,7 +35,7 @@ Deno.test("register", async () => {
 });
 
 Deno.test("function register", async () => {
-  await register("my-element", () => {});
+  await registerElement("my-element", () => {});
 
   assertEquals(Boolean(globalThis.customElements.get("my-element")), true);
   assertEquals(
@@ -45,7 +45,7 @@ Deno.test("function register", async () => {
 });
 
 Deno.test("register - addEventListener", async () => {
-  await register("my-element", { handleBuild: () => {} });
+  await registerElement("my-element", { handleBuild: () => {} });
 
   const element = new globalThis.customElements["my-element"]();
 

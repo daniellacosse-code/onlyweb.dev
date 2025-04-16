@@ -22,7 +22,7 @@ import type { Platform, PlatformRequirements } from "./types.ts";
  * console.log(meetsRequirements); // returns true
  * ```
  */
-export const check = (
+export const uaCheck = (
   { engine, renderer }: Readonly<Platform>,
   requirements: PlatformRequirements
 ): boolean => {

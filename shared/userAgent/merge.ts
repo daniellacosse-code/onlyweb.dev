@@ -22,7 +22,7 @@ import type {
  * // }
  * ```
  */
-export default (...requirements: PlatformRequirements[]): PlatformRequirements => {
+export const uaMerge = (...requirements: PlatformRequirements[]): PlatformRequirements => {
   const [result] = requirements;
 
   for (const requirement of requirements) {

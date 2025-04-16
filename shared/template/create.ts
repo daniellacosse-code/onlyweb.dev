@@ -1,20 +1,3 @@
-export type TemplateLiteralParameters<T> = {
-  /**
-   * The template
-   */
-  template: TemplateStringsArray;
-
-  /**
-   * The items to insert into the template
-   */
-  insertions: T[];
-
-  /**
-   * The function to handle the insertions
-   */
-  handleInsertion: (insertion: T) => string;
-}
-
 /**
  * Utility for handling a javascript template literals
  * @param parameters The template literal parameters
@@ -34,12 +17,12 @@ export type TemplateLiteralParameters<T> = {
  * // "<div>hello</div>"
  * ```
  */
-export const handle = <T>(
+export const templateCreate = <T>(
   {
     template, 
     insertions, 
     handleInsertion 
-  }: TemplateLiteralParameters<T>
+  }: TemplateCreationOptions<T>
 ): string =>
   insertions.reduce((result, insertion, index) => {
     let handledInsertion = "";
@@ -53,3 +36,23 @@ export const handle = <T>(
     }
     return result + (template.at(index) ?? "") + handledInsertion;
   }, "") + (template.at(-1) ?? "");
+
+/**
+ * The options for creating a template
+ */
+export type TemplateCreationOptions<T> = {
+  /**
+   * The template
+   */
+  template: TemplateStringsArray;
+
+  /**
+   * The items to insert into the template
+   */
+  insertions: T[];
+
+  /**
+   * The function to handle the insertions
+   */
+  handleInsertion: (insertion: T) => string;
+}

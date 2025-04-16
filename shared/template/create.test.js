@@ -1,10 +1,10 @@
 import { assertEquals } from "jsr:@std/assert";
 
-import { handle } from "./handle.ts";
+import { templateCreate } from "./create.ts";
 
 Deno.test("template - handle", () => {
   assertEquals(
-    handle({
+    templateCreate({
       template: ["Hello, ", "!"],
       insertions: ["world"],
       handleInsertion: (insertion) => insertion,

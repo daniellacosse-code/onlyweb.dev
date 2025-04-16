@@ -1,4 +1,4 @@
-import { escape, handle } from "@onlyweb/shared";
+import { htmlEscape, templateCreate } from "@onlyweb/shared";
 
 /**
  * A utility for creating a templateable HTMLCollection
@@ -19,7 +19,7 @@ export const html = (
 ): HTMLCollection => {
   const wrapper = globalThis.document.createElement("div");
 
-  wrapper.innerHTML = handle({
+  wrapper.innerHTML = templateCreate({
     template,
     insertions,
     handleInsertion: (insertion) => {
@@ -32,7 +32,7 @@ export const html = (
 
       if (insertion instanceof HTMLElement) return insertion.outerHTML;
 
-      return escape(
+      return htmlEscape(
         Array.isArray(insertion) ? insertion.join("") : String(insertion),
       );
     },

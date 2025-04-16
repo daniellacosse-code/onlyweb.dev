@@ -14,7 +14,7 @@
  * const minifiedHtml = minify(html); // returns "<div><h1>Hello, world!</h1></div>"
  * ```
  */
-export const minify = (text: string): string => {
+export const htmlMinify = (text: string): string => {
   return (
     text
       // remove single-line JS comments, but not URLs or regexes

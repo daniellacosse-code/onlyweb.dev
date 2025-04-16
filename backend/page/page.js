@@ -1,4 +1,4 @@
-import { escape, handle, log, minify } from "@onlyweb/shared";
+import { htmlEscape, htmlMinify, log, templateCreate } from "@onlyweb/shared";
 
 /**
  * A page resource.
@@ -373,7 +373,7 @@ export async function Inliner(
           level: "debug",
         });
 
-        const sanitizedScript = minify(fileContents)
+        const sanitizedScript = htmlMinify(fileContents)
           .replaceAll(' from "/', ` from "${origin}/`)
           .replaceAll('import "/', `import "${origin}/`);
         result.push(Response.html`<script
@@ -628,12 +628,12 @@ const _Response = (mimetype = "text/html") => {
 
   return (template, ...insertions) =>
     new MimetypeResponse(
-      handle({
+      templateCreate({
         template,
         insertions,
         handleInsertion: (insertion) => {
           if (insertion instanceof MimetypeResponse) {
-            return minify(insertion.content);
+            return htmlMinify(insertion.content);
           }
 
           const subinsertions = Array.isArray(insertion)
@@ -658,7 +658,7 @@ const _Response = (mimetype = "text/html") => {
 
               // handle string, number
             } else if (typeof subinsertion === "string") {
-              result.push(escape(String(subinsertion)));
+              result.push(htmlEscape(String(subinsertion)));
             } else if (typeof subinsertion === "number") {
               result.push(subinsertion);
             }

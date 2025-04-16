@@ -1,7 +1,7 @@
-import { escape, handle, minify, parse } from "../main.ts";
+import { htmlEscape, htmlMinify, parse, templateCreate } from "../main.ts";
 
 Deno.bench(function benchHandleSmallTemplate() {
-  handle({
+  templateCreate({
     template: ["Hello, ", "!"],
     insertions: ["world"],
     handleInsertion: (insertion) => insertion,
@@ -9,7 +9,7 @@ Deno.bench(function benchHandleSmallTemplate() {
 });
 
 Deno.bench(function benchHandleLargeTemplate() {
-  handle({
+  templateCreate({
     template: Array(1000).fill("Hello, "),
     insertions: Array(1000).fill("world"),
     handleInsertion: (insertion) => insertion,
@@ -17,19 +17,19 @@ Deno.bench(function benchHandleLargeTemplate() {
 });
 
 Deno.bench(function escapeSmallString() {
-  escape("<script>alert('Hello, world!');</script>");
+  htmlEscape("<script>alert('Hello, world!');</script>");
 });
 
 Deno.bench(function escapeLargeString() {
-  escape("<script>alert('Hello, world!');</script>".repeat(1000));
+  htmlEscape("<script>alert('Hello, world!');</script>".repeat(1000));
 });
 
 Deno.bench(function minifySmallString() {
-  minify("<div>  <p>Hello, world!</p>  </div>");
+  htmlMinify("<div>  <p>Hello, world!</p>  </div>");
 });
 
 Deno.bench(function minifyLargeString() {
-  minify("<div>  <p>Hello, world!</p>  </div>".repeat(1000));
+  htmlMinify("<div>  <p>Hello, world!</p>  </div>".repeat(1000));
 });
 
 Deno.bench(function parseUserAgent() {

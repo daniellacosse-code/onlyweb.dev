@@ -2,31 +2,6 @@
 import { log } from "@onlyweb/shared";
 import { html } from "./html.ts";
 
-type AnyAttribute = string | number | object | boolean | void;
-type AnyAttributeConstructor = typeof String | typeof Number | typeof Object | typeof Boolean;
-
-interface ElementRegistrationOptions {
-  /**
-   * The attributes of the element, that, when modified, will trigger a template build
-   */
-  buildAttributes?: { [name: string]: AnyAttributeConstructor };
-
-  /**
-   * The core of the element: use it to build the template from which the shadow DOM will be constructed
-   */
-  handleBuild: (buildAttributes: object) => HTMLCollection;
-
-  /**
-   * Is called when the element is mounted: use it to set up the shadow DOM and register event listeners
-   */
-  handleMount?: (buildAttributes: object) => void;
-
-  /**
-   * The dismount handler: use it to clean up event listeners and other resources
-   */
-  handleDismount?: (buildAttributes: object) => void;
-}
-
 /**
  * Registers a custom element with the global customElements map
  * @param tag The tag of the element
@@ -46,7 +21,7 @@ interface ElementRegistrationOptions {
  * ```
  * @returns {void} Nothing is returned: the element is registered in the global customElements map
  */
-export const register = (
+export const registerElement = (
   tag: string,
   options: ElementRegistrationOptions | ((buildAttributes: object) => HTMLCollection)
 ): void => {
@@ -297,3 +272,31 @@ export const register = (
     },
   );
 };
+
+export type AnyAttribute = string | number | object | boolean | void;
+export type AnyAttributeConstructor = typeof String | typeof Number | typeof Object | typeof Boolean;
+
+/**
+ * The options for registering an element
+ */
+export interface ElementRegistrationOptions {
+  /**
+   * The attributes of the element, that, when modified, will trigger a template build
+   */
+  buildAttributes?: { [name: string]: AnyAttributeConstructor };
+
+  /**
+   * The core of the element: use it to build the template from which the shadow DOM will be constructed
+   */
+  handleBuild: (buildAttributes: object) => HTMLCollection;
+
+  /**
+   * Is called when the element is mounted: use it to set up the shadow DOM and register event listeners
+   */
+  handleMount?: (buildAttributes: object) => void;
+
+  /**
+   * The dismount handler: use it to clean up event listeners and other resources
+   */
+  handleDismount?: (buildAttributes: object) => void;
+}

@@ -1,4 +1,4 @@
-import { minify } from "../html/minify.ts";
+import { htmlMinify } from "../html/minify.ts";
 
 const MAX_MESSAGE_LENGTH = 128;
 const MAX_DETAIL_LENGTH = 256;
@@ -103,7 +103,7 @@ export const log = (
   }
 
   if (detail) {
-    logObject.d = minify(JSON.stringify(detail)).slice(0, MAX_DETAIL_LENGTH);
+    logObject.d = htmlMinify(JSON.stringify(detail)).slice(0, MAX_DETAIL_LENGTH);
 
     if (logObject.d.length === MAX_DETAIL_LENGTH) {
       logObject.d += "…";
