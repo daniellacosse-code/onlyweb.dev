@@ -1,6 +1,4 @@
-import { log } from "@onlyweb/shared/log";
-import { handle } from "@onlyweb/shared/template";
-import { escape, minify } from "@onlyweb/shared/html";
+import { escape, handle, log, minify } from "@onlyweb/shared";
 
 /**
  * A page resource.
