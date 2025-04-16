@@ -1,13 +1,8 @@
 {
   "name": "@onlyweb/shared",
-  "version": "0.0.0-alpha.4",
+  "version": "0.0.0-alpha.8",
   "license": "MIT",
-  "exports": {
-    "./template": "./template/template.js",
-    "./html": "./html/html.js",
-    "./log": "./log/log.js",
-    "./userAgent": "./userAgent/userAgent.js"
-  },
+  "exports": "./main.ts",
   "compilerOptions": {
     "lib": ["es2022"]
   }

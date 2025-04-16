@@ -1,13 +1,6 @@
-import { assertEquals } from "https://deno.land/std@0.219.0/assert/mod.ts";
+import { assertEquals } from "jsr:@std/assert";
 
-import { escape, minify } from "./html.js";
-
-Deno.test("escape", () => {
-  assertEquals(
-    escape("<script>alert('hi')</script>"),
-    "&lt;script&gt;alert(&#39;hi&#39;)&lt;/script&gt;",
-  );
-});
+import minify from "./minify.ts";
 
 Deno.test("minify", () => {
   assertEquals(

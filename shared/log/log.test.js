@@ -1,6 +1,6 @@
-import { assertEquals } from "https://deno.land/std@0.219.0/assert/assert_equals.ts";
+import { assertEquals } from "jsr:@std/assert";
 
-import Log, { logError } from "./log.js";
+import Log, { logError } from "./log.ts";
 
 Deno.test("Log", () => {
   const _console = {

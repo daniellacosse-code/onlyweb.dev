@@ -1,5 +1,5 @@
 
-import { log } from "@onlyweb/shared/log";
+import { log } from "@onlyweb/shared";
 import { html } from "./html.ts";
 
 type AnyAttribute = string | number | object | boolean | void;

@@ -1,12 +1,26 @@
 // @ts-check
 
+type TemplateLiteralParameters<T> = {
+  /**
+   * The template
+   */
+  template: TemplateStringsArray;
+
+  /**
+   * The items to insert into the template
+   */
+  insertions: T[];
+
+  /**
+   * The function to handle the insertions
+   */
+  handleInsertion: (insertion: T) => string;
+}
+
 /**
  * Utility for handling a javascript template literals
- * @param {object} options The options
- * @param {TemplateStringsArray} options.template The template
- * @param {Array<any>} options.insertions The items to insert into the template
- * @param {(insertion: any) => string} options.handleInsertion The function to handle the insertions
- * @returns {string} The compiled template
+ * @param parameters The template literal parameters
+ * @returns The compiled template
  * @example
  *
  * ```js
@@ -17,7 +31,7 @@
  * }) // returns "<div>hello</div>"
  * ```
  */
-export const handle = ({ template, insertions, handleInsertion }) =>
+export const handle = <T>({ template, insertions, handleInsertion }: TemplateLiteralParameters<T>) =>
   insertions.reduce((result, insertion, index) => {
     let handledInsertion = "";
 

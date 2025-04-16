@@ -1,6 +1,6 @@
-import { assertEquals } from "https://deno.land/std@0.219.0/assert/assert_equals.ts";
+import { assertEquals } from "jsr:@std/assert";
 
-import { handle } from "./template.js";
+import { handle } from "./template.ts";
 
 Deno.test("template - handle", () => {
   assertEquals(

@@ -1,5 +1,4 @@
-import { escape } from "@onlyweb/shared/html";
-import { handle } from "@onlyweb/shared/template";
+import { escape, handle } from "@onlyweb/shared";
 
 /**
  * A utility for creating a templateable HTMLCollection
