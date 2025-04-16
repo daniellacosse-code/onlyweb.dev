@@ -79,10 +79,6 @@ type LogObject = {
   d?: string;
 };
 
-declare global {
-  var console: ConsoleLike;
-}
-
 /**
  * Log a message to the console
  * @param parameters 
@@ -93,7 +89,7 @@ export const log = (
     message,
     detail,
     level = "info",
-    _console = globalThis.console 
+    _console = (globalThis as any).console
   }: LogParameters,
 ) => {
   const logObject: LogObject = {
