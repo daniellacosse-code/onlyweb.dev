@@ -91,7 +91,7 @@ export const log = (
     level = "info",
     _console = (globalThis as any).console
   }: LogParameters,
-) => {
+): void => {
   const logObject: LogObject = {
     o: new Date().toISOString(),
     l: LOG_LEVELS[level],

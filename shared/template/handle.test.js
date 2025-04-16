@@ -1,6 +1,6 @@
 import { assertEquals } from "jsr:@std/assert";
 
-import { handle } from "./template.ts";
+import { handle } from "./handle.ts";
 
 Deno.test("template - handle", () => {
   assertEquals(

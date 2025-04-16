@@ -1,7 +1,4 @@
 {
-  "tasks": {
-    "commit": "bash ./.tasks/commit.sh"
-  },
   "workspace": [
     "./shared",
     "./backend",

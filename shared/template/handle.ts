@@ -31,7 +31,13 @@ type TemplateLiteralParameters<T> = {
  * }) // returns "<div>hello</div>"
  * ```
  */
-export const handle = <T>({ template, insertions, handleInsertion }: TemplateLiteralParameters<T>) =>
+export const handle = <T>(
+  {
+    template, 
+    insertions, 
+    handleInsertion 
+  }: TemplateLiteralParameters<T>
+): string =>
   insertions.reduce((result, insertion, index) => {
     let handledInsertion = "";
 
