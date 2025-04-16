@@ -1,6 +1,4 @@
-// @ts-check
-
-type TemplateLiteralParameters<T> = {
+export type TemplateLiteralParameters<T> = {
   /**
    * The template
    */
@@ -28,7 +26,12 @@ type TemplateLiteralParameters<T> = {
  *  template: ["<div>", "</div>"],
  *  insertions: ["hello"],
  *  handleInsertion: (insertion) => insertion
- * }) // returns "<div>hello</div>"
+ * }) 
+ * 
+ * const message = "hello";
+ * 
+ * const result = unsafeHtml`<div>${message}</div>`;
+ * // "<div>hello</div>"
  * ```
  */
 export const handle = <T>(

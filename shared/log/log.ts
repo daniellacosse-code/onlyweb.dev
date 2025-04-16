@@ -15,7 +15,7 @@ const LOG_LEVELS = {
 /**
  * A runtime-independent logger interface.
  */
-interface ConsoleLike {
+export interface ConsoleLike {
   /**
    * Logs a debug message.
    */
@@ -40,7 +40,7 @@ interface ConsoleLike {
 /**
  * The parameters the logger takes.
  */
-type LogParameters = {
+export type LogParameters = {
   /**
    * The message to log.
    */

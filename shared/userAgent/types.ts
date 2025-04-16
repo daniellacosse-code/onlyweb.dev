@@ -1,5 +1,5 @@
 /**
- * Canonical names for platform engines
+ * Canonical names for platform engines.
  */
 export type PlatformEngine =
   | 'Chrome'
@@ -12,7 +12,7 @@ export type PlatformEngine =
   | 'Seamonkey';
 
 /**
- * Instance of a user agent platform engine
+ * Instance of a user agent platform engine.
  */
 export type PlatformEngineInstance = {
   name: PlatformEngine;
@@ -20,7 +20,7 @@ export type PlatformEngineInstance = {
 };
 
 /**
- * Canonical names for platform renderers
+ * Canonical names for platform renderers.
  */
 export type PlatformRenderer =
   | 'Gecko'
@@ -30,7 +30,7 @@ export type PlatformRenderer =
   | 'EdgeHTML';
 
 /**
- * Instance of a user agent platform renderer
+ * Instance of a user agent platform renderer.
  */
 export type PlatformRendererInstance = {
   name: PlatformRenderer;
@@ -38,7 +38,7 @@ export type PlatformRendererInstance = {
 };
 
 /**
- * The current web renderer and browser engine in use
+ * The current web renderer and browser engine in use.
  */
 export type Platform = {
   renderer: PlatformRendererInstance;
@@ -46,7 +46,7 @@ export type Platform = {
 };
 
 /**
- * A set of platform requirements
+ * A set of platform requirements.
  */
 export type PlatformRequirements = {
   engine?: Partial<Record<PlatformEngine, number>>;
