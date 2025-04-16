@@ -1,7 +1,7 @@
 // @ts-check
 import { log, logError, type PlatformRequirements } from "@onlyweb/shared";
 import { html } from "./response.ts";
-import { Inliner } from "./inliner.ts";
+import { createInliner } from "./createInliner.ts";
 import type { PageHandler, PageRequest, PageResponse } from "../types.ts";
 
 // TODO: move livereload to repo-agnotic code
@@ -172,7 +172,7 @@ export const registerPage = (route: string, options: RegisterPageOptions ): void
           detail: response,
         });
 
-        const inliner = await Inliner(request, {
+        const inliner = await createInliner(request, {
           messagesFolder: "",
           frameworkBranch: options.frameworkBranch,
         });

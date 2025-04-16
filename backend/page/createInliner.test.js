@@ -1,9 +1,9 @@
 import { assertEquals } from "jsr:@std/assert";
 
-import Inliner from "./inliner.ts";
+import { createInliner } from "./createInliner.ts";
 
-Deno.test("Inliner", async () => {
-  const inliner = await Inliner({
+Deno.test("createInliner", async () => {
+  const inliner = await createInliner({
     url: new URL("https://example.com"),
     language: "en",
   }, {

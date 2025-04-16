@@ -22,12 +22,12 @@ export type InlinerOptions = {
 };
 
 /**
- * Creates a context-aware inliner that ecan inline elements, messages, and metadata into an HTML document.
+ * Creates a context-aware inliner that can inline elements, messages, and metadata into an HTML document.
  * @param request The request object.
  * @param options The inliner configuration options.
  * @returns The inliner.
  */
-export async function Inliner(
+export async function createInliner(
   request: PageRequest,
   {
     messagesFolder,
