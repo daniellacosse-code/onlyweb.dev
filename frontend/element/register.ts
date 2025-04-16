@@ -19,7 +19,7 @@ import { html } from "./html.ts";
  *  },
  * });
  * ```
- * @returns {void} Nothing is returned: the element is registered in the global customElements map
+ * @returns Nothing is returned: the element is registered in the global customElements map
  */
 export const registerElement = (
   tag: string,

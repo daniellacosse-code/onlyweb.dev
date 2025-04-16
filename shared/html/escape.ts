@@ -17,7 +17,7 @@ const escapedCharacters = new Map([
  * const safeHtml = escape(unsafeHtml); // returns "&lt;div&gt;hello&lt;/div&gt;"
  * ```
  */
-export const htmlEscape = (html: string): string => {
+export const escapeHtml = (html: string): string => {
   let result = "";
 
   for (const char of String(html)) {

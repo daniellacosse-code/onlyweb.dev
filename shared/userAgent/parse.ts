@@ -46,7 +46,7 @@ const RENDERER_CHECKERS: Record<PlatformRenderer, RegExp> = {
  * // }
  * ```
  */
-export const uaParse = (userAgent: string): Readonly<Platform> => {
+export const parseAgent = (userAgent: string): Readonly<Platform> => {
   let renderer, engine;
 
   // usually the first match is the renderer

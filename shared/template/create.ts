@@ -17,7 +17,7 @@
  * // "<div>hello</div>"
  * ```
  */
-export const templateCreate = <T>(
+export const createTemplate = <T>(
   {
     template, 
     insertions, 

@@ -1,10 +1,8 @@
 {
   "name": "@onlyweb/frontend",
-  "version": "0.0.0-alpha.10",
+  "version": "0.0.0-alpha.11",
   "license": "MIT",
-  "exports": {
-    ".": "./main.ts"
-  },
+  "exports": "./main.ts",
   "compilerOptions": {
     "lib": [
       "es2022",
