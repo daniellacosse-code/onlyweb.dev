@@ -26,9 +26,9 @@ export const start = (
         ? requestURL.pathname
         : `/${requestURL.pathname}`;
 
-      for (const route of globalThis.customPages.keys()) {
+      for (const route of (globalThis as any).customPages.keys()) {
         if (requestPath === route) {
-          const page = globalThis.customPages.get(route);
+          const page = (globalThis as any).customPages.get(route);
 
           if (page) {
             return page(request as PageRequest);

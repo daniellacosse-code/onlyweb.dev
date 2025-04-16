@@ -1,7 +1,3 @@
-declare global {
-  var customPages: Map<string, PageHandler>;
-}
-
 /**
  * A request for a page.
  * Extends the standard Request interface.

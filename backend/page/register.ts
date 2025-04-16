@@ -70,7 +70,7 @@ export type RegisterPageOptions = {
  * @returns Nothing is returned: the page is registered in the global customPages map
  */
 export const registerPage = (route: string, options: RegisterPageOptions ): void => {
-  globalThis.customPages ??= new Map();
+  (globalThis as any).customPages ??= new Map();
 
   if (route.startsWith("/framework")) {
     log({
@@ -81,7 +81,7 @@ export const registerPage = (route: string, options: RegisterPageOptions ): void
     return;
   }
 
-  if (globalThis.customPages.has(route)) {
+  if ((globalThis as any).customPages.has(route)) {
     log({
       message:
         `[framework/backend/register] Page "${route}" already registered.`,
@@ -101,7 +101,7 @@ export const registerPage = (route: string, options: RegisterPageOptions ): void
     handleServiceWorker = () => {},
   } = options;
 
-  globalThis.customPages.set(
+  (globalThis as any).customPages.set(
     route,
     async (request: PageRequest): Promise<Response | PageResponse> => {
       Object.defineProperty(request, "url", {
