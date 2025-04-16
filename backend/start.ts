@@ -39,7 +39,7 @@ export const start = (
       try {
         return serveFile(request, resolve(Deno.cwd(), `.${requestPath}`));
       } catch {
-        return Promise.resolve(new Response("Not Found", { status: 404 });
+        return Promise.resolve(new Response("Not Found", { status: 404 }));
       }
     }
   );
