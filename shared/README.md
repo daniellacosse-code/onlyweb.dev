@@ -8,8 +8,6 @@ TODO
 deno bench
 ```
 
-<img width="500" alt="Lighthouse performance report" src="https://github.com/user-attachments/assets/b647a602-3254-4c8a-a732-a7f1686fb5bd">
-
 ```
 cpu: Apple M1 Max
 runtime: deno 1.40.5 (aarch64-apple-darwin)
