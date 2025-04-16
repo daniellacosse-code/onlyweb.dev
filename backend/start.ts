@@ -17,7 +17,7 @@ export const start = (
   { 
     port = Number(Deno.env.get("ONLY_WEB_SERVER_PORT") ?? ONLY_WEB_SERVER_PORT) 
   }: StartOptions
-) =>
+): void => {
   Deno.serve(
     { port, hostname: "localhost" },
     (request: Request): Promise<Response> => {
@@ -43,3 +43,4 @@ export const start = (
       }
     }
   );
+}

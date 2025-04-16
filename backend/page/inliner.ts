@@ -1,5 +1,5 @@
-import { encodeBase64 } from "jsr:@std/encoding";
-import * as path from "jsr:@std/path";
+import { encodeBase64 } from "jsr:@std/encoding@1.0.9";
+import * as path from "jsr:@std/path@1.0.8";
 
 import { minifyHtml, log } from "@onlyweb/shared";
 

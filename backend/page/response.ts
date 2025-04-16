@@ -78,7 +78,7 @@ const _Response = (mimetype = "text/html"): PageTemplate => {
 };
 
 /** Template literal for generating an html response. */
-export const html = _Response("text/html");
+export const html: PageTemplate = _Response("text/html");
 
 /** Template literal for fenerating a javascript response. */
-export const js = _Response("text/javascript");
+export const js: PageTemplate = _Response("text/javascript");
