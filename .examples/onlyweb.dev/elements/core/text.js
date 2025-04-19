@@ -1,9 +1,13 @@
-$Frontend.Element.Register("core-text", {
+// @ts-check
+
+import { html, registerElement } from "@onlyweb/frontend";
+
+registerElement("core-text", {
   buildAttributes: {
-    type: String
+    type: String,
   },
   handleBuild({ type = "paragraph" }) {
-    return $Frontend.Element.html`<style>
+    return html`<style>
         slot {
           cursor: inherit;
           font-family: system-ui;
@@ -15,5 +19,5 @@ $Frontend.Element.Register("core-text", {
         }
       </style>
       <slot></slot>`;
-  }
+  },
 });

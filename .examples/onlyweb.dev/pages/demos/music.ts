@@ -1,8 +1,8 @@
-import Backend from "../../../../backend/main.js";
+import { html, js, registerPage } from "@onlyweb/backend";
 
-Backend.Page.Register("/demos/music", {
+registerPage("/demos/music", {
   handleRequest: () => {
-    return $Backend.Page.Response.html`<head>
+    return html`<head>
         <!-- TODO -->
          <style>
           :root {
@@ -460,7 +460,7 @@ Backend.Page.Register("/demos/music", {
     `;
   },
   handleServiceWorker: () =>
-    $Backend.Page.Response.js`
+    js`
   self.addEventListener("install", (event) => {
     event.waitUntil(
       caches.open("/demos/music").then((cache) => {

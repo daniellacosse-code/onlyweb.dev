@@ -1,6 +1,11 @@
-$Frontend.Element.Register(
+// @ts-check
+
+import { html, registerElement } from "@onlyweb/frontend";
+
+registerElement(
   "core-loading-skeleton",
-  () => $Frontend.Element.html`<style>
+  () =>
+    html`<style>
     div {
       display: block;
       width: 100%;
@@ -25,5 +30,5 @@ $Frontend.Element.Register(
       }
     }
   </style>
-  <div></div>`
+  <div></div>`,
 );

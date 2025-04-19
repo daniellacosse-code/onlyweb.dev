@@ -1,20 +1,22 @@
-$Frontend.Element.Register("counter-demo", {
-  host: {
-    handleMount() {
-      this.state ??= {};
+// @ts-check
 
-      this.addEventListener("click", ({ target }) => {
-        const targetID = target.getAttribute("id");
-        const currentState = this.state[targetID] || 0;
+import { registerElement } from "@onlyweb/frontend";
 
-        this.state[targetID] = currentState + 1;
+registerElement("counter-demo", {
+  handleMount() {
+    this.state ??= {};
 
-        for (const [key, value] of Object.entries(this.state)) {
-          const target = this.querySelector(`#${key}`);
+    this.addEventListener("click", ({ target }) => {
+      const targetID = target.getAttribute("id");
+      const currentState = this.state[targetID] || 0;
 
-          if (target) target.textContent = value;
-        }
-      });
-    }
-  }
+      this.state[targetID] = currentState + 1;
+
+      for (const [key, value] of Object.entries(this.state)) {
+        const target = this.querySelector(`#${key}`);
+
+        if (target) target.textContent = value;
+      }
+    });
+  },
 });

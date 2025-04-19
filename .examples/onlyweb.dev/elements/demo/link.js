@@ -1,10 +1,14 @@
-$Frontend.Element.Register("demo-link", {
+// @ts-check
+
+import { html, registerElement } from "@onlyweb/frontend";
+
+registerElement("demo-link", {
   buildAttributes: {
     src: String,
-    title: String
+    title: String,
   },
   handleBuild({ src, title }) {
-    return $Frontend.Element.html`
+    return html`
       <style>
         core-link {
           --core-link-color: var(--color-neutral);
@@ -21,5 +25,5 @@ $Frontend.Element.Register("demo-link", {
       </core-link>
       <br />
       <slot></slot>`;
-  }
+  },
 });

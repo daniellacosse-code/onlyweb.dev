@@ -1,8 +1,7 @@
-import Backend from "../../../backend/main.js";
-
+import { html } from "@onlyweb/backend";
 import * as constants from "/constants.js";
 
-export default Backend.Page.Response.html`<style>
+export default html`<style>
   :root {
     --color-background: ${constants.THEME_COLOR_BACKGROUND};
     --color-foreground: ${constants.THEME_COLOR_FOREGROUND};

@@ -1,17 +1,19 @@
-$Frontend.Element.Register("demo-frame", {
+// @ts-check
+
+import { html, registerElement } from "@onlyweb/frontend";
+
+registerElement("demo-frame", {
   buildAttributes: {
     author: String,
     height: Number,
     src: String,
-    title: String
+    title: String,
   },
   handleBuild({ author = "", height = 500, src, title = "Demo Frame" }) {
-    const authorElement =
-      author &&
-      $Frontend.Element
-        .html`<core-text class="author">Author: ${author}</core-text>`;
+    const authorElement = author &&
+      html`<core-text class="author">Author: ${author}</core-text>`;
 
-    return $Frontend.Element.html`<style>
+    return html`<style>
       :host {
         display: flex;
         flex-direction: column;
@@ -76,5 +78,5 @@ $Frontend.Element.Register("demo-frame", {
     this.querySelector("iframe").addEventListener("load", () => {
       this.querySelector("core-loading-skeleton").classList.add("loaded");
     });
-  }
+  },
 });

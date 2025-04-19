@@ -1,28 +1,28 @@
-import Backend from "../../../backend/main.js";
+import { createInliner, html, js, registerPage } from "@onlyweb/backend";
 
 import * as constants from "/constants.js";
 import OnlyWebTheme from "/pages/shared-theme.js";
 
 const route = "/";
 
-Backend.Page.Register(route, {
+registerPage(route, {
   handleRequest: async (request) => {
-    const inliner = await Backend.Page.Inliner(
+    const inliner = await createInliner(
       request,
       { messagesFolder: "/assets/messages" },
     );
 
-    const logoSrc = (request.url.origin.match(/localhost/)
-      ? request.url.origin
+    const logoSrc = (request.parsedUrl.origin.match(/localhost/)
+      ? request.parsedUrl.origin
       : constants.KEYCDN_IMAGE_ZONE_URL) +
       "/assets/images/logo/black.svg";
 
-    const inverseLogoSrc = (request.url.origin.match(/localhost/)
-      ? request.url.origin
+    const inverseLogoSrc = (request.parsedUrl.origin.match(/localhost/)
+      ? request.parsedUrl.origin
       : constants.KEYCDN_IMAGE_ZONE_URL) +
       "/assets/images/logo/white.svg";
 
-    return Backend.Page.Response.html`<head>
+    return html`<head>
       <meta charset="utf-8" />
       <meta name="viewport" content="width=device-width, initial-scale=1" />
       <link rel="manifest" href="/assets/manifest.json" />
@@ -310,7 +310,7 @@ Backend.Page.Register(route, {
     </body>`;
   },
   handleServiceWorker: () =>
-    Backend.Page.Response.js`
+    js`
       self.addEventListener("install", (event) => {
         event.waitUntil(
           caches.open("${route}").then((cache) => {

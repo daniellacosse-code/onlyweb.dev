@@ -1,4 +1,8 @@
-const sharedStyles = $Frontend.Element.html`<style>
+// @ts-check
+
+import { html, registerElement } from "@onlyweb/frontend";
+
+const sharedStyles = html`<style>
   button {
     width: 100%;
     height: 100%;
@@ -35,13 +39,13 @@ const sharedStyles = $Frontend.Element.html`<style>
   }
 </style>`;
 
-$Frontend.Element.Register("core-button", {
+registerElement("core-button", {
   buildAttributes: {
-    disabled: Boolean
+    disabled: Boolean,
   },
   handleBuild({ disabled }) {
-    if (disabled)
-      return $Frontend.Element.html`${sharedStyles}
+    if (disabled) {
+      return html`${sharedStyles}
           <style>
             button {
               cursor: not-allowed;
@@ -51,8 +55,9 @@ $Frontend.Element.Register("core-button", {
           <button disabled>
             <slot></slot>
           </button>`;
+    }
 
-    return $Frontend.Element.html`${sharedStyles}
+    return html`${sharedStyles}
         <style>
           button:hover,
           button:active,
@@ -68,5 +73,5 @@ $Frontend.Element.Register("core-button", {
         <button>
           <slot></slot>
         </button>`;
-  }
+  },
 });

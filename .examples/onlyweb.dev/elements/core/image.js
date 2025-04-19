@@ -1,14 +1,18 @@
-$Frontend.Element.Register("core-image", {
+// @ts-check
+
+import { html, registerElement } from "@onlyweb/frontend";
+
+registerElement("core-image", {
   buildAttributes: {
     alt: String,
     height: String,
     loaded: Boolean,
     src: String,
-    width: String
+    width: String,
   },
   handleBuild({ height, loaded, width }) {
     if (loaded) {
-      return $Frontend.Element.html`<style>
+      return html`<style>
             img {
               display: inline-block;
               width: ${width};
@@ -21,7 +25,7 @@ $Frontend.Element.Register("core-image", {
           ${this.__image__}`;
     }
 
-    return $Frontend.Element.html`
+    return html`
         <style>
           core-loading-skeleton {
             display: inline-block;
@@ -42,5 +46,5 @@ $Frontend.Element.Register("core-image", {
     this.__image__.onload = () => (this.buildAttributes.loaded = true);
     this.__image__.src = url.toString();
     this.__image__.alt = alt;
-  }
+  },
 });

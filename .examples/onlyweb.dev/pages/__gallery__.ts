@@ -1,10 +1,10 @@
-import Backend from "../../../backend/main.js";
+import { registerPage, createInliner, html } from "@onlyweb/backend";
 
 import * as constants from "/constants.js";
-import OnlyWebTheme from "/pages/shared-theme.js";
+import OnlyWebTheme from "/pages/shared-theme.ts";
 
-Backend.Page.Register("/__gallery__", async (request) => {
-  const inliner = await Backend.Page.Inliner(request, {
+registerPage("/__gallery__", async (request) => {
+  const inliner = await createInliner(request, {
     messagesFolder: "/assets/messages",
   });
 
@@ -13,7 +13,7 @@ Backend.Page.Register("/__gallery__", async (request) => {
     : constants.KEYCDN_IMAGE_ZONE_URL) +
     "/assets/images/logo/maskable.png";
 
-  return Backend.Page.Response.html`<head>
+  return html`<head>
     <meta charset="utf-8" />
     <link rel="icon" href="/assets/images/logo/maskable.png" />
     <link rel="manifest" href="/assets/manifest.json" />

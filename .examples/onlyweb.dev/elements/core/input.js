@@ -1,4 +1,8 @@
-const sharedStyles = $Frontend.Element.html`<style>
+// @ts-check
+
+import { html, registerElement } from "@onlyweb/frontend";
+
+const sharedStyles = html`<style>
   .wrapper,
   input,
   [contenteditable="true"],
@@ -52,10 +56,10 @@ const sharedStyles = $Frontend.Element.html`<style>
 
 const makeLabelID = (label) => label.toLowerCase().replace(/\s/g, "-");
 
-$Frontend.Element.Register("core-input", {
+registerElement("core-input", {
   buildAttributes: {
     label: String,
-    type: String
+    type: String,
   },
   handleBuild({ label = "", type = "content" }) {
     const __inputID__ = makeLabelID(label);
@@ -67,7 +71,7 @@ $Frontend.Element.Register("core-input", {
       case "password":
       case "email":
       case "search":
-        inputElement = $Frontend.Element.html`
+        inputElement = html`
           <input id="${__inputID__}"
             type="${type}" 
             aria-labelledby="${__inputID__}-label" 
@@ -77,7 +81,7 @@ $Frontend.Element.Register("core-input", {
 
       case "content":
       default:
-        inputElement = $Frontend.Element.html`
+        inputElement = html`
             <style>
               b, i, u { color: var(--color-foreground); }
               b { font-weight: bold; }
@@ -91,7 +95,7 @@ $Frontend.Element.Register("core-input", {
             ></div>`;
     }
 
-    return $Frontend.Element.html`
+    return html`
         ${sharedStyles}
         <div class="wrapper">
           <label id="${__inputID__}-label">${label}</label>
@@ -103,15 +107,17 @@ $Frontend.Element.Register("core-input", {
 
     const __inputID__ = makeLabelID(label);
 
-    this.addEventListener("focus", () =>
-      this.querySelector(`#${__inputID__}`).focus()
+    this.addEventListener(
+      "focus",
+      () => this.querySelector(`#${__inputID__}`).focus(),
     );
 
     this.addEventListener("input", ({ target }) => {
-      const value =
-        target.localName === "input" ? target.value : target.textContent;
+      const value = target.localName === "input"
+        ? target.value
+        : target.textContent;
       this.value = value;
       this.querySelector("label").classList.toggle("hidden", Boolean(value));
     });
-  }
+  },
 });

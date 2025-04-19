@@ -1,9 +1,13 @@
-$Frontend.Element.Register("core-link", {
+// @ts-check
+
+import { html, registerElement } from "@onlyweb/frontend";
+
+registerElement("core-link", {
   buildAttributes: {
-    href: String
+    href: String,
   },
   handleBuild({ href = "#" }) {
-    return $Frontend.Element.html`<style>
+    return html`<style>
       a {
         display: inline-block;
       }
@@ -22,5 +26,5 @@ $Frontend.Element.Register("core-link", {
       }
     </style>
     <a href="${href}" target="_blank"><slot></slot></a>`;
-  }
+  },
 });
