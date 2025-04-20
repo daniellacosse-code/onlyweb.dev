@@ -10,5 +10,9 @@
       "dom",
       "dom.iterable"
     ]
+  },
+  "imports": {
+    "@onlyweb/backend": "../../backend/main.ts",
+    "@onlyweb/shared": "../../shared/main.ts"
   }
 }
