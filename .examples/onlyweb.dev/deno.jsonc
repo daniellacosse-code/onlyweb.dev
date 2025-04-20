@@ -12,7 +12,7 @@
     ]
   },
   "imports": {
-    "@onlyweb/backend": "../../backend/main.ts",
-    "@onlyweb/shared": "../../shared/main.ts"
+    "@onlyweb/backend": "jsr:@onlyweb/backend",
+    "@onlyweb/shared": "jsr:@onlyweb/shared"
   }
 }
