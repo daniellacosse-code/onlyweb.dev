@@ -4,6 +4,7 @@
     "jsr:@deno/cache-dir@0.13.2": "0.13.2",
     "jsr:@deno/cache-dir@0.8": "0.8.0",
     "jsr:@deno/emit@*": "0.46.0",
+    "jsr:@deno/emit@0.46.0": "0.46.0",
     "jsr:@deno/graph@~0.73.1": "0.73.1",
     "jsr:@std/assert@*": "0.218.2",
     "jsr:@std/assert@0.223": "0.223.0",
@@ -21,6 +22,7 @@
     "jsr:@std/fs@0.223": "0.223.0",
     "jsr:@std/fs@~0.218.2": "0.218.2",
     "jsr:@std/html@^1.0.3": "1.0.3",
+    "jsr:@std/http@*": "1.0.14",
     "jsr:@std/http@1": "1.0.14",
     "jsr:@std/io@0.223": "0.223.0",
     "jsr:@std/io@~0.218.2": "0.218.2",
@@ -355,5 +357,15 @@
     "https://deno.land/x/emit@0.40.0/emit.generated.js": "65621c730ae9e4e818a3f83913562101dc9a371befbdb44d81e09a1532af5089",
     "https://deno.land/x/emit@0.40.0/mod.ts": "04b1818a60d6f85ca991bc4369634ea55d51388c4154b0100dfbe3c9684e2318",
     "https://raw.githubusercontent.com/daniellacosse-code/onlyweb.dev/main/bundles/$Backend.js": "75a3f2502c821e8d3945f4e2dc4a377098f0149220d86cee7ff0edf79b6544f5"
+  },
+  "workspace": {
+    "members": {
+      ".examples/onlyweb.dev": {
+        "dependencies": [
+          "jsr:@onlyweb/backend@0.0.0-alpha.13",
+          "jsr:@onlyweb/shared@0.0.0-alpha.12"
+        ]
+      }
+    }
   }
 }

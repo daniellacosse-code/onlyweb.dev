@@ -260,6 +260,8 @@ registerPage(route, {
         </article>
       </main>
       <script type="module">
+        import { html } from "@onlyweb/frontend";
+
         const sidebarMenuContents = [
           { content: "Audio: Synthesizer", href: "#synthesizer" },
           { content: "Audio: Chord Reader", href: "#chord-reader" },
@@ -275,7 +277,7 @@ registerPage(route, {
         const renderSidebarMenuContents = (contents) => {
           sidebarOptionsListElement.replaceChildren(
             // TODO(#195): how do I/can I/should I nest templates?
-            ...contents.flatMap(({href, content}) => Array.from($Frontend.Element.html(["<li><a href='", "'>", "</a></li>"], href, content)))
+            ...contents.flatMap(({href, content}) => Array.from(html(["<li><a href='", "'>", "</a></li>"], href, content)))
           );
         };
 

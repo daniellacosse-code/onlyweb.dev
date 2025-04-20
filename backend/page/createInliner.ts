@@ -87,31 +87,43 @@ export async function createInliner(
       });
 
       for (const filePath of elementFilePaths) {
+        const rootFileUrl = "file://" + path.join(Deno.cwd(), filePath);
+
         let fileContents;
 
-        fileContents = Deno.readTextFileSync(`.${filePath}`);
-
-        log({
-          message:
-            `[framework/backend/inliner#elements] loaded element "${filePath}"`,
-          level: "debug",
-        });
-
         if (filePath.endsWith(".ts")) {
-          fileContents = (await transpile(fileContents, {})).get(filePath);
+          fileContents = (await transpile(rootFileUrl, {
+            importMap: {
+              imports: {
+                "@onlyweb/frontend": "https://esm.sh/jsr/@onlyweb/frontend@0.0.0-alpha.12",
+                "@onlyweb/shared": "https://esm.sh/jsr/@onlyweb/shared@0.0.0-alpha.12"
+              }
+            },
+            compilerOptions: {
+              sourceMap: false,
+              inlineSourceMap: false
+            }
+          })).get(rootFileUrl);
 
           if (!fileContents) {
             throw new Error(
-              `[framework/backend/inliner#elements] Failed to transpile element "${filePath}"`,
+              `[framework/backend/inliner#elements] Failed to transpile element file "${filePath}"`,
             );
           }
+        } else {
+          fileContents = await Deno.readTextFile(`.${filePath}`);
         }
 
-        const sanitizedScript = minifyHtml(fileContents);
+        log({
+          message:
+            `[framework/backend/inliner#elements] loaded element file "${filePath}"`,
+          level: "debug",
+        });
+
         result.push(Response.html`<script
           type="module"
           src="data:application/javascript;base64,${encodeBase64(
-          sanitizedScript,
+          minifyHtml(fileContents)
         )
           }"></script>`);
         log({

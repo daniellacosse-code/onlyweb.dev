@@ -103,6 +103,7 @@ export const registerPage = (route: string, options: RegisterPageOptions ): void
   (globalThis as any).customPages.set(
     route,
     async (request: PageRequest): Promise<Response | PageResponse> => {
+      // TODO: remove with OWFRequest
       Object.defineProperty(request, "parsedUrl", {
         writable: true,
         value: new URL(request.url),
@@ -174,7 +175,6 @@ export const registerPage = (route: string, options: RegisterPageOptions ): void
         const pageResponse = html`
           <!DOCTYPE html>
           <html lang="${request.language}">
-            ${response}
             <script type="importmap">
               {
                 "imports": {
@@ -183,6 +183,7 @@ export const registerPage = (route: string, options: RegisterPageOptions ): void
                 }
               }
             </script>
+            ${response}
             <script type="module">
               import { requirements as systemRequirements } from "@onlyweb/frontend";
               import { checkAgent, parseAgent, mergeRequirements, log } from "@onlyweb/shared";
