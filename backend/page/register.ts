@@ -1,7 +1,6 @@
 // @ts-check
 import { log, logError, type PlatformRequirements } from "@onlyweb/shared";
 import { html } from "./response.ts";
-import { createInliner } from "./createInliner.ts";
 import type { PageHandler, PageRequest, PageResponse } from "../types.ts";
 
 // TODO: move livereload to repo-agnotic code

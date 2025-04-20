@@ -1,6 +1,6 @@
 import { assertEquals } from "jsr:@std/assert";
 
-import Log, { logError } from "./log.ts";
+import { log, logError } from "./log.ts";
 
 Deno.test("Log", () => {
   const _console = {
@@ -15,7 +15,7 @@ Deno.test("Log", () => {
       );
     },
   };
-  Log({ message: "Hello, world!", _console });
+  log({ message: "Hello, world!", _console });
 });
 
 Deno.test("LogError", () => {

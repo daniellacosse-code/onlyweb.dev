@@ -1,10 +1,10 @@
 import { assertEquals } from "jsr:@std/assert";
 
-import check from "./check.ts";
+import { checkAgent } from "./check.ts";
 
 Deno.test("check", () => {
   assertEquals(
-    check(
+    checkAgent(
       {
         engine: {
           name: "Chrome",
