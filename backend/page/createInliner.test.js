@@ -4,7 +4,7 @@ import { createInliner } from "./createInliner.ts";
 
 Deno.test("createInliner", async () => {
   const inliner = await createInliner({
-    url: new URL("https://example.com"),
+    parsedUrl: new URL("https://example.com"),
     language: "en",
   }, {
     messagesFolder: "",
