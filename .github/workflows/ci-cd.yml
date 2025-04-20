@@ -75,4 +75,4 @@ jobs:
           deno-version: v2.x
 
       - name: Publish Packages
-        run: deno publish --provenance
+        run: deno publish
