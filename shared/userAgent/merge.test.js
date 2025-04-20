@@ -1,10 +1,10 @@
 import { assertEquals } from "jsr:@std/assert";
 
-import { mergeAgent } from "./merge.ts";
+import { mergeRequirements } from "./merge.ts";
 
 Deno.test("merge", () => {
   assertEquals(
-    mergeAgent(
+    mergeRequirements(
       {
         engine: {
           Chrome: 88,

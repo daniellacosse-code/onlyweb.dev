@@ -1,6 +1,6 @@
 import { assertEquals } from "jsr:@std/assert";
 
-import Response from "./response.ts";
+import * as Response from "./response.ts";
 
 Deno.test("Response", () => {
   assertEquals(Response.html`<p>test</p>`.content, "<p>test</p>");

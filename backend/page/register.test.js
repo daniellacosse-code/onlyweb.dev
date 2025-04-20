@@ -1,8 +1,8 @@
 import { assertEquals } from "jsr:@std/assert";
-import register from "./register.ts";
+import { registerPage } from "./register.ts";
 
 Deno.test("register", async () => {
-  await register("/", {
+  await registerPage("/", {
     handleRequest: () => new Response(),
     handleServiceWorker: () => new Response(),
   });
@@ -21,7 +21,7 @@ Deno.test("register", async () => {
 });
 
 Deno.test("function register", async () => {
-  await register("/", () => new Response());
+  await registerPage("/", () => new Response());
 
   assertEquals(Boolean(globalThis.customPages.get("/")), true);
   assertEquals(

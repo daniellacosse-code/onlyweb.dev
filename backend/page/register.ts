@@ -185,7 +185,7 @@ export const registerPage = (route: string, options: RegisterPageOptions ): void
             </script>
             <script type="module">
               import { requirements as systemRequirements } from "@onlyweb/frontend";
-              import { checkAgent, parseAgent, mergeAgent, log } from "@onlyweb/shared";
+              import { checkAgent, parseAgent, mergeRequirements, log } from "@onlyweb/shared";
 
               (function () {
                 // check browser requirements
@@ -194,7 +194,7 @@ export const registerPage = (route: string, options: RegisterPageOptions ): void
                     navigator.userAgent &&
                     checkAgent(
                       parseAgent(navigator.userAgent),
-                      mergeAgent(${requirements}, systemRequirements)                        
+                      mergeRequirements(${requirements}, systemRequirements)                        
                     )
                   )
                 ) {

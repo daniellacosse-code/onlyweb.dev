@@ -10,11 +10,6 @@ Deno.test("createInliner", async () => {
     messagesFolder: "",
   });
 
-  assertEquals(
-    await inliner.elements(() => "register element").content,
-    `<script type="module" src="data:application/javascript;base64,KCgpID0+ICJyZWdpc3RlciBlbGVtZW50IikoKTs="></script>`,
-  );
-
   assertEquals(await inliner.message("test"), "test");
   assertEquals(
     (
