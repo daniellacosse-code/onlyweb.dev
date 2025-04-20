@@ -1,5 +1,3 @@
-// @ts-check
-
 import { html, registerElement } from "@onlyweb/frontend";
 
 registerElement(

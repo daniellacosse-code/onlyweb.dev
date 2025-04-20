@@ -2,6 +2,40 @@
 import { log } from "@onlyweb/shared";
 import { html } from "./html.ts";
 
+export type AnyAttribute = string | number | object | boolean | void;
+export type AnyAttributeMap = { [name: string]: AnyAttribute };
+export type AnyAttributeConstructor = typeof String | typeof Number | typeof Object | typeof Boolean;
+
+export interface HTMLElementWithBuildAttributes extends HTMLElement {
+  buildAttributes: AnyAttributeMap;
+}
+
+/**
+ * The options for registering an element
+ */
+export interface ElementRegistrationOptions {
+  /**
+   * The attributes of the element, that, when modified, will trigger a template build
+   */
+  buildAttributes?: { [name: string]: AnyAttributeConstructor };
+
+  /**
+   * The core of the element: use it to build the template from which the shadow DOM will be constructed
+   */
+  handleBuild?: (this: HTMLElementWithBuildAttributes, buildAttributes: AnyAttributeMap) => HTMLCollection;
+
+  /**
+   * Is called when the element is mounted: use it to set up the shadow DOM and register event listeners
+   */
+  handleMount?: (this: HTMLElementWithBuildAttributes, buildAttributes: AnyAttributeMap) => void;
+
+  /**
+   * The dismount handler: use it to clean up event listeners and other resources
+   */
+  handleDismount?: (this: HTMLElementWithBuildAttributes, buildAttributes: AnyAttributeMap) => void;
+}
+
+
 /**
  * Registers a custom element with the global customElements map
  * @param tag The tag of the element
@@ -41,31 +75,43 @@ export const registerElement = (
   const {
     buildAttributes = {},
     handleBuild,
-    handleMount = () => { },
-    handleDismount = () => { },
+    handleMount,
+    handleDismount,
   } = options;
 
   globalThis.customElements.define(
     tag,
+    // @ts-ignore
     class extends HTMLElement {
       // element data - template attributes
       static observedAttributes = Object.keys(buildAttributes);
 
-      buildAttributes: object;
+      buildAttributes: AnyAttributeMap;
       template: ShadowRoot;
 
       #eventController = new AbortController();
 
-      #handleMount;
-      #handleTemplateBuild;
-      #handleDismount;
+      #handleMount?: (buildAttributes: AnyAttributeMap) => void;
+      #handleTemplateBuild?: (buildAttributes: AnyAttributeMap) => HTMLCollection;
+      #handleDismount?: (buildAttributes: AnyAttributeMap) => void;
 
       constructor() {
         super();
 
-        this.#handleMount = handleMount.bind(this);
-        this.#handleTemplateBuild = handleBuild.bind(this);
-        this.#handleDismount = handleDismount.bind(this);
+        if (handleMount) {
+          // @ts-ignore
+          this.#handleMount = handleMount.bind(this);
+        }
+
+        if (handleBuild) {
+          // @ts-ignore
+          this.#handleTemplateBuild = handleBuild.bind(this);
+        }
+
+        if (handleDismount) {
+          // @ts-ignore
+          this.#handleDismount = handleDismount.bind(this);
+        }
 
         this.template = this.attachShadow({ mode: "open" });
         this.buildAttributes = new Proxy(
@@ -99,7 +145,7 @@ export const registerElement = (
 
         this.#buildTemplate();
         requestAnimationFrame(() =>
-          this.#handleMount(this.buildAttributes ?? {})
+          this.#handleMount?.(this.buildAttributes)
         );
       }
 
@@ -119,16 +165,18 @@ export const registerElement = (
           level: "debug",
         });
 
-        this.#handleDismount(this.buildAttributes ?? {});
+        this.#handleDismount?.(this.buildAttributes);
 
         this.#eventController.abort();
       }
-
+    
+      // @ts-ignore
       override addEventListener(
-        eventType: string | keyof HTMLElementEventMap, 
+        eventType: string,
         listener: EventListenerOrEventListenerObject | null,
         options?: boolean | AddEventListenerOptions
-      ) {
+      ): void {
+
         if (!eventType) {
           return;
         }
@@ -207,7 +255,7 @@ export const registerElement = (
         });
 
         const templateResult =
-          this.#handleTemplateBuild(this.buildAttributes ?? {}) ??
+          this.#handleTemplateBuild?.(this.buildAttributes) ??
           html`<slot></slot>`;
         const templateWrapper = html`<template>
           <style>
@@ -272,31 +320,3 @@ export const registerElement = (
     },
   );
 };
-
-export type AnyAttribute = string | number | object | boolean | void;
-export type AnyAttributeConstructor = typeof String | typeof Number | typeof Object | typeof Boolean;
-
-/**
- * The options for registering an element
- */
-export interface ElementRegistrationOptions {
-  /**
-   * The attributes of the element, that, when modified, will trigger a template build
-   */
-  buildAttributes?: { [name: string]: AnyAttributeConstructor };
-
-  /**
-   * The core of the element: use it to build the template from which the shadow DOM will be constructed
-   */
-  handleBuild: (buildAttributes: object) => HTMLCollection;
-
-  /**
-   * Is called when the element is mounted: use it to set up the shadow DOM and register event listeners
-   */
-  handleMount?: (buildAttributes: object) => void;
-
-  /**
-   * The dismount handler: use it to clean up event listeners and other resources
-   */
-  handleDismount?: (buildAttributes: object) => void;
-}

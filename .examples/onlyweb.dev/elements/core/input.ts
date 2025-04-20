@@ -1,6 +1,8 @@
-// @ts-check
-
 import { html, registerElement } from "@onlyweb/frontend";
+
+interface InputElement extends HTMLElement {
+  value?: string | null;
+}
 
 const sharedStyles = html`<style>
   .wrapper,
@@ -54,7 +56,7 @@ const sharedStyles = html`<style>
   }
 </style>`;
 
-const makeLabelID = (label) => label.toLowerCase().replace(/\s/g, "-");
+const makeLabelID = (label: string) => label.toLowerCase().replace(/\s/g, "-");
 
 registerElement("core-input", {
   buildAttributes: {
@@ -62,7 +64,7 @@ registerElement("core-input", {
     type: String,
   },
   handleBuild({ label = "", type = "content" }) {
-    const __inputID__ = makeLabelID(label);
+    const __inputID__ = makeLabelID(label as string);
 
     let inputElement;
 
@@ -98,26 +100,31 @@ registerElement("core-input", {
     return html`
         ${sharedStyles}
         <div class="wrapper">
-          <label id="${__inputID__}-label">${label}</label>
+          <label id="${__inputID__}-label">${label as string}</label>
           ${inputElement}
         </div>`;
   },
-  handleMount({ label = "" }) {
-    this.setAttribute("tabIndex", 0);
+  handleMount(this: InputElement, { label = "" }) {
+    this.setAttribute("tabIndex", "0");
 
-    const __inputID__ = makeLabelID(label);
+    const __inputID__ = makeLabelID(label as string);
 
     this.addEventListener(
       "focus",
-      () => this.querySelector(`#${__inputID__}`).focus(),
+      () => (this.querySelector(`#${__inputID__}`) as HTMLElement).focus(),
     );
 
     this.addEventListener("input", ({ target }) => {
-      const value = target.localName === "input"
-        ? target.value
-        : target.textContent;
+      if (!target) {
+        return
+      }
+
+      const value = (target as HTMLInputElement).localName === "input"
+        ? (target as HTMLInputElement).value
+        : (target as HTMLInputElement).textContent;
+      
       this.value = value;
-      this.querySelector("label").classList.toggle("hidden", Boolean(value));
+      this.querySelector("label")?.classList.toggle("hidden", Boolean(value));
     });
   },
 });

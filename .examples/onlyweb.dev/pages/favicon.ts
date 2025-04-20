@@ -1,7 +1,7 @@
 import { registerPage } from "@onlyweb/backend";
 
 import { resolve } from "jsr:@std/path";
-import { serveFile } from "jsr:@std/http/file_server";
+import { serveFile } from "jsr:@std/http/file-server";
 
 registerPage("/favicon.ico", (request) =>
   serveFile(

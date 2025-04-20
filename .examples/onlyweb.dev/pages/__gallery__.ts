@@ -1,15 +1,15 @@
 import { registerPage, createInliner, html } from "@onlyweb/backend";
 
-import * as constants from "/constants.js";
-import OnlyWebTheme from "/pages/shared-theme.ts";
+import * as constants from "../constants.ts";
+import OnlyWebTheme from "./shared-theme.ts";
 
 registerPage("/__gallery__", async (request) => {
   const inliner = await createInliner(request, {
     messagesFolder: "/assets/messages",
   });
 
-  const logoSrc = (request.url.origin.match(/localhost/)
-    ? request.url.origin
+  const logoSrc = (request.parsedUrl.origin.match(/localhost/)
+    ? request.parsedUrl.origin
     : constants.KEYCDN_IMAGE_ZONE_URL) +
     "/assets/images/logo/maskable.png";
 
@@ -76,7 +76,7 @@ registerPage("/__gallery__", async (request) => {
     </style>
 
     ${
-    inliner.elements(
+    await inliner.elements(
       "/elements/core/loading/skeleton.js",
       "/elements/core/button.js",
       "/elements/core/image.js",

@@ -15,7 +15,7 @@ import { escapeHtml, createTemplate } from "@onlyweb/shared";
  */
 export const html = (
   template: TemplateStringsArray,
-  ...insertions: (string | string[] | HTMLCollection)[]
+  ...insertions: (string | string[] | HTMLElement | HTMLCollection)[]
 ): HTMLCollection => {
   const wrapper = globalThis.document.createElement("div");
 

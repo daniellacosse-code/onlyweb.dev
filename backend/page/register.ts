@@ -30,7 +30,7 @@ export type RegisterPageOptions = {
    * The service worker request handler for the page
    */
   handleServiceWorker?: PageHandler;
-};
+} | PageHandler;
 
 
 
@@ -172,27 +172,30 @@ export const registerPage = (route: string, options: RegisterPageOptions ): void
           detail: response,
         });
 
-        const inliner = await createInliner(request, {
-          messagesFolder: "",
-          frameworkBranch: options.frameworkBranch,
-        });
         const pageResponse = html`
           <!DOCTYPE html>
           <html lang="${request.language}">
-            ${await inliner.frameworkBundles("$Shared", "$Frontend")}
             ${response}
+            <script type="importmap">
+              {
+                "imports": {
+                  "@onlyweb/frontend": "TODO",
+                  "@onlyweb/shared": "TODO"
+                }
+              }
+            </script>
             <script type="module">
+              import { requirements as systemRequirements } from "@onlyweb/frontend";
+              import { checkAgent, parseAgent, mergeAgent, log } from "@onlyweb/shared";
+
               (function () {
                 // check browser requirements
                 if (
                   !(
                     navigator.userAgent &&
-                    $Shared.UserAgent.check(
-                      $Shared.UserAgent.parse(navigator.userAgent),
-                      $Shared.UserAgent.merge(
-                        ${requirements},
-                        $Frontend.requirements.userAgent
-                      )                        
+                    checkAgent(
+                      parseAgent(navigator.userAgent),
+                      mergeAgent(${requirements}, systemRequirements)                        
                     )
                   )
                 ) {
@@ -214,7 +217,7 @@ export const registerPage = (route: string, options: RegisterPageOptions ): void
                       data === "reload" && location.reload();
                   } catch (error) {
                     // nevermind
-                    console.log("LiveReload failed to connect.");
+                    log({ message: "LiveReload failed to connect." });
                   }
                 }
 
@@ -226,7 +229,7 @@ export const registerPage = (route: string, options: RegisterPageOptions ): void
                     });
                   } catch (error) {
                     // nevermind
-                    console.log("Service worker failed to register.");
+                    log({ message: "Service worker failed to register." });
                   }
                 }
               })();

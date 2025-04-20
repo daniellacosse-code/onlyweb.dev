@@ -16,7 +16,7 @@ export type StartOptions = {
 export const start = (
   { 
     port = Number(Deno.env.get("ONLY_WEB_SERVER_PORT") ?? ONLY_WEB_SERVER_PORT) 
-  }: StartOptions
+  }: StartOptions = {}
 ): void => {
   Deno.serve(
     { port, hostname: "localhost" },

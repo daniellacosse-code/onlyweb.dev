@@ -1,5 +1,6 @@
 import { encodeBase64 } from "jsr:@std/encoding@1.0.9";
 import * as path from "jsr:@std/path@1.0.8";
+import { transpile } from "jsr:@deno/emit";
 
 import { minifyHtml, log } from "@onlyweb/shared";
 
@@ -14,11 +15,6 @@ export type InlinerOptions = {
    * The path to the messages folder
    */
   messagesFolder?: string;
-
-  /**
-   * The production branch to load bundles from.
-   */
-  frameworkBranch?: string;
 };
 
 /**
@@ -30,13 +26,12 @@ export type InlinerOptions = {
 export async function createInliner(
   request: PageRequest,
   {
-    messagesFolder,
-    frameworkBranch = "main",
+    messagesFolder
   }: InlinerOptions,
 ): Promise<Inliner> {
   const origin = request.parsedUrl.origin;
 
-  let messages:{[messageIn: string]: string} = {};
+  let messages: { [messageIn: string]: string } = {};
 
   if (messagesFolder) {
     try {
@@ -83,57 +78,59 @@ export async function createInliner(
   }
 
   return {
-    elements(...elementFunctionsOrFilePaths) {
+    async elements(...elementFilePaths) {
       const result = [];
       log({
-        message: `[framework/backend/inliner#elements] inlining elements "${
-          elementFunctionsOrFilePaths.join(
-            ", ",
-          )
-        }"`,
+        message: `[framework/backend/inliner#elements] inlining elements "${elementFilePaths.join(
+          ", ",
+        )
+          }"`,
         level: "debug",
       });
 
-      for (const functionOrFilePath of elementFunctionsOrFilePaths) {
+      for (const filePath of elementFilePaths) {
         let fileContents;
 
-        if (typeof functionOrFilePath === "function") {
-          fileContents = `(${functionOrFilePath.toString()})();`;
-        } else {
-          fileContents = Deno.readTextFileSync(`.${functionOrFilePath}`);
-        }
+        fileContents = Deno.readTextFileSync(`.${filePath}`);
 
         log({
           message:
-            `[framework/backend/inliner#elements] loaded element "${functionOrFilePath}"`,
+            `[framework/backend/inliner#elements] loaded element "${filePath}"`,
           level: "debug",
         });
 
-        const sanitizedScript = minifyHtml(fileContents)
-          .replaceAll(' from "/', ` from "${origin}/`)
-          .replaceAll('import "/', `import "${origin}/`);
+        if (filePath.endsWith(".ts")) {
+          fileContents = (await transpile(fileContents, {})).get(filePath);
+
+          if (!fileContents) {
+            throw new Error(
+              `[framework/backend/inliner#elements] Failed to transpile element "${filePath}"`,
+            );
+          }
+        }
+
+        const sanitizedScript = minifyHtml(fileContents);
         result.push(Response.html`<script
           type="module"
-          src="data:application/javascript;base64,${
-          encodeBase64(
-            sanitizedScript,
-          )
-        }"></script>`);
+          src="data:application/javascript;base64,${encodeBase64(
+          sanitizedScript,
+        )
+          }"></script>`);
         log({
           message:
-            `[framework/backend/inliner#elements] inlined element "${functionOrFilePath}"`,
+            `[framework/backend/inliner#elements] inlined element "${filePath}"`,
           level: "debug",
         });
       }
 
       log({
-        message: `[framework/backend/inliner#elements] completed for "${
-          elementFunctionsOrFilePaths.join(
-            ", ",
-          )
-        }"`,
+        message: `[framework/backend/inliner#elements] completed for "${elementFilePaths.join(
+          ", ",
+        )
+          }"`,
         level: "debug",
       });
+
       return Response.html`${result}`;
     },
 
@@ -261,63 +258,6 @@ export async function createInliner(
       });
 
       return Response.html`${tags}`;
-    },
-
-    async frameworkBundles(...bundleNames) {
-      log({
-        message:
-          `[framework/backend/inliner#frameworkBundles] inlining sources "${
-            bundleNames.join(
-              ", ",
-            )
-          }"`,
-        level: "debug",
-      });
-
-      const result = [];
-
-      for (const bundleName of bundleNames) {
-        const code = await (
-          await fetch(
-            `https://raw.githubusercontent.com/daniellacosse-code/onlyweb.dev/refs/heads/${frameworkBranch}/bundles/${
-              encodeURIComponent(
-                bundleName,
-              )
-            }.js`,
-          )
-        ).text();
-
-        result.push(
-          Response.html`<script
-            type="module"
-            src="data:application/javascript;base64,${
-            encodeBase64(
-              encodeURIComponent(code).replace(
-                /%([0-9A-F]{2})/g,
-                (_, codepoint) => String.fromCharCode(Number(`0x${codepoint}`)),
-              ),
-            )
-          }"
-          ></script>`,
-        );
-
-        log({
-          message:
-            `[framework/backend/inliner#frameworkBundles] inlined bundle "${code}"`,
-          level: "debug",
-        });
-      }
-
-      log({
-        message: `[framework/backend/inliner#frameworkBundles] completed for "${
-          bundleNames.join(
-            ", ",
-          )
-        }"`,
-        level: "debug",
-      });
-
-      return Response.html`${result}`;
     },
   };
 }

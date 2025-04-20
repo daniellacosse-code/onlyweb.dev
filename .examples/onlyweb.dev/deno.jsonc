@@ -1,0 +1,14 @@
+{
+  "tasks": {
+    "start": "deno run --allow-net --allow-read=. --allow-run ./.tasks/start.js"
+  },
+  // TODO: everything registers as a 'resource', even elements
+  // e.g. - mysite.com/~elements/<tag-name>
+  "compilerOptions": {
+    "lib": [
+      "deno.ns",
+      "dom",
+      "dom.iterable"
+    ]
+  }
+}

@@ -1,7 +1,7 @@
 import { createInliner, html, js, registerPage } from "@onlyweb/backend";
 
-import * as constants from "/constants.js";
-import OnlyWebTheme from "/pages/shared-theme.js";
+import * as constants from "../constants.ts";
+import OnlyWebTheme from "./shared-theme.ts";
 
 const route = "/";
 
@@ -33,22 +33,22 @@ registerPage(route, {
         description: inliner.message(
           "only web. only web. only web. only web. only web. only web. only web. only web. only web. only web. only web. only web",
         ),
-        previewImage: "/assets/images/root-preview.png",
-        iconImage: "/assets/images/logo/maskable.png",
-        splashImage: "/assets/images/logo/splash.png",
-        url: "https://onlyweb.dev/",
+        previewImagePath: "/assets/images/root-preview.png",
+        iconImagePath: "/assets/images/logo/maskable.png",
+        splashImagePath: "/assets/images/logo/splash.png",
+        canonicalUrl: "https://onlyweb.dev/",
       })
     }
 
       ${
-      inliner.elements(
-        "/elements/core/loading/skeleton.js",
-        "/elements/core/image.js",
-        "/elements/core/link.js",
-        "/elements/core/text.js",
-        "/elements/core/input.js",
-        "/elements/demo/frame.js",
-        "/elements/demo/link.js",
+      await inliner.elements(
+        "/elements/core/loading/skeleton.ts",
+        "/elements/core/image.ts",
+        "/elements/core/link.ts",
+        "/elements/core/text.ts",
+        "/elements/core/input.ts",
+        "/elements/demo/frame.ts",
+        "/elements/demo/link.ts",
       )
     }
 

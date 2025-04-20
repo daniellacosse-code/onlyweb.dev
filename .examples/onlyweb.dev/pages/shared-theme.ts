@@ -1,5 +1,5 @@
 import { html } from "@onlyweb/backend";
-import * as constants from "/constants.js";
+import * as constants from "../constants.ts";
 
 export default html`<style>
   :root {

@@ -1,5 +1,3 @@
-// @ts-check
-
 import { html, registerElement } from "@onlyweb/frontend";
 
 registerElement("demo-link", {
@@ -20,8 +18,8 @@ registerElement("demo-link", {
           cursor: ne-resize;
         }
       </style>
-      <core-link href="${src}">
-        <core-text type="subtitle">${title}</core-text>
+      <core-link href="${src as string}">
+        <core-text type="subtitle">${title as string}</core-text>
       </core-link>
       <br />
       <slot></slot>`;

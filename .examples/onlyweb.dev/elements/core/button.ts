@@ -1,5 +1,3 @@
-// @ts-check
-
 import { html, registerElement } from "@onlyweb/frontend";
 
 const sharedStyles = html`<style>
@@ -44,7 +42,7 @@ registerElement("core-button", {
     disabled: Boolean,
   },
   handleBuild({ disabled }) {
-    if (disabled) {
+    if (disabled as boolean) {
       return html`${sharedStyles}
           <style>
             button {

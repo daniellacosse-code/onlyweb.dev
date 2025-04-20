@@ -1,5 +1,3 @@
-// @ts-check
-
 import { html, registerElement } from "@onlyweb/frontend";
 
 registerElement("demo-frame", {
@@ -11,7 +9,7 @@ registerElement("demo-frame", {
   },
   handleBuild({ author = "", height = 500, src, title = "Demo Frame" }) {
     const authorElement = author &&
-      html`<core-text class="author">Author: ${author}</core-text>`;
+      html`<core-text class="author">Author: ${author as string}</core-text>`;
 
     return html`<style>
       :host {
@@ -28,7 +26,7 @@ registerElement("demo-frame", {
 
       iframe {
         width: 100%;
-        height: ${height}px;
+        height: ${String(height)}px;
         border: 1px solid var(--color-foreground);
       }
 
@@ -36,7 +34,7 @@ registerElement("demo-frame", {
         --core-loading-skeleton-border-radius: 0;
 
         display: inline-block;
-        height: ${height}px;
+        height: ${String(height)}px;
         left: 0;
         position: absolute;
         top: 0;
@@ -66,17 +64,17 @@ registerElement("demo-frame", {
         opacity: 0.5;
       }
     </style>
-    <core-text type="subtitle">${title}</core-text>
+    <core-text type="subtitle">${title as string}</core-text>
     <slot></slot>
     <div class="frame-container">
-      <iframe src="${src}" title="${title}" loading="lazy"></iframe>
+      <iframe src="${src as string}" title="${title as string}" loading="lazy"></iframe>
       <core-loading-skeleton></core-loading-skeleton>
-      ${authorElement}
+      ${authorElement as HTMLCollection}
     </div>`;
   },
   handleMount() {
-    this.querySelector("iframe").addEventListener("load", () => {
-      this.querySelector("core-loading-skeleton").classList.add("loaded");
+    this.querySelector("iframe")?.addEventListener("load", () => {
+      this.querySelector("core-loading-skeleton")?.classList.add("loaded");
     });
   },
 });

@@ -31,20 +31,18 @@ export type PageTemplate = (
  * A handler for a page request.
  * Represents an async function that takes a PageRequest and returns a Promise of a PageResponse.
  */
-export type PageHandler = (request: PageRequest) => Promise<Response | PageResponse>;
+export type PageHandler = (request: PageRequest) => Response | PageResponse | Promise<Response | PageResponse>;
 
 /**
  * A context-aware inliner that can inline elements, messages, and metadata into a document.
  */
 export interface Inliner {
   /** Inlines the given custom element registrations into the HTML document. */
-  elements: (...functionOrFilePath: Array<string | Function>) => Response;
+  elements: (...filePath: Array<string>) => Promise<Response>;
   /** Retrieves the translated message for a given key. */
   message: (message: string) => string;
   /** Inlines the given metadata into the HTML document. */
   metadata: (metadata: InlineHTMLMetadata) => Response;
-  /** Inlines the given framework bundles into the HTML document. */
-  frameworkBundles: (...frameworkBundles: Array<string>) => Promise<Response>;
 }
 
 /**
@@ -62,5 +60,5 @@ export interface InlineHTMLMetadata {
   /** The title of the page. */
   title?: string;
   /** The canonical URL of the page. */
-  canonicalUrl: string;
+  canonicalUrl?: string;
 }

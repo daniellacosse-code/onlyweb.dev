@@ -82,3 +82,7 @@ export const html: PageTemplate = _Response("text/html");
 
 /** Template literal for fenerating a javascript response. */
 export const js: PageTemplate = _Response("text/javascript");
+
+/** Template literal for generating a json response. */
+export const text: PageTemplate = _Response("text/plain");
+

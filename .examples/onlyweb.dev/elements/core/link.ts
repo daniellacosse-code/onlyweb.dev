@@ -1,5 +1,3 @@
-// @ts-check
-
 import { html, registerElement } from "@onlyweb/frontend";
 
 registerElement("core-link", {
@@ -25,6 +23,6 @@ registerElement("core-link", {
         background: var(--color-highlight);
       }
     </style>
-    <a href="${href}" target="_blank"><slot></slot></a>`;
+    <a href="${href as string}" target="_blank"><slot></slot></a>`;
   },
 });
