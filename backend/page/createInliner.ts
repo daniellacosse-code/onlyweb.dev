@@ -29,8 +29,6 @@ export async function createInliner(
     messagesFolder
   }: InlinerOptions,
 ): Promise<Inliner> {
-  const origin = request.parsedUrl.origin;
-
   let messages: { [messageIn: string]: string } = {};
 
   if (messagesFolder) {

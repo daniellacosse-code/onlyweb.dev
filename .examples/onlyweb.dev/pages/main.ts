@@ -256,6 +256,7 @@ registerPage(route, {
                 <b>Explore a complex 3D scene containing thousands of objects,</b> optimized with frustum culling: watch the visible objects dynamically change as you navigate.
               </core-text>
             </demo-frame>
+          </section>
         </article>
       </main>
       <script type="module">
