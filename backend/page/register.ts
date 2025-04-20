@@ -103,9 +103,9 @@ export const registerPage = (route: string, options: RegisterPageOptions ): void
   (globalThis as any).customPages.set(
     route,
     async (request: PageRequest): Promise<Response | PageResponse> => {
-      Object.defineProperty(request, "url", {
+      Object.defineProperty(request, "parsedUrl", {
         writable: true,
-        value: new URL(request.parsedUrl),
+        value: new URL(request.url),
       });
 
       request.language = request.parsedUrl.searchParams.get("lang") ??
