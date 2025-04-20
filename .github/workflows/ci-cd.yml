@@ -35,9 +35,28 @@ jobs:
           file: output/coverage.lcov
           token: ${{ secrets.CODECOV_TOKEN }}
 
+  publish_framework:
+    name: Publish @onlyweb packages
+    needs: test
+    runs-on: ubuntu-latest
+    permissions:
+      id-token: write
+      contents: read
+    steps:
+      - name: Clone repository
+        uses: actions/checkout@v4
+
+      - name: Install Deno
+        uses: denoland/setup-deno@v1
+        with:
+          deno-version: v2.x
+
+      - name: Publish Packages
+        run: deno publish
+
   deploy_onlyweb:
     name: Deploy onlyweb.dev
-    needs: test
+    needs: publish_framework
     runs-on: ubuntu-latest
     permissions:
       id-token: write
@@ -57,22 +76,3 @@ jobs:
           project: onlyweb
           entrypoint: main.js
           root: .examples/onlyweb.dev
-
-  publish_framework:
-    name: Publish @onlyweb packages
-    needs: test
-    runs-on: ubuntu-latest
-    permissions:
-      id-token: write
-      contents: read
-    steps:
-      - name: Clone repository
-        uses: actions/checkout@v4
-
-      - name: Install Deno
-        uses: denoland/setup-deno@v1
-        with:
-          deno-version: v2.x
-
-      - name: Publish Packages
-        run: deno publish
