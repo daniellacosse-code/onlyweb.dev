@@ -21,6 +21,6 @@ Deno.test("createInliner", async () => {
         iconImagePath: "/assets/images/icon.png",
       })
     ).content,
-    '<link rel="canonical" href="https://example.com/" /><meta name="og:url" content="https://example.com/" /><title>Test</title> <meta name="og:title" content="Test" /><meta name="description" content="Test" /> <meta name="og:description" content="Test" /><link rel="icon" href="/assets/images/icon.png" /> <meta name="apple-mobile-web-app-capable" content="yes" /> <link rel="apple-touch-icon" href="/assets/images/icon.png" /><meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" /><link rel="apple-touch-startup-image" href="/assets/images/splash.png" /><meta name="og:image" content="/assets/images/preview.png" />',
+    '<link rel="canonical" href="https://example.com/" /><meta name="og:url" content="https://example.com/" /><title>Test</title> <meta name="og:title" content="Test" /><meta name="description" content="Test" /> <meta name="og:description" content="Test" /><link rel="icon" href="/assets/images/icon.png" /> <meta name="mobile-web-app-capable" content="yes" /> <link rel="apple-touch-icon" href="/assets/images/icon.png" /><meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" /><link rel="apple-touch-startup-image" href="/assets/images/splash.png" /><meta name="og:image" content="/assets/images/preview.png" />',
   );
 });

@@ -51,7 +51,7 @@ export default html`<style>
   body {
     all: initial;
     font-family: system-ui;
-    touch-events: pan-y;
+    touch-action: pan-y;
     background: var(--color-background);
   }
 </style>`;

@@ -362,7 +362,7 @@
     "members": {
       ".examples/onlyweb.dev": {
         "dependencies": [
-          "jsr:@onlyweb/backend@0.0.0-alpha.13",
+          "jsr:@onlyweb/backend@0.0.0-alpha.14",
           "jsr:@onlyweb/shared@0.0.0-alpha.12"
         ]
       }

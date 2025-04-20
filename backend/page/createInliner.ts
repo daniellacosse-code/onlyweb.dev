@@ -222,7 +222,7 @@ export async function createInliner(
 
         tags.push(
           Response.html`<link rel="icon" href="${iconImagePath}" />
-            <meta name="apple-mobile-web-app-capable" content="yes" />
+            <meta name="mobile-web-app-capable" content="yes" />
             <link rel="apple-touch-icon" href="${iconImagePath}" />`,
           // it's a bit opinionated, but you really only have two options here - black and black-translucent
           // and only the latter allows the web app to be displayed in full screen

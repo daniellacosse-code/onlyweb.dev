@@ -124,7 +124,7 @@ export const registerElement = (
             get: (_, name) =>
               this.#RESOLVE_ATTRIBUTE(
                 String(name),
-                this.getAttribute(String(name)) ?? "",
+                this.getAttribute(String(name)) as string,
               ),
             set: (_, name, value) => {
               this.setAttribute(
@@ -262,7 +262,7 @@ export const registerElement = (
             *:not(slot) {
               all: initial;
               box-sizing: border-box;
-              /* content-visibility: auto; */
+              content-visibility: auto;
               isolation: isolate;
               touch-action: none;
               user-select: none;
