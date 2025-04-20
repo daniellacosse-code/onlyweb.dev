@@ -178,8 +178,8 @@ export const registerPage = (route: string, options: RegisterPageOptions ): void
             <script type="importmap">
               {
                 "imports": {
-                  "@onlyweb/frontend": "TODO",
-                  "@onlyweb/shared": "TODO"
+                  "@onlyweb/frontend": "https://esm.sh/jsr/@onlyweb/frontend@0.0.0-alpha.12",
+                  "@onlyweb/shared": "https://esm.sh/jsr/@onlyweb/shared@0.0.0-alpha.12"
                 }
               }
             </script>
