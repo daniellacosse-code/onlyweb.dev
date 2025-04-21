@@ -50,7 +50,7 @@ export type RegisterElementOptions<S extends AnyAttributeShape, T extends object
  * ```
  * @returns Nothing is returned: the element is registered in the global customElements map
  */
-export const registerElement = <S extends AnyAttributeShape, T extends object = {}>(
+export const registerElement = <S extends AnyAttributeShape, T extends object = Record<string | number | symbol, never>>(
   tag: string,
   options: RegisterElementOptions<S, T>
 ): void => {
