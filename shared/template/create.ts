@@ -9,20 +9,20 @@
  *  template: ["<div>", "</div>"],
  *  insertions: ["hello"],
  *  handleInsertion: (insertion) => insertion
- * }) 
- * 
+ * })
+ *
  * const message = "hello";
- * 
+ *
  * const result = unsafeHtml`<div>${message}</div>`;
  * // "<div>hello</div>"
  * ```
  */
 export const createTemplate = <T>(
   {
-    template, 
-    insertions, 
-    handleInsertion 
-  }: TemplateCreationOptions<T>
+    template,
+    insertions,
+    handleInsertion,
+  }: TemplateCreationOptions<T>,
 ): string =>
   insertions.reduce((result, insertion, index) => {
     let handledInsertion = "";
@@ -55,4 +55,4 @@ export type TemplateCreationOptions<T> = {
    * The function to handle the insertions
    */
   handleInsertion: (insertion: T) => string;
-}
+};

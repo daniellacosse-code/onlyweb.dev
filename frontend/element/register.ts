@@ -1,33 +1,46 @@
 import { log } from "@onlyweb/shared";
 import { OWFElement } from "./element.ts";
-import type { AnyPrimitiveShape, AnyShape, ConvertPrimitiveShapeToConstructorShape as $ } from "../types.ts";
+import type {
+  AnyPrimitiveShape,
+  AnyShape,
+  ConvertPrimitiveShapeToConstructorShape as $,
+} from "../types.ts";
 
 /**
- * The options for registering an element
+ * The configuration for registering an element
  */
-export interface RegisterElementConfiguration<S extends AnyPrimitiveShape, T extends AnyShape> {
+export interface RegisterElementConfiguration<
+  S extends AnyPrimitiveShape,
+  T extends AnyShape,
+> {
   /**
    * The attributes of the element, that, when modified, will trigger a template build
    */
-  buildAttributes?: $<S>;
+  attributes?: $<S>;
 
   /**
    * The core of the element: use it to build the template from which the shadow DOM will be constructed
    */
-  handleBuild?: (this: OWFElement<S> & T, buildAttributes: S) => HTMLCollection;
+  render?: (this: OWFElement<S> & T, buildAttributes: S) => HTMLCollection;
 
   /**
    * Is called when the element is mounted: use it to set up the shadow DOM and register event listeners
    */
-  handleMount?: (this: OWFElement<S> & T, buildAttributes: S) => void;
+  mount?: (this: OWFElement<S> & T, buildAttributes: S) => void;
 
   /**
    * The dismount handler: use it to clean up event listeners and other resources
    */
-  handleDismount?: (this: OWFElement<S> & T, buildAttributes: S) => void;
+  dismount?: (this: OWFElement<S> & T, buildAttributes: S) => void;
 }
 
-export type RegisterElementOptions<S extends AnyPrimitiveShape, T extends AnyShape> =
+/**
+ * The options for registering an element
+ */
+export type RegisterElementOptions<
+  S extends AnyPrimitiveShape,
+  T extends AnyShape,
+> =
   | RegisterElementConfiguration<S, T>
   | ((buildAttributes: S) => HTMLCollection);
 
@@ -35,8 +48,8 @@ export type RegisterElementOptions<S extends AnyPrimitiveShape, T extends AnySha
  * Registers a custom element with the global customElements map
  * @param tag The tag of the element
  * @param options The options setting up the element
- * @example 
- * 
+ * @example
+ *
  * ```js
  * register("my-element", {
  *  template: {
@@ -50,9 +63,12 @@ export type RegisterElementOptions<S extends AnyPrimitiveShape, T extends AnySha
  * ```
  * @returns Nothing is returned: the element is registered in the global customElements map
  */
-export const registerElement = <S extends AnyPrimitiveShape, T extends AnyShape = AnyShape>(
+export const registerElement = <
+  S extends AnyPrimitiveShape,
+  T extends AnyShape = AnyShape,
+>(
   tag: string,
-  options: RegisterElementOptions<S, T>
+  options: RegisterElementOptions<S, T>,
 ): void => {
   if (globalThis.customElements.get(tag)) {
     return log({
@@ -63,26 +79,26 @@ export const registerElement = <S extends AnyPrimitiveShape, T extends AnyShape 
 
   if (typeof options === "function") {
     options = {
-      handleBuild: options,
+      render: options,
     };
   }
 
   const {
-    buildAttributes = {} as $<S>,
-    handleBuild,
-    handleMount,
-    handleDismount,
+    attributes: buildAttributes = {} as $<S>,
+    render: handleBuild,
+    mount: handleMount,
+    dismount: handleDismount,
   } = options;
 
   globalThis.customElements.define(
     tag,
     class extends OWFElement<S> {
-      static observedAttributes = Object.keys(buildAttributes)
+      static observedAttributes = Object.keys(buildAttributes);
 
-      override buildDefinition = buildAttributes
+      override buildDefinition = buildAttributes;
       override handleTemplateBuild = handleBuild;
       override handleMount = handleMount;
       override handleDismount = handleDismount;
-    }
+    },
   );
 };

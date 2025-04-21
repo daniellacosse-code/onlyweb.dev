@@ -1,4 +1,8 @@
-import { type ConvertConstructorShapeToPrimitiveShape as $, html, registerElement } from "@onlyweb/frontend";
+import {
+  type ConvertConstructorShapeToPrimitiveShape as $,
+  html,
+  registerElement,
+} from "@onlyweb/frontend";
 
 const sharedStyles = html`<style>
   .wrapper,
@@ -56,19 +60,16 @@ const makeLabelID = (label: string) => label.toLowerCase().replace(/\s/g, "-");
 
 type CoreInputState = {
   value: string | null;
-}
+};
 
-const buildAttributes = {
+const attributes = {
   label: String,
   type: String,
-}
+};
 
-registerElement<$<typeof buildAttributes>, CoreInputState>("core-input", {
-  buildAttributes: {
-    label: String,
-    type: String,
-  },
-  handleBuild({ label = "", type = "content" }) {
+registerElement<$<typeof attributes>, CoreInputState>("core-input", {
+  attributes,
+  render({ label = "", type = "content" }) {
     const __inputID__ = makeLabelID(label);
 
     let inputElement;
@@ -117,7 +118,7 @@ registerElement<$<typeof buildAttributes>, CoreInputState>("core-input", {
           ${inputElement}
         </div>`;
   },
-  handleMount({ label = "" }) {
+  mount({ label = "" }) {
     this.setAttribute("tabIndex", "0");
 
     const __inputID__ = makeLabelID(label);
@@ -129,13 +130,15 @@ registerElement<$<typeof buildAttributes>, CoreInputState>("core-input", {
 
     this.addEventListener("input", ({ target }: Event) => {
       if (!target) {
-        return
+        return;
       }
 
       const input = target as HTMLInputElement;
 
-      const value = input.localName === "input" ? input.value : input.textContent;
-      
+      const value = input.localName === "input"
+        ? input.value
+        : input.textContent;
+
       this.value = value;
       this.querySelector("label")?.classList.toggle("hidden", Boolean(value));
     });

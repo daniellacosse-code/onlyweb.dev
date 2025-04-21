@@ -2,10 +2,41 @@ import { encodeBase64 } from "jsr:@std/encoding@1.0.9";
 import * as path from "jsr:@std/path@1.0.8";
 import { transpile } from "jsr:@deno/emit@0.46.0";
 
-import { minifyHtml, log } from "@onlyweb/shared";
+import { log, minifyHtml } from "@onlyweb/shared";
 
-import * as Response from "./response.ts";
-import type { PageRequest, Inliner } from "../types.ts";
+import { html } from "./template.ts";
+import type { OWFRequest } from "../request.ts";
+import type { OWFResponse } from "../response.ts";
+
+/**
+ * A context-aware inliner that can inline elements, messages, and metadata into a document.
+ */
+export interface Inliner {
+  /** Inlines the given custom element registrations into the HTML document. */
+  elements: (...filePath: Array<string>) => Promise<OWFResponse>;
+  /** Retrieves the translated message for a given key. */
+  message: (message: string) => string;
+  /** Inlines the given metadata into the HTML document. */
+  metadata: (metadata: InlineHTMLMetadata) => OWFResponse;
+}
+
+/**
+ * Metadata that can be inlined into an HTML document.
+ */
+export interface InlineHTMLMetadata {
+  /** The description of the page. */
+  description?: string;
+  /** The path to the icon image of the page. */
+  iconImagePath?: string;
+  /** The path to the preview image of the page. */
+  previewImagePath?: string;
+  /** The path to the splash image of the page. */
+  splashImagePath?: string;
+  /** The title of the page. */
+  title?: string;
+  /** The canonical URL of the page. */
+  canonicalUrl?: string;
+}
 
 /**
  * The inliner configuration.
@@ -24,9 +55,9 @@ export type InlinerOptions = {
  * @returns The inliner.
  */
 export async function createInliner(
-  request: PageRequest,
+  request: OWFRequest,
   {
-    messagesFolder
+    messagesFolder,
   }: InlinerOptions,
 ): Promise<Inliner> {
   let messages: { [messageIn: string]: string } = {};
@@ -79,10 +110,11 @@ export async function createInliner(
     async elements(...elementFilePaths) {
       const result = [];
       log({
-        message: `[framework/backend/inliner#elements] inlining elements "${elementFilePaths.join(
-          ", ",
-        )
-          }"`,
+        message: `[framework/backend/inliner#elements] inlining elements "${
+          elementFilePaths.join(
+            ", ",
+          )
+        }"`,
         level: "debug",
       });
 
@@ -95,14 +127,16 @@ export async function createInliner(
           fileContents = (await transpile(rootFileUrl, {
             importMap: {
               imports: {
-                "@onlyweb/frontend": "https://esm.sh/jsr/@onlyweb/frontend@0.0.0-alpha.15",
-                "@onlyweb/shared": "https://esm.sh/jsr/@onlyweb/shared@0.0.0-alpha.12"
-              }
+                "@onlyweb/frontend":
+                  "https://esm.sh/jsr/@onlyweb/frontend@0.0.0-alpha.15",
+                "@onlyweb/shared":
+                  "https://esm.sh/jsr/@onlyweb/shared@0.0.0-alpha.12",
+              },
             },
             compilerOptions: {
               sourceMap: false,
-              inlineSourceMap: false
-            }
+              inlineSourceMap: false,
+            },
           })).get(rootFileUrl);
 
           if (!fileContents) {
@@ -120,12 +154,13 @@ export async function createInliner(
           level: "debug",
         });
 
-        result.push(Response.html`<script
+        result.push(html`<script
           type="module"
-          src="data:application/javascript;base64,${encodeBase64(
-          minifyHtml(fileContents)
-        )
-          }"></script>`);
+          src="data:application/javascript;base64,${
+          encodeBase64(
+            minifyHtml(fileContents),
+          )
+        }"></script>`);
         log({
           message:
             `[framework/backend/inliner#elements] inlined element "${filePath}"`,
@@ -134,14 +169,15 @@ export async function createInliner(
       }
 
       log({
-        message: `[framework/backend/inliner#elements] completed for "${elementFilePaths.join(
-          ", ",
-        )
-          }"`,
+        message: `[framework/backend/inliner#elements] completed for "${
+          elementFilePaths.join(
+            ", ",
+          )
+        }"`,
         level: "debug",
       });
 
-      return Response.html`${result}`;
+      return html`${result}`;
     },
 
     message(key) {
@@ -167,11 +203,11 @@ export async function createInliner(
       previewImagePath,
       splashImagePath,
       iconImagePath,
-      canonicalUrl = request.parsedUrl.toString(),
+      canonicalUrl = request.url.toString(),
     }) {
       const tags = [
-        Response.html`<link rel="canonical" href="${canonicalUrl}" />`,
-        Response.html`<meta name="og:url" content="${canonicalUrl}" />`,
+        html`<link rel="canonical" href="${canonicalUrl}" />`,
+        html`<meta name="og:url" content="${canonicalUrl}" />`,
       ];
       log({
         message:
@@ -195,7 +231,7 @@ export async function createInliner(
         });
 
         tags.push(
-          Response.html`<title>${title}</title>
+          html`<title>${title}</title>
             <meta name="og:title" content="${title}" />`,
         );
       }
@@ -208,7 +244,7 @@ export async function createInliner(
         });
 
         tags.push(
-          Response.html`<meta name="description" content="${description}" />
+          html`<meta name="description" content="${description}" />
             <meta name="og:description" content="${description}" />`,
         );
       }
@@ -221,12 +257,12 @@ export async function createInliner(
         });
 
         tags.push(
-          Response.html`<link rel="icon" href="${iconImagePath}" />
+          html`<link rel="icon" href="${iconImagePath}" />
             <meta name="mobile-web-app-capable" content="yes" />
             <link rel="apple-touch-icon" href="${iconImagePath}" />`,
           // it's a bit opinionated, but you really only have two options here - black and black-translucent
           // and only the latter allows the web app to be displayed in full screen
-          Response.html`<meta
+          html`<meta
             name="apple-mobile-web-app-status-bar-style"
             content="black-translucent"
           />`,
@@ -242,7 +278,7 @@ export async function createInliner(
 
         tags.push(
           // TODO iterate over all possible splash images
-          Response.html`<link
+          html`<link
             rel="apple-touch-startup-image"
             href="${splashImagePath}"
           />`,
@@ -257,7 +293,7 @@ export async function createInliner(
         });
 
         tags.push(
-          Response.html`<meta name="og:image" content="${previewImagePath}" />`,
+          html`<meta name="og:image" content="${previewImagePath}" />`,
         );
       }
 
@@ -267,7 +303,7 @@ export async function createInliner(
         level: "debug",
       });
 
-      return Response.html`${tags}`;
+      return html`${tags}`;
     },
   };
 }

@@ -24,8 +24,8 @@ globalThis.document = {
   },
 };
 
-Deno.test("register", async () => {
-  await registerElement("my-element", { handleBuild: () => {} });
+Deno.test("registerElement", async () => {
+  await registerElement("my-element", { render: () => {} });
 
   assertEquals(Boolean(globalThis.customElements.get("my-element")), true);
   assertEquals(
@@ -34,7 +34,7 @@ Deno.test("register", async () => {
   );
 });
 
-Deno.test("function register", async () => {
+Deno.test("registerElement with function", async () => {
   await registerElement("my-element", () => {});
 
   assertEquals(Boolean(globalThis.customElements.get("my-element")), true);
@@ -44,8 +44,8 @@ Deno.test("function register", async () => {
   );
 });
 
-Deno.test("register - addEventListener", async () => {
-  await registerElement("my-element", { handleBuild: () => {} });
+Deno.test("registerElement#addEventListener", async () => {
+  await registerElement("my-element", { render: () => {} });
 
   const element = new globalThis.customElements["my-element"]();
 

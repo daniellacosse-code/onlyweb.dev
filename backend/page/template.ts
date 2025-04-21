@@ -1,19 +1,29 @@
-import { createTemplate, escapeHtml, minifyHtml, log } from "@onlyweb/shared";
-import type { PageTemplate } from "../types.ts";
+import { createTemplate, escapeHtml, log, minifyHtml } from "@onlyweb/shared";
+import type { OWFResponse } from "../response.ts";
+
+/**
+ * A utility for creating a templateable page response with a specific mimetype.
+ * Represents a function that takes template literals and returns a PageResponse.
+ */
+export type OWFResponseTemplate = (
+  templateArray: TemplateStringsArray,
+  ...insertions: any[]
+) => OWFResponse;
 
 /**
  * A utility for creating a templateable response with a specific mimetype
  * @param mimetype The mimetype
  * @returns The response templater
  */
-const _Response = (mimetype = "text/html"): PageTemplate => {
-  class MimetypeResponse extends Response {
+const responseTemplateFactory = (mimetype: string): OWFResponseTemplate => {
+  class _ResponseWithMimetype extends Response {
     constructor(body: string, init?: ResponseInit) {
       super(body, init);
       log({
-        message: `[framework/backend/response] Constructed a response with mimetype "${mimetype}"`,
+        message:
+          `[backend/response] Constructed a response with mimetype "${mimetype}"`,
         detail: { body },
-        level: "debug"
+        level: "debug",
       });
 
       this.#content = body;
@@ -33,13 +43,14 @@ const _Response = (mimetype = "text/html"): PageTemplate => {
     }
   }
 
-  return (template: TemplateStringsArray, ...insertions: any[]) =>
-    new MimetypeResponse(
+  return (template: TemplateStringsArray, ...insertions: any[]) => ({
+    mimetype,
+    nativeResponse: new _ResponseWithMimetype(
       createTemplate({
         template,
         insertions,
         handleInsertion: (insertion) => {
-          if (insertion instanceof MimetypeResponse) {
+          if (insertion instanceof _ResponseWithMimetype) {
             return minifyHtml(insertion.content);
           }
 
@@ -72,17 +83,19 @@ const _Response = (mimetype = "text/html"): PageTemplate => {
           }
 
           return result.join("");
-        }
-      })
-    );
+        },
+      }),
+    ),
+  });
 };
 
 /** Template literal for generating an html response. */
-export const html: PageTemplate = _Response("text/html");
+export const html: OWFResponseTemplate = responseTemplateFactory("text/html");
 
 /** Template literal for fenerating a javascript response. */
-export const js: PageTemplate = _Response("text/javascript");
+export const js: OWFResponseTemplate = responseTemplateFactory(
+  "text/javascript",
+);
 
 /** Template literal for generating a json response. */
-export const text: PageTemplate = _Response("text/plain");
-
+export const text: OWFResponseTemplate = responseTemplateFactory("text/plain");

@@ -1,12 +1,16 @@
-import { type ConvertConstructorShapeToPrimitiveShape as $, html, registerElement } from "@onlyweb/frontend";
+import {
+  type ConvertConstructorShapeToPrimitiveShape as $,
+  html,
+  registerElement,
+} from "@onlyweb/frontend";
 
-const buildAttributes = {
+const attributes = {
   type: String,
 };
 
-registerElement<$<typeof buildAttributes>>("core-text", {
-  buildAttributes,
-  handleBuild({ type = "paragraph" }) {
+registerElement<$<typeof attributes>>("core-text", {
+  attributes,
+  render({ type = "paragraph" }) {
     return html`<style>
         slot {
           cursor: inherit;

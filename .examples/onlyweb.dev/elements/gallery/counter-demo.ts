@@ -1,11 +1,11 @@
 import { type AnyPrimitiveShape, registerElement } from "@onlyweb/frontend";
 
 type CounterDemoState = {
-  state?: Record<string, number>
-}
+  state?: Record<string, number>;
+};
 
 registerElement<AnyPrimitiveShape, CounterDemoState>("counter-demo", {
-  handleMount() {
+  mount() {
     this.addEventListener("click", ({ target }: Event) => {
       if (!target) {
         return;

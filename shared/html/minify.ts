@@ -4,7 +4,7 @@
  * @param text The HTML to minify.
  * @returns The minified HTML.
  * @example
- * 
+ *
  * ```js
  * const html = `
  *  <div>
@@ -20,16 +20,13 @@ export const minifyHtml = (text: string): string => {
       // remove single-line JS comments, but not URLs or regexes
       // (can't do this after newlines are removed)
       .replaceAll(/[^\:\\]\/\/.*/g, "")
-
       // replace runs of whitespace with one space,
       // including newlines
       .replaceAll(/\s+/g, " ")
-
       // replace multiline comments
       // (now single line thanks to the above)
       .replaceAll(/<\!--.*?-->|\/\*.*?\*\//g, "")
       .trim()
-
     // there are more spaces you could remove
     // but it might fuck up weird copy -
     // it's "good enough" for me!

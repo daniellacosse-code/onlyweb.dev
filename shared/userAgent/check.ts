@@ -5,8 +5,8 @@ import type { Platform, PlatformRequirements } from "./types.ts";
  * @param platform The platform to check
  * @param requirements The requirements to check against
  * @returns Whether or not the platform meets the requirements
- * @example 
- * 
+ * @example
+ *
  * ```js
  * const userAgent = navigator.userAgent;
  * const platform = parse(userAgent);
@@ -24,7 +24,7 @@ import type { Platform, PlatformRequirements } from "./types.ts";
  */
 export const checkAgent = (
   { engine, renderer }: Readonly<Platform>,
-  requirements: PlatformRequirements
+  requirements: PlatformRequirements,
 ): boolean => {
   let result = true;
 

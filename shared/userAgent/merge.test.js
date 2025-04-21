@@ -2,7 +2,7 @@ import { assertEquals } from "jsr:@std/assert";
 
 import { mergeRequirements } from "./merge.ts";
 
-Deno.test("merge", () => {
+Deno.test("mergeRequirements", () => {
   assertEquals(
     mergeRequirements(
       {

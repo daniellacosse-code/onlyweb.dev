@@ -6,7 +6,7 @@ import OnlyWebTheme from "./shared-theme.ts";
 const route = "/";
 
 registerPage(route, {
-  handleRequest: async (request) => {
+  render: async (request) => {
     const inliner = await createInliner(
       request,
       { messagesFolder: "/assets/messages" },
@@ -40,17 +40,15 @@ registerPage(route, {
       })
     }
 
-      ${
-      await inliner.elements(
-        "/elements/core/loading/skeleton.ts",
-        "/elements/core/image.ts",
-        "/elements/core/link.ts",
-        "/elements/core/text.ts",
-        "/elements/core/input.ts",
-        "/elements/demo/frame.ts",
-        "/elements/demo/link.ts",
-      )
-    }
+      ${await inliner.elements(
+      "/elements/core/loading/skeleton.ts",
+      "/elements/core/image.ts",
+      "/elements/core/link.ts",
+      "/elements/core/text.ts",
+      "/elements/core/input.ts",
+      "/elements/demo/frame.ts",
+      "/elements/demo/link.ts",
+    )}
 
       <meta
         name="theme-color"
@@ -312,7 +310,7 @@ registerPage(route, {
       </script>
     </body>`;
   },
-  handleServiceWorker: () =>
+  renderServiceWorker: () =>
     js`
       self.addEventListener("install", (event) => {
         event.waitUntil(

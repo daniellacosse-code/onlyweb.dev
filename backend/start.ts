@@ -1,12 +1,12 @@
 import { resolve } from "jsr:@std/path@1";
 import { serveFile } from "jsr:@std/http@1/file-server";
 import { ONLY_WEB_SERVER_PORT } from "./constants.ts";
-import type { PageRequest } from "./types.ts";
+import { makeOWFRequest } from "./request.ts";
 
 export type StartOptions = {
   /** The port to listen on. */
   port?: number;
-}
+};
 
 /**
  * Start the OnlyWeb framework server.
@@ -14,9 +14,9 @@ export type StartOptions = {
  * @returns Nothing is returned: the server is started.
  */
 export const start = (
-  { 
-    port = Number(Deno.env.get("ONLY_WEB_SERVER_PORT") ?? ONLY_WEB_SERVER_PORT) 
-  }: StartOptions = {}
+  {
+    port = Number(Deno.env.get("ONLY_WEB_SERVER_PORT") ?? ONLY_WEB_SERVER_PORT),
+  }: StartOptions = {},
 ): void => {
   Deno.serve(
     { port, hostname: "localhost" },
@@ -31,7 +31,7 @@ export const start = (
           const page = (globalThis as any).customPages.get(route);
 
           if (page) {
-            return page(request as PageRequest);
+            return page(makeOWFRequest(request)).nativeResponse;
           }
         }
       }
@@ -41,6 +41,6 @@ export const start = (
       } catch {
         return Promise.resolve(new Response("Not Found", { status: 404 }));
       }
-    }
+    },
   );
-}
+};

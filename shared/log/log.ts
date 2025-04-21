@@ -35,7 +35,7 @@ export interface ConsoleLike {
    * Logs an an error message.
    */
   error: (payload: string) => void;
-};
+}
 
 /**
  * The parameters the logger takes.
@@ -81,15 +81,15 @@ type LogObject = {
 
 /**
  * Log a message to the console
- * @param parameters 
+ * @param parameters
  * @returns Nothing: logs to console
  */
 export const log = (
-  { 
+  {
     message,
     detail,
     level = "info",
-    _console = (globalThis as any).console
+    _console = (globalThis as any).console,
   }: LogParameters,
 ): void => {
   const logObject: LogObject = {
@@ -103,7 +103,10 @@ export const log = (
   }
 
   if (detail) {
-    logObject.d = minifyHtml(JSON.stringify(detail)).slice(0, MAX_DETAIL_LENGTH);
+    logObject.d = minifyHtml(JSON.stringify(detail)).slice(
+      0,
+      MAX_DETAIL_LENGTH,
+    );
 
     if (logObject.d.length === MAX_DETAIL_LENGTH) {
       logObject.d += "…";

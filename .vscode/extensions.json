@@ -3,6 +3,6 @@
     "bierner.lit-html",
     "denoland.vscode-deno",
     "dt.ghlink",
-    "icanhasjonas.vscode-js-template-literal",
+    "icanhasjonas.vscode-js-template-literal"
   ]
 }

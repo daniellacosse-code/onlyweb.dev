@@ -1,4 +1,4 @@
-import { escapeHtml, createTemplate } from "@onlyweb/shared";
+import { createTemplate, escapeHtml } from "@onlyweb/shared";
 
 /**
  * A utility for creating a templateable HTMLCollection
@@ -6,10 +6,10 @@ import { escapeHtml, createTemplate } from "@onlyweb/shared";
  * @param insertions The insertions
  * @returns The compiled HTMLCollection
  * @example
- * 
+ *
  * ```js
  * const message = "Hello, World!";
- * 
+ *
  * html`<div>${message}</div>`
  * ```
  */

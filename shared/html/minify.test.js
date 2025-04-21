@@ -2,7 +2,7 @@ import { assertEquals } from "jsr:@std/assert";
 
 import { minifyHtml } from "./minify.ts";
 
-Deno.test("minify", () => {
+Deno.test("minifyHtml", () => {
   assertEquals(
     minifyHtml(`
       <html>

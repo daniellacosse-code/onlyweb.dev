@@ -1,6 +1,10 @@
-import { type ConvertConstructorShapeToPrimitiveShape as $, html, registerElement } from "@onlyweb/frontend";
+import {
+  type ConvertConstructorShapeToPrimitiveShape as $,
+  html,
+  registerElement,
+} from "@onlyweb/frontend";
 
-const buildAttributes = {
+const attributes = {
   alt: String,
   height: Number,
   loaded: Boolean,
@@ -9,12 +13,12 @@ const buildAttributes = {
 };
 
 type ImageElementState = {
-  __image__?: HTMLImageElement
-}
+  __image__?: HTMLImageElement;
+};
 
-registerElement<$<typeof buildAttributes>, ImageElementState>("core-image", {
-  buildAttributes,
-  handleBuild({ height, loaded, width }) {
+registerElement<$<typeof attributes>, ImageElementState>("core-image", {
+  attributes,
+  render({ height, loaded, width }) {
     if (loaded) {
       return html`<style>
             img {
@@ -39,7 +43,7 @@ registerElement<$<typeof buildAttributes>, ImageElementState>("core-image", {
         </style>
         <core-loading-skeleton></core-loading-skeleton>`;
   },
-  handleMount({ alt, src, ...srcParams }) {
+  mount({ alt, src, ...srcParams }) {
     const url = new URL(src as string);
 
     for (const [key, value] of Object.entries(srcParams)) {

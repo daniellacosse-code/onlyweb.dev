@@ -1,15 +1,19 @@
-import { type ConvertConstructorShapeToPrimitiveShape as $, html, registerElement } from "@onlyweb/frontend";
+import {
+  type ConvertConstructorShapeToPrimitiveShape as $,
+  html,
+  registerElement,
+} from "@onlyweb/frontend";
 
-const buildAttributes = {
+const attributes = {
   author: String,
   height: Number,
   src: String,
   title: String,
 };
 
-registerElement<$<typeof buildAttributes>>("demo-frame", {
-  buildAttributes,
-  handleBuild({ author = "", height = 500, src, title = "Demo Frame" }) {
+registerElement<$<typeof attributes>>("demo-frame", {
+  attributes,
+  render({ author = "", height = 500, src, title = "Demo Frame" }) {
     const authorElement = author &&
       html`<core-text class="author">Author: ${author}</core-text>`;
 
@@ -74,7 +78,7 @@ registerElement<$<typeof buildAttributes>>("demo-frame", {
       ${authorElement as HTMLCollection}
     </div>`;
   },
-  handleMount() {
+  mount() {
     this.querySelector("iframe")?.addEventListener("load", () => {
       this.querySelector("core-loading-skeleton")?.classList.add("loaded");
     });

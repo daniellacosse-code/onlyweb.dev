@@ -1,12 +1,16 @@
-import { type ConvertConstructorShapeToPrimitiveShape as $, html, registerElement } from "@onlyweb/frontend";
+import {
+  type ConvertConstructorShapeToPrimitiveShape as $,
+  html,
+  registerElement,
+} from "@onlyweb/frontend";
 
-const buildAttributes = {
+const attributes = {
   href: String,
 };
 
-registerElement<$<typeof buildAttributes>>("core-link", {
-  buildAttributes,
-  handleBuild({ href = "#" }) {
+registerElement<$<typeof attributes>>("core-link", {
+  attributes,
+  render({ href = "#" }) {
     return html`<style>
       a {
         display: inline-block;

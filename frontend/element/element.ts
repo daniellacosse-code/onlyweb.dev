@@ -1,6 +1,9 @@
 import { log } from "@onlyweb/shared";
 import { html } from "./html.ts";
-import type { AnyPrimitiveShape, ConvertPrimitiveShapeToConstructorShape as $ } from "../types.ts";
+import type {
+  AnyPrimitiveShape,
+  ConvertPrimitiveShapeToConstructorShape as $,
+} from "../types.ts";
 
 export class OWFElement<S extends AnyPrimitiveShape> extends HTMLElement {
   buildAttributes: S;
@@ -48,12 +51,14 @@ export class OWFElement<S extends AnyPrimitiveShape> extends HTMLElement {
     });
 
     this.#buildTemplate();
-    requestAnimationFrame(() =>
-      this.handleMount?.(this.buildAttributes)
-    );
+    requestAnimationFrame(() => this.handleMount?.(this.buildAttributes));
   }
 
-  attributeChangedCallback(name: keyof S, oldValue: S[keyof S], newValue: S[keyof S]) {
+  attributeChangedCallback(
+    name: keyof S,
+    oldValue: S[keyof S],
+    newValue: S[keyof S],
+  ) {
     log({
       message: `[frontend/element] <${this.tagName}> attributes changed`,
       detail: { name, oldValue, newValue },
@@ -74,7 +79,11 @@ export class OWFElement<S extends AnyPrimitiveShape> extends HTMLElement {
     this.#eventController.abort();
   }
 
-  override addEventListener(eventType: string, listener: unknown, options?: unknown): void {
+  override addEventListener(
+    eventType: unknown,
+    listener: unknown,
+    options?: unknown,
+  ): void {
     if (!eventType) {
       return;
     }
@@ -84,7 +93,7 @@ export class OWFElement<S extends AnyPrimitiveShape> extends HTMLElement {
     }
 
     let resolvedOptions: AddEventListenerOptions = {
-      signal: this.#eventController.signal
+      signal: this.#eventController.signal,
     };
     if (typeof options === "object") {
       resolvedOptions = { ...options, ...resolvedOptions };
@@ -99,7 +108,7 @@ export class OWFElement<S extends AnyPrimitiveShape> extends HTMLElement {
     });
 
     super.addEventListener(
-      eventType,
+      eventType as string,
       (event) => {
         event.stopPropagation();
         event.preventDefault();
@@ -109,15 +118,13 @@ export class OWFElement<S extends AnyPrimitiveShape> extends HTMLElement {
           writable: false,
           value: event
             .composedPath()
-            .find(target =>
-              (target as HTMLElement).getAttribute?.("id")
-            ),
+            .find((target) => (target as HTMLElement).getAttribute?.("id")),
         });
 
         let message =
           `[frontend/element] <${this.tagName}> listener for "${eventType}"`;
 
-        const element = (event.target as HTMLElement);
+        const element = event.target as HTMLElement;
 
         if (event.target) {
           message +=
@@ -152,8 +159,7 @@ export class OWFElement<S extends AnyPrimitiveShape> extends HTMLElement {
       level: "debug",
     });
 
-    const templateResult =
-      this.handleTemplateBuild?.(this.buildAttributes) ??
+    const templateResult = this.handleTemplateBuild?.(this.buildAttributes) ??
       html`<slot></slot>`;
     const templateWrapper = html`<template>
       <style>
@@ -195,11 +201,16 @@ export class OWFElement<S extends AnyPrimitiveShape> extends HTMLElement {
     });
   }
 
-  #RESOLVE_ATTRIBUTE(name: keyof S, value: string | null | undefined): S[keyof S] | undefined {
+  #RESOLVE_ATTRIBUTE(
+    name: keyof S,
+    value: string | null | undefined,
+  ): S[keyof S] | undefined {
     const resolver = this.buildDefinition[name] ?? String;
 
     if (value === null || value === undefined) return;
-    if (resolver === Boolean) return this.#RESOLVE_BOOLEAN_ATTRIBUTE(value) as S[keyof S];
+    if (resolver === Boolean) {
+      return this.#RESOLVE_BOOLEAN_ATTRIBUTE(value) as S[keyof S];
+    }
 
     return resolver(value) as S[keyof S];
   }

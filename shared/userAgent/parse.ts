@@ -1,8 +1,8 @@
-import type { 
-  PlatformEngine,
-  PlatformRenderer,
+import type {
   Platform,
-  PlatformEngineInstance
+  PlatformEngine,
+  PlatformEngineInstance,
+  PlatformRenderer,
 } from "./types.ts";
 
 const ENGINE_CHECKERS: Record<PlatformEngine, RegExp> = {
@@ -13,7 +13,7 @@ const ENGINE_CHECKERS: Record<PlatformEngine, RegExp> = {
   Edge: /Edg.*\/(?<version>\S+)/,
   Safari: /Safari\/(?<version>\S+)/,
   OperaLegacy: /Opera\/(?<version>\S+)/,
-  Opera: /OPR\/(?<version>\S+)/
+  Opera: /OPR\/(?<version>\S+)/,
 };
 
 const RENDERER_CHECKERS: Record<PlatformRenderer, RegExp> = {
@@ -21,7 +21,7 @@ const RENDERER_CHECKERS: Record<PlatformRenderer, RegExp> = {
   WebKit: /WebKit\/(?<version>\S+)/,
   Blink: /Blink\/(?<version>\S+)/,
   Presto: /Presto\/(?<version>\S+)/,
-  EdgeHTML: /Edge\/(?<version>\S+)/
+  EdgeHTML: /Edge\/(?<version>\S+)/,
 };
 
 /**
@@ -30,7 +30,7 @@ const RENDERER_CHECKERS: Record<PlatformRenderer, RegExp> = {
  * @returns A frozen object with the platform information.
  * @throws TypeError when it fails to parse the UserAgent.
  * @example
- * 
+ *
  * ```js
  * const platform = parse(navigator.userAgent);
  * console.log(platform);
@@ -58,7 +58,7 @@ export const parseAgent = (userAgent: string): Readonly<Platform> => {
     if (result?.groups?.version) {
       renderer = {
         name: rendererName,
-        version: parseFloat(result.groups.version)
+        version: parseFloat(result.groups.version),
       };
       break;
     }
@@ -74,7 +74,7 @@ export const parseAgent = (userAgent: string): Readonly<Platform> => {
     if (result?.groups?.version) {
       engines[engineName] = {
         name: engineName,
-        version: parseFloat(result.groups.version)
+        version: parseFloat(result.groups.version),
       };
     }
   }
@@ -82,11 +82,13 @@ export const parseAgent = (userAgent: string): Readonly<Platform> => {
   // best we can do is this pseudo-switch statement
   if (engines.Firefox && !engines.Seamonkey) engine = engines.Firefox;
   if (engines.Seamonkey) engine = engines.Seamonkey;
-  if (engines.Chrome && !engines.Chromium && !engines.Edge)
+  if (engines.Chrome && !engines.Chromium && !engines.Edge) {
     engine = engines.Chrome;
+  }
   if (engines.Chromium) engine = engines.Chromium;
-  if (engines.Safari && !engines.Chrome && !engines.Chromium)
+  if (engines.Safari && !engines.Chrome && !engines.Chromium) {
     engine = engines.Safari;
+  }
   if (engines.OperaLegacy) engine = engines.OperaLegacy;
   if (engines.Opera) engine = engines.Opera;
 

@@ -30,7 +30,7 @@ function mockDate(isoTimestamp) {
   };
 }
 
-Deno.test("Log", () => {
+Deno.test("log", () => {
   const fixedTimestamp = "2024-01-01T10:00:00.000Z";
   const restoreDate = mockDate(fixedTimestamp);
 
@@ -50,7 +50,7 @@ Deno.test("Log", () => {
   restoreDate();
 });
 
-Deno.test("LogError", () => {
+Deno.test("logError", () => {
   const fixedTimestamp = "2024-01-01T10:00:00.000Z"; // Choose a fixed time
   const restoreDate = mockDate(fixedTimestamp); // Mock Date before the test
 

@@ -6,7 +6,7 @@ export const requirements = {
       Edge: "79",
       Safari: "14.5",
       Firefox: "90",
-      Opera: "62"
-    }
-  }
+      Opera: "62",
+    },
+  },
 };

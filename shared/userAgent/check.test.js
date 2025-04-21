@@ -2,7 +2,7 @@ import { assertEquals } from "jsr:@std/assert";
 
 import { checkAgent } from "./check.ts";
 
-Deno.test("check", () => {
+Deno.test("checkAgent", () => {
   assertEquals(
     checkAgent(
       {

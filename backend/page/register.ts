@@ -1,20 +1,13 @@
 // @ts-check
 import { log, logError, type PlatformRequirements } from "@onlyweb/shared";
-import { html } from "./response.ts";
-import type { PageHandler, PageRequest, PageResponse } from "../types.ts";
-
-// TODO: move livereload to repo-agnotic code
-const LIVERELOAD_PORT = 35729;
+import type { OWFRequest } from "../request.ts";
+import { makeOWFResponse, type OWFResponse } from "../response.ts";
+import { createPage } from "./page.ts";
 
 /**
- * The options for page registration.
+ * The configuration for page registration.
  */
-export type RegisterPageOptions = {
-  /**
-   * The branch of the framework to use.
-   */
-  frameworkBranch?: string;
-
+export type RegisterPageConfiguration = {
   /**
    * The platform requirements for the inliner.
    */
@@ -23,22 +16,24 @@ export type RegisterPageOptions = {
   /**
    * The request handler for the page.
    */
-  handleRequest: PageHandler;
+  render: (request: OWFRequest) => Promise<OWFResponse>;
 
   /**
    * The service worker request handler for the page
    */
-  handleServiceWorker?: PageHandler;
-} | PageHandler;
+  renderServiceWorker?: (request: OWFRequest) => Promise<OWFResponse>;
+};
 
-
+export type RegisterPageOptions =
+  | RegisterPageConfiguration
+  | ((request: OWFRequest) => Promise<OWFResponse>);
 
 /**
  * Registers a custom page in the global customPages map.
  * @param route The route of the page
  * @param options The options for the page
- * @example 
- * 
+ * @example
+ *
  * ```js
  * registerPage("/test", {
  *  requirements: {
@@ -68,94 +63,82 @@ export type RegisterPageOptions = {
  * ```
  * @returns Nothing is returned: the page is registered in the global customPages map
  */
-export const registerPage = (route: string, options: RegisterPageOptions ): void => {
+export const registerPage = (
+  route: string,
+  options: RegisterPageOptions,
+): void => {
   (globalThis as any).customPages ??= new Map();
-
-  if (route.startsWith("/framework")) {
-    log({
-      message:
-        `[framework/backend/register] Page "${route}" cannot be registered: it is a framework route.`,
-      level: "error",
-    });
-    return;
-  }
 
   if ((globalThis as any).customPages.has(route)) {
     log({
-      message:
-        `[framework/backend/register] Page "${route}" already registered.`,
+      message: `[backend/register] Page "${route}" already registered.`,
       level: "warn",
     });
   }
 
   if (typeof options === "function") {
     options = {
-      handleRequest: options,
+      render: options,
     };
   }
 
   const {
     requirements = {},
-    handleRequest,
-    handleServiceWorker = () => {},
+    render: handleRequest,
+    renderServiceWorker: handleServiceWorker = () => {},
   } = options;
 
   (globalThis as any).customPages.set(
     route,
-    async (request: PageRequest): Promise<Response | PageResponse> => {
-      // TODO: remove with OWFRequest
-      Object.defineProperty(request, "parsedUrl", {
-        writable: true,
-        value: new URL(request.url),
-      });
-
-      request.language = request.parsedUrl.searchParams.get("lang") ??
-        request.headers.get("accept-language")?.split(",")[0] ??
+    async (request: OWFRequest): Promise<OWFResponse> => {
+      request.language = request.url.searchParams.get("lang") ??
+        request.nativeRequest.headers.get("accept-language")?.split(",")[0] ??
         "en-US";
 
       log({
-        message:
-          `[framework/backend/register] Begun handling request @ "${route}".`,
+        message: `[backend/register] Begun handling request @ "${route}".`,
         detail: request,
       });
 
-      if (request.parsedUrl.searchParams.has("sw")) {
+      if (request.url.searchParams.has("sw")) {
         try {
           log({
             message:
-              `[framework/backend/register] Constructing service worker response @ "${route}".`,
+              `[backend/register] Constructing service worker response @ "${route}".`,
           });
           const serviceWorker = await handleServiceWorker(request);
 
           if (!serviceWorker) {
             log({
               message:
-                `[framework/backend/register] No service worker found @ "${route}".`,
+                `[backend/register] No service worker found @ "${route}".`,
               level: "warn",
             });
-            return new Response("Not Found", { status: 404 });
+
+            return makeOWFResponse(new Response("Not Found", { status: 404 }));
           }
 
           log({
-            message:
-              `[framework/backend/register] Serving service worker @ "${route}".`,
+            message: `[backend/register] Serving service worker @ "${route}".`,
             detail: serviceWorker,
           });
 
           return serviceWorker;
         } catch (error) {
           logError(error as Error);
-          return new Response("Internal Server Error", { status: 500 });
+
+          return makeOWFResponse(
+            new Response("Internal Server Error", { status: 500 }),
+          );
         }
       }
 
       log({
-        message:
-          `[framework/backend/register] Detected page request @ "${route}".`,
+        message: `[backend/register] Detected page request @ "${route}".`,
         detail: request,
       });
 
-      const response: PageResponse = await handleRequest(request) as PageResponse;
+      const response = await handleRequest(request);
 
       if (response.mimetype !== "text/html") {
         log({
@@ -167,92 +150,34 @@ export const registerPage = (route: string, options: RegisterPageOptions ): void
 
       try {
         log({
-          message:
-            `[framework/backend/register] Constructing HTML page @ "${route}".`,
+          message: `[backend/register] Constructing HTML page @ "${route}".`,
           detail: response,
         });
 
-        const pageResponse = html`
-          <!DOCTYPE html>
-          <html lang="${request.language}">
-            <script type="importmap">
-              {
-                "imports": {
-                  "@onlyweb/frontend": "https://esm.sh/jsr/@onlyweb/frontend@0.0.0-alpha.15",
-                  "@onlyweb/shared": "https://esm.sh/jsr/@onlyweb/shared@0.0.0-alpha.12"
-                }
-              }
-            </script>
-            ${response}
-            <script type="module">
-              import { requirements as systemRequirements } from "@onlyweb/frontend";
-              import { checkAgent, parseAgent, mergeRequirements, log } from "@onlyweb/shared";
-
-              (function () {
-                // check browser requirements
-                if (
-                  !(
-                    navigator.userAgent &&
-                    checkAgent(
-                      parseAgent(navigator.userAgent),
-                      mergeRequirements(${requirements}, systemRequirements)                        
-                    )
-                  )
-                ) {
-                  alert(
-                    "Your browser is not currently supported: certain things may not work as expected. Please consider updating your browser to the latest version."
-                  );
-                }
-
-                // launch devtools
-                if (globalThis.location.href.match(/localhost/)) {
-                  try {
-                    const reloadSocket = new WebSocket(
-                      "ws://localhost:${LIVERELOAD_PORT}"
-                    );
-
-                    reloadSocket.onopen = () =>
-                      console.log("LiveReload connected~");
-                    reloadSocket.onmessage = ({ data }) =>
-                      data === "reload" && location.reload();
-                  } catch (error) {
-                    // nevermind
-                    log({ message: "LiveReload failed to connect." });
-                  }
-                }
-
-                // register service worker
-                if ("serviceWorker" in navigator) {
-                  try {
-                    navigator.serviceWorker.register("${route}?sw", {
-                      scope: "${route}"
-                    });
-                  } catch (error) {
-                    // nevermind
-                    log({ message: "Service worker failed to register." });
-                  }
-                }
-              })();
-            </script>
-          </html>
-        `;
+        const pageResponse = createPage(
+          route,
+          request,
+          response,
+          requirements,
+        );
 
         log({
-          message:
-            `[framework/backend/register] Serving HTML page @ "${route}".`,
+          message: `[backend/register] Serving HTML page @ "${route}".`,
           detail: pageResponse,
         });
 
-        // TODO(#177) TypeError: Return value from serve handler must be a response or a promise resolving to a response
         return pageResponse;
       } catch (error) {
         logError(error as Error);
-        return new Response("Internal Server Error", { status: 500 });
+
+        return makeOWFResponse(
+          new Response("Internal Server Error", { status: 500 }),
+        );
       }
     },
   );
 
   log({
-    message: `[framework/backend/register] Registered page @ "${route}".`,
+    message: `[backend/register] Registered page @ "${route}".`,
   });
 };

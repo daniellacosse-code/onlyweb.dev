@@ -1,7 +1,7 @@
 import type {
-  PlatformRequirements,
   PlatformEngine,
-  PlatformRenderer
+  PlatformRenderer,
+  PlatformRequirements,
 } from "./types.ts";
 
 /**
@@ -9,7 +9,7 @@ import type {
  * @param {PlatformRequirements[]} requirements The requirements to merge
  * @returns {PlatformRequirements} The merged requirements
  * @example
- * 
+ *
  * ```js
  * const requirements = merge(
  *  { engine: { Chrome: 91 }, renderer: { Chromium: 91 } },
@@ -22,7 +22,9 @@ import type {
  * // }
  * ```
  */
-export const mergeRequirements = (...requirements: PlatformRequirements[]): PlatformRequirements => {
+export const mergeRequirements = (
+  ...requirements: PlatformRequirements[]
+): PlatformRequirements => {
   const [result] = requirements;
 
   for (const requirement of requirements) {
@@ -36,7 +38,7 @@ export const mergeRequirements = (...requirements: PlatformRequirements[]): Plat
 
         result.engine[engineName] = Math.max(
           result.engine[engineName] ?? 0,
-          requirement.engine[engineName] ?? 0
+          requirement.engine[engineName] ?? 0,
         );
       }
     }
@@ -49,7 +51,7 @@ export const mergeRequirements = (...requirements: PlatformRequirements[]): Plat
 
         result.renderer[rendererName] = Math.max(
           result.renderer[rendererName] ?? 0,
-          requirement.renderer[rendererName] ?? 0
+          requirement.renderer[rendererName] ?? 0,
         );
       }
     }

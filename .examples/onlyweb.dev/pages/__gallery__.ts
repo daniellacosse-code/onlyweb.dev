@@ -1,4 +1,4 @@
-import { registerPage, createInliner, html } from "@onlyweb/backend";
+import { createInliner, html, registerPage } from "@onlyweb/backend";
 
 import * as constants from "../constants.ts";
 import OnlyWebTheme from "./shared-theme.ts";
@@ -75,17 +75,15 @@ registerPage("/__gallery__", async (request) => {
       }
     </style>
 
-    ${
-    await inliner.elements(
-      "/elements/core/loading/skeleton.js",
-      "/elements/core/button.js",
-      "/elements/core/image.js",
-      "/elements/core/input.js",
-      "/elements/core/link.js",
-      "/elements/core/text.js",
-      "/elements/gallery/counter-demo.js",
-    )
-  }
+    ${await inliner.elements(
+    "/elements/core/loading/skeleton.js",
+    "/elements/core/button.js",
+    "/elements/core/image.js",
+    "/elements/core/input.js",
+    "/elements/core/link.js",
+    "/elements/core/text.js",
+    "/elements/gallery/counter-demo.js",
+  )}
   </head>
   <body>
     <h1>the onlyweb custom element gallery</h1>

@@ -2,14 +2,14 @@
  * Canonical names for platform engines.
  */
 export type PlatformEngine =
-  | 'Chrome'
-  | 'Chromium'
-  | 'Edge'
-  | 'Firefox'
-  | 'Opera'
-  | 'OperaLegacy'
-  | 'Safari'
-  | 'Seamonkey';
+  | "Chrome"
+  | "Chromium"
+  | "Edge"
+  | "Firefox"
+  | "Opera"
+  | "OperaLegacy"
+  | "Safari"
+  | "Seamonkey";
 
 /**
  * Instance of a user agent platform engine.
@@ -23,11 +23,11 @@ export type PlatformEngineInstance = {
  * Canonical names for platform renderers.
  */
 export type PlatformRenderer =
-  | 'Gecko'
-  | 'WebKit'
-  | 'Blink'
-  | 'Presto'
-  | 'EdgeHTML';
+  | "Gecko"
+  | "WebKit"
+  | "Blink"
+  | "Presto"
+  | "EdgeHTML";
 
 /**
  * Instance of a user agent platform renderer.

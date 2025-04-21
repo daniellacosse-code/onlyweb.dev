@@ -1,10 +1,10 @@
 import { assertEquals } from "jsr:@std/assert";
 import { registerPage } from "./register.ts";
 
-Deno.test("register", async () => {
+Deno.test("registerPage", async () => {
   await registerPage("/", {
-    handleRequest: () => new Response(),
-    handleServiceWorker: () => new Response(),
+    render: () => new Response(),
+    renderServiceWorker: () => new Response(),
   });
 
   assertEquals(Boolean(globalThis.customPages.get("/")), true);
@@ -20,7 +20,7 @@ Deno.test("register", async () => {
   );
 });
 
-Deno.test("function register", async () => {
+Deno.test("registerPage with function", async () => {
   await registerPage("/", () => new Response());
 
   assertEquals(Boolean(globalThis.customPages.get("/")), true);

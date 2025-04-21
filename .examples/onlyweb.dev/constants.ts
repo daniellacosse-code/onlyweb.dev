@@ -6,7 +6,8 @@ export const THEME_COLOR_HIGHLIGHT = "hsl(57, 88%, 64%)";
 
 const neutralValues = "210, 8%, 65%";
 export const THEME_COLOR_NEUTRAL = `hsl(${neutralValues})`;
-export const THEME_COLOR_NEUTRAL_SEMITRANSPARENT = `hsla(${neutralValues}, 0.95)`;
+export const THEME_COLOR_NEUTRAL_SEMITRANSPARENT =
+  `hsla(${neutralValues}, 0.95)`;
 export const THEME_COLOR_NEUTRAL_TRANSPARENT = `hsla(${neutralValues}, 0.25)`;
 
 export const THEME_SIZE_HAIRLINE = "3px";
