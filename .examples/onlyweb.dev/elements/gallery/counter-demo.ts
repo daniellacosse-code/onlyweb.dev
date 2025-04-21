@@ -1,16 +1,11 @@
 import { registerElement } from "@onlyweb/frontend";
 
-interface CounterState {
-  [key: string]: number;
-}
-
-interface CounterDemoElement extends HTMLElement {
-  state?: CounterState;
-}
-
-registerElement("counter-demo", {
-  handleMount(this: CounterDemoElement) {
-    this.addEventListener("click", ({ target }) => {
+registerElement<
+  Record<string | number | symbol, never>,
+  { state?: Record<string, number> }
+>("counter-demo", {
+  handleMount() {
+    this.addEventListener("click", ({ target }: Event) => {
       if (!target) {
         return;
       }

@@ -1,6 +1,6 @@
 import { html, registerElement } from "@onlyweb/frontend";
 
-registerElement("demo-frame", {
+registerElement<{ author: string; height: number; src: string; title: string; }>("demo-frame", {
   buildAttributes: {
     author: String,
     height: Number,
@@ -9,7 +9,7 @@ registerElement("demo-frame", {
   },
   handleBuild({ author = "", height = 500, src, title = "Demo Frame" }) {
     const authorElement = author &&
-      html`<core-text class="author">Author: ${author as string}</core-text>`;
+      html`<core-text class="author">Author: ${author}</core-text>`;
 
     return html`<style>
       :host {
@@ -26,7 +26,7 @@ registerElement("demo-frame", {
 
       iframe {
         width: 100%;
-        height: ${String(height)}px;
+        height: ${height}px;
         border: 1px solid var(--color-foreground);
       }
 
@@ -34,7 +34,7 @@ registerElement("demo-frame", {
         --core-loading-skeleton-border-radius: 0;
 
         display: inline-block;
-        height: ${String(height)}px;
+        height: ${height}px;
         left: 0;
         position: absolute;
         top: 0;

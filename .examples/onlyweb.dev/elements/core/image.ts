@@ -1,24 +1,35 @@
-import { html, registerElement, HTMLElementWithBuildAttributes } from "@onlyweb/frontend";
+import { html, registerElement } from "@onlyweb/frontend";
 
-interface ImageElement extends HTMLElementWithBuildAttributes {
-  __image__?: HTMLImageElement;
-}
+type GetAttribute<T> =
+  T extends typeof String ? string :
+  T extends typeof Number ? number :
+  T extends typeof Boolean ? boolean :
+  never;
 
-registerElement("core-image", {
-  buildAttributes: {
-    alt: String,
-    height: String,
-    loaded: Boolean,
-    src: String,
-    width: String,
-  },
-  handleBuild(this: ImageElement, { height, loaded, width }) {
+type GetAttributeShape<S> = {
+  [K in keyof S]: GetAttribute<S[K]>;
+};
+
+const buildAttributes = {
+  alt: String,
+  height: Number,
+  loaded: Boolean,
+  src: String,
+  width: Number,
+};
+
+registerElement<
+  GetAttributeShape<typeof buildAttributes>,
+  { __image__?: HTMLImageElement}
+>("core-image", {
+  buildAttributes,
+  handleBuild({ height, loaded, width }) {
     if (loaded) {
       return html`<style>
             img {
               display: inline-block;
-              width: ${width as string};
-              height: ${height as string};
+              width: ${width};
+              height: ${height};
               object-fit: contain;
               overflow: hidden;
               pointer-events: none;
@@ -31,17 +42,17 @@ registerElement("core-image", {
         <style>
           core-loading-skeleton {
             display: inline-block;
-            width: ${width as string};
-            height: ${height as string};
+            width: ${width};
+            height: ${height};
           }
         </style>
         <core-loading-skeleton></core-loading-skeleton>`;
   },
-  handleMount(this: ImageElement, { alt, src, ...srcParams }) {
+  handleMount({ alt, src, ...srcParams }) {
     const url = new URL(src as string);
 
     for (const [key, value] of Object.entries(srcParams)) {
-      url.searchParams.set(key, value as string);
+      url.searchParams.set(key, String(value));
     }
 
     this.__image__ = new Image(Number(srcParams.width), Number(srcParams.height));

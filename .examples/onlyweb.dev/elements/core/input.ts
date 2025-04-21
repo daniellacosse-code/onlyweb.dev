@@ -1,9 +1,5 @@
 import { html, registerElement } from "@onlyweb/frontend";
 
-interface InputElement extends HTMLElement {
-  value?: string | null;
-}
-
 const sharedStyles = html`<style>
   .wrapper,
   input,
@@ -58,26 +54,34 @@ const sharedStyles = html`<style>
 
 const makeLabelID = (label: string) => label.toLowerCase().replace(/\s/g, "-");
 
-registerElement("core-input", {
+registerElement<{ label: string; type: string; }, { value: string | null; }>("core-input", {
   buildAttributes: {
     label: String,
     type: String,
   },
   handleBuild({ label = "", type = "content" }) {
-    const __inputID__ = makeLabelID(label as string);
+    const __inputID__ = makeLabelID(label);
 
     let inputElement;
 
     switch (type) {
-      case "text":
-      case "password":
-      case "email":
       case "search":
         inputElement = html`
           <input id="${__inputID__}"
             type="${type}" 
             aria-labelledby="${__inputID__}-label" 
-            role="${type}box"
+            role="searchbox"
+          >`;
+        break;
+
+      case "text":
+      case "password":
+      case "email":
+        inputElement = html`
+          <input id="${__inputID__}"
+            type="${type}" 
+            aria-labelledby="${__inputID__}-label" 
+            role="textbox"
           >`;
         break;
 
@@ -100,24 +104,26 @@ registerElement("core-input", {
     return html`
         ${sharedStyles}
         <div class="wrapper">
-          <label id="${__inputID__}-label">${label as string}</label>
+          <label id="${__inputID__}-label">${label}</label>
           ${inputElement}
         </div>`;
   },
-  handleMount(this: InputElement, { label = "" }) {
+  handleMount({ label = "" }) {
     this.setAttribute("tabIndex", "0");
 
-    const __inputID__ = makeLabelID(label as string);
+    const __inputID__ = makeLabelID(label);
 
     this.addEventListener(
       "focus",
       () => (this.querySelector(`#${__inputID__}`) as HTMLElement).focus(),
     );
 
-    this.addEventListener("input", ({ target }) => {
+    this.addEventListener("input", ({ target }: Event) => {
       if (!target) {
         return
       }
+
+      target = target as HTMLElement;
 
       const value = (target as HTMLInputElement).localName === "input"
         ? (target as HTMLInputElement).value

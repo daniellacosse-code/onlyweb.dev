@@ -37,12 +37,12 @@ const sharedStyles = html`<style>
   }
 </style>`;
 
-registerElement("core-button", {
+registerElement<{ disabled: boolean; }>("core-button", {
   buildAttributes: {
     disabled: Boolean,
   },
   handleBuild({ disabled }) {
-    if (disabled as boolean) {
+    if (disabled) {
       return html`${sharedStyles}
           <style>
             button {

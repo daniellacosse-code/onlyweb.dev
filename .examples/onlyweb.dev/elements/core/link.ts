@@ -1,6 +1,6 @@
 import { html, registerElement } from "@onlyweb/frontend";
 
-registerElement("core-link", {
+registerElement<{ href: string; }>("core-link", {
   buildAttributes: {
     href: String,
   },
@@ -23,6 +23,6 @@ registerElement("core-link", {
         background: var(--color-highlight);
       }
     </style>
-    <a href="${href as string}" target="_blank"><slot></slot></a>`;
+    <a href="${href}" target="_blank"><slot></slot></a>`;
   },
 });
