@@ -1,9 +1,10 @@
-import { registerElement } from "@onlyweb/frontend";
+import { type AnyPrimitiveShape, registerElement } from "@onlyweb/frontend";
 
-registerElement<
-  Record<string | number | symbol, never>,
-  { state?: Record<string, number> }
->("counter-demo", {
+type CounterDemoState = {
+  state?: Record<string, number>
+}
+
+registerElement<AnyPrimitiveShape, CounterDemoState>("counter-demo", {
   handleMount() {
     this.addEventListener("click", ({ target }: Event) => {
       if (!target) {

@@ -1,9 +1,11 @@
-import { html, registerElement } from "@onlyweb/frontend";
+import { type ConvertConstructorShapeToPrimitiveShape as $, html, registerElement } from "@onlyweb/frontend";
 
-registerElement<{ type: string; }>("core-text", {
-  buildAttributes: {
-    type: String,
-  },
+const buildAttributes = {
+  type: String,
+};
+
+registerElement<$<typeof buildAttributes>>("core-text", {
+  buildAttributes,
   handleBuild({ type = "paragraph" }) {
     return html`<style>
         slot {

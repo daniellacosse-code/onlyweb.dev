@@ -1,12 +1,14 @@
-import { html, registerElement } from "@onlyweb/frontend";
+import { type ConvertConstructorShapeToPrimitiveShape as $, html, registerElement } from "@onlyweb/frontend";
 
-registerElement<{ author: string; height: number; src: string; title: string; }>("demo-frame", {
-  buildAttributes: {
-    author: String,
-    height: Number,
-    src: String,
-    title: String,
-  },
+const buildAttributes = {
+  author: String,
+  height: Number,
+  src: String,
+  title: String,
+};
+
+registerElement<$<typeof buildAttributes>>("demo-frame", {
+  buildAttributes,
   handleBuild({ author = "", height = 500, src, title = "Demo Frame" }) {
     const authorElement = author &&
       html`<core-text class="author">Author: ${author}</core-text>`;

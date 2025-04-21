@@ -178,7 +178,7 @@ export const registerPage = (route: string, options: RegisterPageOptions ): void
             <script type="importmap">
               {
                 "imports": {
-                  "@onlyweb/frontend": "https://esm.sh/jsr/@onlyweb/frontend@0.0.0-alpha.13",
+                  "@onlyweb/frontend": "https://esm.sh/jsr/@onlyweb/frontend@0.0.0-alpha.15",
                   "@onlyweb/shared": "https://esm.sh/jsr/@onlyweb/shared@0.0.0-alpha.12"
                 }
               }

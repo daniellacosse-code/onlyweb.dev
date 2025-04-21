@@ -1,4 +1,4 @@
-import { html, registerElement } from "@onlyweb/frontend";
+import { type ConvertConstructorShapeToPrimitiveShape as $, html, registerElement } from "@onlyweb/frontend";
 
 const sharedStyles = html`<style>
   .wrapper,
@@ -54,7 +54,16 @@ const sharedStyles = html`<style>
 
 const makeLabelID = (label: string) => label.toLowerCase().replace(/\s/g, "-");
 
-registerElement<{ label: string; type: string; }, { value: string | null; }>("core-input", {
+type CoreInputState = {
+  value: string | null;
+}
+
+const buildAttributes = {
+  label: String,
+  type: String,
+}
+
+registerElement<$<typeof buildAttributes>, CoreInputState>("core-input", {
   buildAttributes: {
     label: String,
     type: String,
@@ -123,11 +132,9 @@ registerElement<{ label: string; type: string; }, { value: string | null; }>("co
         return
       }
 
-      target = target as HTMLElement;
+      const input = target as HTMLInputElement;
 
-      const value = (target as HTMLInputElement).localName === "input"
-        ? (target as HTMLInputElement).value
-        : (target as HTMLInputElement).textContent;
+      const value = input.localName === "input" ? input.value : input.textContent;
       
       this.value = value;
       this.querySelector("label")?.classList.toggle("hidden", Boolean(value));

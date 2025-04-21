@@ -1,4 +1,4 @@
-import { html, registerElement } from "@onlyweb/frontend";
+import { type ConvertConstructorShapeToPrimitiveShape as $, html, registerElement } from "@onlyweb/frontend";
 
 const sharedStyles = html`<style>
   button {
@@ -37,39 +37,41 @@ const sharedStyles = html`<style>
   }
 </style>`;
 
-registerElement<{ disabled: boolean; }>("core-button", {
-  buildAttributes: {
-    disabled: Boolean,
-  },
+const buildAttributes = {
+  disabled: Boolean,
+};
+
+registerElement<$<typeof buildAttributes>>("core-button", {
+  buildAttributes,
   handleBuild({ disabled }) {
     if (disabled) {
       return html`${sharedStyles}
-          <style>
-            button {
-              cursor: not-allowed;
-              opacity: 0.5;
-            }
-          </style>
-          <button disabled>
-            <slot></slot>
-          </button>`;
+        <style>
+          button {
+            cursor: not-allowed;
+            opacity: 0.5;
+          }
+        </style>
+        <button disabled>
+          <slot></slot>
+        </button>`;
     }
 
     return html`${sharedStyles}
-        <style>
-          button:hover,
-          button:active,
-          button:focus {
-            background-position: 0 100%;
-          }
-          button:focus,
-          button:active {
-            outline: var(--size-hairline) solid var(--color-highlight);
-            outline-offset: var(--size-hairline);
-          }
-        </style>
-        <button>
-          <slot></slot>
-        </button>`;
+      <style>
+        button:hover,
+        button:active,
+        button:focus {
+          background-position: 0 100%;
+        }
+        button:focus,
+        button:active {
+          outline: var(--size-hairline) solid var(--color-highlight);
+          outline-offset: var(--size-hairline);
+        }
+      </style>
+      <button>
+        <slot></slot>
+      </button>`;
   },
 });

@@ -1,6 +1,6 @@
 {
   "name": "@onlyweb/frontend",
-  "version": "0.0.0-alpha.13",
+  "version": "0.0.0-alpha.14",
   "license": "MIT",
   "exports": "./main.ts",
   "compilerOptions": {

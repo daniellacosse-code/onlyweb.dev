@@ -1,32 +1,18 @@
 import { log } from "@onlyweb/shared";
 import { html } from "./html.ts";
+import type { AnyPrimitiveShape, ConvertPrimitiveShapeToConstructorShape as $ } from "../types.ts";
 
-type AnyAttribute = string | number | boolean;
-
-export type AnyAttributeShape = Record<string, AnyAttribute>;
-
-type GetAttributeConstructor<T> =
-  T extends string ? typeof String :
-  T extends number ? typeof Number :
-  T extends boolean ? typeof Boolean :
-  never;
-
-export type GetAttributeShapeDefinition<S extends AnyAttributeShape> = {
-  [K in keyof S]: GetAttributeConstructor<S[K]>;
-};
-
-
-export class OWFElement<S extends AnyAttributeShape> extends HTMLElement {
+export class OWFElement<S extends AnyPrimitiveShape> extends HTMLElement {
   buildAttributes: S;
-  buildDefinition: Partial<GetAttributeShapeDefinition<S>>;
+  buildDefinition: $<S>;
   handleMount?: (buildAttributes: S) => void;
   handleTemplateBuild?: (buildAttributes: S) => HTMLCollection;
   handleDismount?: (buildAttributes: S) => void;
-  
+
   #eventController = new AbortController();
   #root: ShadowRoot;
 
-  constructor(buildDefinition: Partial<GetAttributeShapeDefinition<S>>) {
+  constructor(buildDefinition: $<S>) {
     super();
 
     this.buildDefinition = buildDefinition;
@@ -67,7 +53,7 @@ export class OWFElement<S extends AnyAttributeShape> extends HTMLElement {
     );
   }
 
-  attributeChangedCallback(name: string, oldValue: AnyAttribute, newValue: AnyAttribute) {
+  attributeChangedCallback(name: keyof S, oldValue: S[keyof S], newValue: S[keyof S]) {
     log({
       message: `[frontend/element] <${this.tagName}> attributes changed`,
       detail: { name, oldValue, newValue },
@@ -209,10 +195,10 @@ export class OWFElement<S extends AnyAttributeShape> extends HTMLElement {
     });
   }
 
-  #RESOLVE_ATTRIBUTE(name: keyof S, value: string): S[keyof S] | void {
+  #RESOLVE_ATTRIBUTE(name: keyof S, value: string | null | undefined): S[keyof S] | undefined {
     const resolver = this.buildDefinition[name] ?? String;
 
-    if (value === null || value === undefined) return void 0;
+    if (value === null || value === undefined) return;
     if (resolver === Boolean) return this.#RESOLVE_BOOLEAN_ATTRIBUTE(value) as S[keyof S];
 
     return resolver(value) as S[keyof S];

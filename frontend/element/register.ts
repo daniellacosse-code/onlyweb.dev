@@ -1,15 +1,15 @@
-
 import { log } from "@onlyweb/shared";
-import { type AnyAttributeShape, type GetAttributeShapeDefinition, OWFElement } from "./element.ts";
+import { OWFElement } from "./element.ts";
+import type { AnyPrimitiveShape, AnyShape, ConvertPrimitiveShapeToConstructorShape as $ } from "../types.ts";
 
 /**
  * The options for registering an element
  */
-export interface RegisterElementConfiguration<S extends AnyAttributeShape, T extends object> {
+export interface RegisterElementConfiguration<S extends AnyPrimitiveShape, T extends AnyShape> {
   /**
    * The attributes of the element, that, when modified, will trigger a template build
    */
-  buildAttributes?: GetAttributeShapeDefinition<S>;
+  buildAttributes?: $<S>;
 
   /**
    * The core of the element: use it to build the template from which the shadow DOM will be constructed
@@ -27,7 +27,7 @@ export interface RegisterElementConfiguration<S extends AnyAttributeShape, T ext
   handleDismount?: (this: OWFElement<S> & T, buildAttributes: S) => void;
 }
 
-export type RegisterElementOptions<S extends AnyAttributeShape, T extends object> =
+export type RegisterElementOptions<S extends AnyPrimitiveShape, T extends AnyShape> =
   | RegisterElementConfiguration<S, T>
   | ((buildAttributes: S) => HTMLCollection);
 
@@ -50,7 +50,7 @@ export type RegisterElementOptions<S extends AnyAttributeShape, T extends object
  * ```
  * @returns Nothing is returned: the element is registered in the global customElements map
  */
-export const registerElement = <S extends AnyAttributeShape, T extends object = Record<string | number | symbol, never>>(
+export const registerElement = <S extends AnyPrimitiveShape, T extends AnyShape = AnyShape>(
   tag: string,
   options: RegisterElementOptions<S, T>
 ): void => {
@@ -68,7 +68,7 @@ export const registerElement = <S extends AnyAttributeShape, T extends object = 
   }
 
   const {
-    buildAttributes = {} as GetAttributeShapeDefinition<S>,
+    buildAttributes = {} as $<S>,
     handleBuild,
     handleMount,
     handleDismount,

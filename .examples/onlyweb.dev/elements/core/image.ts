@@ -1,14 +1,4 @@
-import { html, registerElement } from "@onlyweb/frontend";
-
-type GetAttribute<T> =
-  T extends typeof String ? string :
-  T extends typeof Number ? number :
-  T extends typeof Boolean ? boolean :
-  never;
-
-type GetAttributeShape<S> = {
-  [K in keyof S]: GetAttribute<S[K]>;
-};
+import { type ConvertConstructorShapeToPrimitiveShape as $, html, registerElement } from "@onlyweb/frontend";
 
 const buildAttributes = {
   alt: String,
@@ -18,10 +8,11 @@ const buildAttributes = {
   width: Number,
 };
 
-registerElement<
-  GetAttributeShape<typeof buildAttributes>,
-  { __image__?: HTMLImageElement}
->("core-image", {
+type ImageElementState = {
+  __image__?: HTMLImageElement
+}
+
+registerElement<$<typeof buildAttributes>, ImageElementState>("core-image", {
   buildAttributes,
   handleBuild({ height, loaded, width }) {
     if (loaded) {
@@ -55,7 +46,7 @@ registerElement<
       url.searchParams.set(key, String(value));
     }
 
-    this.__image__ = new Image(Number(srcParams.width), Number(srcParams.height));
+    this.__image__ = new Image(srcParams.width, srcParams.height);
     this.__image__.onload = () => (this.buildAttributes.loaded = true);
     this.__image__.src = url.toString();
     this.__image__.alt = alt as string;
