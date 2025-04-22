@@ -5,6 +5,9 @@ import type {
   ConvertPrimitiveShapeToConstructorShape as $,
 } from "../types.ts";
 
+/**
+ * The base class for all Only Web Framework elements
+ */
 export class OWFElement<S extends AnyPrimitiveShape> extends HTMLElement {
   buildAttributes: S;
   buildDefinition: $<S>;
@@ -79,10 +82,12 @@ export class OWFElement<S extends AnyPrimitiveShape> extends HTMLElement {
     this.#eventController.abort();
   }
 
+  // TODO: figure out how to properly override the addEventListener
+  // @ts-ignore
   override addEventListener(
-    eventType: unknown,
-    listener: unknown,
-    options?: unknown,
+    eventType: string,
+    listener: EventListenerOrEventListenerObject,
+    options?: boolean | AddEventListenerOptions,
   ): void {
     if (!eventType) {
       return;
@@ -108,7 +113,7 @@ export class OWFElement<S extends AnyPrimitiveShape> extends HTMLElement {
     });
 
     super.addEventListener(
-      eventType as string,
+      eventType,
       (event) => {
         event.stopPropagation();
         event.preventDefault();
