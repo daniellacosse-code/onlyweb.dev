@@ -89,6 +89,8 @@ export const registerElement = <
 
   elementRegistry.register(
     tag,
+    // TODO: figure out how to properly override the addEventListener
+    // @ts-ignore
     class extends OWFElement<S> {
       static observedAttributes = Object.keys(buildAttributes);
 

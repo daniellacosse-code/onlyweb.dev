@@ -1,6 +1,6 @@
 // @ts-check
 import { log, logError, type PlatformRequirements } from "@onlyweb/shared";
-import { createPage } from "../page.ts";
+import { createPage } from "./create.ts";
 import { resourceRegistry } from "../registry.ts";
 import { text } from "../response/template.ts";
 import type { OWFResource } from "../types.ts";
