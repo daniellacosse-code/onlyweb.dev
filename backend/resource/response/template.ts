@@ -1,5 +1,6 @@
-import { createTemplate, escapeHtml, log, minifyHtml } from "@onlyweb/shared";
+import { createTemplate, escapeHtml, minifyHtml } from "@onlyweb/shared";
 import type { OWFResponse } from "./types.ts";
+import { isOWFResponse } from "./unwrap.ts";
 
 type SupportedMimetype = "text/html" | "text/javascript" | "text/plain";
 
@@ -38,35 +39,8 @@ export interface OWFResponseTemplate extends _OWFResponseTemplate {
 const createResponseTemplate = (
   mimetype: SupportedMimetype,
 ): OWFResponseTemplate => {
-  class _OWFResponse extends Response {
-    constructor(body: string, init?: ResponseInit) {
-      super(body, init);
-      log({
-        message:
-          `[backend/response] Constructed a response with mimetype "${mimetype}"`,
-        detail: { body },
-        level: "debug",
-      });
-
-      this.#content = body;
-      this.#mimetype = mimetype;
-      this.headers.set("content-type", `${mimetype}; charset=UTF-8`);
-    }
-
-    // NO TOUCHY
-    #content = "";
-    get content() {
-      return this.#content;
-    }
-
-    #mimetype = "";
-    get mimetype() {
-      return this.#mimetype;
-    }
-  }
-
   const handleInsertion = (insertion: SupportedTemplateInsertion) => {
-    if (insertion instanceof _OWFResponse) {
+    if (isOWFResponse(insertion)) {
       return minifyHtml(insertion.content);
     }
 
@@ -109,29 +83,45 @@ const createResponseTemplate = (
       return (
         template: TemplateStringsArray,
         ...insertions: SupportedTemplateInsertion[]
-      ) => ({
-        mimetype,
-        nativeResponse: new _OWFResponse(
-          createTemplate({
-            template,
-            insertions,
-            handleInsertion,
-          }),
-          {
-            status: statusOrTemplate,
-          },
-        ),
-      });
+      ) => {
+        const content = createTemplate({
+          template,
+          insertions,
+          handleInsertion,
+        });
+
+        return {
+          mimetype,
+          content,
+          nativeResponse: new Response(
+            content,
+            {
+              status: statusOrTemplate,
+              headers: {
+                "content-type": `${mimetype}; charset=UTF-8`,
+              },
+            },
+          ),
+        };
+      };
     }
+
+    const content = createTemplate({
+      template: statusOrTemplate,
+      insertions,
+      handleInsertion,
+    });
 
     return {
       mimetype,
-      nativeResponse: new _OWFResponse(
-        createTemplate({
-          template: statusOrTemplate,
-          insertions,
-          handleInsertion,
-        }),
+      content,
+      nativeResponse: new Response(
+        content,
+        {
+          headers: {
+            "content-type": `${mimetype}; charset=UTF-8`,
+          },
+        },
       ),
     };
   };
