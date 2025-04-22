@@ -1,5 +1,5 @@
 import { assertEquals } from "jsr:@std/assert";
-import { registerPage } from "./register.ts";
+import { registerPage } from "../page/register.ts";
 
 Deno.test("registerPage", async () => {
   await registerPage("/", {

@@ -4,9 +4,9 @@ import { transpile } from "jsr:@deno/emit@0.46.0";
 
 import { log, minifyHtml } from "@onlyweb/shared";
 
-import { html } from "./template.ts";
-import type { OWFRequest } from "../request.ts";
-import type { OWFResponse } from "../response.ts";
+import { html } from "../response/template.ts";
+import type { OWFResponse } from "../response/types.ts";
+import type { OWFRequest } from "../request/types.ts";
 
 /**
  * A context-aware inliner that can inline elements, messages, and metadata into a document.

@@ -6,3 +6,4 @@ export * from "./userAgent/check.ts";
 export * from "./userAgent/merge.ts";
 export * from "./userAgent/parse.ts";
 export * from "./userAgent/types.ts";
+export * from "./registry/registry.ts";

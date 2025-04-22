@@ -1,8 +1,14 @@
 import { resolve } from "jsr:@std/path@1";
 import { serveFile } from "jsr:@std/http@1/file-server";
 import { ONLY_WEB_SERVER_PORT } from "./constants.ts";
-import { makeOWFRequest } from "./request.ts";
+import { resourceRegistry } from "./resource/registry.ts";
+import { wrapRequest } from "./resource/request/wrap.ts";
+import { unwrapResponse } from "./resource/response/unwrap.ts";
+import { text } from "./resource/response/template.ts";
 
+/**
+ * The options for starting the OnlyWeb framework server.
+ */
 export type StartOptions = {
   /** The port to listen on. */
   port?: number;
@@ -20,26 +26,24 @@ export const start = (
 ): void => {
   Deno.serve(
     { port, hostname: "localhost" },
-    (request: Request): Promise<Response> => {
+    async (request: Request): Promise<Response> => {
       const requestURL = new URL(request.url);
       const requestPath = requestURL.pathname.startsWith("/")
         ? requestURL.pathname
         : `/${requestURL.pathname}`;
 
-      for (const route of (globalThis as any).customPages.keys()) {
-        if (requestPath === route) {
-          const page = (globalThis as any).customPages.get(route);
+      const resource = resourceRegistry.get(requestPath);
 
-          if (page) {
-            return page(makeOWFRequest(request)).nativeResponse;
-          }
-        }
+      if (resource) {
+        const response = await resource(wrapRequest(request));
+
+        return Promise.resolve(unwrapResponse(response));
       }
 
       try {
         return serveFile(request, resolve(Deno.cwd(), `.${requestPath}`));
       } catch {
-        return Promise.resolve(new Response("Not Found", { status: 404 }));
+        return Promise.resolve(unwrapResponse(text(404)`Not Found`));
       }
     },
   );

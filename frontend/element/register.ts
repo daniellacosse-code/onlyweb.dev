@@ -1,4 +1,4 @@
-import { log } from "@onlyweb/shared";
+import { Registry } from "@onlyweb/shared";
 import { OWFElement } from "./element.ts";
 import type {
   AnyPrimitiveShape,
@@ -44,6 +44,12 @@ export type RegisterElementOptions<
   | RegisterElementConfiguration<S, T>
   | ((buildAttributes: S) => HTMLCollection);
 
+const elementRegistry = new Registry<CustomElementConstructor>(
+  (tag, classObject) => {
+    globalThis.customElements.define(tag, classObject);
+  },
+);
+
 /**
  * Registers a custom element with the global customElements map
  * @param tag The tag of the element
@@ -70,17 +76,8 @@ export const registerElement = <
   tag: string,
   options: RegisterElementOptions<S, T>,
 ): void => {
-  if (globalThis.customElements.get(tag)) {
-    return log({
-      message: `Element ${tag} already registered.`,
-      level: "warn",
-    });
-  }
-
   if (typeof options === "function") {
-    options = {
-      render: options,
-    };
+    options = { render: options };
   }
 
   const {
@@ -90,7 +87,7 @@ export const registerElement = <
     dismount: handleDismount,
   } = options;
 
-  globalThis.customElements.define(
+  elementRegistry.register(
     tag,
     class extends OWFElement<S> {
       static observedAttributes = Object.keys(buildAttributes);

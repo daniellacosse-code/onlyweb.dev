@@ -1,7 +1,7 @@
 import type { PlatformRequirements } from "@onlyweb/shared";
-import type { OWFRequest } from "../request.ts";
-import type { OWFResponse } from "../response.ts";
-import { html } from "./template.ts";
+import type { OWFRequest } from "../request/types.ts";
+import type { OWFResponse } from "../response/types.ts";
+import { html } from "../response/template.ts";
 
 // TODO: move livereload to repo-agnotic code
 const LIVERELOAD_PORT = 35729;
