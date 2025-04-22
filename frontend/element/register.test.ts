@@ -4,6 +4,10 @@
 import { assertEquals } from "jsr:@std/assert";
 import { registerElement } from "./register.ts";
 
+import { Element } from "https://deno.land/x/deno_dom@v0.1.49/deno-dom-wasm.ts";
+
+(globalThis as any).HTMLElement = Element;
+
 Deno.test("registerElement", async () => {
   await registerElement("my-element", { render: () => new HTMLCollection() });
 
