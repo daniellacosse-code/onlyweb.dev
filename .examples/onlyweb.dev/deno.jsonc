@@ -10,7 +10,7 @@
     ]
   },
   "imports": {
-    "@onlyweb/backend": "jsr:@onlyweb/backend@0.0.0-alpha.15",
-    "@onlyweb/shared": "jsr:@onlyweb/shared@0.0.0-alpha.12"
+    "@onlyweb/backend": "jsr:@onlyweb/backend",
+    "@onlyweb/shared": "jsr:@onlyweb/shared"
   }
 }
