@@ -2,6 +2,7 @@ import type { PlatformRequirements } from "@onlyweb/shared";
 import type { OWFRequest } from "../request/types.ts";
 import type { OWFResponse } from "../response/types.ts";
 import { html } from "../response/template.ts";
+import { resolveEnvironment } from "../../main.ts";
 
 // TODO: move livereload to repo-agnotic code
 const LIVERELOAD_PORT = 35729;
@@ -66,14 +67,16 @@ export const createPage = (
     </script>
   `;
 
+  const cdnUrl = resolveEnvironment("OWF_SOURCE_CDN");
+
   return html`
     <!DOCTYPE html>
     <html lang="${request.language}">
       <script type="importmap">
         {
           "imports": {
-            "@onlyweb/frontend": "https://esm.sh/jsr/@onlyweb/frontend@0.0.0-alpha.15",
-            "@onlyweb/shared": "https://esm.sh/jsr/@onlyweb/shared@0.0.0-alpha.12"
+            "@onlyweb/frontend": "${cdnUrl}/@onlyweb/frontend",
+            "@onlyweb/shared": "${cdnUrl}/@onlyweb/shared"
           }
         }
       </script>

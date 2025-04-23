@@ -25,6 +25,9 @@ export type RegisterPageConfiguration = {
   renderServiceWorker?: OWFResource;
 };
 
+/**
+ * The options for page registration.
+ */
 export type RegisterPageOptions =
   | RegisterPageConfiguration
   | OWFResource;
@@ -36,12 +39,14 @@ export type RegisterPageOptions =
  * @example
  *
  * ```js
+ * import { registerPage, html, js } from "@onlyweb/backend";
+ *
  * registerPage("/test", {
  *  requirements: {
  *    engine: { Chrome: 91 },
  *    renderer: { Blink: 91 }
  *  },
- *  render: (request) => Response.html`<!DOCTYPE html>
+ *  render: (request) => html`<!DOCTYPE html>
  *      <html lang="${request.language}">
  *        <head>
  *          <meta charset="UTF-8">
@@ -52,7 +57,7 @@ export type RegisterPageOptions =
  *          <h1>Hello, world!</h1>
  *        </body>
  *     </html>`,
- * renderServiceWorker: (request) => Response.js`
+ * renderServiceWorker: (request) => js`
  *  self.addEventListener("install", (event) => {
  *    event.waitUntil(
  *      caches.open("test").then((cache) => {

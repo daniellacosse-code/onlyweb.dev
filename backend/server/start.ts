@@ -1,10 +1,10 @@
 import { resolve } from "jsr:@std/path@1";
+import { resolveEnvironment } from "../environment/resolve.ts";
+import { resourceRegistry } from "../resource/registry.ts";
 import { serveFile } from "jsr:@std/http@1/file-server";
-import { ONLY_WEB_SERVER_PORT } from "./constants.ts";
-import { resourceRegistry } from "./resource/registry.ts";
-import { wrapRequest } from "./resource/request/wrap.ts";
-import { unwrapResponse } from "./resource/response/unwrap.ts";
-import { text } from "./resource/response/template.ts";
+import { text } from "../resource/response/template.ts";
+import { unwrapResponse } from "../resource/response/unwrap.ts";
+import { wrapRequest } from "../resource/request/wrap.ts";
 
 /**
  * The options for starting the OnlyWeb framework server.
@@ -21,7 +21,7 @@ export type StartOptions = {
  */
 export const start = (
   {
-    port = Number(Deno.env.get("ONLY_WEB_SERVER_PORT") ?? ONLY_WEB_SERVER_PORT),
+    port = Number(resolveEnvironment("OWF_APPLICATION_PORT")),
   }: StartOptions = {},
 ): void => {
   Deno.serve(

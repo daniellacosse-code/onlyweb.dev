@@ -3,7 +3,7 @@ import { html } from "./html.ts";
 import type {
   AnyPrimitiveShape,
   ConvertPrimitiveShapeToConstructorShape as $,
-} from "../types.ts";
+} from "./types.ts";
 
 /**
  * The base class for all Only Web Framework elements

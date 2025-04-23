@@ -4,7 +4,7 @@ import type {
   AnyPrimitiveShape,
   AnyShape,
   ConvertPrimitiveShapeToConstructorShape as $,
-} from "../types.ts";
+} from "./types.ts";
 
 /**
  * The configuration for registering an element
