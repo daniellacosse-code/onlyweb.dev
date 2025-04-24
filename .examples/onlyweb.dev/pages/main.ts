@@ -12,13 +12,13 @@ registerPage(route, {
       { messagesFolder: "/assets/messages" },
     );
 
-    const logoSrc = (request.parsedUrl.origin.match(/localhost/)
-      ? request.parsedUrl.origin
+    const logoSrc = (request.url.origin.match(/localhost/)
+      ? request.url.origin
       : constants.KEYCDN_IMAGE_ZONE_URL) +
       "/assets/images/logo/black.svg";
 
-    const inverseLogoSrc = (request.parsedUrl.origin.match(/localhost/)
-      ? request.parsedUrl.origin
+    const inverseLogoSrc = (request.url.origin.match(/localhost/)
+      ? request.url.origin
       : constants.KEYCDN_IMAGE_ZONE_URL) +
       "/assets/images/logo/white.svg";
 
@@ -310,7 +310,7 @@ registerPage(route, {
       </script>
     </body>`;
   },
-  renderServiceWorker: () =>
+  renderServiceWorker: async () =>
     js`
       self.addEventListener("install", (event) => {
         event.waitUntil(

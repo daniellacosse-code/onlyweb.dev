@@ -1,8 +1,8 @@
 import type { PlatformRequirements } from "@onlyweb/shared";
+import { html } from "../response/template.ts";
+import { resolveEnvironment } from "../../environment/resolve.ts";
 import type { OWFRequest } from "../request/types.ts";
 import type { OWFResponse } from "../response/types.ts";
-import { html } from "../response/template.ts";
-import { resolveEnvironment } from "../../main.ts";
 
 // TODO: move livereload to repo-agnotic code
 const LIVERELOAD_PORT = 35729;
@@ -14,7 +14,8 @@ export const createPage = (
   requirements: PlatformRequirements,
 ) => {
   const browserRequirementCheck = html`
-    <script>
+    <script type="module">
+      import { systemRequirements } from "@onlyweb/frontend";
       import { checkAgent, parseAgent, mergeRequirements } from "@onlyweb/shared";
 
       if (
@@ -30,7 +31,7 @@ export const createPage = (
     </script>`;
 
   const livereload = html`
-    <script>
+    <script type="module">
       import { log } from "@onlyweb/shared";
 
       if (globalThis.location.href.match(/localhost/)) {
@@ -51,7 +52,7 @@ export const createPage = (
     </script>`;
 
   const serviceWorker = html`
-    <script>
+    <script type="module">
       import { log } from "@onlyweb/shared";
 
       if ("serviceWorker" in navigator) {

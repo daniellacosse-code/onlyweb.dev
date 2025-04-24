@@ -3,6 +3,7 @@
     "./shared",
     "./backend",
     "./frontend",
+    "./.examples/tutorial",
     "./.examples/onlyweb.dev"
   ]
 }

@@ -1,4 +1,7 @@
-export const requirements = {
+/**
+ * The system requirements for the Only Web Framework.
+ */
+export const systemRequirements = {
   userAgent: {
     // These requirements largely come from the use of private fields during element registration.
     engine: {

@@ -1,6 +1,6 @@
 {
   "tasks": {
-    "start": "deno run --allow-net --allow-read=. --allow-run ./.tasks/start.js"
+    "start": "deno run --allow-net --allow-env --allow-read=. --allow-run ./.tasks/start.js"
   },
   "compilerOptions": {
     "lib": [
@@ -8,9 +8,5 @@
       "dom",
       "dom.iterable"
     ]
-  },
-  "imports": {
-    "@onlyweb/backend": "jsr:@onlyweb/backend",
-    "@onlyweb/shared": "jsr:@onlyweb/shared"
   }
 }

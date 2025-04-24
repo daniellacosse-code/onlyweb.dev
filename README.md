@@ -13,7 +13,7 @@ built on top of the [Deno](https://deno.land/) runtime. It was designed for the
 [onlyweb.dev](https://onlyweb.dev) application with a focus on performance and
 transparency.
 
-## features
+### features
 
 - server-side rendering for WebComponents, as already mentioned
 - zero dependencies, apart from Deno
@@ -25,7 +25,7 @@ transparency.
 - streamlined service worker and PWA deployment
 - user agent checking (for when feature detection isn't enough)
 
-### prerequisites
+## prerequisites
 
 ```sh
 brew bundle
@@ -35,6 +35,7 @@ A basic understanding of native web development. MDN has a great
 [introduction to the web](https://developer.mozilla.org/en-US/docs/Learn/Getting_started_with_the_web)
 that you can follow.
 
-### \[WIP\] examples
+## examples
 
-TODO
+- Tutorial
+- onlyweb.dev
