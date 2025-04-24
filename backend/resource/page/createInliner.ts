@@ -72,7 +72,7 @@ export async function createInliner(
 
       log({
         message:
-          `[framework/backend/inliner] Loading messages for language "${request.language}"`,
+          `[backend/inliner] Loading messages for language "${request.language}"`,
         level: "debug",
         detail: {
           filePath,
@@ -84,7 +84,7 @@ export async function createInliner(
 
       log({
         message:
-          `[framework/backend/inliner] Loaded messages for language "${request.language}"`,
+          `[backend/inliner] Loaded messages for language "${request.language}"`,
         level: "debug",
         detail: { fileContents },
       });
@@ -92,14 +92,14 @@ export async function createInliner(
       messages = JSON.parse(fileContents);
       log({
         message:
-          `[framework/backend/inliner] Parsed messages for language "${request.language}"`,
+          `[backend/inliner] Parsed messages for language "${request.language}"`,
         level: "debug",
         detail: { messages },
       });
     } catch (error) {
       log({
         message:
-          `[framework/backend/inliner] Failed to load messages for language "${request.language}"`,
+          `[backend/inliner] Failed to load messages for language "${request.language}"`,
         level: "warn",
         detail: { error: (error as Error).message },
       });
@@ -110,7 +110,7 @@ export async function createInliner(
     async elements(...elementFilePaths) {
       const result = [];
       log({
-        message: `[framework/backend/inliner#elements] inlining elements "${
+        message: `[backend/inliner#elements] inlining elements "${
           elementFilePaths.join(
             ", ",
           )
@@ -141,7 +141,7 @@ export async function createInliner(
 
           if (!fileContents) {
             throw new Error(
-              `[framework/backend/inliner#elements] Failed to transpile element file "${filePath}"`,
+              `[backend/inliner#elements] Failed to transpile element file "${filePath}"`,
             );
           }
         } else {
@@ -150,7 +150,7 @@ export async function createInliner(
 
         log({
           message:
-            `[framework/backend/inliner#elements] loaded element file "${filePath}"`,
+            `[backend/inliner#elements] loaded element file "${filePath}"`,
           level: "debug",
         });
 
@@ -162,14 +162,13 @@ export async function createInliner(
           )
         }"></script>`);
         log({
-          message:
-            `[framework/backend/inliner#elements] inlined element "${filePath}"`,
+          message: `[backend/inliner#elements] inlined element "${filePath}"`,
           level: "debug",
         });
       }
 
       log({
-        message: `[framework/backend/inliner#elements] completed for "${
+        message: `[backend/inliner#elements] completed for "${
           elementFilePaths.join(
             ", ",
           )
@@ -186,7 +185,7 @@ export async function createInliner(
       if (!message) {
         log({
           message:
-            `[framework/backend/inliner#message] No message found for key "${key}"`,
+            `[backend/inliner#message] No message found for key "${key}"`,
           detail: { language: request.language },
           level: "warn",
         });
@@ -210,8 +209,7 @@ export async function createInliner(
         html`<meta name="og:url" content="${canonicalUrl}" />`,
       ];
       log({
-        message:
-          `[framework/backend/inliner#metadata] constructing page metadata.`,
+        message: `[backend/inliner#metadata] constructing page metadata.`,
         detail: {
           title,
           description,
@@ -225,8 +223,7 @@ export async function createInliner(
 
       if (title) {
         log({
-          message:
-            `[framework/backend/inliner#metadata] using title "${title}"`,
+          message: `[backend/inliner#metadata] using title "${title}"`,
           level: "debug",
         });
 
@@ -239,7 +236,7 @@ export async function createInliner(
       if (description) {
         log({
           message:
-            `[framework/backend/inliner#metadata] using description "${description}"`,
+            `[backend/inliner#metadata] using description "${description}"`,
           level: "debug",
         });
 
@@ -252,7 +249,7 @@ export async function createInliner(
       if (iconImagePath) {
         log({
           message:
-            `[framework/backend/inliner#metadata] using icon image "${iconImagePath}"`,
+            `[backend/inliner#metadata] using icon image "${iconImagePath}"`,
           level: "debug",
         });
 
@@ -272,7 +269,7 @@ export async function createInliner(
       if (splashImagePath) {
         log({
           message:
-            `[framework/backend/inliner#metadata] using splash image "${splashImagePath}"`,
+            `[backend/inliner#metadata] using splash image "${splashImagePath}"`,
           level: "debug",
         });
 
@@ -288,7 +285,7 @@ export async function createInliner(
       if (previewImagePath) {
         log({
           message:
-            `[framework/backend/inliner#metadata] using preview image "${previewImagePath}"`,
+            `[backend/inliner#metadata] using preview image "${previewImagePath}"`,
           level: "debug",
         });
 
@@ -298,8 +295,7 @@ export async function createInliner(
       }
 
       log({
-        message:
-          `[framework/backend/inliner#metadata] page metadata constructed.`,
+        message: `[backend/inliner#metadata] page metadata constructed.`,
         level: "debug",
       });
 

@@ -23,7 +23,7 @@ registerPage("/", {
         ),
       })
     }
-        ${inliner.elements("/copy-code.js")}
+        ${await inliner.elements("/copy-code.js")}
       </head>
       <body>
         <h1>${inliner.message("Your search is:")} ${request.url.search}</h1>

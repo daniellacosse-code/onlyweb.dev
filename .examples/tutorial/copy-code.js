@@ -1,4 +1,4 @@
-import { registerElement } from "@onlyweb/frontend";
+import { html, registerElement } from "@onlyweb/frontend";
 
 registerElement("copy-code", {
   attributes: { ["copy-message"]: String, code: String },
