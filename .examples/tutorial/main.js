@@ -1,10 +1,12 @@
+// @ts-check
+
 import { createInliner, html, registerPage, start } from "@onlyweb/backend";
 
 registerPage("/", {
   requirements: {
     engine: {
-      Firefox: "125",
-      Safari: "17.0",
+      Firefox: 125,
+      Safari: 17.0,
     },
   },
   render: async (request) => {

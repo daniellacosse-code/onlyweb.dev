@@ -1,23 +1,22 @@
+// @ts-check
+/// <reference lib="dom" />
+
 import { html, registerElement } from "@onlyweb/frontend";
 
 registerElement("copy-code", {
   attributes: { ["copy-message"]: String, code: String },
-  mount: () => {
-    this.addEventListener("click", () => {
-      if (this.attributes.copied) {
-        return;
-      }
+  mount() {
+    this.addEventListener("click", async () => {
+      await globalThis.navigator.clipboard.writeText(String(this.buildAttributes.code)):
 
-      globalThis.navigator.clipboard.writeText(this.attributes.code);
-
-      this.querySelector("div[popover]").togglePopover();
+      this.querySelector("div[popover]")?.togglePopover();
     });
   },
-  render: ({ code, ["copy-message"]: copyMessage }) =>
-    html`
+  render({ code, ["copy-message"]: copyMessage }) {
+    return html`
     <style>
       div {
-        display: relative;
+        position: relative;
       }
       code {
         font-family: monospace;
@@ -25,14 +24,13 @@ registerElement("copy-code", {
         text-overflow: ellipsis;
       }
       div[popover] {
-        display: absolute;
-        top: 0;
-        left: 0;
+        position: absolute;
       }
     </style>
     <div>
-      <code>${code}</code>
-      <div popover>${copyMessage}</div>
+      <code>${String(code)}</code>
+      <div popover>${String(copyMessage)}</div>
     </div>
-  `,
+  `;
+  },
 });

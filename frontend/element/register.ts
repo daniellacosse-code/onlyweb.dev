@@ -81,8 +81,8 @@ export const registerElement = <
   }
 
   const {
-    attributes: buildAttributes = {} as $<S>,
-    render: handleBuild,
+    attributes: buildDefinition = {} as $<S>,
+    render: handleTemplateBuild,
     mount: handleMount,
     dismount: handleDismount,
   } = options;
@@ -92,12 +92,19 @@ export const registerElement = <
     // TODO: figure out how to properly override the addEventListener
     // @ts-ignore
     class extends OWFElement<S> {
-      static observedAttributes = Object.keys(buildAttributes);
+      static observedAttributes = Object.keys(buildDefinition);
 
-      override buildDefinition = buildAttributes;
-      override handleTemplateBuild = handleBuild;
-      override handleMount = handleMount;
-      override handleDismount = handleDismount;
+      constructor() {
+        super(buildDefinition);
+
+        this.buildDefinition = buildDefinition;
+
+        const self = this as unknown as OWFElement<S> & T;
+
+        this.handleTemplateBuild = handleTemplateBuild?.bind(self);
+        this.handleMount = handleMount?.bind(self);
+        this.handleDismount = handleDismount?.bind(self);
+      }
     },
   );
 };
