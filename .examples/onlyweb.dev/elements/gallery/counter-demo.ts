@@ -19,9 +19,13 @@ registerElement<AnyPrimitiveShape, CounterDemoState>("counter-demo", {
       this.state[targetID] = currentState + 1;
 
       for (const [key, value] of Object.entries(this.state)) {
-        const target = this.querySelector(`#${key}`);
+        const target = (this.querySelector("slot") as HTMLSlotElement | null)
+          ?.assignedElements()[0]
+          .querySelector(`#${key}`);
 
-        if (target) (target as HTMLElement).textContent = String(value);
+        if (target) {
+          (target as HTMLElement).textContent = String(value);
+        }
       }
     });
   },

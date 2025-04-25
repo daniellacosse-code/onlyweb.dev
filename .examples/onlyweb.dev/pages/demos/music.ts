@@ -1,7 +1,7 @@
 import { html, js, registerPage } from "@onlyweb/backend";
 
 registerPage("/demos/music", {
-  render: () => {
+  render: async () => {
     return html`<head>
         <!-- TODO -->
          <style>
@@ -459,7 +459,7 @@ registerPage("/demos/music", {
       </body>
     `;
   },
-  renderServiceWorker: () =>
+  renderServiceWorker: async () =>
     js`
   self.addEventListener("install", (event) => {
     event.waitUntil(

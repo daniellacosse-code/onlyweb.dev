@@ -15,3 +15,12 @@ export const wrapRequest = (request: Request): OWFRequest => {
     nativeRequest: request,
   };
 };
+
+/**
+ * Unwraps an OWFRequest into a standard Request.
+ * @param request The OWFRequest.
+ * @returns The standard Request.
+ */
+export const unwrapRequest = (request: OWFRequest): Request => {
+  return request.nativeRequest;
+};

@@ -8,8 +8,8 @@ registerPage("/__gallery__", async (request) => {
     messagesFolder: "/assets/messages",
   });
 
-  const logoSrc = (request.parsedUrl.origin.match(/localhost/)
-    ? request.parsedUrl.origin
+  const logoSrc = (request.url.origin.match(/localhost/)
+    ? request.url.origin
     : constants.KEYCDN_IMAGE_ZONE_URL) +
     "/assets/images/logo/maskable.png";
 
@@ -73,16 +73,20 @@ registerPage("/__gallery__", async (request) => {
         overflow: hidden;
         padding: 1rem;
       }
+
+      core-link:hover core-text, core-button core-text {
+        --core-text-color-paragraph: black;
+      }
     </style>
 
     ${await inliner.elements(
-    "/elements/core/loading/skeleton.js",
-    "/elements/core/button.js",
-    "/elements/core/image.js",
-    "/elements/core/input.js",
-    "/elements/core/link.js",
-    "/elements/core/text.js",
-    "/elements/gallery/counter-demo.js",
+    "/elements/core/loading/skeleton.ts",
+    "/elements/core/button.ts",
+    "/elements/core/image.ts",
+    "/elements/core/input.ts",
+    "/elements/core/link.ts",
+    "/elements/core/text.ts",
+    "/elements/gallery/counter-demo.ts",
   )}
   </head>
   <body>
@@ -154,9 +158,9 @@ registerPage("/__gallery__", async (request) => {
         <core-image
           alt="logo"
           format="webp"
-          height="80px"
+          height="80"
           src="${logoSrc}"
-          width="80px"
+          width="80"
         ></core-image>
       </section>
     </article>

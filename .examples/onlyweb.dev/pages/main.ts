@@ -173,8 +173,8 @@ registerPage(route, {
       <main>
       <nav id="sidebar">
         <header>
-          <core-image class="__bootstrap-cls__" src="${logoSrc}" alt="logo" width="64px" height="64px"></core-image>
-          <core-text class="__bootstrap-cls__" type="title" style="font-weight: bold; font-size: 1.5rem;">${
+          <core-image src="${logoSrc}" alt="logo" width="64" height="64"></core-image>
+          <core-text type="title" style="font-weight: bold; font-size: 1.5rem;">${
       inliner.message(
         "only web 2",
       )
@@ -188,8 +188,8 @@ registerPage(route, {
         <article>
           <section>
             <header>
-              <core-image class="__bootstrap-cls__" src="${inverseLogoSrc}" alt="logo" width="96px" height="96px"></core-image>
-              <core-text class="__bootstrap-cls__" type="title">nly web</core-text>
+              <core-image src="${inverseLogoSrc}" alt="logo" width="96" height="96"></core-image>
+              <core-text type="title">nly web</core-text>
             </header>
             <core-text type="paragraph">
               <i>[pre-alpha]</i><br/><br/>

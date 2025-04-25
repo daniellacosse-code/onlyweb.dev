@@ -1,6 +1,21 @@
 import type { OWFResponse } from "./types.ts";
 
 /**
+ * Wraps a standard Response in an OWFResponse.
+ * @param response The standard Response.
+ * @returns A Promise containing the OWFResponse.
+ */
+export const wrapResponse = async (
+  response: Response,
+): Promise<OWFResponse> => {
+  return {
+    mimetype: response.headers.get("content-type") ?? "text/plain",
+    content: await response.text(),
+    nativeResponse: response,
+  };
+};
+
+/**
  * Unwraps an OWFResponse into a standard Response.
  * @param response The OWFResponse.
  * @returns The standard Response.

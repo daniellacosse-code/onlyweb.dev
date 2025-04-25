@@ -3,7 +3,7 @@ import { registerPage, text } from "@onlyweb/backend";
 registerPage(
   "/robots.txt",
   () =>
-    text`
+    Promise.resolve(text`
   User-agent: *
-  Allow: /`,
+  Allow: /`),
 );

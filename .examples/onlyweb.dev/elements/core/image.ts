@@ -23,8 +23,8 @@ registerElement<$<typeof attributes>, ImageElementState>("core-image", {
       return html`<style>
             img {
               display: inline-block;
-              width: ${width};
-              height: ${height};
+              width: ${width}px;
+              height: ${height}px;
               object-fit: contain;
               overflow: hidden;
               pointer-events: none;
@@ -37,8 +37,8 @@ registerElement<$<typeof attributes>, ImageElementState>("core-image", {
         <style>
           core-loading-skeleton {
             display: inline-block;
-            width: ${width};
-            height: ${height};
+            width: ${width}px;
+            height: ${height}px;
           }
         </style>
         <core-loading-skeleton></core-loading-skeleton>`;

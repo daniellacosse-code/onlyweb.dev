@@ -3,7 +3,7 @@ import { resolveEnvironment } from "../environment/resolve.ts";
 import { resourceRegistry } from "../resource/registry.ts";
 import { serveFile } from "jsr:@std/http@1/file-server";
 import { text } from "../resource/response/template.ts";
-import { unwrapResponse } from "../resource/response/unwrap.ts";
+import { unwrapResponse } from "../resource/response/wrap.ts";
 import { wrapRequest } from "../resource/request/wrap.ts";
 
 /**

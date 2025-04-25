@@ -1,6 +1,6 @@
 import { createTemplate, escapeHtml, minifyHtml } from "@onlyweb/shared";
 import type { OWFResponse } from "./types.ts";
-import { isOWFResponse } from "./unwrap.ts";
+import { isOWFResponse } from "./wrap.ts";
 
 type SupportedMimetype = "text/html" | "text/javascript" | "text/plain";
 
