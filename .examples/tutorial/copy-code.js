@@ -6,33 +6,32 @@ import { html, registerElement } from "@onlyweb/frontend";
 registerElement("copy-code", {
   attributes: { ["copy-message"]: String, code: String },
   mount() {
+    this.querySelector("#copy-message-popover")?.hidePopover();
+
     this.addEventListener("click", async () => {
       await globalThis.navigator.clipboard.writeText(
         String(this.buildAttributes.code),
       );
 
-      this.querySelector("div[popover]")?.togglePopover();
+      this.querySelector("#copy-message-popover")?.showPopover();
     });
   },
   render({ code, ["copy-message"]: copyMessage }) {
     return html`
     <style>
-      div {
-        position: relative;
-      }
       code {
         font-family: monospace;
         font-size: 1rem;
         text-overflow: ellipsis;
       }
       div[popover] {
-        position: absolute;
+        all: revert;
       }
     </style>
-    <div>
+    <button popovertarget="copy-message-popover">
       <code>${String(code)}</code>
-      <div popover>${String(copyMessage)}</div>
-    </div>
+    </button>
+    <div id="copy-message-popover" popover>${String(copyMessage)}</div>
   `;
   },
 });
