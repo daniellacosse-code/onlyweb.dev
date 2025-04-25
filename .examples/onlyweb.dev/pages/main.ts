@@ -66,14 +66,15 @@ registerPage(route, {
 
         nav {
           background: var(--color-foreground);
-          position: sticky;
-          top: 0;
           display: flex;
           flex-direction: column;
           flex-shrink: 0;
           height: 100vh;
           max-width: min-content;
+          overflow-y: scroll;
+          position: sticky;
           text-align: center;
+          top: 0;
           transform: translateX(0%);
           transition: transform var(--animation-duration) var(--animation-timing-function);
           will-change: transform;
