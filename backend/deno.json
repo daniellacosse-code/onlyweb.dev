@@ -1,6 +1,6 @@
 {
   "name": "@onlyweb/backend",
-  "version": "0.0.0-alpha.19",
+  "version": "0.0.0-alpha.20",
   "license": "MIT",
   "exports": "./main.ts"
 }
