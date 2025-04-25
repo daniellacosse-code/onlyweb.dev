@@ -58,12 +58,13 @@ const elementRegistry = new Registry<CustomElementConstructor>(
  *
  * ```js
  * register("my-element", {
- *  template: {
- *    buildAttributes: {
+ *    attributes: {
  *      "my-attribute": String,
  *      "my-boolean-attribute": Boolean
  *    },
- *    handleBuild: attributes => html`<div>${attributes["my-attribute"]}</div>`
+ *    render() {
+ *      return html`<div>${attributes["my-attribute"]}</div>`
+ *    }
  *  },
  * });
  * ```

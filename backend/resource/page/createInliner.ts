@@ -127,10 +127,8 @@ export async function createInliner(
           fileContents = (await transpile(rootFileUrl, {
             importMap: {
               imports: {
-                "@onlyweb/frontend":
-                  "https://esm.sh/jsr/@onlyweb/frontend@0.0.0-alpha.15",
-                "@onlyweb/shared":
-                  "https://esm.sh/jsr/@onlyweb/shared@0.0.0-alpha.12",
+                "@onlyweb/frontend": "https://esm.sh/jsr/@onlyweb/frontend",
+                "@onlyweb/shared": "https://esm.sh/jsr/@onlyweb/shared",
               },
             },
             compilerOptions: {

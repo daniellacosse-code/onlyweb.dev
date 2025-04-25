@@ -19,7 +19,7 @@ export const minifyHtml = (text: string): string => {
     text
       // remove single-line JS comments, but not URLs or regexes
       // (can't do this after newlines are removed)
-      .replaceAll(/[^\:\\]\/\/.*/g, "")
+      .replaceAll(/(?<![:\\])\/\/.*/g, "")
       // replace runs of whitespace with one space,
       // including newlines
       .replaceAll(/\s+/g, " ")
