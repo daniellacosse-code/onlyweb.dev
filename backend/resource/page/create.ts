@@ -15,15 +15,23 @@ export const createPage = (
 ) => {
   const browserRequirementCheck = html`
     <script type="module">
-      import { systemRequirements } from "@onlyweb/frontend";
-      import { checkAgent, parseAgent, mergeRequirements } from "@onlyweb/shared";
+      import { userAgent } from "@onlyweb/frontend";
+      import { checkAgent, parseAgent, mergeRequirements, log } from "@onlyweb/shared";
 
-      if (
-        checkAgent(
-          parseAgent(navigator?.userAgent),
-          mergeRequirements(${requirements}, systemRequirements)
-        )
-      ) {
+      const mergedRequirements = mergeRequirements(${requirements}, userAgent);
+      const parsedAgent = parseAgent(navigator.userAgent);
+
+      log({
+        message: "Required browser version",
+        detail: mergedRequirements
+      });
+
+      log({
+        message: "Current browser version",
+        detail: parsedAgent
+      });
+
+      if (!checkAgent(parsedAgent, mergedRequirements)) {
         alert(
           "Your browser is not currently supported: certain things may not work as expected. Please consider updating your browser to the latest version."
         );
@@ -41,7 +49,7 @@ export const createPage = (
           );
 
           reloadSocket.onopen = () =>
-            console.log("LiveReload connected~");
+            log({ message: "LiveReload connected~" });
           reloadSocket.onmessage = ({ data }) =>
             data === "reload" && location.reload();
         } catch (error) {

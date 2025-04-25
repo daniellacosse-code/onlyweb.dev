@@ -9,7 +9,7 @@ import type { Platform, PlatformRequirements } from "./types.ts";
  *
  * ```js
  * const userAgent = navigator.userAgent;
- * const platform = parse(userAgent);
+ * const platform = parseAgent(userAgent);
  * const requirements = {
  *   engine: {
  *     Chrome: 91

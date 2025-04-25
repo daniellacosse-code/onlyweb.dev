@@ -7,7 +7,9 @@ registerElement("copy-code", {
   attributes: { ["copy-message"]: String, code: String },
   mount() {
     this.addEventListener("click", async () => {
-      await globalThis.navigator.clipboard.writeText(String(this.buildAttributes.code)):
+      await globalThis.navigator.clipboard.writeText(
+        String(this.buildAttributes.code),
+      );
 
       this.querySelector("div[popover]")?.togglePopover();
     });
