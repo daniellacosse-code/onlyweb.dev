@@ -5,6 +5,9 @@ Utilities in this package are designed to be runtime agnostic.
 
 ## Table of Contents (JSR Docs)
 
+> [!WARNING]
+> JSR won't generate documentation links until OWF has a full, stable release.
+
 *   **HTML Utilities**
     *   `html/escape.ts` - Functions for escaping HTML characters.
     *   `html/minify.ts` - Functions for minifying HTML strings.

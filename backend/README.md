@@ -3,6 +3,10 @@
 This package provides the server-side functionalities for the OnlyWeb Framework. It handles incoming requests, routing, response generation, environment variable handling, and integration with frontend components.
 
 ## Table of Contents (JSR Docs)
+
+> [!WARNING]
+> JSR won't generate documentation links until OWF has a full, stable release.
+
 *   **Core Server**
     *   `server/start.ts` - Functions for starting and managing the HTTP server.
 *   **Server Resources**

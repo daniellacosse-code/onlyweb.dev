@@ -4,6 +4,9 @@ This package provides the core building blocks for creating interactive custom e
 
 ## Table of Contents (JSR Docs)
 
+> [!WARNING]
+> JSR won't generate documentation links until OWF has a full, stable release.
+
 *   **Custom Elements**
     *   `element/element.ts` - The base class (`OWFElement`) for creating OnlyWeb custom elements.
     *   `element/register.ts` - Function to define and register custom elements with the browser.
