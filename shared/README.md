@@ -1,6 +1,24 @@
 # `@onlyweb/shared`
 
-TODO
+A collection of shared utility functions for the OnlyWeb framework.
+Utilities in this package are designed to be runtime agnostic.
+
+## Table of Contents (JSR Docs)
+
+*   **HTML Utilities**
+    *   `html/escape.ts` - Functions for escaping HTML characters.
+    *   `html/minify.ts` - Functions for minifying HTML strings.
+*   **Templating**
+    *   `template/create.ts` - Utilities for processing template literals.
+*   **User Agent**
+    *   `userAgent/parse.ts` - Function to parse user agent strings.
+    *   `userAgent/merge.ts` - Function to merge user agent requirements.
+    *   `userAgent/check.ts` - Function to check if a user agent meets requirements.
+    *   `userAgent/types.ts` - Type definitions for user agent data.
+*   **Logging**
+    *   `log/log.ts` - Structured logging utility.
+*   **Core Utilities**
+    *   `registry/registry.ts` - A generic registry class.
 
 ### benchmarks
 

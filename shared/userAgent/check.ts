@@ -1,10 +1,10 @@
 import type { Platform, PlatformRequirements } from "./types.ts";
 
 /**
- * A utility for checking if a user agent meets certain requirements
- * @param platform The platform to check
- * @param requirements The requirements to check against
- * @returns Whether or not the platform meets the requirements
+ * A utility for checking if a user agent meets certain requirements.
+ * @param platform The platform to check.
+ * @param requirements The requirements to check against.
+ * @returns Whether or not the platform meets the requirements.
  * @example
  *
  * ```js
@@ -18,7 +18,7 @@ import type { Platform, PlatformRequirements } from "./types.ts";
  *     Chromium: 91
  *   }
  * };
- * const meetsRequirements = check(platform, requirements);
+ * const meetsRequirements = checkAgent(platform, requirements);
  * console.log(meetsRequirements); // returns true
  * ```
  */

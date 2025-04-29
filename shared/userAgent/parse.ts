@@ -32,7 +32,7 @@ const RENDERER_CHECKERS: Record<PlatformRenderer, RegExp> = {
  * @example
  *
  * ```js
- * const platform = parse(navigator.userAgent);
+ * const platform = parseAgent(navigator.userAgent);
  * console.log(platform);
  * // {
  * //   renderer: {

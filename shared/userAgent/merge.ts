@@ -6,12 +6,12 @@ import type {
 
 /**
  * Merge multiple platform requirements into a single set of requirements.
- * @param {PlatformRequirements[]} requirements The requirements to merge
- * @returns {PlatformRequirements} The merged requirements
+ * @param {PlatformRequirements[]} requirements The requirements to merge.
+ * @returns {PlatformRequirements} The merged requirements.
  * @example
  *
  * ```js
- * const requirements = merge(
+ * const requirements = mergeRequirements(
  *  { engine: { Chrome: 91 }, renderer: { Chromium: 91 } },
  *  { engine: { Firefox: 91 }, renderer: { Gecko: 91 } }
  * );
