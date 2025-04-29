@@ -7,23 +7,28 @@
 
 ## overview
 
-**the onlyweb framework** is a lightweight, server-side rendering framework for
+**the onlyweb framework** is a lightweight, server-side rendering framework for native
 [WebComponents](https://developer.mozilla.org/en-US/docs/Web/API/Web_Components),
-built on top of the [Deno](https://deno.land/) runtime. It was designed for the
-[onlyweb.dev](https://onlyweb.dev) application with a focus on performance and
-transparency.
+built entirely on top of the [Deno](https://deno.land/) runtime. It was designed for the
+[onlyweb.dev](https://onlyweb.dev) application with a focus on performance,
+transparency, and leveraging web standards.
+
+The core philosophy is to provide a productive development experience without complex build steps, relying on Deno's built-in capabilities for TypeScript handling and tooling. It aims to stay close to the platform, using standard browser APIs wherever possible.
 
 ### features
 
-- server-side rendering for WebComponents, as already mentioned
-- zero dependencies, apart from Deno
-- css reset scoped to WebComponents by default
-- react-like rendering, without the virtual dom
-- lit-like templating, without the need for a build step
-- robust logging for metrics
-- lightweight i18n
-- streamlined service worker and PWA deployment
-- user agent checking (for when feature detection isn't enough)
+*   **Server-Side Rendering:** Optimized for fast initial loads and SEO using native Web Components.
+*   **Buildless Development:** Leverages Deno's runtime for TypeScript, formatting, linting, and testing, eliminating the need for a separate build pipeline.
+*   **Zero Runtime Dependencies:** Relies only on the Deno standard library and native browser APIs.
+*   **Standard CSS:** Encourages the use of standard CSS within Shadow DOM or shared style fragments, avoiding the need for pre-processors. Includes a basic CSS reset scoped to components by default.
+*   **Declarative Rendering:** Offers a familiar component model (inspired by React/Lit) for defining UI based on attributes, but without a virtual DOM.
+*   **Simple Templating:** Provides `html` tagged template literals for both backend and frontend rendering.
+*   **Robust Logging:** Includes structured logging utilities (`@onlyweb/shared`) suitable for metrics and debugging.
+*   **Lightweight i18n:** Basic internationalization support via the backend `createInliner`.
+*   **Streamlined PWA Support:** Helpers for service worker registration.
+*   **User Agent Checking:** Utilities for checking browser capabilities when feature detection isn't sufficient.
+
+*(Note: Advanced client-side state management beyond attributes is planned for post-alpha releases).*
 
 ## prerequisites
 
@@ -37,5 +42,5 @@ that you can follow.
 
 ## examples
 
-- Tutorial
-- onlyweb.dev
+- [Tutorial](.examples/tutorial/)
+- [onlyweb.dev](.examples/tutorial/) _(The application this framework was initially built for)_
