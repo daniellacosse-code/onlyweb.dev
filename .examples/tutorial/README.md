@@ -4,9 +4,9 @@ Welcome to the OnlyWeb framework! This tutorial will guide you through the basic
 
 > [!TIP]
 > When in doubt, everything in the framework has JSDoc annotations. The source code is your friend! You can also refer to the JSR documentation linked in the package READMEs:
-> *   [`@onlyweb/backend`](../../backend/README.md)
-> *   [`@onlyweb/frontend`](../../frontend/README.md)
-> *   [`@onlyweb/shared`](../../shared/README.md)
+> *   [`@onlyweb/backend`](../../backend/)
+> *   [`@onlyweb/frontend`](../../frontend/)
+> *   [`@onlyweb/shared`](../../shared/)
 
 ## Core Concepts
 
