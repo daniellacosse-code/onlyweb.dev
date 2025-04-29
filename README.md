@@ -42,5 +42,5 @@ that you can follow.
 
 ## examples
 
-- [Tutorial](.examples/tutorial/)
-- [onlyweb.dev](.examples/tutorial/) _(The application this framework was initially built for)_
+- [Basic Tutorial](.examples/tutorial/)
+- [onlyweb.dev](.examples/onlyweb.dev/) _(The application this framework was initially built for)_
