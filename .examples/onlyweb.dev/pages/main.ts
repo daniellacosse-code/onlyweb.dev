@@ -1,7 +1,12 @@
+import { dirname, fromFileUrl, resolve } from "jsr:@std/path@1.0.8";
 import { createInliner, html, js, registerPage } from "@onlyweb/backend";
 
 import * as constants from "../constants.ts";
 import OnlyWebTheme from "./shared-theme.ts";
+
+const convertToAbsolutePath = (projectRootPath: string) => {
+  return resolve(dirname(fromFileUrl(import.meta.url)), "..", projectRootPath);
+};
 
 const route = "/";
 
@@ -9,7 +14,7 @@ registerPage(route, {
   render: async (request) => {
     const inliner = await createInliner(
       request,
-      { messagesFolder: "/assets/messages" },
+      { messagesFolder: convertToAbsolutePath("/assets/messages") },
     );
 
     const logoSrc = (request.url.origin.match(/localhost/)
@@ -41,13 +46,13 @@ registerPage(route, {
     }
 
       ${await inliner.elements(
-      "/elements/core/loading/skeleton.ts",
-      "/elements/core/image.ts",
-      "/elements/core/link.ts",
-      "/elements/core/text.ts",
-      "/elements/core/input.ts",
-      "/elements/demo/frame.ts",
-      "/elements/demo/link.ts",
+      convertToAbsolutePath("/elements/core/loading/skeleton.ts"),
+      convertToAbsolutePath("/elements/core/image.ts"),
+      convertToAbsolutePath("/elements/core/link.ts"),
+      convertToAbsolutePath("/elements/core/text.ts"),
+      convertToAbsolutePath("/elements/core/input.ts"),
+      convertToAbsolutePath("/elements/demo/frame.ts"),
+      convertToAbsolutePath("/elements/demo/link.ts"),
     )}
 
       <meta

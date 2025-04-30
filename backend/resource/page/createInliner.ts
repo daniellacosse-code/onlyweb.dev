@@ -57,16 +57,15 @@ export type InlinerOptions = {
 export async function createInliner(
   request: OWFRequest,
   {
-    messagesFolder,
+    messagesFolder: absoluteMessagesFolderPath,
   }: InlinerOptions,
 ): Promise<Inliner> {
   let messages: { [messageIn: string]: string } = {};
 
-  if (messagesFolder) {
+  if (absoluteMessagesFolderPath) {
     try {
       const filePath = path.join(
-        Deno.cwd(),
-        messagesFolder,
+        absoluteMessagesFolderPath,
         `${request.language}.json`,
       );
 
@@ -118,17 +117,11 @@ export async function createInliner(
         level: "debug",
       });
 
-      for (const filePath of elementFilePaths) {
-        const rootFileUrl = "file://" + path.join(Deno.cwd(), filePath);
-
+      for (const absoluteFilePath of elementFilePaths) {
         let fileContents;
 
-        console.log("Deno.cwd():", Deno.cwd());
-        console.log("filePath:", filePath);
-        console.log("rootFileUrl:", rootFileUrl);
-
-        if (filePath.endsWith(".ts")) {
-          fileContents = (await transpile(rootFileUrl, {
+        if (absoluteFilePath.endsWith(".ts")) {
+          fileContents = (await transpile(absoluteFilePath, {
             importMap: {
               imports: {
                 "@onlyweb/frontend": "https://esm.sh/jsr/@onlyweb/frontend",
@@ -139,20 +132,20 @@ export async function createInliner(
               sourceMap: false,
               inlineSourceMap: false,
             },
-          })).get(rootFileUrl);
+          })).get(absoluteFilePath);
 
           if (!fileContents) {
             throw new Error(
-              `[backend/inliner#elements] Failed to transpile element file "${filePath}"`,
+              `[backend/inliner#elements] Failed to transpile element file "${absoluteFilePath}"`,
             );
           }
         } else {
-          fileContents = await Deno.readTextFile(`.${filePath}`);
+          fileContents = await Deno.readTextFile(absoluteFilePath);
         }
 
         log({
           message:
-            `[backend/inliner#elements] loaded element file "${filePath}"`,
+            `[backend/inliner#elements] loaded element file "${absoluteFilePath}"`,
           level: "debug",
         });
 
@@ -164,7 +157,8 @@ export async function createInliner(
           )
         }"></script>`);
         log({
-          message: `[backend/inliner#elements] inlined element "${filePath}"`,
+          message:
+            `[backend/inliner#elements] inlined element "${absoluteFilePath}"`,
           level: "debug",
         });
       }
