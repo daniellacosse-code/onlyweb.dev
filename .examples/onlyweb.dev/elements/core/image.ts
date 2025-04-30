@@ -51,7 +51,7 @@ registerElement<$<typeof attributes>, ImageElementState>("core-image", {
     }
 
     this.__image__ = new Image(srcParams.width, srcParams.height);
-    this.__image__.onload = () => (this.buildAttributes.loaded = true);
+    this.__image__.onload = () => this.setAttribute("loaded", "true");
     this.__image__.src = url.toString();
     this.__image__.alt = alt as string;
   },
