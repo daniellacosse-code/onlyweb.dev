@@ -75,7 +75,7 @@ registerElement<$<typeof attributes>>("demo-frame", {
     <div class="frame-container">
       <iframe src="${src as string}" title="${title as string}" loading="lazy"></iframe>
       <core-loading-skeleton></core-loading-skeleton>
-      ${authorElement as HTMLCollection}
+      ${authorElement}
     </div>`;
   },
   mount() {
