@@ -74,5 +74,4 @@ jobs:
         uses: denoland/deployctl@v1
         with:
           project: onlyweb
-          entrypoint: main.js
-          root: .examples/onlyweb.dev
+          entrypoint: .examples/onlyweb.dev/main.js
