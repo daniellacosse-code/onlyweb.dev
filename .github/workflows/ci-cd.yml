@@ -74,6 +74,4 @@ jobs:
         uses: denoland/deployctl@v1
         with:
           project: onlyweb
-          root: .examples/onlyweb.dev
-          entrypoint: main.ts
-          import-map: import-map.deployment.json
+          entrypoint: .examples/onlyweb.dev/main.ts

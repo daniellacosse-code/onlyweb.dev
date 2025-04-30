@@ -123,6 +123,10 @@ export async function createInliner(
 
         let fileContents;
 
+        console.log("Deno.cwd():", Deno.cwd());
+        console.log("filePath:", filePath);
+        console.log("rootFileUrl:", rootFileUrl);
+
         if (filePath.endsWith(".ts")) {
           fileContents = (await transpile(rootFileUrl, {
             importMap: {
