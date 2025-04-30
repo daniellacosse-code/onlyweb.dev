@@ -1,11 +1,14 @@
-import { dirname, fromFileUrl, resolve } from "jsr:@std/path@1.0.8";
+import { dirname, fromFileUrl, join, resolve } from "jsr:@std/path@1.0.8";
 import { createInliner, html, js, registerPage } from "@onlyweb/backend";
 
 import * as constants from "../constants.ts";
 import OnlyWebTheme from "./shared-theme.ts";
 
 const convertToAbsolutePath = (projectRootPath: string) => {
-  return resolve(dirname(fromFileUrl(import.meta.url)), "..", projectRootPath);
+  return "file://" + join(
+    resolve(dirname(fromFileUrl(import.meta.url)), ".."),
+    projectRootPath,
+  );
 };
 
 const route = "/";

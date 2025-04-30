@@ -40,7 +40,7 @@ async function startOrReloadAppServer() {
   }
 
   const serverCommand = new Deno.Command("deno", {
-    args: ["run", "--allow-all", "./main.js"],
+    args: ["run", "--allow-all", "./main.ts"],
   });
 
   try {
