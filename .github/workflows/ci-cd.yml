@@ -72,8 +72,8 @@ jobs:
 
       - name: Upload to Deno Deploy
         uses: denoland/deployctl@v1
-        env:
-            GITHUB_WORKSPACE: .examples/onlyweb.dev
         with:
           project: onlyweb
-          entrypoint: .examples/onlyweb.dev/main.js
+          root: .examples/onlyweb.dev
+          entrypoint: main.ts
+          import-map: import-map.deployment.json

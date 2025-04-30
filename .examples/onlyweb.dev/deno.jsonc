@@ -1,6 +1,6 @@
 {
   "tasks": {
-    "start": "deno run --allow-net --allow-env --allow-read=. --allow-run ./.tasks/start.js"
+    "start": "deno run --allow-net --allow-env --allow-read=. --allow-run ./.tasks/start.ts"
   },
   "compilerOptions": {
     "lib": [
@@ -9,4 +9,6 @@
       "dom.iterable"
     ]
   }
+  // we don't use an import map here so we can develop
+  // against the latest onlyweb package code
 }

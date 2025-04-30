@@ -1,0 +1,6 @@
+{
+  "imports": {
+    "@onlyweb/backend": "jsr:@onlyweb/backend",
+    "@onlyweb/shared": "jsr:@onlyweb/shared"
+  }
+}
