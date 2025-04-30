@@ -1,6 +1,6 @@
 {
   "imports": {
-    "@onlyweb/backend": "jsr:@onlyweb/backend",
-    "@onlyweb/shared": "jsr:@onlyweb/shared"
+    "@onlyweb/backend": "https://esm.sh/jsr/@onlyweb/backend",
+    "@onlyweb/shared": "https://esm.sh/jsr/@onlyweb/shared"
   }
 }
