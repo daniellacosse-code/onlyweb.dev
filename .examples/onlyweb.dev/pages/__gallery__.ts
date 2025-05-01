@@ -5,7 +5,7 @@ import * as constants from "../constants.ts";
 import OnlyWebTheme from "./shared-theme.ts";
 
 const convertToAbsolutePath = (projectRootPath: string) => {
-  return "file://" + join(
+  return join(
     resolve(dirname(fromFileUrl(import.meta.url)), ".."),
     projectRootPath,
   );
