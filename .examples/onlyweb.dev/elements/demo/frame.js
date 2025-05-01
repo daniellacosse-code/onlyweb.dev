@@ -1,8 +1,4 @@
-import {
-  type ConvertConstructorShapeToPrimitiveShape as $,
-  html,
-  registerElement,
-} from "@onlyweb/frontend";
+import { html, registerElement } from "@onlyweb/frontend";
 
 const attributes = {
   author: String,
@@ -11,7 +7,7 @@ const attributes = {
   title: String,
 };
 
-registerElement<$<typeof attributes>>("demo-frame", {
+registerElement("demo-frame", {
   attributes,
   render({ author = "", height = 500, src, title = "Demo Frame" }) {
     const authorElement = author &&
@@ -70,10 +66,10 @@ registerElement<$<typeof attributes>>("demo-frame", {
         opacity: 0.5;
       }
     </style>
-    <core-text type="subtitle">${title as string}</core-text>
+    <core-text type="subtitle">${title}</core-text>
     <slot></slot>
     <div class="frame-container">
-      <iframe src="${src as string}" title="${title as string}" loading="lazy"></iframe>
+      <iframe src="${src}" title="${title}" loading="lazy"></iframe>
       <core-loading-skeleton></core-loading-skeleton>
       ${authorElement}
     </div>`;

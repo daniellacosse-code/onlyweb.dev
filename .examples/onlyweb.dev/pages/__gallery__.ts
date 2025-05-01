@@ -1,7 +1,15 @@
+import { dirname, fromFileUrl, join, resolve } from "jsr:@std/path@1.0.8";
 import { createInliner, html, registerPage } from "@onlyweb/backend";
 
 import * as constants from "../constants.ts";
 import OnlyWebTheme from "./shared-theme.ts";
+
+const convertToAbsolutePath = (projectRootPath: string) => {
+  return "file://" + join(
+    resolve(dirname(fromFileUrl(import.meta.url)), ".."),
+    projectRootPath,
+  );
+};
 
 registerPage("/__gallery__", async (request) => {
   const inliner = await createInliner(request, {
@@ -80,13 +88,13 @@ registerPage("/__gallery__", async (request) => {
     </style>
 
     ${await inliner.elements(
-    "/elements/core/loading/skeleton.ts",
-    "/elements/core/button.ts",
-    "/elements/core/image.ts",
-    "/elements/core/input.ts",
-    "/elements/core/link.ts",
-    "/elements/core/text.ts",
-    "/elements/gallery/counter-demo.ts",
+    convertToAbsolutePath("/elements/core/loading/skeleton.js"),
+    convertToAbsolutePath("/elements/core/button.js"),
+    convertToAbsolutePath("/elements/core/image.js"),
+    convertToAbsolutePath("/elements/core/input.js"),
+    convertToAbsolutePath("/elements/core/link.js"),
+    convertToAbsolutePath("/elements/core/text.js"),
+    convertToAbsolutePath("/elements/gallery/counter-demo.js"),
   )}
   </head>
   <body>

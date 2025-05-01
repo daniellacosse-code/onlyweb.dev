@@ -1,15 +1,11 @@
-import {
-  type ConvertConstructorShapeToPrimitiveShape as $,
-  html,
-  registerElement,
-} from "@onlyweb/frontend";
+import { html, registerElement } from "@onlyweb/frontend";
 
 const attributes = {
   src: String,
   title: String,
 };
 
-registerElement<$<typeof attributes>>("demo-link", {
+registerElement("demo-link", {
   attributes,
   render({ src, title }) {
     return html`

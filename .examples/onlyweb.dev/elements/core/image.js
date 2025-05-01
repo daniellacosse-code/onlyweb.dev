@@ -1,8 +1,4 @@
-import {
-  type ConvertConstructorShapeToPrimitiveShape as $,
-  html,
-  registerElement,
-} from "@onlyweb/frontend";
+import { html, registerElement } from "@onlyweb/frontend";
 
 const attributes = {
   alt: String,
@@ -12,11 +8,7 @@ const attributes = {
   width: Number,
 };
 
-type ImageElementState = {
-  __image__?: HTMLImageElement;
-};
-
-registerElement<$<typeof attributes>, ImageElementState>("core-image", {
+registerElement("core-image", {
   attributes,
   render({ height, loaded, width }) {
     if (loaded) {
@@ -30,7 +22,7 @@ registerElement<$<typeof attributes>, ImageElementState>("core-image", {
               pointer-events: none;
             }
           </style>
-          ${this.__image__ as HTMLElement}`;
+          ${this.__image__}`;
     }
 
     return html`
@@ -44,7 +36,7 @@ registerElement<$<typeof attributes>, ImageElementState>("core-image", {
         <core-loading-skeleton></core-loading-skeleton>`;
   },
   mount({ alt, src, ...srcParams }) {
-    const url = new URL(src as string);
+    const url = new URL(src);
 
     for (const [key, value] of Object.entries(srcParams)) {
       url.searchParams.set(key, String(value));
@@ -53,6 +45,6 @@ registerElement<$<typeof attributes>, ImageElementState>("core-image", {
     this.__image__ = new Image(srcParams.width, srcParams.height);
     this.__image__.onload = () => this.setAttribute("loaded", "true");
     this.__image__.src = url.toString();
-    this.__image__.alt = alt as string;
+    this.__image__.alt = alt;
   },
 });

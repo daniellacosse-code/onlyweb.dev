@@ -1,8 +1,4 @@
-import {
-  type ConvertConstructorShapeToPrimitiveShape as $,
-  html,
-  registerElement,
-} from "@onlyweb/frontend";
+import { html, registerElement } from "@onlyweb/frontend";
 
 const sharedStyles = html`<style>
   button {
@@ -45,7 +41,7 @@ const attributes = {
   disabled: Boolean,
 };
 
-registerElement<$<typeof attributes>>("core-button", {
+registerElement("core-button", {
   attributes,
   render({ disabled }) {
     if (disabled) {

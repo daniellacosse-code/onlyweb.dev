@@ -49,13 +49,13 @@ registerPage(route, {
     }
 
       ${await inliner.elements(
-      convertToAbsolutePath("/elements/core/loading/skeleton.ts"),
-      convertToAbsolutePath("/elements/core/image.ts"),
-      convertToAbsolutePath("/elements/core/link.ts"),
-      convertToAbsolutePath("/elements/core/text.ts"),
-      convertToAbsolutePath("/elements/core/input.ts"),
-      convertToAbsolutePath("/elements/demo/frame.ts"),
-      convertToAbsolutePath("/elements/demo/link.ts"),
+      convertToAbsolutePath("/elements/core/loading/skeleton.js"),
+      convertToAbsolutePath("/elements/core/image.js"),
+      convertToAbsolutePath("/elements/core/link.js"),
+      convertToAbsolutePath("/elements/core/text.js"),
+      convertToAbsolutePath("/elements/core/input.js"),
+      convertToAbsolutePath("/elements/demo/frame.js"),
+      convertToAbsolutePath("/elements/demo/link.js"),
     )}
 
       <meta

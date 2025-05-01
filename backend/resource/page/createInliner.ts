@@ -1,6 +1,5 @@
 import { encodeBase64 } from "jsr:@std/encoding@1.0.9";
 import * as path from "jsr:@std/path@1.0.8";
-import { transpile } from "jsr:@deno/emit@0.46.0";
 
 import { log, minifyHtml } from "@onlyweb/shared";
 
@@ -118,30 +117,13 @@ export async function createInliner(
       });
 
       for (const absoluteFilePath of elementFilePaths) {
-        let fileContents;
-
         if (absoluteFilePath.endsWith(".ts")) {
-          fileContents = (await transpile(absoluteFilePath, {
-            importMap: {
-              imports: {
-                "@onlyweb/frontend": "https://esm.sh/jsr/@onlyweb/frontend",
-                "@onlyweb/shared": "https://esm.sh/jsr/@onlyweb/shared",
-              },
-            },
-            compilerOptions: {
-              sourceMap: false,
-              inlineSourceMap: false,
-            },
-          })).get(absoluteFilePath);
-
-          if (!fileContents) {
-            throw new Error(
-              `[backend/inliner#elements] Failed to transpile element file "${absoluteFilePath}"`,
-            );
-          }
-        } else {
-          fileContents = await Deno.readTextFile(absoluteFilePath);
+          throw new TypeError(
+            "Typescript elements are currently not supported.",
+          );
         }
+
+        const fileContents = await Deno.readTextFile(absoluteFilePath);
 
         log({
           message:

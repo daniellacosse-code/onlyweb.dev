@@ -1,14 +1,10 @@
-import {
-  type ConvertConstructorShapeToPrimitiveShape as $,
-  html,
-  registerElement,
-} from "@onlyweb/frontend";
+import { html, registerElement } from "@onlyweb/frontend";
 
 const attributes = {
   type: String,
 };
 
-registerElement<$<typeof attributes>>("core-text", {
+registerElement("core-text", {
   attributes,
   render({ type = "paragraph" }) {
     return html`<style>
