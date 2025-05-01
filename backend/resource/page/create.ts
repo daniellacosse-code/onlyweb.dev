@@ -133,8 +133,6 @@ export const createPage = (
   return html(response.nativeResponse.status)`
     <!DOCTYPE html>
     <html lang="${request.language}">
-      <!-- Embed the main page content -->
-      ${response}
       <!-- Import map to resolve framework modules from CDN -->
       <script type="importmap">
         {
@@ -148,6 +146,8 @@ export const createPage = (
       ${browserRequirementCheck}
       ${livereload}
       ${serviceWorker}
+      <!-- Embed the main page content -->
+      ${response}
     </html>
   `;
 };
