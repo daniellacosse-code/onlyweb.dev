@@ -13,7 +13,7 @@ const convertToAbsolutePath = (projectRootPath: string) => {
 
 registerPage("/__gallery__", async (request) => {
   const inliner = await createInliner(request, {
-    messagesFolder: "/assets/messages",
+    messagesFolder: convertToAbsolutePath("/assets/messages"),
   });
 
   const logoSrc = (request.url.origin.match(/localhost/)
@@ -23,8 +23,8 @@ registerPage("/__gallery__", async (request) => {
 
   return html`<head>
     <meta charset="utf-8" />
-    <link rel="icon" href="/assets/images/logo/maskable.png" />
-    <link rel="manifest" href="/assets/manifest.json" />
+    <link rel="icon" href="/.examples/onlyweb.dev/assets/images/logo/maskable.png" />
+    <link rel="manifest" href="/.examples/onlyweb.dev/assets/manifest.json" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
 
     ${

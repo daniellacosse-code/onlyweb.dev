@@ -41,9 +41,10 @@ registerPage(route, {
         description: inliner.message(
           "only web. only web. only web. only web. only web. only web. only web. only web. only web. only web. only web. only web",
         ),
-        previewImagePath: "/assets/images/root-preview.png",
-        iconImagePath: "/assets/images/logo/maskable.png",
-        splashImagePath: "/assets/images/logo/splash.png",
+        previewImagePath:
+          "/.examples/onlyweb.dev/assets/images/root-preview.png",
+        iconImagePath: "/.examples/onlyweb.dev/assets/images/logo/maskable.png",
+        splashImagePath: "/.examples/onlyweb.dev/assets/images/logo/splash.png",
         canonicalUrl: "https://onlyweb.dev/",
       })
     }
