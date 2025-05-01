@@ -133,27 +133,21 @@ export const createPage = (
   return html(response.nativeResponse.status)`
     <!DOCTYPE html>
     <html lang="${request.language}">
-      <head>
-        <meta charset="UTF-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <!-- Import map to resolve framework modules from CDN -->
-        <script type="importmap">
-          {
-            "imports": {
-              "@onlyweb/frontend": "${cdnUrl}/@onlyweb/frontend",
-              "@onlyweb/shared": "${cdnUrl}/@onlyweb/shared"
-            }
+      <!-- Embed the main page content -->
+      ${response}
+      <!-- Import map to resolve framework modules from CDN -->
+      <script type="importmap">
+        {
+          "imports": {
+            "@onlyweb/frontend": "${cdnUrl}/@onlyweb/frontend",
+            "@onlyweb/shared": "${cdnUrl}/@onlyweb/shared"
           }
-        </script>
-        <!-- Inject helper scripts -->
-        ${browserRequirementCheck}
-        ${livereload}
-        ${serviceWorker}
-      </head>
-      <body>
-        <!-- Embed the main page content -->
-        ${response}
-      </body>
+        }
+      </script>
+      <!-- Inject helper scripts -->
+      ${browserRequirementCheck}
+      ${livereload}
+      ${serviceWorker}
     </html>
   `;
 };
