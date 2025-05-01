@@ -1,7 +1,7 @@
 import { encodeBase64 } from "jsr:@std/encoding@1.0.9";
 import * as path from "jsr:@std/path@1.0.8";
 
-import { log, minifyHtml } from "@onlyweb/shared";
+import { log, logError, minifyHtml } from "@onlyweb/shared";
 
 import { html } from "../response/template.ts";
 import type { OWFResponse } from "../response/types.ts";
@@ -11,8 +11,11 @@ import type { OWFRequest } from "../request/types.ts";
  * A context-aware inliner that can inline elements, messages, and metadata into a document.
  */
 export interface Inliner {
-  /** Inlines the given custom element registrations into the HTML document. */
-  elements: (...filePath: Array<string>) => Promise<OWFResponse>;
+  /**
+   * Inlines the given custom element registrations into the HTML document.
+   * Only supports javascript files, and the filepath must be absolute.
+   */
+  elements: (...absoluteFilePath: Array<string>) => Promise<OWFResponse>;
   /** Retrieves the translated message for a given key. */
   message: (message: string) => string;
   /** Inlines the given metadata into the HTML document. */
@@ -42,7 +45,7 @@ export interface InlineHTMLMetadata {
  */
 export type InlinerOptions = {
   /**
-   * The path to the messages folder
+   * The absolute path to the messages folder.
    */
   messagesFolder?: string;
 };
@@ -118,9 +121,13 @@ export async function createInliner(
 
       for (const absoluteFilePath of elementFilePaths) {
         if (absoluteFilePath.endsWith(".ts")) {
-          throw new TypeError(
-            "Typescript elements are currently not supported.",
+          logError(
+            new Error(
+              `Typescript elements are currently not supported. Please convert ${absoluteFilePath} to .js.}`,
+            ),
           );
+
+          continue;
         }
 
         const fileContents = await Deno.readTextFile(absoluteFilePath);

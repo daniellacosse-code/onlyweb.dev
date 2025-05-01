@@ -17,6 +17,8 @@
 
 import { createInliner, html, registerPage, start } from "@onlyweb/backend";
 
+import { convertToAbsolutePath } from "./path.js";
+
 /**
  * Registers a handler for a specific route ("/" in this case).
  * When a request matches this route, the provided configuration object
@@ -47,7 +49,7 @@ registerPage("/", {
       // Configure the inliner to look for message files (e.g., en.json, es.json)
       // in the "/messages" directory. The specific language file used will
       // depend on the request's detected language (e.g., from Accept-Language header).
-      { messagesFolder: "/messages" },
+      { messagesFolder: convertToAbsolutePath("/messages") },
     );
 
     // Use the `html` tagged template literal from @onlyweb/backend to construct the HTML response.
@@ -67,7 +69,7 @@ registerPage("/", {
     }
         <!-- Use the inliner to generate the necessary <script> tags -->
         <!-- to load and register the specified frontend custom element. -->
-        ${await inliner.elements("/copy-code.js")}
+        ${await inliner.elements(convertToAbsolutePath("/copy-code.js"))}
       </head>
       <body>
         <!-- Display a heading, fetching the text from messages -->
