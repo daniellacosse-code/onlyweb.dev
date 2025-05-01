@@ -23,12 +23,12 @@ registerPage(route, {
     const logoSrc = (request.url.origin.match(/localhost/)
       ? request.url.origin
       : constants.KEYCDN_IMAGE_ZONE_URL) +
-      "/.examples/onlyweb.dev/assets/images/logo/black.svg";
+      "/assets/images/logo/black.svg";
 
     const inverseLogoSrc = (request.url.origin.match(/localhost/)
       ? request.url.origin
       : constants.KEYCDN_IMAGE_ZONE_URL) +
-      "/.examples/onlyweb.dev/assets/images/logo/white.svg";
+      "/assets/images/logo/white.svg";
 
     return html`<head>
       <meta charset="utf-8" />
