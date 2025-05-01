@@ -1,0 +1,77 @@
+---
+name: CI/CD
+
+on:
+  pull_request:
+    types:
+      - opened
+      - synchronize
+  push:
+    branches:
+      - main
+
+jobs:
+  test:
+    name: Tests
+    runs-on: ubuntu-22.04
+    steps:
+      - name: Clone repository
+        uses: actions/checkout@v4
+
+      - name: Install Deno
+        uses: denoland/setup-deno@v1
+        with:
+          deno-version: v2.x
+
+      - name: Run Tests and Collect Coverage
+        run: deno test --parallel --allow-read --allow-net --coverage=output/coverage/
+
+      - name: Generate LCOV Report
+        run: deno coverage --lcov output/coverage/ > output/coverage.lcov
+
+      - name: Upload Coverage to Codecov
+        uses: codecov/codecov-action@v4
+        with:
+          file: output/coverage.lcov
+          token: ${{ secrets.CODECOV_TOKEN }}
+
+  publish_framework:
+    name: Publish @onlyweb packages
+    needs: test
+    runs-on: ubuntu-latest
+    permissions:
+      id-token: write
+      contents: read
+    steps:
+      - name: Clone repository
+        uses: actions/checkout@v4
+
+      - name: Install Deno
+        uses: denoland/setup-deno@v1
+        with:
+          deno-version: v2.x
+
+      - name: Publish Packages
+        run: deno publish
+
+  deploy_onlyweb:
+    name: Deploy onlyweb.dev
+    needs: publish_framework
+    runs-on: ubuntu-latest
+    permissions:
+      id-token: write
+      contents: read
+    steps:
+      - name: Clone repository
+        uses: actions/checkout@v4
+
+      - name: Install Deno
+        uses: denoland/setup-deno@v1
+        with:
+          deno-version: v2.x
+
+      - name: Upload to Deno Deploy
+        uses: denoland/deployctl@v1
+        with:
+          project: onlyweb
+          entrypoint: .examples/onlyweb.dev/main.ts

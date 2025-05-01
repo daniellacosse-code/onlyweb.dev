@@ -2,15 +2,15 @@
   "deno.enable": true,
   "files.autoSave": "onFocusChange",
   "files.refactoring.autoSave": true,
-  "search.exclude": {
-    "**/.pnp.*": true,
-    "**/.yarn": true
-  },
   "workbench.colorCustomizations": {
     "statusBar.background": "#313335",
     "statusBar.foreground": "#FFFFFF"
   },
   "[javascript]": {
+    "editor.defaultFormatter": "denoland.vscode-deno",
+    "editor.formatOnSave": true
+  },
+  "[typescript]": {
     "editor.defaultFormatter": "denoland.vscode-deno",
     "editor.formatOnSave": true
   }

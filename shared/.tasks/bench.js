@@ -1,0 +1,39 @@
+import { createTemplate, escapeHtml, minifyHtml, parse } from "../main.ts";
+
+Deno.bench(function benchHandleSmallTemplate() {
+  createTemplate({
+    template: ["Hello, ", "!"],
+    insertions: ["world"],
+    handleInsertion: (insertion) => insertion,
+  });
+});
+
+Deno.bench(function benchHandleLargeTemplate() {
+  createTemplate({
+    template: Array(1000).fill("Hello, "),
+    insertions: Array(1000).fill("world"),
+    handleInsertion: (insertion) => insertion,
+  });
+});
+
+Deno.bench(function escapeSmallString() {
+  escapeHtml("<script>alert('Hello, world!');</script>");
+});
+
+Deno.bench(function escapeLargeString() {
+  escapeHtml("<script>alert('Hello, world!');</script>".repeat(1000));
+});
+
+Deno.bench(function minifySmallString() {
+  minifyHtml("<div>  <p>Hello, world!</p>  </div>");
+});
+
+Deno.bench(function minifyLargeString() {
+  minifyHtml("<div>  <p>Hello, world!</p>  </div>".repeat(1000));
+});
+
+Deno.bench(function parseUserAgent() {
+  parse(
+    "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.36",
+  );
+});

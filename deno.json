@@ -1,11 +1,9 @@
 {
-  "tasks": {
-    "bundle": "deno run --allow-read --allow-run --allow-write=bundles --allow-write=output --allow-env ./.tasks/bundle.js",
-    "commit": "bash ./.tasks/commit.sh",
-    "setup": "deno run --allow-read --allow-write=.git/hooks ./.tasks/setup.js"
-  },
   "workspace": [
-    "./framework",
-    "./examples/onlyweb.dev"
+    "./shared",
+    "./backend",
+    "./frontend",
+    "./.examples/tutorial",
+    "./.examples/onlyweb.dev"
   ]
 }
