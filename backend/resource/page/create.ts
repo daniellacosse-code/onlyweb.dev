@@ -103,6 +103,15 @@ export const createPage = (
 
   /**
    * @internal
+   * Generates an inline script that reloads the page when the language changes.
+   */
+  const languageReload = html`
+    <script type="module">
+      globalThis.addEventListener("languagechanged", globalThis.location.reload());
+    </script>`;
+
+  /**
+   * @internal
    * Generates an inline script to register a service worker for the current route
    * if the browser supports service workers.
    */
@@ -145,6 +154,7 @@ export const createPage = (
       <!-- Inject helper scripts -->
       ${browserRequirementCheck}
       ${livereload}
+      ${languageReload}
       ${serviceWorker}
       <!-- Embed the main page content -->
       ${response}
