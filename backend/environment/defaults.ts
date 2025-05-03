@@ -20,3 +20,8 @@ export const OWF_ALLOW_ROBOTS = true;
  * "esm.sh cdn.myhost.org"
  */
 export const OWF_ALLOW_DOMAINS = "";
+
+/**
+ * The root directory for the OnlyWeb framework server.
+ */
+export const OWF_ROOT_DIR = "/";

@@ -72,6 +72,8 @@ jobs:
 
       - name: Upload to Deno Deploy
         uses: denoland/deployctl@v1
+        env:
+          OWF_ROOT_DIR: /.examples/onlyweb.dev
         with:
           project: onlyweb
           entrypoint: .examples/onlyweb.dev/main.ts

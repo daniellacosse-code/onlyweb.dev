@@ -1,19 +1,11 @@
-import { dirname, fromFileUrl, join, resolve } from "jsr:@std/path@1.0.8";
 import { createInliner, html, registerPage } from "@onlyweb/backend";
 
 import * as constants from "../constants.ts";
 import OnlyWebTheme from "./shared-theme.ts";
 
-const convertToAbsolutePath = (projectRootPath: string) => {
-  return join(
-    resolve(dirname(fromFileUrl(import.meta.url)), ".."),
-    projectRootPath,
-  );
-};
-
 registerPage("/__gallery__", async (request) => {
   const inliner = await createInliner(request, {
-    messagesFolder: convertToAbsolutePath("/assets/messages"),
+    messagesFolder: "/assets/messages",
   });
 
   const logoSrc = (request.url.origin.match(/localhost/)
@@ -23,12 +15,12 @@ registerPage("/__gallery__", async (request) => {
 
   return html`<head>
     <meta charset="utf-8" />
-    <link rel="icon" href="/.examples/onlyweb.dev/assets/images/logo/maskable.png" />
-    <link rel="manifest" href="/.examples/onlyweb.dev/assets/manifest.json" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
 
     ${
     inliner.metadata({
+      iconImagePath: "/assets/images/logo/maskable.png",
+      manifestPath: "/assets/manifest.json",
       title: "OnlyWeb Component Gallery",
       description: "A gallery of the onlyweb components",
     })
@@ -88,13 +80,13 @@ registerPage("/__gallery__", async (request) => {
     </style>
 
     ${await inliner.elements(
-    convertToAbsolutePath("/elements/core/loading/skeleton.js"),
-    convertToAbsolutePath("/elements/core/button.js"),
-    convertToAbsolutePath("/elements/core/image.js"),
-    convertToAbsolutePath("/elements/core/input.js"),
-    convertToAbsolutePath("/elements/core/link.js"),
-    convertToAbsolutePath("/elements/core/text.js"),
-    convertToAbsolutePath("/elements/gallery/counter-demo.js"),
+    "/elements/core/loading/skeleton.js",
+    "/elements/core/button.js",
+    "/elements/core/image.js",
+    "/elements/core/input.js",
+    "/elements/core/link.js",
+    "/elements/core/text.js",
+    "/elements/gallery/counter-demo.js",
   )}
   </head>
   <body>

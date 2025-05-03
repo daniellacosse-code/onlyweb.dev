@@ -18,7 +18,7 @@ Deno.test("createInliner", async () => {
         title: "Test",
         description: "Test",
         previewImagePath: "/assets/images/preview.png",
-        splashImagePath: "/assets/images/splash.png",
+        splashImagePaths: ["/assets/images/splash.png"],
         iconImagePath: "/assets/images/icon.png",
       })
     ).content,
