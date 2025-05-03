@@ -24,7 +24,7 @@ jobs:
           deno-version: v2.x
 
       - name: Run Tests and Collect Coverage
-        run: deno test --parallel --allow-read --allow-net --coverage=output/coverage/
+        run: deno test --parallel --allow-read --allow-net --allow-env --coverage=output/coverage/
 
       - name: Generate LCOV Report
         run: deno coverage --lcov output/coverage/ > output/coverage.lcov
