@@ -1,5 +1,5 @@
-const matchInnermostHTMLComment = /<!--(?:(?!<!--)[\s\S])*?-->/;
-const matchInnermostJSComment = /\/\*(?:(?!\/\*)[\s\S])*?\*\//;
+const matchInnermostHTMLComment = /<!--(?:(?!<!--)[\s\S])*?-->/g;
+const matchInnermostJSComment = /\/\*(?:(?!\/\*)[\s\S])*?\*\//g;
 
 /**
  * A utility for 'good-enough' minifying HTML.
@@ -23,11 +23,11 @@ export const minifyHtml = (text: string): string => {
 
   // 2. Remove multi-line HTML comments (handles nested and multi-line comments)
   while (matchInnermostHTMLComment.test(result)) {
-    result = result.replace(matchInnermostHTMLComment, "");
+    result = result.replaceAll(matchInnermostHTMLComment, "");
   }
   // 3. Remove multi-line JS/CSS comments (handles nested and multi-line comments)
   while (matchInnermostJSComment.test(result)) {
-    result = result.replace(matchInnermostJSComment, "");
+    result = result.replaceAll(matchInnermostJSComment, "");
   }
   // 4. Replace runs of whitespace (including newlines) with a single space
   result = result.replaceAll(/\s+/g, " ");
