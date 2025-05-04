@@ -1,6 +1,7 @@
 import { createTemplate, escapeHtml, minifyHtml } from "@onlyweb/shared";
 import type { OWFResponse } from "./types.ts";
 import { isOWFResponse } from "./wrap.ts";
+import { resolveEnvironment } from "../../main.ts";
 
 type SupportedMimetype = "text/html" | "text/javascript" | "text/plain";
 
@@ -99,6 +100,22 @@ const createResponseTemplate = (
               status: statusOrTemplate,
               headers: {
                 "content-type": `${mimetype}; charset=UTF-8`,
+                "content-security-policy": (() => {
+                  const cdnSource = resolveEnvironment("OWF_SOURCE_CDN");
+                  const allowedDomains = resolveEnvironment(
+                    "OWF_ALLOW_DOMAINS",
+                  );
+                  // TODO: calculate CSP hashes for each script in the payload
+                  let policy =
+                    `default-src 'unsafe-inline' 'self' data: blob: ${
+                      new URL(cdnSource).hostname
+                    }`;
+                  if (allowedDomains) policy += ` ${allowedDomains}`;
+                  return policy;
+                })(),
+                "x-robots-tag": resolveEnvironment("OWF_ALLOW_ROBOTS")
+                  ? "all"
+                  : "none",
               },
             },
           ),

@@ -1,4 +1,4 @@
-import { resolve } from "jsr:@std/path@1";
+import { join } from "jsr:@std/path@1";
 import { resolveEnvironment } from "../environment/resolve.ts";
 import { resourceRegistry } from "../resource/registry.ts";
 import { serveFile } from "jsr:@std/http@1/file-server";
@@ -41,7 +41,10 @@ export const start = (
       }
 
       try {
-        return serveFile(request, resolve(Deno.cwd(), `.${requestPath}`));
+        return serveFile(
+          request,
+          join(Deno.cwd(), resolveEnvironment("OWF_ROOT_DIR"), requestPath),
+        );
       } catch {
         return Promise.resolve(unwrapResponse(text(404)`Not Found`));
       }

@@ -8,13 +8,13 @@
     {
       "purpose": "any",
       "sizes": "512x512",
-      "src": "/.examples/onlyweb.dev/assets/images/logo/black.svg",
+      "src": "/assets/images/logo/black.svg",
       "type": "image/svg+xml"
     },
     {
       "purpose": "maskable",
       "sizes": "512x512",
-      "src": "/.examples/onlyweb.dev/assets/images/logo/maskable.png",
+      "src": "/assets/images/logo/maskable.png",
       "type": "image/png"
     }
   ],

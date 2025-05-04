@@ -6,6 +6,7 @@ import { log, logError, minifyHtml } from "@onlyweb/shared";
 import { html } from "../response/template.ts";
 import type { OWFResponse } from "../response/types.ts";
 import type { OWFRequest } from "../request/types.ts";
+import { resolveEnvironment } from "../../main.ts";
 
 /**
  * A context-aware inliner that can inline elements, messages, and metadata into a document.
@@ -32,12 +33,14 @@ export interface InlineHTMLMetadata {
   iconImagePath?: string;
   /** The path to the preview image of the page. */
   previewImagePath?: string;
-  /** The path to the splash image of the page. */
-  splashImagePath?: string;
+  /** Paths to the splash images of the page for different resolutions/orientations. */
+  splashImagePaths?: string[];
   /** The title of the page. */
   title?: string;
   /** The canonical URL of the page. */
   canonicalUrl?: string;
+  /** The path to the manifest file of the page. */
+  manifestPath?: string;
 }
 
 /**
@@ -59,15 +62,21 @@ export type InlinerOptions = {
 export async function createInliner(
   request: OWFRequest,
   {
-    messagesFolder: absoluteMessagesFolderPath,
+    messagesFolder,
   }: InlinerOptions,
 ): Promise<Inliner> {
+  const systemRootDirectory = path.join(
+    Deno.cwd(),
+    resolveEnvironment("OWF_ROOT_DIR"),
+  );
+
   let messages: { [messageIn: string]: string } = {};
 
-  if (absoluteMessagesFolderPath) {
+  if (messagesFolder) {
     try {
       const filePath = path.join(
-        absoluteMessagesFolderPath,
+        systemRootDirectory,
+        messagesFolder,
         `${request.language}.json`,
       );
 
@@ -119,22 +128,24 @@ export async function createInliner(
         level: "debug",
       });
 
-      for (const absoluteFilePath of elementFilePaths) {
-        if (absoluteFilePath.endsWith(".ts")) {
+      for (const filePath of elementFilePaths) {
+        if (filePath.endsWith(".ts")) {
           logError(
             new Error(
-              `Typescript elements are currently not supported. Please convert ${absoluteFilePath} to .js.}`,
+              `Typescript elements are currently not supported. Please convert ${filePath} to .js.}`,
             ),
           );
 
           continue;
         }
 
-        const fileContents = await Deno.readTextFile(absoluteFilePath);
+        const fileContents = await Deno.readTextFile(
+          path.join(systemRootDirectory, filePath),
+        );
 
         log({
           message:
-            `[backend/inliner#elements] loaded element file "${absoluteFilePath}"`,
+            `[backend/inliner#elements] loaded element file "${filePath}"`,
           level: "debug",
         });
 
@@ -146,8 +157,7 @@ export async function createInliner(
           )
         }"></script>`);
         log({
-          message:
-            `[backend/inliner#elements] inlined element "${absoluteFilePath}"`,
+          message: `[backend/inliner#elements] inlined element "${filePath}"`,
           level: "debug",
         });
       }
@@ -185,8 +195,9 @@ export async function createInliner(
       title,
       description,
       previewImagePath,
-      splashImagePath,
+      splashImagePaths,
       iconImagePath,
+      manifestPath,
       canonicalUrl = request.url.toString(),
     }) {
       const tags = [
@@ -199,7 +210,7 @@ export async function createInliner(
           title,
           description,
           previewImagePath,
-          splashImagePath,
+          splashImagePaths,
           iconImagePath,
           canonicalUrl,
         },
@@ -231,6 +242,18 @@ export async function createInliner(
         );
       }
 
+      if (manifestPath) {
+        log({
+          message:
+            `[backend/inliner#metadata] using manifest path "${manifestPath}"`,
+          level: "debug",
+        });
+
+        tags.push(
+          html`<link rel="manifest" href="${manifestPath}" />`,
+        );
+      }
+
       if (iconImagePath) {
         log({
           message:
@@ -251,20 +274,22 @@ export async function createInliner(
         );
       }
 
-      if (splashImagePath) {
+      if (splashImagePaths && splashImagePaths.length > 0) {
         log({
-          message:
-            `[backend/inliner#metadata] using splash image "${splashImagePath}"`,
+          message: `[backend/inliner#metadata] using splash images: ${
+            splashImagePaths.join(", ")
+          }`,
           level: "debug",
         });
 
-        tags.push(
-          // TODO iterate over all possible splash images
-          html`<link
-            rel="apple-touch-startup-image"
-            href="${splashImagePath}"
+        for (const splashPath of splashImagePaths) {
+          tags.push(
+            html`<link
+              rel="apple-touch-startup-image"
+              href="${splashPath}"
           />`,
-        );
+          );
+        }
       }
 
       if (previewImagePath) {

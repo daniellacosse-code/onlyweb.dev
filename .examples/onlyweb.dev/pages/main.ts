@@ -1,15 +1,8 @@
-import { dirname, fromFileUrl, join, resolve } from "jsr:@std/path@1.0.8";
 import { createInliner, html, js, registerPage } from "@onlyweb/backend";
 
 import * as constants from "../constants.ts";
 import OnlyWebTheme from "./shared-theme.ts";
-
-const convertToAbsolutePath = (projectRootPath: string) => {
-  return join(
-    resolve(dirname(fromFileUrl(import.meta.url)), ".."),
-    projectRootPath,
-  );
-};
+import { join } from "jsr:@std/path@1/join";
 
 const route = "/";
 
@@ -17,23 +10,22 @@ registerPage(route, {
   render: async (request) => {
     const inliner = await createInliner(
       request,
-      { messagesFolder: convertToAbsolutePath("/assets/messages") },
+      { messagesFolder: "/assets/messages" },
     );
 
-    const logoSrc = (request.url.origin.match(/localhost/)
-      ? request.url.origin
-      : constants.KEYCDN_IMAGE_ZONE_URL) +
-      "/assets/images/logo/black.svg";
+    const logoSrc = join(
+      constants.KEYCDN_IMAGE_ZONE_URL,
+      "/.examples/onlyweb.dev/assets/images/logo/maskable.png",
+    );
 
-    const inverseLogoSrc = (request.url.origin.match(/localhost/)
-      ? request.url.origin
-      : constants.KEYCDN_IMAGE_ZONE_URL) +
-      "/assets/images/logo/white.svg";
+    const inverseLogoSrc = join(
+      constants.KEYCDN_IMAGE_ZONE_URL,
+      "/.examples/onlyweb.dev/assets/images/logo/white.svg",
+    );
 
     return html`<head>
       <meta charset="utf-8" />
       <meta name="viewport" content="width=device-width, initial-scale=1" />
-      <link rel="manifest" href="/.examples/onlyweb.dev/assets/manifest.json" />
 
       ${
       inliner.metadata({
@@ -41,22 +33,22 @@ registerPage(route, {
         description: inliner.message(
           "only web. only web. only web. only web. only web. only web. only web. only web. only web. only web. only web. only web",
         ),
-        previewImagePath:
-          "/.examples/onlyweb.dev/assets/images/root-preview.png",
-        iconImagePath: "/.examples/onlyweb.dev/assets/images/logo/maskable.png",
-        splashImagePath: "/.examples/onlyweb.dev/assets/images/logo/splash.png",
+        previewImagePath: "/assets/images/root-preview.png",
+        iconImagePath: "/assets/images/logo/maskable.png",
+        splashImagePaths: ["/assets/images/logo/splash.png"],
         canonicalUrl: "https://onlyweb.dev/",
+        manifestPath: "/assets/manifest.json",
       })
     }
 
       ${await inliner.elements(
-      convertToAbsolutePath("/elements/core/loading/skeleton.js"),
-      convertToAbsolutePath("/elements/core/image.js"),
-      convertToAbsolutePath("/elements/core/link.js"),
-      convertToAbsolutePath("/elements/core/text.js"),
-      convertToAbsolutePath("/elements/core/input.js"),
-      convertToAbsolutePath("/elements/demo/frame.js"),
-      convertToAbsolutePath("/elements/demo/link.js"),
+      "/elements/core/loading/skeleton.js",
+      "/elements/core/image.js",
+      "/elements/core/link.js",
+      "/elements/core/text.js",
+      "/elements/core/input.js",
+      "/elements/demo/frame.js",
+      "/elements/demo/link.js",
     )}
 
       <meta

@@ -6,6 +6,8 @@ const escapedCharacters = new Map([
   ['"', "&quot;"],
 ]);
 
+const escapeCharacterRegex = /[&<>'"]/g;
+
 /**
  * A utility for escaping raw HTML.
  * @param html The raw HTML.
@@ -18,11 +20,8 @@ const escapedCharacters = new Map([
  * ```
  */
 export const escapeHtml = (html: string): string => {
-  let result = "";
-
-  for (const char of String(html)) {
-    result += escapedCharacters.get(char) ?? char;
-  }
-
-  return result;
+  return html.replace(
+    escapeCharacterRegex,
+    (char) => escapedCharacters.get(char) as string,
+  );
 };
