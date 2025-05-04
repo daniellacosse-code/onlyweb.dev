@@ -43,7 +43,7 @@ export const start = (
       try {
         return serveFile(
           request,
-          join(resolveEnvironment("OWF_ROOT_DIR"), requestPath),
+          join(Deno.cwd(), resolveEnvironment("OWF_ROOT_DIR"), requestPath),
         );
       } catch {
         return Promise.resolve(unwrapResponse(text(404)`Not Found`));

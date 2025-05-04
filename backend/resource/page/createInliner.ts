@@ -65,14 +65,17 @@ export async function createInliner(
     messagesFolder,
   }: InlinerOptions,
 ): Promise<Inliner> {
-  const rootDir = resolveEnvironment("OWF_ROOT_DIR");
+  const systemRootDirectory = path.join(
+    Deno.cwd(),
+    resolveEnvironment("OWF_ROOT_DIR"),
+  );
 
   let messages: { [messageIn: string]: string } = {};
 
   if (messagesFolder) {
     try {
       const filePath = path.join(
-        rootDir,
+        systemRootDirectory,
         messagesFolder,
         `${request.language}.json`,
       );
@@ -137,7 +140,7 @@ export async function createInliner(
         }
 
         const fileContents = await Deno.readTextFile(
-          path.join(rootDir, filePath),
+          path.join(systemRootDirectory, filePath),
         );
 
         log({
