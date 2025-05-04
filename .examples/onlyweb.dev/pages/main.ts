@@ -1,10 +1,4 @@
-import {
-  createInliner,
-  html,
-  js,
-  registerPage,
-  resolveEnvironment,
-} from "@onlyweb/backend";
+import { createInliner, html, js, registerPage } from "@onlyweb/backend";
 
 import * as constants from "../constants.ts";
 import OnlyWebTheme from "./shared-theme.ts";
