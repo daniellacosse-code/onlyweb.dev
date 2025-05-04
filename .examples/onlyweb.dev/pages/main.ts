@@ -21,14 +21,12 @@ registerPage(route, {
 
     const logoSrc = join(
       constants.KEYCDN_IMAGE_ZONE_URL,
-      resolveEnvironment("OWF_ROOT_DIR"),
-      "/assets/images/logo/maskable.png",
+      "/.examples/onlyweb.dev/assets/images/logo/maskable.png",
     );
 
     const inverseLogoSrc = join(
       constants.KEYCDN_IMAGE_ZONE_URL,
-      resolveEnvironment("OWF_ROOT_DIR"),
-      "/assets/images/logo/white.svg",
+      "/.examples/onlyweb.dev/assets/images/logo/white.svg",
     );
 
     return html`<head>
