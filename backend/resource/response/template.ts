@@ -105,7 +105,8 @@ const createResponseTemplate = (
                   const allowedDomains = resolveEnvironment(
                     "OWF_ALLOW_DOMAINS",
                   );
-                  let policy = `default-src 'self' ${
+                  // TODO: calculate CSP hashes for each script in the payload
+                  let policy = `default-src 'unsafe-inline' 'self' ${
                     new URL(cdnSource).hostname
                   }`;
                   if (allowedDomains) policy += ` ${allowedDomains}`;

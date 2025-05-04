@@ -247,9 +247,7 @@ export async function createInliner(
         });
 
         tags.push(
-          html`<link rel="manifest" href="${
-            path.join(rootDir, manifestPath)
-          }" />`,
+          html`<link rel="manifest" href="${manifestPath}" />`,
         );
       }
 
@@ -261,11 +259,9 @@ export async function createInliner(
         });
 
         tags.push(
-          html`<link rel="icon" href="${path.join(rootDir, iconImagePath)}" />
+          html`<link rel="icon" href="${iconImagePath}" />
             <meta name="mobile-web-app-capable" content="yes" />
-            <link rel="apple-touch-icon" href="${
-            path.join(rootDir, iconImagePath)
-          }" />`,
+            <link rel="apple-touch-icon" href="${iconImagePath}" />`,
           // it's a bit opinionated, but you really only have two options here - black and black-translucent
           // and only the latter allows the web app to be displayed in full screen
           html`<meta
@@ -287,7 +283,7 @@ export async function createInliner(
           tags.push(
             html`<link
               rel="apple-touch-startup-image"
-              href="${path.join(rootDir, splashPath)}"
+              href="${splashPath}"
           />`,
           );
         }
@@ -301,9 +297,7 @@ export async function createInliner(
         });
 
         tags.push(
-          html`<meta name="og:image" content="${
-            path.join(rootDir, previewImagePath)
-          }" />`,
+          html`<meta name="og:image" content="${previewImagePath}" />`,
         );
       }
 
