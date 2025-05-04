@@ -1,6 +1,6 @@
 {
   "name": "@onlyweb/shared",
-  "version": "0.0.0-alpha.22",
+  "version": "0.0.0-alpha.24",
   "license": "MIT",
   "exports": "./main.ts",
   "compilerOptions": {

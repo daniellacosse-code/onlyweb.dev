@@ -1,7 +1,14 @@
-import { createInliner, html, js, registerPage } from "@onlyweb/backend";
+import {
+  createInliner,
+  html,
+  js,
+  registerPage,
+  resolveEnvironment,
+} from "@onlyweb/backend";
 
 import * as constants from "../constants.ts";
 import OnlyWebTheme from "./shared-theme.ts";
+import { join } from "jsr:@std/path@1/join";
 
 const route = "/";
 
@@ -12,15 +19,17 @@ registerPage(route, {
       { messagesFolder: "/assets/messages" },
     );
 
-    const logoSrc = (request.url.origin.match(/localhost/)
-      ? request.url.origin
-      : constants.KEYCDN_IMAGE_ZONE_URL) +
-      "/assets/images/logo/black.svg";
+    const logoSrc = join(
+      constants.KEYCDN_IMAGE_ZONE_URL,
+      resolveEnvironment("OWF_ROOT_DIR"),
+      "/assets/images/logo/maskable.png",
+    );
 
-    const inverseLogoSrc = (request.url.origin.match(/localhost/)
-      ? request.url.origin
-      : constants.KEYCDN_IMAGE_ZONE_URL) +
-      "/assets/images/logo/white.svg";
+    const inverseLogoSrc = join(
+      constants.KEYCDN_IMAGE_ZONE_URL,
+      resolveEnvironment("OWF_ROOT_DIR"),
+      "/assets/images/logo/white.svg",
+    );
 
     return html`<head>
       <meta charset="utf-8" />

@@ -12,7 +12,9 @@ import "./pages/demos/music.ts";
 
 Deno.env.set(
   "OWF_ALLOW_DOMAINS",
-  new URL(constants.KEYCDN_IMAGE_ZONE_URL).hostname,
+  `${
+    new URL(constants.KEYCDN_IMAGE_ZONE_URL).hostname
+  } d07riv.github.io toji.github.io cdn.skypack.dev`,
 );
 
 start();
