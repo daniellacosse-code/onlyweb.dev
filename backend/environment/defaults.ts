@@ -24,4 +24,4 @@ export const OWF_ALLOW_DOMAINS = "";
 /**
  * The root directory for the OnlyWeb framework server.
  */
-export const OWF_ROOT_DIR = Deno.cwd();
+export const OWF_ROOT_DIR: string = Deno.cwd();
