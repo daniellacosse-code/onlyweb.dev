@@ -2,4 +2,4 @@
 
 ## Reporting a Vulnerability
 
-If you discover a vulnerability, please message me on Patreon.
+If you discover a vulnerability, please file an issue on GitHub.
