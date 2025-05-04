@@ -107,7 +107,7 @@ export const createPage = (
    */
   const languageReload = html`
     <script type="module">
-      globalThis.addEventListener("languagechanged", () => globalThis.location.reload());
+      globalThis.addEventListener("languagechanged", globalThis.location.reload);
     </script>`;
 
   /**
