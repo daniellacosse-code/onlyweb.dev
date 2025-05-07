@@ -7,7 +7,7 @@ import type { OWFResponse } from "../response/types.ts";
 /**
  * Constructs a complete HTML page response by wrapping the provided content
  * with standard HTML structure, an import map, browser compatibility checks,
- * LiveReload script (for development), and service worker registration script.
+ * Watch script (for development), and service worker registration script.
  *
  * @param {string} route - The base route for the page, used for service worker registration scope.
  * @param {OWFRequest} request - The incoming request object, used to determine language and CDN URL.
@@ -62,7 +62,7 @@ export const createPage = (
 
   /**
    * @internal
-   * Generates an inline script for LiveReload using Server-Sent Events.
+   * Generates an inline script for Watch using Server-Sent Events.
    * Connects to an SSE endpoint and reloads the page upon receiving a 'reload' event.
    */
   const watchServer = html`
