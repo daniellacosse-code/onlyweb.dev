@@ -64,7 +64,7 @@ export const start = (
 
   Deno.serve({
     hostname: livereload.host ?? resolveEnvironment("OWF_LIVERELOAD_HOST"),
-    port: livereload.port ?? resolveEnvironment("OWF_LIVERELOAD_PORT")
+    port: livereload.port ?? Number(resolveEnvironment("OWF_LIVERELOAD_PORT"))
   },  (request) => {
     if (request.headers.get("upgrade") !== "websocket") {
       return text(400)`Not a websocket upgrade request`;
