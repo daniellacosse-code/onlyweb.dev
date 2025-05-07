@@ -91,7 +91,7 @@ export const createPage = (
 
         livereloadSocket.onopen = () =>
           log({ message: "Livereload connected!", level: "info" });
-        livereloadSocket.onmessage = ({ data }) => location.reload;
+        livereloadSocket.onmessage = location.reload;
         livereloadSocket.onerror = (detail) => {
           log({ message: "Livereload WebSocket error.", detail, level: "warn" });
         };

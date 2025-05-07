@@ -78,7 +78,7 @@ export const start = (
       }
 
       try {
-        socket.send("reload");
+        socket.send(".");
         clearInterval(intervalID);
       } catch (_) {
         // do nothing
