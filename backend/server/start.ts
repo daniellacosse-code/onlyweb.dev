@@ -77,13 +77,7 @@ export const start = (
     port: watch?.port ?? Number(resolveEnvironment("OWF_WATCH_PORT")),
   }, (request: Request) =>
     new Response(
-      new ReadableStream({
-        start(controller) {
-          controller.enqueue(
-            new TextEncoder().encode("event: reload\ndata: reload\n\n"),
-          );
-        },
-      }),
+      new ReadableStream(),
       {
         headers: {
           "Content-Type": "text/event-stream",

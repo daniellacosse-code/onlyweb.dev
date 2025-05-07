@@ -68,16 +68,13 @@ export const createPage = (
    */
   const watchServer = html`
     <script type="module">
-    import { log } from "@onlyweb/shared";
+    // These insertions are broken out to stop syntax highlighting from being broken.
+    const watchHost = "${resolveEnvironment("OWF_WATCH_HOST")}";
+    const watchPort = "${resolveEnvironment("OWF_WATCH_PORT")}";
 
-    const watchSource = new EventSource("http://${resolveEnvironment(
-      "OWF_WATCH_HOST",
-    )}:${resolveEnvironment("OWF_WATCH_PORT")}");
+    const source = new EventSource("http://" + watchHost + ":" + watchPort);
 
-    watchSource.addEventListener("reload", () => {
-      watchSource.close();
-      globalThis.location.reload();
-    });
+    source.onerror = () => setTimeout(() => window.location.reload(), 250);
     </script>
   `;
 
