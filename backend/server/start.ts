@@ -69,7 +69,7 @@ export const start = (
     return new Response(
       new ReadableStream({
         start(controller) {
-          controller.enqueue(new TextEncoder().encode("event: reload"))
+          controller.enqueue(new TextEncoder().encode("event: reload\ndata: reload\n\n"));
         }
       })
     )
