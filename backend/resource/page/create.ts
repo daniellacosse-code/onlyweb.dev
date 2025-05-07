@@ -62,45 +62,19 @@ export const createPage = (
 
   /**
    * @internal
-   * Generates an inline script that attempts to connect to a LiveReload WebSocket
-   * server if the page is served from localhost. Reloads the page on message.
+   * Generates an inline script for LiveReload using Server-Sent Events.
+   * Connects to an SSE endpoint and reloads the page upon receiving a 'reload' event.
    */
-  const livereload = html`
+  const watchServer = html`
     <script type="module">
       import { log } from "@onlyweb/shared";
 
-      const pollLivereloadSocket = () => {
-        return new Promise((resolve) => {
-          const pollingIntervalId = setInterval(() => {
-            try {
-              const socket = new WebSocket(
-                "ws://${resolveEnvironment('OWF_LIVERELOAD_HOST')}:${resolveEnvironment('OWF_LIVERELOAD_PORT')}"
-              );
-              clearInterval(pollingIntervalId);
-              resolve(socket);
-            } catch (detail) {
-              // Log failure to connect
-              log({ message: "Livereload failed to connect... trying again...", detail, level: "warn" });
-            }
-          }, 1000);
-        })
-      };
+      const watchSource = new EventSource("http://${resolveEnvironment('OWF_WATCHER_HOST')}:${resolveEnvironment('OWF_WATCHER_PORT')}");
 
-      (async function () {
-        let livereloadSocket = await pollLivereloadSocket();
-
-        livereloadSocket.onopen = () =>
-          log({ message: "Livereload connected!", level: "info" });
-        livereloadSocket.onmessage = location.reload;
-        livereloadSocket.onerror = (detail) => {
-          log({ message: "Livereload WebSocket error.", detail, level: "warn" });
-        };
-        livereloadSocket.onclose = async () => {
-          log({ message: "Livereload disconnected.", level: "info" });
-
-          livereloadSocket = await pollLivereloadSocket();
-        };
-      })();
+      watchSource.addEventListener("reload", () => {
+        watchSource.close();
+        globalThis.location.reload();
+      });
     </script>`;
 
   /**
@@ -155,7 +129,7 @@ export const createPage = (
       </script>
       <!-- Inject helper scripts -->
       ${browserRequirementCheck}
-      ${resolveEnvironment("OWF_LIVERELOAD") ? livereload : ""}
+      ${resolveEnvironment("OWF_WATCHER").toLowerCase() === 'true' ? watchServer : ""}
       ${languageReload}
       ${serviceWorker}
       <!-- Embed the main page content -->

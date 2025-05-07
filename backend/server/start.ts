@@ -13,7 +13,7 @@ export type StartOptions = {
   host?: string;
   /** The port to listen on. */
   port?: number;
-  livereload?: {
+  watcher?: {
     host?: string;
     port: number;
   }
@@ -28,7 +28,7 @@ export const start = (
   {
     host: hostname = resolveEnvironment("OWF_APPLICATION_HOST"),
     port = Number(resolveEnvironment("OWF_APPLICATION_PORT")),
-    livereload
+    watcher
   }: StartOptions = {},
 ): void => {
   Deno.serve(
@@ -58,33 +58,20 @@ export const start = (
     },
   );
 
-  if (!(livereload || resolveEnvironment("OWF_LIVERELOAD"))) {
+  if (!watcher && !Boolean(resolveEnvironment("OWF_WATCHER"))) {
     return;
   }
 
   Deno.serve({
-    hostname: livereload.host ?? resolveEnvironment("OWF_LIVERELOAD_HOST"),
-    port: livereload.port ?? Number(resolveEnvironment("OWF_LIVERELOAD_PORT"))
+    hostname: watcher?.host ?? resolveEnvironment("OWF_WATCHER_HOST"),
+    port: watcher?.port ?? Number(resolveEnvironment("OWF_WATCHER_PORT"))
   },  (request) => {
-    if (request.headers.get("upgrade") !== "websocket") {
-      return text(400)`Not a websocket upgrade request`;
-    }
-
-    const { socket, response } = Deno.upgradeWebSocket(request);
-
-    const intervalID = setInterval(() => {
-      if (socket?.readyState !== WebSocket.OPEN) {
-        return;
-      }
-
-      try {
-        socket.send(".");
-        clearInterval(intervalID);
-      } catch (_) {
-        // do nothing
-      }
-    }, 1000);
-
-    return response;
+    return new Response(
+      new ReadableStream({
+        start(controller) {
+          controller.enqueue(new TextEncoder().encode("event: reload"))
+        }
+      })
+    )
   });
 };
