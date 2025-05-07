@@ -4,10 +4,6 @@ import { resolveEnvironment } from "../../environment/resolve.ts";
 import type { OWFRequest } from "../request/types.ts";
 import type { OWFResponse } from "../response/types.ts";
 
-// TODO: move livereload to repo-agnotic code
-/** @internal Port used by the LiveReload WebSocket server. */
-const LIVERELOAD_PORT = 35729;
-
 /**
  * Constructs a complete HTML page response by wrapping the provided content
  * with standard HTML structure, an import map, browser compatibility checks,
@@ -73,32 +69,38 @@ export const createPage = (
     <script type="module">
       import { log } from "@onlyweb/shared";
 
-      // Only attempt LiveReload connection on localhost
-      if (globalThis.location.hostname === "localhost") {
-        try {
-          const reloadSocket = new WebSocket(
-            "ws://localhost:${LIVERELOAD_PORT}"
-          );
-
-          reloadSocket.onopen = () =>
-            log({ message: "LiveReload connected~", level: "info" }); // Use info level
-          reloadSocket.onmessage = ({ data }) => {
-            if (data === "reload") {
-              log({ message: "LiveReload: Reloading page...", level: "info" });
-              location.reload();
+      const pollLivereloadSocket = () => {
+        return new Promise((resolve) => {
+          const pollingIntervalId = setInterval(() => {
+            try {
+              const socket = new WebSocket(
+                "ws://${resolveEnvironment('OWF_LIVERELOAD_HOST')}:${resolveEnvironment('OWF_LIVERELOAD_PORT')}"
+              );
+              clearInterval(pollingIntervalId);
+              resolve(socket);
+            } catch (detail) {
+              // Log failure to connect
+              log({ message: "Livereload failed to connect... trying again...", detail, level: "warn" });
             }
-          };
-          reloadSocket.onerror = (event) => {
-            log({ message: "LiveReload WebSocket error.", detail: event, level: "warn" });
-          };
-          reloadSocket.onclose = () => {
-             log({ message: "LiveReload disconnected.", level: "info" });
-          };
-        } catch (error) {
-          // Log failure to connect
-          log({ message: "LiveReload failed to connect.", detail: error, level: "warn" });
-        }
-      }
+          }, 1000);
+        })
+      };
+
+      (async function () {
+        let livereloadSocket = await pollLivereloadSocket();
+
+        livereloadSocket.onopen = () =>
+          log({ message: "Livereload connected!", level: "info" });
+        livereloadSocket.onmessage = ({ data }) => location.reload;
+        livereloadSocket.onerror = (detail) => {
+          log({ message: "Livereload WebSocket error.", detail, level: "warn" });
+        };
+        livereloadSocket.onclose = async () => {
+          log({ message: "Livereload disconnected.", level: "info" });
+
+          livereloadSocket = await pollLivereloadSocket();
+        };
+      })();
     </script>`;
 
   /**
@@ -153,7 +155,7 @@ export const createPage = (
       </script>
       <!-- Inject helper scripts -->
       ${browserRequirementCheck}
-      ${livereload}
+      ${resolveEnvironment("OWF_LIVERELOAD") ? livereload : ""}
       ${languageReload}
       ${serviceWorker}
       <!-- Embed the main page content -->

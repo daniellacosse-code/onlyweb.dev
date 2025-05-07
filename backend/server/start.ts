@@ -10,8 +10,13 @@ import { wrapRequest } from "../resource/request/wrap.ts";
  * The options for starting the OnlyWeb framework server.
  */
 export type StartOptions = {
+  host?: string;
   /** The port to listen on. */
   port?: number;
+  livereload?: {
+    host?: string;
+    port: number;
+  }
 };
 
 /**
@@ -21,11 +26,13 @@ export type StartOptions = {
  */
 export const start = (
   {
+    host: hostname = resolveEnvironment("OWF_APPLICATION_HOST"),
     port = Number(resolveEnvironment("OWF_APPLICATION_PORT")),
+    livereload
   }: StartOptions = {},
 ): void => {
   Deno.serve(
-    { port, hostname: "localhost" },
+    { port, hostname },
     async (request: Request): Promise<Response> => {
       const requestURL = new URL(request.url);
       const requestPath = requestURL.pathname.startsWith("/")
@@ -50,4 +57,34 @@ export const start = (
       }
     },
   );
+
+  if (!(livereload || resolveEnvironment("OWF_LIVERELOAD"))) {
+    return;
+  }
+
+  Deno.serve({
+    hostname: livereload.host ?? resolveEnvironment("OWF_LIVERELOAD_HOST"),
+    port: livereload.port ?? resolveEnvironment("OWF_LIVERELOAD_PORT")
+  },  (request) => {
+    if (request.headers.get("upgrade") !== "websocket") {
+      return text(400)`Not a websocket upgrade request`;
+    }
+
+    const { socket, response } = Deno.upgradeWebSocket(request);
+
+    const intervalID = setInterval(() => {
+      if (socket?.readyState !== WebSocket.OPEN) {
+        return;
+      }
+
+      try {
+        socket.send("reload");
+        clearInterval(intervalID);
+      } catch (_) {
+        // do nothing
+      }
+    }, 1000);
+
+    return response;
+  });
 };

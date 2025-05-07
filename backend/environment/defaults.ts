@@ -1,7 +1,15 @@
+export const OWF_APPLICATION_HOST = "::1";
+
 /**
  * The default port for the OnlyWeb framework server.
  */
 export const OWF_APPLICATION_PORT = 3210;
+
+export const OWF_LIVERELOAD = false;
+
+export const OWF_LIVERELOAD_HOST = "::1";
+
+export const OWF_LIVERELOAD_PORT = 35729;
 
 /**
  * The default base CDN url for the OnlyWeb framework server.
