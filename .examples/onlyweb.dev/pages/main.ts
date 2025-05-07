@@ -23,12 +23,12 @@ registerPage(route, {
       "/.examples/onlyweb.dev/assets/images/logo/white.svg",
     );
 
-    return html`<head>
-      <meta charset="utf-8" />
-      <meta name="viewport" content="width=device-width, initial-scale=1" />
+    return html`
+      <head>
+        <meta charset="utf-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1" />
 
-      ${
-      inliner.metadata({
+        ${inliner.metadata({
         title: "2",
         description: inliner.message(
           "only web. only web. only web. only web. only web. only web. only web. only web. only web. only web. only web. only web",
@@ -38,26 +38,23 @@ registerPage(route, {
         splashImagePaths: ["/assets/images/logo/splash.png"],
         canonicalUrl: "https://onlyweb.dev/",
         manifestPath: "/assets/manifest.json",
-      })
-    }
+      })} ${await inliner.elements(
+        "/elements/core/loading/skeleton.js",
+        "/elements/core/image.js",
+        "/elements/core/link.js",
+        "/elements/core/text.js",
+        "/elements/core/input.js",
+        "/elements/demo/frame.js",
+        "/elements/demo/link.js",
+      )}
 
-      ${await inliner.elements(
-      "/elements/core/loading/skeleton.js",
-      "/elements/core/image.js",
-      "/elements/core/link.js",
-      "/elements/core/text.js",
-      "/elements/core/input.js",
-      "/elements/demo/frame.js",
-      "/elements/demo/link.js",
-    )}
+        <meta
+          name="theme-color"
+          content="${constants.THEME_COLOR_BACKGROUND}"
+        />
+        ${OnlyWebTheme}
 
-      <meta
-        name="theme-color"
-        content="${constants.THEME_COLOR_BACKGROUND}"
-      />
-      ${OnlyWebTheme}
-
-      <style>
+        <style>
         main {
           display: flex;
           flex-direction: row;
@@ -168,98 +165,132 @@ registerPage(route, {
             transform: translateX(0%);
           }
         }
-      </style>
-    </head>
-    <body>
-      <main>
-      <nav id="sidebar">
-        <header>
-          <core-image src="${logoSrc}" alt="logo" width="64" height="64"></core-image>
-          <core-text type="title" style="font-weight: bold; font-size: 1.5rem;">${
-      inliner.message(
-        "only web 2",
-      )
-    }</core-text>
-        </header>
-        <div class="input-wrapper">
-          <core-input id="search" type="search" label="Search..."></core-input>
-        </div>
-        <ul id="sidebar-options"></ul>
-      </nav>
-        <article>
-          <section>
+        </style>
+      </head>
+      <body>
+        <main>
+          <nav id="sidebar">
             <header>
-              <core-image src="${inverseLogoSrc}" alt="logo" width="96" height="96"></core-image>
-              <core-text type="title">nly web</core-text>
+              <core-image
+                src="${logoSrc}"
+                alt="logo"
+                width="64"
+                height="64"
+              ></core-image>
+              <core-text type="title" style="font-weight: bold; font-size: 1.5rem;"
+              >${inliner.message(
+        "only web 2",
+      )}</core-text>
             </header>
-            <core-text type="paragraph">
-              <i>[pre-alpha]</i><br/><br/>
-              <b>Discover the potential of only web.</b>
-              Explore cutting-edge capabilities, challenging the need for a native app for every experience.
-              <i>Get ready to rethink what's possible online.</i>
-            </core-text>
-          </section>
-          <section>
-            <hr />
-          </section>
-          <section>
-            <demo-link id="synthesizer"
-              title="Audio: Synthesizer ↗️"
-              author="Ableton"
-              src="https://learningsynths.ableton.com/en/playground"
-            >
-              <core-text>
-                <b>Unleash your inner musician with Ableton's web-based synthesizer.</b> Dive deep into sound creation with multiple oscillators, filters, and envelopes at your fingertips. Compose melodies using your keyboard, and then download your masterpiece to share with the world.
+            <div class="input-wrapper">
+              <core-input id="search" type="search" label="Search..."></core-input>
+            </div>
+            <ul id="sidebar-options"></ul>
+          </nav>
+          <article>
+            <section>
+              <header>
+                <core-image
+                  src="${inverseLogoSrc}"
+                  alt="logo"
+                  width="96"
+                  height="96"
+                ></core-image>
+                <core-text type="title">nly web</core-text>
+              </header>
+              <core-text type="paragraph">
+                <i>[pre-alpha]</i><br /><br />
+                <b>Discover the potential of only web.</b>
+                Explore cutting-edge capabilities, challenging the need for a native
+                app for every experience.
+                <i>Get ready to rethink what's possible online.</i>
               </core-text>
-            </demo-link>
-          </section>
-          <section>
-            <demo-frame id="chord-reader"
-              title="Audio: Chord Reader Prototype"
-              src="/demos/music"
-              height=600
-            >
-              <core-text>
-                <b>Uncover the magic behind your favorite tunes with our interactive chord progression tool.</b> Simply input your desired chord sequence and hear how it sounds. It's the perfect way to experiment with different chord combinations, understand music structure, and even start creating your own compositions.
-              </core-text>
-            </demo-frame>
-          </section>
-          <section>
-            <demo-frame id="diablo"
-              title="Web Assembly: Diablo"
-              src="https://d07riv.github.io/diabloweb/"
-              height=650
-              author="d07riv"
-            >
-              <core-text>
-                <b>Relive the classic dungeon-crawling experience, now in your browser.</b> GalaXyHaXz and the devilution team has brought the original Diablo to the web using WebAssembly, a groundbreaking technology that enables high-performance applications to run directly in your website. Prepare to slay demons and collect loot, all without leaving your web browser.
-              </core-text>
-            </demo-frame>
-          </section>
-          <section>
-            <demo-link id="sql"
-              title="Web Assembly: SQL ↗️"
-              src="https://sqlime.org/"
-              author="nalgeon">
-              <core-text>
-                <b>Experience the power of SQL in-browser.</b> SQLime is a web-based SQL IDE that runs entirely in your browser, powered by WebAssembly-compiled SQLite. Write queries, visualize results, and learn SQL concepts in-place.
-              </core-text>
-            </demo-link>
-          </section>
-          <section>
-            <demo-frame id="frustrum-culling"
-              title="WebGPU: Frustrum Culling"
-              src="https://toji.github.io/webgpu-bundle-culling/"
-              author="toji"
-            >
-              <core-text>
-                <b>Explore a complex 3D scene containing thousands of objects,</b> optimized with frustum culling: watch the visible objects dynamically change as you navigate.
-              </core-text>
-            </demo-frame>
-          </section>
-        </article>
-      </main>
-      <script type="module">
+            </section>
+            <section>
+              <hr />
+            </section>
+            <section>
+              <demo-link
+                id="synthesizer"
+                title="Audio: Synthesizer ↗️"
+                author="Ableton"
+                src="https://learningsynths.ableton.com/en/playground"
+              >
+                <core-text>
+                  <b>Unleash your inner musician with Ableton's web-based
+                    synthesizer.</b> Dive deep into sound creation with multiple
+                  oscillators, filters, and envelopes at your fingertips. Compose
+                  melodies using your keyboard, and then download your masterpiece to
+                  share with the world.
+                </core-text>
+              </demo-link>
+            </section>
+            <section>
+              <demo-frame
+                id="chord-reader"
+                title="Audio: Chord Reader Prototype"
+                src="/demos/music"
+                height="600"
+              >
+                <core-text>
+                  <b>Uncover the magic behind your favorite tunes with our interactive
+                    chord progression tool.</b> Simply input your desired chord
+                  sequence and hear how it sounds. It's the perfect way to experiment
+                  with different chord combinations, understand music structure, and
+                  even start creating your own compositions.
+                </core-text>
+              </demo-frame>
+            </section>
+            <section>
+              <demo-frame
+                id="diablo"
+                title="Web Assembly: Diablo"
+                src="https://d07riv.github.io/diabloweb/"
+                height="650"
+                author="d07riv"
+              >
+                <core-text>
+                  <b>Relive the classic dungeon-crawling experience, now in your
+                    browser.</b> GalaXyHaXz and the devilution team has brought the
+                  original Diablo to the web using WebAssembly, a groundbreaking
+                  technology that enables high-performance applications to run
+                  directly in your website. Prepare to slay demons and collect loot,
+                  all without leaving your web browser.
+                </core-text>
+              </demo-frame>
+            </section>
+            <section>
+              <demo-link
+                id="sql"
+                title="Web Assembly: SQL ↗️"
+                src="https://sqlime.org/"
+                author="nalgeon"
+              >
+                <core-text>
+                  <b>Experience the power of SQL in-browser.</b> SQLime is a web-based
+                  SQL IDE that runs entirely in your browser, powered by
+                  WebAssembly-compiled SQLite. Write queries, visualize results, and
+                  learn SQL concepts in-place.
+                </core-text>
+              </demo-link>
+            </section>
+            <section>
+              <demo-frame
+                id="frustrum-culling"
+                title="WebGPU: Frustrum Culling"
+                src="https://toji.github.io/webgpu-bundle-culling/"
+                author="toji"
+              >
+                <core-text>
+                  <b>Explore a complex 3D scene containing thousands of objects,</b>
+                  optimized with frustum culling: watch the visible objects
+                  dynamically change as you navigate.
+                </core-text>
+              </demo-frame>
+            </section>
+          </article>
+        </main>
+        <script type="module">
         import { html } from "@onlyweb/frontend";
 
         const sidebarMenuContents = [
@@ -309,8 +340,9 @@ registerPage(route, {
             sidebar.classList.remove("open");
           }
         });
-      </script>
-    </body>`;
+        </script>
+      </body>
+    `;
   },
   renderServiceWorker: async () =>
     js`

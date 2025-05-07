@@ -35,30 +35,31 @@ export const createPage = (
    */
   const browserRequirementCheck = html`
     <script type="module">
-      import { userAgent } from "@onlyweb/frontend";
-      import { checkAgent, parseAgent, mergeRequirements, log } from "@onlyweb/shared";
+    import { userAgent } from "@onlyweb/frontend";
+    import { checkAgent, parseAgent, mergeRequirements, log } from "@onlyweb/shared";
 
-      // Merge page-specific requirements with framework defaults
-      const mergedRequirements = mergeRequirements(${requirements}, userAgent);
-      const parsedAgent = parseAgent(navigator.userAgent);
+    // Merge page-specific requirements with framework defaults
+    const mergedRequirements = mergeRequirements(${requirements}, userAgent);
+    const parsedAgent = parseAgent(navigator.userAgent);
 
-      log({
-        message: "Required browser version",
-        detail: mergedRequirements
-      });
+    log({
+      message: "Required browser version",
+      detail: mergedRequirements
+    });
 
-      log({
-        message: "Current browser version",
-        detail: parsedAgent
-      });
+    log({
+      message: "Current browser version",
+      detail: parsedAgent
+    });
 
-      // Perform the check and alert if necessary
-      if (!checkAgent(parsedAgent, mergedRequirements)) {
-        alert(
-          "Your browser is not currently supported: certain things may not work as expected. Please consider updating your browser to the latest version."
-        );
-      }
-    </script>`;
+    // Perform the check and alert if necessary
+    if (!checkAgent(parsedAgent, mergedRequirements)) {
+      alert(
+        "Your browser is not currently supported: certain things may not work as expected. Please consider updating your browser to the latest version."
+      );
+    }
+    </script>
+  `;
 
   /**
    * @internal
@@ -67,15 +68,18 @@ export const createPage = (
    */
   const watchServer = html`
     <script type="module">
-      import { log } from "@onlyweb/shared";
+    import { log } from "@onlyweb/shared";
 
-      const watchSource = new EventSource("http://${resolveEnvironment('OWF_WATCH_HOST')}:${resolveEnvironment('OWF_WATCH_PORT')}");
+    const watchSource = new EventSource("http://${resolveEnvironment(
+      "OWF_WATCH_HOST",
+    )}:${resolveEnvironment("OWF_WATCH_PORT")}");
 
-      watchSource.addEventListener("reload", () => {
-        watchSource.close();
-        globalThis.location.reload();
-      });
-    </script>`;
+    watchSource.addEventListener("reload", () => {
+      watchSource.close();
+      globalThis.location.reload();
+    });
+    </script>
+  `;
 
   /**
    * @internal
@@ -83,8 +87,9 @@ export const createPage = (
    */
   const languageReload = html`
     <script type="module">
-      globalThis.addEventListener("languagechanged", globalThis.location.reload);
-    </script>`;
+    globalThis.addEventListener("languagechanged", globalThis.location.reload);
+    </script>
+  `;
 
   /**
    * @internal
@@ -93,21 +98,21 @@ export const createPage = (
    */
   const serviceWorker = html`
     <script type="module">
-      import { log } from "@onlyweb/shared";
+    import { log } from "@onlyweb/shared";
 
-      if ("serviceWorker" in navigator) {
-        navigator.serviceWorker.register("${route}?sw", {
-            scope: "${route}" // Register SW for this specific route
-          })
-          .then(registration => {
-            log({ message: "Service worker registered successfully.", detail: { scope: registration.scope }, level: "info" });
-          })
-          .catch(error => {
-            log({ message: "Service worker failed to register.", detail: error, level: "error" });
-          });
-      } else {
-        log({ message: "Service workers are not supported in this browser.", level: "warn" });
-      }
+    if ("serviceWorker" in navigator) {
+      navigator.serviceWorker.register("${route}?sw", {
+          scope: "${route}" // Register SW for this specific route
+        })
+        .then(registration => {
+          log({ message: "Service worker registered successfully.", detail: { scope: registration.scope }, level: "info" });
+        })
+        .catch(error => {
+          log({ message: "Service worker failed to register.", detail: error, level: "error" });
+        });
+    } else {
+      log({ message: "Service workers are not supported in this browser.", level: "warn" });
+    }
     </script>
   `;
 
@@ -129,7 +134,9 @@ export const createPage = (
       </script>
       <!-- Inject helper scripts -->
       ${browserRequirementCheck}
-      ${resolveEnvironment("OWF_WATCH").toLowerCase() === 'true' ? watchServer : ""}
+      ${
+    resolveEnvironment("OWF_WATCH").toLowerCase() === "true" ? watchServer : ""
+  }
       ${languageReload}
       ${serviceWorker}
       <!-- Embed the main page content -->

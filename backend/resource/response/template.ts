@@ -105,13 +105,28 @@ const createResponseTemplate = (
                   const allowedDomains = resolveEnvironment(
                     "OWF_ALLOW_DOMAINS",
                   );
+
                   // TODO: calculate CSP hashes for each script in the payload
-                  let policy =
-                    `default-src 'unsafe-inline' 'self' data: blob: ${
-                      new URL(cdnSource).hostname
-                    }`;
-                  if (allowedDomains) policy += ` ${allowedDomains}`;
-                  return policy;
+                  const cspDirectives = new Set<string>([
+                    "'unsafe-inline'",
+                    "'self'",
+                    "data:",
+                    "blob:",
+                    new URL(cdnSource).hostname,
+                    ...allowedDomains?.split(" "),
+                  ]);
+
+                  if (
+                    resolveEnvironment("OWF_WATCH").toLowerCase() === "true"
+                  ) {
+                    cspDirectives.add(
+                      `http://${resolveEnvironment("OWF_WATCH_HOST")}:${
+                        resolveEnvironment("OWF_WATCH_PORT")
+                      }`,
+                    );
+                  }
+
+                  return "default-src " + Array.from(cspDirectives).join(" ");
                 })(),
                 "x-robots-tag": resolveEnvironment("OWF_ALLOW_ROBOTS")
                   ? "all"
