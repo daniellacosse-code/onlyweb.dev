@@ -13,7 +13,7 @@ export type StartOptions = {
   host?: string;
   /** The port to listen on. */
   port?: number;
-  watcher?: {
+  watch?: {
     host?: string;
     port: number;
   }
@@ -28,7 +28,7 @@ export const start = (
   {
     host: hostname = resolveEnvironment("OWF_APPLICATION_HOST"),
     port = Number(resolveEnvironment("OWF_APPLICATION_PORT")),
-    watcher
+    watch
   }: StartOptions = {},
 ): void => {
   Deno.serve(
@@ -58,13 +58,13 @@ export const start = (
     },
   );
 
-  if (!watcher && !Boolean(resolveEnvironment("OWF_WATCHER"))) {
+  if (!watch && !Boolean(resolveEnvironment("OWF_WATCH"))) {
     return;
   }
 
   Deno.serve({
-    hostname: watcher?.host ?? resolveEnvironment("OWF_WATCHER_HOST"),
-    port: watcher?.port ?? Number(resolveEnvironment("OWF_WATCHER_PORT"))
+    hostname: watch?.host ?? resolveEnvironment("OWF_WATCH_HOST"),
+    port: watch?.port ?? Number(resolveEnvironment("OWF_WATCH_PORT"))
   },  (request) => {
     return new Response(
       new ReadableStream({

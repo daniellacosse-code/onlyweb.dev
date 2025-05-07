@@ -69,7 +69,7 @@ export const createPage = (
     <script type="module">
       import { log } from "@onlyweb/shared";
 
-      const watchSource = new EventSource("http://${resolveEnvironment('OWF_WATCHER_HOST')}:${resolveEnvironment('OWF_WATCHER_PORT')}");
+      const watchSource = new EventSource("http://${resolveEnvironment('OWF_WATCH_HOST')}:${resolveEnvironment('OWF_WATCH_PORT')}");
 
       watchSource.addEventListener("reload", () => {
         watchSource.close();
@@ -129,7 +129,7 @@ export const createPage = (
       </script>
       <!-- Inject helper scripts -->
       ${browserRequirementCheck}
-      ${resolveEnvironment("OWF_WATCHER").toLowerCase() === 'true' ? watchServer : ""}
+      ${resolveEnvironment("OWF_WATCH").toLowerCase() === 'true' ? watchServer : ""}
       ${languageReload}
       ${serviceWorker}
       <!-- Embed the main page content -->
