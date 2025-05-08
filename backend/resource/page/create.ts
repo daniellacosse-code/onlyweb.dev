@@ -131,7 +131,9 @@ export const createPage = (
       </script>
       <!-- Inject helper scripts -->
       ${browserRequirementCheck}
-      ${resolveEnvironment("OWF_WATCH") ? watchServer : ""}
+      ${
+    resolveEnvironment("OWF_WATCH").toLowerCase() === "true" ? watchServer : ""
+  }
       ${languageReload}
       ${serviceWorker}
       <!-- Embed the main page content -->
