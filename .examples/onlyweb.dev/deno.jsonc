@@ -1,6 +1,6 @@
 {
   "tasks": {
-    "start": "deno run --allow-net --allow-env --allow-read=. --allow-run ./.tasks/start.js"
+    "start": "OWF_WATCH=true deno run --watch --allow-net --allow-env --allow-read=. ./main.ts"
   },
   "compilerOptions": {
     "lib": [

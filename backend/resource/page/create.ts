@@ -4,14 +4,10 @@ import { resolveEnvironment } from "../../environment/resolve.ts";
 import type { OWFRequest } from "../request/types.ts";
 import type { OWFResponse } from "../response/types.ts";
 
-// TODO: move livereload to repo-agnotic code
-/** @internal Port used by the LiveReload WebSocket server. */
-const LIVERELOAD_PORT = 35729;
-
 /**
  * Constructs a complete HTML page response by wrapping the provided content
  * with standard HTML structure, an import map, browser compatibility checks,
- * LiveReload script (for development), and service worker registration script.
+ * Watch script (for development), and service worker registration script.
  *
  * @param {string} route - The base route for the page, used for service worker registration scope.
  * @param {OWFRequest} request - The incoming request object, used to determine language and CDN URL.
@@ -39,67 +35,48 @@ export const createPage = (
    */
   const browserRequirementCheck = html`
     <script type="module">
-      import { userAgent } from "@onlyweb/frontend";
-      import { checkAgent, parseAgent, mergeRequirements, log } from "@onlyweb/shared";
+    import { userAgent } from "@onlyweb/frontend";
+    import { checkAgent, parseAgent, mergeRequirements, log } from "@onlyweb/shared";
 
-      // Merge page-specific requirements with framework defaults
-      const mergedRequirements = mergeRequirements(${requirements}, userAgent);
-      const parsedAgent = parseAgent(navigator.userAgent);
+    // Merge page-specific requirements with framework defaults
+    const mergedRequirements = mergeRequirements(${requirements}, userAgent);
+    const parsedAgent = parseAgent(navigator.userAgent);
 
-      log({
-        message: "Required browser version",
-        detail: mergedRequirements
-      });
+    log({
+      message: "Required browser version",
+      detail: mergedRequirements
+    });
 
-      log({
-        message: "Current browser version",
-        detail: parsedAgent
-      });
+    log({
+      message: "Current browser version",
+      detail: parsedAgent
+    });
 
-      // Perform the check and alert if necessary
-      if (!checkAgent(parsedAgent, mergedRequirements)) {
-        alert(
-          "Your browser is not currently supported: certain things may not work as expected. Please consider updating your browser to the latest version."
-        );
-      }
-    </script>`;
+    // Perform the check and alert if necessary
+    if (!checkAgent(parsedAgent, mergedRequirements)) {
+      alert(
+        "Your browser is not currently supported: certain things may not work as expected. Please consider updating your browser to the latest version."
+      );
+    }
+    </script>
+  `;
 
   /**
    * @internal
-   * Generates an inline script that attempts to connect to a LiveReload WebSocket
-   * server if the page is served from localhost. Reloads the page on message.
+   * Generates an inline script for Watch using Server-Sent Events.
+   * Connects to an SSE endpoint and reloads the page upon receiving a 'reload' event.
    */
-  const livereload = html`
+  const watchServer = html`
     <script type="module">
-      import { log } from "@onlyweb/shared";
+    // These insertions are broken out to stop syntax highlighting from being broken.
+    const watchHost = "${resolveEnvironment("OWF_WATCH_HOST")}";
+    const watchPort = "${resolveEnvironment("OWF_WATCH_PORT")}";
 
-      // Only attempt LiveReload connection on localhost
-      if (globalThis.location.hostname === "localhost") {
-        try {
-          const reloadSocket = new WebSocket(
-            "ws://localhost:${LIVERELOAD_PORT}"
-          );
+    const source = new EventSource("http://" + watchHost + ":" + watchPort);
 
-          reloadSocket.onopen = () =>
-            log({ message: "LiveReload connected~", level: "info" }); // Use info level
-          reloadSocket.onmessage = ({ data }) => {
-            if (data === "reload") {
-              log({ message: "LiveReload: Reloading page...", level: "info" });
-              location.reload();
-            }
-          };
-          reloadSocket.onerror = (event) => {
-            log({ message: "LiveReload WebSocket error.", detail: event, level: "warn" });
-          };
-          reloadSocket.onclose = () => {
-             log({ message: "LiveReload disconnected.", level: "info" });
-          };
-        } catch (error) {
-          // Log failure to connect
-          log({ message: "LiveReload failed to connect.", detail: error, level: "warn" });
-        }
-      }
-    </script>`;
+    source.onerror = () => setTimeout(() => window.location.reload(), 250);
+    </script>
+  `;
 
   /**
    * @internal
@@ -107,8 +84,9 @@ export const createPage = (
    */
   const languageReload = html`
     <script type="module">
-      globalThis.addEventListener("languagechanged", globalThis.location.reload);
-    </script>`;
+    globalThis.addEventListener("languagechanged", globalThis.location.reload);
+    </script>
+  `;
 
   /**
    * @internal
@@ -117,21 +95,21 @@ export const createPage = (
    */
   const serviceWorker = html`
     <script type="module">
-      import { log } from "@onlyweb/shared";
+    import { log } from "@onlyweb/shared";
 
-      if ("serviceWorker" in navigator) {
-        navigator.serviceWorker.register("${route}?sw", {
-            scope: "${route}" // Register SW for this specific route
-          })
-          .then(registration => {
-            log({ message: "Service worker registered successfully.", detail: { scope: registration.scope }, level: "info" });
-          })
-          .catch(error => {
-            log({ message: "Service worker failed to register.", detail: error, level: "error" });
-          });
-      } else {
-        log({ message: "Service workers are not supported in this browser.", level: "warn" });
-      }
+    if ("serviceWorker" in navigator) {
+      navigator.serviceWorker.register("${route}?sw", {
+          scope: "${route}" // Register SW for this specific route
+        })
+        .then(registration => {
+          log({ message: "Service worker registered successfully.", detail: { scope: registration.scope }, level: "info" });
+        })
+        .catch(error => {
+          log({ message: "Service worker failed to register.", detail: error, level: "error" });
+        });
+    } else {
+      log({ message: "Service workers are not supported in this browser.", level: "warn" });
+    }
     </script>
   `;
 
@@ -153,7 +131,9 @@ export const createPage = (
       </script>
       <!-- Inject helper scripts -->
       ${browserRequirementCheck}
-      ${livereload}
+      ${
+    resolveEnvironment("OWF_WATCH").toLowerCase() === "true" ? watchServer : ""
+  }
       ${languageReload}
       ${serviceWorker}
       <!-- Embed the main page content -->
