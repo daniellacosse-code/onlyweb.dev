@@ -68,7 +68,7 @@ export const start = (
     },
   );
 
-  if (watch || resolveEnvironment("OWF_WATCH")) {
+  if (false) {
     Deno.serve({
       hostname: watch?.host ?? resolveEnvironment("OWF_WATCH_HOST"),
       port: watch?.port ?? Number(resolveEnvironment("OWF_WATCH_PORT")),
