@@ -68,22 +68,20 @@ export const start = (
     },
   );
 
-  if (!watch && !resolveEnvironment("OWF_WATCH")) {
-    return;
-  }
-
-  Deno.serve({
-    hostname: watch?.host ?? resolveEnvironment("OWF_WATCH_HOST"),
-    port: watch?.port ?? Number(resolveEnvironment("OWF_WATCH_PORT")),
-  }, (request: Request) =>
-    new Response(
-      new ReadableStream(),
-      {
-        headers: {
-          "Content-Type": "text/event-stream",
-          "Access-Control-Allow-Origin":
-            new URL(request.headers.get("Origin") ?? "").origin,
+  if (watch || resolveEnvironment("OWF_WATCH")) {
+    Deno.serve({
+      hostname: watch?.host ?? resolveEnvironment("OWF_WATCH_HOST"),
+      port: watch?.port ?? Number(resolveEnvironment("OWF_WATCH_PORT")),
+    }, (request: Request) =>
+      new Response(
+        new ReadableStream(),
+        {
+          headers: {
+            "Content-Type": "text/event-stream",
+            "Access-Control-Allow-Origin":
+              new URL(request.headers.get("Origin") ?? "").origin,
+          },
         },
-      },
-    ));
+      ));
+  }
 };
