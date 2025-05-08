@@ -117,7 +117,7 @@ const createResponseTemplate = (
                   ]);
 
                   if (
-                    resolveEnvironment("OWF_WATCH").toLowerCase() === "true"
+                    resolveEnvironment("OWF_WATCH")
                   ) {
                     cspDirectives.add(
                       `http://${resolveEnvironment("OWF_WATCH_HOST")}:${
