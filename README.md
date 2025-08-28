@@ -5,6 +5,9 @@
 [![Maintainability](https://api.codeclimate.com/v1/badges/9bc1ec955cd47c99b9ad/maintainability)](https://codeclimate.com/github/daniellacosse-code/onlyweb/maintainability)
 [![JSR Scope](https://jsr.io/badges/@onlyweb)](https://jsr.io/@onlyweb)
 
+>[!CAUTION]
+>**Temporarily archived.** My efforts have shifted focus to [Bott](https://github.com/daniellacosse-code/Bott) for the time being. The plan is to use what I've learned here on a larger project in the somewhat distant future.
+
 ## overview
 
 **the onlyweb framework** is a lightweight, server-side rendering framework for native
